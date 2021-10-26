@@ -8,8 +8,8 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		 <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-		 <property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/boarddb"></property> 
-		 <property name="username" value="board"></property>
+		 <property name="url" value="jdbc:log4jdbc:mysql://127.65.47.77:3306/team1db"></property> 
+		 <property name="username" value="team1"></property>
 		 <property name="password" value="pass"></property>
 	</bean>
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
