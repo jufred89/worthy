@@ -27,6 +27,6 @@
  		<beans:property name="maxUploadSize" value="10485760"/>
 	</beans:bean>
 	<beans:bean id="uploadPath" class="java.lang.String">
-	 	<beans:constructor-arg value="c:/zzz/upload"/>
+	 	<beans:constructor-arg value="c:/data/upload"/>
 	</beans:bean>	
 </beans:beans>
