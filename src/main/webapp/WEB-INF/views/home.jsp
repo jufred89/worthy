@@ -23,6 +23,20 @@ a{
 <body>
 	<div id="container">
 		<div id="header">
+<!-- ahyunshin -->
+			<img src="http://placehold.it/150x60" onClick="location.href='/'"/>
+		</div>
+		<div id="center">
+			<div id="menu">
+				<a href="#" class="barMenu">어디로 떠날까요?</a>
+				<a href="#" class="barMenu">언제 떠날까요?</a>
+				<a href="#" class="barMenu">테마검색</a>
+				<a href="/info/notice/list">캠핑정보</a>
+				<a href="/shop/list">캠핑상점</a>
+				<a href="/board/list">자유게시판</a>
+				<a href="/user/login">login</a>
+				<a href="/user/join">join</a>
+<!-- ahyunshin -->
 			<img src="http://placehold.it/150x60"/>
 		</div>
 		<div id="center">
@@ -34,6 +48,7 @@ a{
 				<a href="#">캠핑상점</a>
 				<a href="#">login</a>
 				<a href="#">join</a>
+<!-- ahyunshin -->
 			</div>
 			<div id="content">
 				<jsp:include page="${pageName}"></jsp:include>
@@ -42,4 +57,11 @@ a{
 		<div id="footer"></div>
 	</div>
 </body>
+<script>
+
+	$('.barMenu').on('click',function(e){
+		e.preventDefault();
+		alert('modal 창 띄우기');
+	});
+</script>
 </html>
