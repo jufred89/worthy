@@ -16,19 +16,21 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div id="header">
-	<h1>head:worthy</h1>
-	</div>
-	<div id="center">
-		<div id="menu">
-			<h4 class="col-xs-6 col-sm-4">menu1</h4>
-			<h4 class="col-xs-6 col-sm-4">menu2</h4>
-			<h4 class="col-xs-6 col-sm-4">menu3</h4>
+	<div id="container">
+		<div id="header">
+			<h1>head:worthy</h1>
 		</div>
-		<div id="content">
-			<jsp:include page="${pageName}"></jsp:include>
+		<div id="center">
+			<div id="menu">
+				<h4 class="col-xs-6 col-sm-4">menu1</h4>
+				<h4 class="col-xs-6 col-sm-4">menu2</h4>
+				<h4 class="col-xs-6 col-sm-4">menu3</h4>
+			</div>
+			<div id="content">
+				<jsp:include page="${pageName}"></jsp:include>
+			</div>
 		</div>
+		<div id="footer"></div>
 	</div>
-	<div id="footer"></div>
 </body>
 </html>
