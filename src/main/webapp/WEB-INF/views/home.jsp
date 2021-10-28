@@ -15,16 +15,25 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+<style>
+a{
+	margin: 0px 20px 0px 20px;
+}
+</style>
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>head:worthy</h1>
+			<img src="http://placehold.it/150x60"/>
 		</div>
 		<div id="center">
 			<div id="menu">
-				<h4 class="col-xs-6 col-sm-4">menu1</h4>
-				<h4 class="col-xs-6 col-sm-4">menu2</h4>
-				<h4 class="col-xs-6 col-sm-4">menu3</h4>
+				<a href="#">어디로 떠날까요?</a>
+				<a href="#">언제 떠날까요?</a>
+				<a href="#">테마검색</a>
+				<a href="#">캠핑정보</a>
+				<a href="#">캠핑상점</a>
+				<a href="#">login</a>
+				<a href="#">join</a>
 			</div>
 			<div id="content">
 				<jsp:include page="${pageName}"></jsp:include>
