@@ -1,4 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<h1>워디(Worthy) 프로젝트</h1>
-<p>어디갈지 모르겠다면?</p>
+<h1>어디로 떠날까요?</h1>
+<button>지역별</button>
+<!-- ahyunshin -->
+<input type="text" id="search" placeholder="원하는 지역을 입력 후 엔터를 누르세요" size=80/>
+<script>
+	$('#search').on('keypress',function(e){
+		if(e.keyCode==13){
+			location.href='/camping/list';
+		}
+	})
+</script>
+<!-- ======= -->
+<input type="text" placeholder="원하는 지역을 검색해보세요."/>
+<!-- >>>>>>> master -->
