@@ -19,10 +19,16 @@ import com.example.domain.PageMaker;
 import com.example.domain.ShopVO;
 import com.example.mapper.ShopDAO;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+
 @Controller
 @RequestMapping("/shop")
 public class ShopController {
 	
+
 	@Autowired
 	ShopDAO dao;
 	
@@ -57,4 +63,8 @@ public class ShopController {
 		map.put("pm", pm);
 		return map;
 	}
+	public String shopRead() {
+		return "/shop/read";
+	}
+
 }
