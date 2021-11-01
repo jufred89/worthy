@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.MysqlMapper">
+ 	<select id="list" resultType="com.example.domain.RecipeVO">
+		select * from tbl_information_food
+		order by fi_no desc
+ 	</select>
+ 	<select id="read" resultType="com.example.domain.RecipeVO">
+		select * from tbl_information_food
+		where fi_no=#{fi_no}
+ 	</select>
+ 	<insert id="insert">
+ 		insert into tbl_information_food(fi_title,fi_content,fi_image,fi_writer)
+		values(#{fi_title},#{fi_content},#{fi_image},#{fi_writer})
+ 	</insert>
+ 	<delete id="delete">
+ 		delete from tbl_information_food
+ 		where fi_no=#{fi_no}
+ 	</delete>
+</mapper>
