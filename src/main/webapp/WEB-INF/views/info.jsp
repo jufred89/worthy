@@ -14,7 +14,7 @@
     </style>
 <h1>CAMPING INFORMATIOM</h1>
 <div id="info_nav" style="display:flex; justify-content:center;">
-<div><a href="#">공지사항</a></div>
-<div><a href="#">캠핑Tip</a></div>
-<div><a href="#">캠핑상점</a></div>
+<div><a href="/info/notice/list">공지사항</a></div>
+<div><a href="/info/tip/list">캠핑Tip</a></div>
+<div><a href="/info/recipe/list">캠핑레시피</a></div>
 </div>
