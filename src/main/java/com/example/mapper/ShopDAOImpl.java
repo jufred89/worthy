@@ -11,7 +11,7 @@ import com.example.domain.Criteria;
 import com.example.domain.ShopVO;
 
 @Repository
-public class ShopDAOImol implements ShopDAO{
+public class ShopDAOImpl implements ShopDAO{
 
 	@Autowired
 	SqlSession session;
@@ -31,5 +31,20 @@ public class ShopDAOImol implements ShopDAO{
 	@Override
 	public int totalCount() {
 		return session.selectOne(namespace + ".totalCount");
+	}
+
+	@Override
+	public void prod_insert(ShopVO vo) {
+		session.insert(namespace + ".prod_insert", vo);
+	}
+
+	@Override
+	public void prod_update(ShopVO vo) {
+		session.update(namespace + ".prod_update", vo);
+	}
+
+	@Override
+	public String prod_maxID() {
+		return session.selectOne(namespace + ".prod_maxID");
 	}
 }
