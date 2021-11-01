@@ -11,7 +11,7 @@ import com.example.domain.Criteria;
 import com.example.domain.ShopVO;
 
 @Repository
-public class ShopDAOImol implements ShopDAO{
+public class ShopDAOImpl implements ShopDAO{
 
 	@Autowired
 	SqlSession session;
