@@ -194,7 +194,7 @@
 				<version>2.9</version>
 				<configuration>
 					<additionalProjectnatures>
-						<projectnature>org.springframework.ide.eclipse.core.springnature
+						<projectnature>org.springframework.ide.eclipse..springnature
 						</projectnature>
 					</additionalProjectnatures>
 					<additionalBuildcommands>
