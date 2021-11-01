@@ -1,5 +1,9 @@
 package com.example.controller;
+
+import java.io.FileInputStream;
 import java.util.HashMap;
+import javax.annotation.Resource;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +23,32 @@ public class ShopController {
 	@Autowired
 	ShopDAO dao;
 
+
+	@Resource(name = "uploadPath")
+	private String path;
+
+	// �̹������� ���
+	@ResponseBody
+	@RequestMapping("/display")
+	public byte[] display(String file) throws Exception {
+		FileInputStream in = new FileInputStream(path + "/" + file);
+		// System.out.println(file);
+		byte[] prod_image = IOUtils.toByteArray(in);
+		in.close();
+		return prod_image;
+	}
+  
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String shopList() {
 		return "/shop/list";
 	}
 
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
-	public String shopInsert() {
+	public String shopInsert(Model model) {
+		String max = dao.prod_maxID();
+		String maxID = "p" + (Integer.parseInt(max.substring(1)) + 1);
+		model.addAttribute("prod_id", maxID);
+		// System.out.println(maxID);
 		return "/shop/insert";
 	}
 
@@ -55,4 +78,8 @@ public class ShopController {
 		return "/shop/read";
 	}
 
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
+	public void insert(ShopVO vo) {
+
+	}
 }

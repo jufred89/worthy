@@ -5,14 +5,21 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 
 <style>
-#tbl {
+#shop {
 	display: flex;
-	flex: wrap;
-	justify-content: space-evenly;
-	align-content: stretch;
-	flex-basis: 30%;
-	flex-grow: 1;
-	flex-shrink: 1;
+	justify-content: center;
+}
+#item{
+	margin: 20px;
+}
+#prod_name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 350px;
+}
+#shop img{
+	border-radius: 10px;
 }
 </style>
 
@@ -27,13 +34,13 @@
 	</select>
 </div>
 <a href="/shop/insert">상품 등록</a>
-<div id="tbl"></div>
+<div id="shop"></div>
 <script id="temp" type="text/x-handlebars-template">
 	{{#each list}}
 		<div id="item" onClick="location.href='/shop/read?prod_id={{prod_id}}'">
-			<img src="http://placehold.it/300x300" />
+			<img src="/shop/display?file={{prod_image}}" width="350" height="350"/>
 			<div>
-				<p>{{prod_name}}</p>
+				<p id="prod_name">{{prod_name}}</p>
 				<p>{{prod_normalprice}}</p>
 				<p>{{prod_detail}}</p>
 			</div>
@@ -72,8 +79,7 @@
 			dataType : "json",
 			success : function(data) {
 				var temp = Handlebars.compile($("#temp").html());
-				$("#tbl").html(temp(data));
-
+				$("#shop").html(temp(data));
 				$("#pagination").html(getPagination(data));
 				$("#total").html("검색건: " + data.pm.totalCount + "건");
 			}

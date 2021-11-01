@@ -23,4 +23,15 @@
  	<select id="totalCount" resultType="int">
  		select count(*) from tbl_shop_product
  	</select>
+ 	<insert id="prod_insert">
+ 		insert into tbl_shop_product(prod_id, prod_name, prod_comp, prod_normalprice, prod_detail, prod_image)
+		values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image})
+ 	</insert>
+ 	<update id="prod_update">
+ 		update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}
+ 		where prod_id=#{prod_id}
+ 	</update>
+ 	<select id="prod_maxID" resultType="String">
+ 		select max(prod_id) from tbl_shop_product
+ 	</select>
 </mapper>

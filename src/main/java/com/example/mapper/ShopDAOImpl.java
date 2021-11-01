@@ -32,4 +32,20 @@ public class ShopDAOImpl implements ShopDAO{
 	public int totalCount() {
 		return session.selectOne(namespace + ".totalCount");
 	}
+
+	@Override
+	public void prod_insert(ShopVO vo) {
+		session.insert(namespace + ".prod_insert", vo);
+	}
+
+	@Override
+	public void prod_update(ShopVO vo) {
+		session.update(namespace + ".prod_update", vo);
+	}
+
+	@Override
+	public String prod_maxID() {
+		return session.selectOne(namespace + ".prod_maxID");
+	}
+
 }
