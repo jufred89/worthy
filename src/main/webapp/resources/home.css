@@ -1,0 +1,44 @@
+@CHARSET "UTF-8";
+
+#content{
+text-align:center;
+}
+
+#header {
+	height: 60px;
+}
+
+#header div {
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#header div:nth-child(1) {
+	justify-content: left;
+}
+
+
+#header div:nth-child(2) div {
+	margin:5px;
+}
+
+
+#header div:nth-child(3) {
+	justify-content: right;
+}
+
+#search div {
+	margin-right: 20px;
+}
+.modal-body{
+position:relative;
+}
+.modal-body input{
+position:absolute;
+width:50%;
+left:25%;
+top:50px;
+
+}
