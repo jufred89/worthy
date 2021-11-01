@@ -49,7 +49,6 @@
 </script>
 <div id="pagination" class="pagination"></div>
 <script src="/resources/pagination.js"></script>
-
 <script>
 	var page = 1;
 	getList();
@@ -81,7 +80,6 @@
 			success : function(data) {
 				var temp = Handlebars.compile($("#temp").html());
 				$("#shop").html(temp(data));
-
 				$("#pagination").html(getPagination(data));
 				$("#total").html("검색건: " + data.pm.totalCount + "건");
 			}

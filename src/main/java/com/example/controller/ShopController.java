@@ -1,11 +1,8 @@
 package com.example.controller;
 
 import java.io.FileInputStream;
-
 import java.util.HashMap;
-
 import javax.annotation.Resource;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,10 +23,11 @@ public class ShopController {
 	@Autowired
 	ShopDAO dao;
 
+
 	@Resource(name = "uploadPath")
 	private String path;
 
-	// ÀÌ¹ÌÁöÆÄÀÏ Ãâ·Â
+	// ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@ResponseBody
 	@RequestMapping("/display")
 	public byte[] display(String file) throws Exception {
@@ -39,7 +37,7 @@ public class ShopController {
 		in.close();
 		return prod_image;
 	}
-
+  
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String shopList() {
 		return "/shop/list";

@@ -4,7 +4,6 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 
-
 <h1>상품 등록 페이지</h1>
 
 <form name="frm" action="/shop/insert" method="post" enctype="multipart/form-data">

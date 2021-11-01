@@ -47,4 +47,5 @@ public class ShopDAOImpl implements ShopDAO{
 	public String prod_maxID() {
 		return session.selectOne(namespace + ".prod_maxID");
 	}
+
 }
