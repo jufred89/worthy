@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<h1>어디로 떠날까요?</h1>
-<button>지역별</button>
-<!-- ahyunshin -->
-<input type="text" id="search" placeholder="원하는 지역을 입력 후 엔터를 누르세요" size=80/>
-<script>
-	$('#search').on('keypress',function(e){
-		if(e.keyCode==13){
-			location.href='/camping/list';
-		}
-	})
-</script>
-<!-- ======= -->
-<input type="text" placeholder="원하는 지역을 검색해보세요."/>
-<!-- >>>>>>> master -->
+    <style>
+#background_image{
+background-image:url("../resources/img121.jpg");
+ background-size : cover;
+ height: 100vh;
+
+background-repeat:no-repeat;
+}
+</style>
+    <div id="background_image">
+ 
+
+</div>

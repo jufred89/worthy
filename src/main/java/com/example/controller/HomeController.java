@@ -15,5 +15,21 @@ public class HomeController {
 		model.addAttribute("pageName","about.jsp");
 		return "home";
 	}
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login( Model model) {
+		model.addAttribute("pageName", "login.jsp");
+		return "home";
+	}
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	public String join( Model model) {
+		model.addAttribute("pageName", "join.jsp");
+		return "home";
+	}
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	public String info( Model model) {
+		model.addAttribute("pageName", "info.jsp");
+		return "home";
+	}
+	
 
 }
