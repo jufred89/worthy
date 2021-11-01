@@ -12,7 +12,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		model.addAttribute("pageName", "about.jsp");
+		model.addAttribute("pageName","about.jsp");
 		return "home";
 	}
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
