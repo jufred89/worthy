@@ -23,7 +23,6 @@ a{
 <body>
 	<div id="container">
 		<div id="header">
-<!-- ahyunshin -->
 			<img src="http://placehold.it/150x60" onClick="location.href='/'"/>
 		</div>
 		<div id="center">
@@ -36,19 +35,6 @@ a{
 				<a href="/board/list">자유게시판</a>
 				<a href="/user/login">login</a>
 				<a href="/user/join">join</a>
-<!-- ahyunshin -->
-			<img src="http://placehold.it/150x60"/>
-		</div>
-		<div id="center">
-			<div id="menu">
-				<a href="#">어디로 떠날까요?</a>
-				<a href="#">언제 떠날까요?</a>
-				<a href="#">테마검색</a>
-				<a href="#">캠핑정보</a>
-				<a href="#">캠핑상점</a>
-				<a href="#">login</a>
-				<a href="#">join</a>
-<!-- ahyunshin -->
 			</div>
 			<div id="content">
 				<jsp:include page="${pageName}"></jsp:include>
