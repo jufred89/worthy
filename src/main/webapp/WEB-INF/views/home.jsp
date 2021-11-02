@@ -48,14 +48,17 @@
 				<a data-toggle="modal" href="#myModal3">태마검색 </a>
 			</div>
 			<div>
-				<a href="/info">캠핑정보 </a>
+				<a href="/info/notice/list">캠핑정보 </a>
 			</div>
 			<div>
-				<a href="/shop">캠핑상점 </a>
+				<a href="/shop/list">캠핑상점 </a>
+			</div>
+			<div>
+				<a href="/board/list">자유게시판</a>
 			</div>
 			<div>|</div>
-      <div><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></div>
-      <div><a href="/join"><span class="glyphicon glyphicon-user"></span> Sign Up</a></div>
+      <div><a href="/user/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></div>
+      <div><a href="/user/join"><span class="glyphicon glyphicon-user"></span> Sign Up</a></div>
     </div>
   </div>
 </nav>
@@ -206,7 +209,13 @@ $('#start').on('click',function(){
 $('#end').on('click',function(){
 	end=1;
 });
-
+$('#start').datepicker({
+	format: "yyyy-mm-dd",	
+	startDate: '0d',	
+	
+    language : "ko"	
+	    
+	})
 $("#search_local").on("click","ul li",function(){
 	var s_input=$(this).parent().parent().find($("#local"))
     var s_li=$(this).text();
