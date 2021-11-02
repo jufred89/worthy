@@ -34,6 +34,7 @@ public class HomeController {
 		return "home";
 	}
 
+
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	public String info(Model model) {
 		model.addAttribute("pageName", "info.jsp");
