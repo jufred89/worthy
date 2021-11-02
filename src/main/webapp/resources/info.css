@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+	#tbl {
+		border-collapse: collapse;
+		margin-top: 20px;
+		text-align:center;
+		width:960px;
+		margin:0 auto;
+	}
+	
+	td {
+		border-bottom: 1px solid black;
+		padding: 10px 0px;
+	}
+	
+	.title {
+		background: gray;
+		color: white;
+		text-align: center;
+	}
+	
+	.nb_title:hover {
+		color: gray;
+		cursor: pointer;
+	}
+	.tip_title:hover {
+		color: gray;
+		cursor: pointer;
+	}
+	.fi_title:hover {
+		color: gray;
+		cursor: pointer;
+	}
+	a{
+		color:black;
+		font-weight:bold;
+		text-decoration:none;
+	}
+	a:hover{
+		color:red;
+	}

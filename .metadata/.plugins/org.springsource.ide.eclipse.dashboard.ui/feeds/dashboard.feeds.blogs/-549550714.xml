@@ -1,0 +1,856 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Spring</title>
+  <link rel="alternate" href="https://spring.io/blog" />
+  <link rel="self" href="https://spring.io/blog.atom" />
+  <id>http://spring.io/blog.atom</id>
+  <icon>https://spring.io/favicon.ico</icon>
+  <updated>2021-10-28T22:00:00Z</updated>
+  <entry>
+    <title>Bootiful Podcast: Daniel Mikusa on Buildpacks, Paketo, UPX, Tilt, GraalVM Native Images, Docker Containers and more</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/28/bootiful-podcast-daniel-mikusa-on-buildpacks-paketo-upx-tilt-graalvm-native-images-docker-containers-and-more" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-10-28:4589</id>
+    <updated>2021-10-28T22:00:00Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! In this installment, &lt;a href="https://github.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talks to Paketo contributor &lt;a href="https://github.com/dmikusa-pivotal"&gt;Daniel Mikusa&lt;/a&gt; about buildpacks, Paketo, containers, UPX, and so much more&lt;/p&gt;
+&lt;iframe title="Daniel Mikusa on Buildpacks, Paketo, UPX, Tilt, GraalVM Native Images, Docker Containers and more" allowtransparency="true" height="150" width="100%" style="border: none; min-width: min(100%, 430px);" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/player-v2/?i=6e83x-1118ba6-pb&amp;from=pb6admin&amp;share=1&amp;download=1&amp;rtl=0&amp;fonts=Arial&amp;skin=1&amp;font-color=&amp;btn-skin=7"&gt;&lt;/iframe&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring GraphQL 1.0.0-M3 Released</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/28/spring-graphql-1-0-0-m3-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Brian Clozel</name>
+    </author>
+    <id>tag:spring.io,2021-10-28:4588</id>
+    <updated>2021-10-28T15:46:00Z</updated>
+    <content type="html">&lt;p&gt;The Spring GraphQL team is pleased to announce a 3rd milestone towards a 1.0.0 release, driven with great help from the community .&lt;/p&gt;&lt;h2&gt;&lt;a href="#batch-mapping" class="anchor" name="batch-mapping"&gt;&lt;/a&gt;Batch Mapping&lt;/h2&gt;
+&lt;p&gt;The &lt;a href="https://spring.io/blog/2021/09/01/spring-graphql-1-0-0-m2-available-now"&gt;2nd milestone&lt;/a&gt; introduced an annotation programming model for GraphQL data controllers with &lt;code&gt;@SchemaMapping&lt;/code&gt; methods. The 3rd milestone adds a new &lt;code&gt;@BatchMapping&lt;/code&gt; method.&lt;/p&gt;
+&lt;p&gt;If you&amp;rsquo;re familiar with GraphQL, you know that navigating an object graph can cause the &amp;ldquo;N+1 queries problem&amp;rdquo; if we&amp;rsquo;re not mapping carefully object relations. We could already leverage the &lt;a href="https://www.graphql-java.com/documentation/v16/batching/"&gt;Batching feature&lt;/a&gt; from GraphQL Java to solve that problem, but this release introduces &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M3/reference/html/#execution-batching"&gt;dedicated support&lt;/a&gt; as well as an &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M3/reference/html/#controllers-batch-mapping"&gt;&lt;code&gt;@BatchMapping&lt;/code&gt; annotation&lt;/a&gt; for a smoother experience:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Controller&#xD;
+public class BookController {&#xD;
+&#xD;
+    @BatchMapping&#xD;
+    public Mono&amp;lt;Map&amp;lt;Book, Author&amp;gt;&amp;gt; author(List&amp;lt;Book&amp;gt; books) {&#xD;
+        // ...&#xD;
+    }&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With that example, we&amp;rsquo;re using a GraphQL engine mechanism to efficiently load many &lt;code&gt;Book-&amp;gt;Author&lt;/code&gt; relations with a single call.&lt;/p&gt;&lt;h2&gt;&lt;a href="#improved-querydsl-support" class="anchor" name="improved-querydsl-support"&gt;&lt;/a&gt;Improved Querydsl Support&lt;/h2&gt;
+&lt;p&gt;The &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M3/reference/html/#data-querydsl"&gt;QuerydslDataFetcher support&lt;/a&gt; now checks the selected fields for a query and fetches only the corresponding properties of the underlying domain entity.&lt;/p&gt;&lt;h2&gt;&lt;a href="#typeresolver-rsquo-s" class="anchor" name="typeresolver-rsquo-s"&gt;&lt;/a&gt;TypeResolver&amp;rsquo;s&lt;/h2&gt;
+&lt;p&gt;There is now &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M3/reference/html/#execution-graphqlsource-default-type-resolver"&gt;built-in support&lt;/a&gt; for TypeResolver&amp;rsquo;s for GraphQL Unions and Interfaces. By default, it tries to match the simple name of a Java class to a GraphQL Object type, and it tries the same for super types in the hierarchy of the class. &lt;/p&gt;
+&lt;p&gt;There are further options to customize this behavior to provide sufficient hints to match concrete Java classes to GraphQL Object types. Please, try this and let us know how well it works or if you need further flexibility around this feature.&lt;/p&gt;&lt;h2&gt;&lt;a href="#databinder-for-input-arguments" class="anchor" name="databinder-for-input-arguments"&gt;&lt;/a&gt;DataBinder for Input Arguments&lt;/h2&gt;
+&lt;p&gt;GraphQL Java parses input arguments to generic Maps of data. Spring GraphQL now uses the Spring Framework &lt;code&gt;DataBinder&lt;/code&gt; mechanism to turn those Maps into the typed objects declared on an &lt;code&gt;@Argument&lt;/code&gt; controller method parameter. You can hook in the &lt;code&gt;ConversionService&lt;/code&gt; to use in the &lt;code&gt;DataBinder&lt;/code&gt; to convert individual input fields when needed.&lt;/p&gt;&lt;h2&gt;&lt;a href="#websocketinterceptor" class="anchor" name="websocketinterceptor"&gt;&lt;/a&gt;WebSocketInterceptor&lt;/h2&gt;
+&lt;p&gt;There is now a &lt;code&gt;WebSocketInterceptor&lt;/code&gt; sub-type of &lt;code&gt;WebInterceptor&lt;/code&gt; which can also handle the &lt;code&gt;CONNECTION_INIT&lt;/code&gt; and the &lt;code&gt;COMPLETE&lt;/code&gt; messages on a WebSocket connection, including access to the &lt;code&gt;CONNECTION_INIT&lt;/code&gt; payload along with the ability to reject the connection. Please, give this feature a try and let us know if there is anything further needed.&lt;/p&gt;&lt;h2&gt;&lt;a href="#cors-configuration" class="anchor" name="cors-configuration"&gt;&lt;/a&gt;CORS Configuration&lt;/h2&gt;
+&lt;p&gt;The Spring GraphQL Boot starter provides &lt;code&gt;spring.graphql.cors.*&lt;/code&gt; properties to configure CORS for the exposed GraphQL endpoints.&lt;/p&gt;&lt;h2&gt;&lt;a href="#query-files-for-graphqltester" class="anchor" name="query-files-for-graphqltester"&gt;&lt;/a&gt;Query Files for GraphQlTester&lt;/h2&gt;
+&lt;p&gt;This release builds on the &lt;code&gt;GraphQlTester&lt;/code&gt; API and the testing auto-configuration to help you test your Spring GraphQL application.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;GraphQlTester&lt;/code&gt; now supports use of &lt;code&gt;*.graphql&lt;/code&gt; &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M3/reference/html/#testing-queries"&gt;query files&lt;/a&gt; in tests as an alternative to writing queries, inline in the Java test classes. Given a &lt;code&gt;projectReleases.graphql&lt;/code&gt; file in your test resources:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint graphql"&gt;query projectReleases($slug: ID!) {&#xD;
+    project(slug: $slug) {&#xD;
+        releases {&#xD;
+            version&#xD;
+        }&#xD;
+    }&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can now refer to this query file in your test:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;graphQlTester.queryName(&amp;quot;projectReleases&amp;quot;) &#xD;
+        .variable(&amp;quot;slug&amp;quot;, &amp;quot;spring-framework&amp;quot;) &#xD;
+        .execute()&#xD;
+        .path(&amp;quot;project.releases[*].version&amp;quot;)&#xD;
+        .entityList(String.class)&#xD;
+        .hasSizeGreaterThan(1);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &amp;ldquo;JS GraphQL&amp;rdquo; plugin for IntelliJ supports GraphQL query files with code completion.&lt;/p&gt;&lt;h2&gt;&lt;a href="#ldquo-sliced-tests-rdquo-support-with-graphqltest" class="anchor" name="ldquo-sliced-tests-rdquo-support-with-graphqltest"&gt;&lt;/a&gt;&amp;ldquo;Sliced tests&amp;rdquo; support with @GraphQlTest&lt;/h2&gt;
+&lt;p&gt;Last but not least, we&amp;rsquo;re now providing a new &lt;code&gt;@GraphQlTest&lt;/code&gt; testing facility, quite similar to the &lt;code&gt;@WebMvcTest&lt;/code&gt; and &lt;code&gt;@JsonTest&lt;/code&gt; Spring Boot annotations.&lt;br/&gt;With this, you can write integration tests that &lt;a href="https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing.spring-boot-applications.autoconfigured-tests"&gt;rely on particular slice of your application&lt;/a&gt;.&lt;br/&gt;No need to load the entire application context, only the relevant parts are considered, which makes it easy to mock and test without involving too much infrastructure.&lt;/p&gt;
+&lt;p&gt;In this example, we&amp;rsquo;re testing our &lt;code&gt;BookController&lt;/code&gt; to make sure that it&amp;rsquo;s properly implemented - no need to set up complex data fixtures as we can mock the repository.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@GraphQlTest(controllers = BookController.class)&#xD;
+public class BookControllerTests {&#xD;
+&#xD;
+    @Autowired&#xD;
+    private GraphQlTester graphQlTester;&#xD;
+&#xD;
+    @MockBean&#xD;
+    private BookRepository bookRepository;&#xD;
+&#xD;
+    @Test&#xD;
+    void bookdByIdShouldReturnSpringBook() {&#xD;
+        given(this.bookRepository.findById(42L)).willReturn(new Book(42L, &amp;quot;Spring GraphQL&amp;quot;));&#xD;
+        String query = &amp;quot;&amp;quot;&amp;quot;&#xD;
+			{&#xD;
+			  bookById(id: &amp;quot;42&amp;quot;){&#xD;
+			    id&#xD;
+			    name&#xD;
+			  }&#xD;
+			}&#xD;
+			&amp;quot;&amp;quot;&amp;quot;;&#xD;
+        this.graphQlTester.query(query).execute()&#xD;
+                .path(&amp;quot;data.bookById.name&amp;quot;).entity(String.class).isEqualTo(&amp;quot;Spring GraphQL&amp;quot;);&#xD;
+    }&#xD;
+&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;More &lt;a href="https://github.com/spring-projects/spring-graphql/milestone/4?closed=1"&gt;improvements and fixes made their way into their release&lt;/a&gt; and they&amp;rsquo;re available right now in the new Spring GraphQL 1.0.0-M3 from the Spring Milestone repository.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
+&lt;p&gt;If you&amp;rsquo;re interested in helping out, you can &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M3/reference/html/#boot-graphql"&gt;get started with Spring GraphQL&lt;/a&gt; and &lt;a href="https://github.com/spring-projects/spring-graphql/issues"&gt;raise issues on our GitHub project&lt;/a&gt;.&lt;br/&gt;If you have general questions, please ask on &lt;a href="https://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="https://stackoverflow.com/tags/spring-graphql"&gt;&lt;code&gt;spring-graphql&lt;/code&gt; tag&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://spring.io/projects/spring-graphql/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-graphql"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-graphql/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-graphql/docs/1.0.0-M3/reference/html/"&gt;Documentation&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-graphql"&gt;Stack Overflow&lt;/a&gt;&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Tools 4.12.1 released</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/27/spring-tools-4-12-1-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Martin Lippert</name>
+    </author>
+    <id>tag:spring.io,2021-10-27:4587</id>
+    <updated>2021-10-27T19:00:00Z</updated>
+    <content type="html">&lt;p&gt;Dear Spring Community,&lt;/p&gt;
+&lt;p&gt;I am happy to announce the 4.12.1 release of the Spring Tools 4 for Eclipse, Visual Studio Code, and Theia.&lt;/p&gt;&lt;h4&gt;&lt;a href="#important-updates-to-the-spring-tools-4-for-eclipse-distribution" class="anchor" name="important-updates-to-the-spring-tools-4-for-eclipse-distribution"&gt;&lt;/a&gt;important updates to the Spring Tools 4 for Eclipse distribution&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;embedded runtime upgraded to JDK17 (across all distributions, including Apple Silicon)&lt;/li&gt;
+  &lt;li&gt;Java 17 support available (&lt;a href="https://marketplace.eclipse.org/content/java-17-support-eclipse-2021-09-421"&gt;via separate add-on&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/sts4/wiki/Previous-Versions"&gt;early-access builds for upcoming Eclipse 2021-12 release available&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/spring-projects/sts4/wiki/Previous-Versions"&gt;early-access builds for Apple Silicon platform (ARM M1) available&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;h4&gt;&lt;a href="#additional-changes" class="anchor" name="additional-changes"&gt;&lt;/a&gt;additional changes&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: Alway Download sources and javadoc when I open sts (distribution includes latest m2e 1.18.2 release now) (&lt;a href="https://github.com/spring-projects/sts4/issues/692"&gt;#692&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: docker integration doesn&amp;rsquo;t work on Apple Silicon (&lt;a href="https://github.com/spring-projects/sts4/issues/684"&gt;#684&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;(Eclipse)&lt;/em&gt; fixed: Annoying error message on every eclipse startup if CF destination is not reachable (&lt;a href="https://github.com/spring-projects/sts4/issues/688"&gt;#688&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To download the distribution for Eclipse and find links to the marketplace entries for Visual Studio Code and Theia, please go visit:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Spring Tools 4: &lt;a href="https://spring.io/tools/"&gt;https://spring.io/tools/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Detailed changes can be found here: &lt;a href="https://github.com/spring-projects/sts4/wiki/Changelog#2021-10-27-4121-release-no-language-server-updates"&gt;https://github.com/spring-projects/sts4/wiki/Changelog#2021-10-27-4121-release-no-language-server-updates&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Spring Tools 4.13.0 is scheduled to be released in late December 2021.&lt;/p&gt;
+&lt;p&gt;Enjoy!&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Tips: @Controllers (pt. 1): the "C" in Model 2 MVC</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/27/spring-tips-controllers-pt-1-the-c-in-model-2-mvc" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-10-27:4586</id>
+    <updated>2021-10-27T07:00:00Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! In this installment, the first of a series, Josh Long looks at the venerable &lt;code&gt;@Controller&lt;/code&gt; annotation and its use supporting Model 2 MVC-style web applications.&lt;/p&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/hUBrFekxn0Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>This Week in Spring - October 26th, 2021</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/26/this-week-in-spring-october-26th-2021" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-10-26:4585</id>
+    <updated>2021-10-26T18:00:00Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! Welcome to another installment of &lt;em&gt;This Week in Spring&lt;/em&gt;! How are you? &lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m doing well, as always. I literally just wrapped up presenting a fun session at the Russian Joker conference all about Spring and GraphQL. I got a ton of great questions from an enthusiastic audience. Thanks so much for joining me, everyone. I&amp;rsquo;ve got to get to other meetings, though, so let&amp;rsquo;s get this wonderful week in Spring out of the way! &lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/20/spring-tips-refreshable-configuration-with-spring-cloud-bus-and-the-spring-cloud-config-monitor"&gt;Spring Tips: refreshable configuration with Spring Cloud Bus, and the Spring Cloud Config Monitor&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;In last week&amp;rsquo;s &lt;a href="https://spring.io/blog/2021/10/21/a-bootiful-podcast-rabbitmq-and-weaveworks-founder-alexis-richardson-on-rabbitmq-pivotal-spring-kubernetes-and-fluxcd"&gt;&lt;em&gt;A Bootiful Podcast&lt;/em&gt;, I talked to RabbitMQ and Weaveworks founder Alexis Richardson about RabbitMQ, Pivotal, Spring, Kubernetes, and FluxCD&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.java67.com/2021/10/what-is-property-source-in-spring.html"&gt;A great article that @Javinpaul linked me to: What is &lt;code&gt;@PropertySource&lt;/code&gt; in Spring Framework? &lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;fellow Java Champion &lt;a href="https://twitter.com/aalmiray/status/1452530369157292034?s=12"&gt;Andres Almiray has just released a very cool sample Spring Boot application &lt;/a&gt; demonstrating some features of the JReleaser project, which aims to make deploying artifacts as easy as possible.&lt;/li&gt;
+  &lt;li&gt;Want to learn Spring Boot? Check out &lt;a href="https://github.com/BNYMellon/spring-kata"&gt;BNYMellon/spring-kata, which are code katas for learning Spring and Spring Boot.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blog.codecentric.de/en/2021/10/gitlab-ci-paketo-buildpacks/"&gt;Cloud Native Buildpacks / Paketo.io in GitLab CI without Docker &amp;amp; pack CLI&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Did you know that the official client for writing Discord clients in Java is built on project Reactor? Me either! How cool! &lt;a href="https://github.com/Discord4J/Discord4J"&gt;Discord4J/Discord4J: Discord4J is a fast, powerful, unopinionated, reactive library to enable quick and easy development of Discord bots for Java, Kotlin, and other JVM languages using the official Discord Bot API.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://blog.frankel.ch/multiple-ways-configure-spring/"&gt;Multiple ways to configure Spring&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/26/new-features-for-spring-cloud-kubernetes-in-spring-cloud-2021-0-0-m3"&gt;New Features For Spring Cloud Kubernetes In Spring Cloud 2021.0.0-M3&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://alpaqastudio.com/sign-up/ide-for-cosmos-db?twclid=11451301638879133696"&gt;Professional GUI and IDE for Azure Cosmos DB: Sign up for the free plan or 30 days trial - Alpaqa Studio for Cosmos DB&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/25/spot-every-spring-boot-application-issue-on-the-spot-using-appdynamics"&gt;Spot every Spring Boot application issue on the spot using AppDynamics!&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/21/spring-boot-2-4-12-is-now-available"&gt;Spring Boot 2.4.12 is now available&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/21/spring-boot-2-5-6-is-now-available"&gt;Spring Boot 2.5.6 is now available&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/21/spring-boot-2-6-0-rc1-is-available-now"&gt;Spring Boot 2.6.0-RC1 is available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/26/spring-cloud-openfeign-versions-2-2-10-release-3-0-5-and-3-1-0-m4-are-now-available"&gt;Spring Cloud OpenFeign versions 2.2.10.RELEASE, 3.0.5 and 3.1.0-M4 are now available&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring-cloud-incubator.github.io/spring-cloud-sleuth-otel/docs/1.1.0-M3/reference/html/"&gt;Spring Cloud Sleuth OTel Reference Documentation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/20/spring-cloud-square-0-4-0-m2-is-available"&gt;Spring Cloud Square 0.4.0-M2 is available.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/25/spring-cloud-square-0-4-0-m3-is-available"&gt;Spring Cloud Square 0.4.0-M3 is available.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/21/spring-framework-5-3-12-available-now"&gt;Spring Framework 5.3.12 available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://apiexpert.medium.com/spring-graphql-graphql-done-right-d7c3a591d0bd"&gt;Spring GraphQL?: GraphQL Done Right&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.confluent.io/blog/using-spring-with-apache-kafka-full-introduction/"&gt;Using Spring with Apache Kafka - Full Introduction&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/bkaminnski/links-spring"&gt;bkaminnski/links-spring: Links project implemented in Spring Boot. Demonstrates a composite UI pattern implemented in react.&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;VSCode Java is 1.0! Hurray! &lt;a href="https://github.com/redhat-developer/vscode-java/blob/master/CHANGELOG.md#100-october-19th-2021"&gt;vscode-java/CHANGELOG.md at master ¡¤ redhat-developer/vscode-java&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/kuberhealthy/kuberhealthy"&gt;kuberhealthy/kuberhealthy: A Kubernetes operator for running synthetic checks as pods. Works great with Prometheus!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Security Reports for Spring Framework, Spring Data REST, Spring AMQP, and Spring Cloud OpenFeign</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/26/security-reports-for-spring-framework-spring-data-rest-spring-amqp-and-spring-cloud-openfeign" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Rossen Stoyanchev</name>
+    </author>
+    <id>tag:spring.io,2021-10-26:4584</id>
+    <updated>2021-10-26T17:00:00Z</updated>
+    <content type="html">&lt;p&gt;The recently released Spring Boot &lt;a href="https://spring.io/blog/2021/10/21/spring-boot-2-5-6-is-now-available"&gt;2.5.6&lt;/a&gt; and &lt;a href="https://spring.io/blog/2021/10/21/spring-boot-2-4-12-is-now-available"&gt;2.4.12&lt;/a&gt; releases contain fixes for the following security vulnerabilities:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://tanzu.vmware.com/security/cve-2021-22096"&gt;CVE-2021-22096&lt;/a&gt; for the Spring Framework&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://tanzu.vmware.com/security/cve-2021-22047"&gt;CVE-2021-22047&lt;/a&gt; for Spring Data REST&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://tanzu.vmware.com/security/cve-2021-22097"&gt;CVE-2021-22097&lt;/a&gt; for Spring AMQP&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In addition, Spring Cloud OpenFeign has &lt;a href="https://spring.io/blog/2021/10/26/spring-cloud-openfeign-versions-2-2-10-release-3-0-5-and-3-1-0-m4-are-now-available"&gt;released&lt;/a&gt; versions 3.0.5 and 2.2.10, based on the same Spring Boot versions, and containing a fix for the following security vulnerability:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href="https://tanzu.vmware.com/security/cve-2021-22044"&gt;CVE-2021-22044&lt;/a&gt; for Spring Cloud OpenFeign&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Please, review the reports and upgrade!&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Cloud OpenFeign versions 2.2.10.RELEASE, 3.0.5 and 3.1.0-M4 are now available</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/26/spring-cloud-openfeign-versions-2-2-10-release-3-0-5-and-3-1-0-m4-are-now-available" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Olga Maciaszek-Sharma</name>
+    </author>
+    <id>tag:spring.io,2021-10-26:4583</id>
+    <updated>2021-10-26T17:00:00Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the community, I am pleased to announce that Spring Cloud OpenFeign versions 2.2.10.RELEASE, 3.0.5 and 3.1.0-M4 have been released.&lt;/p&gt;
+&lt;p&gt;These are primarily security releases with fixes for the &lt;a href="https://tanzu.vmware.com/security/cve-2021-22044"&gt;CVE-2021-22044&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;Applications using type-level &lt;code&gt;@RequestMapping&lt;/code&gt;annotations over Feign client interfaces, can be involuntarily exposing endpoints corresponding to &lt;code&gt;@RequestMapping&lt;/code&gt;-annotated interface methods. Although a response is not returned for a request sent in this way, it does reach the corresponding server-side endpoint.&lt;/p&gt;
+&lt;p&gt;The practice of using a type-level &lt;code&gt;@RequestMapping&lt;/code&gt; on a Feign client interface has been discouraged in the documentation, but we&amp;rsquo;re now taking the step to reject it completely.&lt;/p&gt;
+&lt;p&gt;These versions will be picked up later by the 2020.0.x and 2021.0.x release trains, however, we recommend you already upgrade Spring Cloud OpenFeign in your projects to these most recent versions.&lt;/p&gt;
+&lt;p&gt;See all issues included in 2.2.10.RELEASE &lt;a href="https://github.com/spring-cloud/spring-cloud-openfeign/milestone/44?closed=1"&gt;here&lt;/a&gt;&lt;br/&gt;See all issues included in 3.1.0-M4 &lt;a href="https://github.com/spring-cloud/spring-cloud-openfeign/milestone/45?closed=1"&gt;here&lt;/a&gt;&lt;br/&gt;No additional issues were included for 3.0.5.&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>New Features For Spring Cloud Kubernetes In Spring Cloud 2021.0.0-M3</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/26/new-features-for-spring-cloud-kubernetes-in-spring-cloud-2021-0-0-m3" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Ryan Baxter</name>
+    </author>
+    <id>tag:spring.io,2021-10-26:4582</id>
+    <updated>2021-10-26T07:00:00Z</updated>
+    <content type="html">&lt;p&gt;When we got the results back from the &lt;a href="https://tanzu.vmware.com/content/ebooks/the-state-of-spring-2021"&gt;latest State Of Spring survey&lt;/a&gt;, 67% of you said you would like to see better support for service discovery and configuration management on Kubernetes.&lt;/p&gt;
+&lt;p&gt;With the &lt;a href="https://spring.io/blog/2021/10/20/spring-cloud-2021-0-0-m3-codename-jubilee-has-been-released"&gt;release of Spring Cloud 2021.0.0-M3&lt;/a&gt;, we are taking a big step forward to addressing both of these concerns!&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://spring.io/projects/spring-cloud-kubernetes"&gt;Spring Cloud Kubernetes&lt;/a&gt; has offered a &lt;code&gt;DiscoveryClient&lt;/code&gt; implementation since its inception. However, the implementation required the application to have permissions to use the Kubernetes API server. This proved to be a major barrier for many Spring Cloud user¡¯s, as Kubernetes administrators were hesitant to give apps permissions to make API requests to the Kubernetes API server.&lt;/p&gt;
+&lt;p&gt;Configuration management using Spring Cloud Kubernetes also suffered from the same requirement of needing access to the API server. In addition, many Spring Cloud users were quite familiar with using Spring Cloud Config Server to externalize and manage configuration, and Spring Cloud Config Server did not have support for using &lt;a href="https://kubernetes.io/docs/concepts/configuration/configmap/"&gt;ConfigMaps&lt;/a&gt; and &lt;a href="https://kubernetes.io/docs/concepts/configuration/secret/https://kubernetes.io/docs/concepts/configuration/secret/"&gt;Secrets&lt;/a&gt; (the resources used to externalize configuration on Kubernetes).&lt;/p&gt;
+&lt;p&gt;To address some of these limitations and concerns, we have released some new functionality (as part of Spring Cloud 2021.0.0-M3) that we would love your feedback on.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Neither of these features are meant to replace the similar functionality provided by Kubernetes itself. Instead they are meant to primarily facilitate the move of Spring Cloud applications onto Kubernetes. You may still choose to leverage ConfigMaps, Secrets, service discovery from Kubernetes using a basic Spring Boot application as described in this &lt;a href="https://spring.io/guides/topicals/spring-on-kubernetes/"&gt;topical guide&lt;/a&gt;. In the future we will provide a second topical guide outlining when and why you may choose to leverage these features from Spring Cloud Kubernetes over just what is provided by Kubernetes itself.&lt;/p&gt;&lt;h2&gt;&lt;a href="#discovery-server-and-client-for-kubernetes" class="anchor" name="discovery-server-and-client-for-kubernetes"&gt;&lt;/a&gt;Discovery Server and Client For Kubernetes&lt;/h2&gt;
+&lt;p&gt;Kubernetes has the concept of service discovery &lt;a href="https://kubernetes.io/docs/concepts/services-networking/service/#cloud-native-service-discovery"&gt;built right into the platform&lt;/a&gt;. However, if you have applications built using a Spring Cloud &lt;code&gt;DiscoveryClient&lt;/code&gt; implementation or use Spring Cloud Load Balancer, these do not work when you run those applications on Kubernetes. You could decide to remove the DiscoveryClient and Load Balancer dependency, but you may not be willing or able to do that and need to use a &lt;code&gt;DiscoveryClient&lt;/code&gt; when running the app on Kubernetes.&lt;/p&gt;
+&lt;p&gt;As part of Spring Cloud 2021.0.0-M3, we have added a discovery server you can deploy to Kubernetes. This discovery server acts much in the same way Eureka does in that it provides several HTTP endpoints that apps can use to get information about other services deployed on Kubernetes. You can learn more about these endpoints by reading &lt;a href="https://docs.spring.io/spring-cloud-kubernetes/docs/2.1.0-M3/reference/html/#spring-cloud-kubernetes-discoveryserver"&gt;our documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Unlike Eureka, this new discovery server implementation does not require applications to explicitly register with the server. Instead, the discovery server uses the Kubernetes API to fetch Kubernetes services and endpoints to provide service information to apps. Again, this does require the discovery server to access the Kubernetes API server, but it eliminates the need for every app to have that requirement, as previous &lt;code&gt;DiscoveryClient&lt;/code&gt; implementations did.&lt;/p&gt;
+&lt;p&gt;You can pull the discovery server image from &lt;a href="https://hub.docker.com/r/springcloud/spring-cloud-kubernetes-discoveryserver/tags"&gt;Docker Hub&lt;/a&gt; by running the following command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker pull springcloud/spring-cloud-kubernetes-discoveryserver:2.1.0-M3&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;To deploy the image to Kubernetes, you can use the following YAML.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;---&#xD;
+apiVersion: v1&#xD;
+kind: List&#xD;
+items:&#xD;
+  - apiVersion: v1&#xD;
+    kind: Service&#xD;
+    metadata:&#xD;
+      labels:&#xD;
+        app: spring-cloud-kubernetes-discoveryserver&#xD;
+      name: spring-cloud-kubernetes-discoveryserver&#xD;
+    spec:&#xD;
+      ports:&#xD;
+        - name: http&#xD;
+          port: 80&#xD;
+          targetPort: 8761&#xD;
+      selector:&#xD;
+        app: spring-cloud-kubernetes-discoveryserver&#xD;
+      type: ClusterIP&#xD;
+  - apiVersion: v1&#xD;
+    kind: ServiceAccount&#xD;
+    metadata:&#xD;
+      labels:&#xD;
+        app: spring-cloud-kubernetes-discoveryserver&#xD;
+      name: spring-cloud-kubernetes-discoveryserver&#xD;
+  - apiVersion: rbac.authorization.k8s.io/v1&#xD;
+    kind: RoleBinding&#xD;
+    metadata:&#xD;
+      labels:&#xD;
+        app: spring-cloud-kubernetes-discoveryserver&#xD;
+      name: spring-cloud-kubernetes-discoveryserver:view&#xD;
+    roleRef:&#xD;
+      kind: Role&#xD;
+      apiGroup: rbac.authorization.k8s.io&#xD;
+      name: namespace-reader&#xD;
+    subjects:&#xD;
+      - kind: ServiceAccount&#xD;
+        name: spring-cloud-kubernetes-discoveryserver&#xD;
+  - apiVersion: rbac.authorization.k8s.io/v1&#xD;
+    kind: Role&#xD;
+    metadata:&#xD;
+      namespace: default&#xD;
+      name: namespace-reader&#xD;
+    rules:&#xD;
+      - apiGroups: [&amp;quot;&amp;quot;, &amp;quot;extensions&amp;quot;, &amp;quot;apps&amp;quot;]&#xD;
+        resources: [&amp;quot;services&amp;quot;, &amp;quot;endpoints&amp;quot;]&#xD;
+        verbs: [&amp;quot;get&amp;quot;, &amp;quot;list&amp;quot;, &amp;quot;watch&amp;quot;]&#xD;
+  - apiVersion: apps/v1&#xD;
+    kind: Deployment&#xD;
+    metadata:&#xD;
+      name: spring-cloud-kubernetes-discoveryserver-deployment&#xD;
+    spec:&#xD;
+      selector:&#xD;
+        matchLabels:&#xD;
+          app: spring-cloud-kubernetes-discoveryserver&#xD;
+      template:&#xD;
+        metadata:&#xD;
+          labels:&#xD;
+            app: spring-cloud-kubernetes-discoveryserver&#xD;
+        spec:&#xD;
+          serviceAccount: spring-cloud-kubernetes-discoveryserver&#xD;
+          containers:&#xD;
+          - name: spring-cloud-kubernetes-discoveryserver&#xD;
+            image: springcloud/spring-cloud-kubernetes-discoveryserver:2.1.0-M3&#xD;
+            imagePullPolicy: IfNotPresent&#xD;
+            readinessProbe:&#xD;
+              httpGet:&#xD;
+                port: 8761&#xD;
+                path: /actuator/health/readiness&#xD;
+            livenessProbe:&#xD;
+              httpGet:&#xD;
+                port: 8761&#xD;
+                path: /actuator/health/liveness&#xD;
+            ports:&#xD;
+            - containerPort: 8761
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In addition to the discovery server, we have added a new &lt;code&gt;DiscoveryClient&lt;/code&gt; implementation that uses the new discovery server. To add this new implementation to your app, you need to include &lt;code&gt;spring-cloud-starter-kubernetes-discoveryclient&lt;/code&gt; in your app¡¯s classpath. Any apps using this starter need to set &lt;code&gt;spring.cloud.kubernetes.discovery.discovery-server-url&lt;/code&gt; to the URL of the discovery server deployed on Kubernetes.&lt;/p&gt;&lt;h2&gt;&lt;a href="#spring-cloud-config-server-on-kubernetes" class="anchor" name="spring-cloud-config-server-on-kubernetes"&gt;&lt;/a&gt;Spring Cloud Config Server On Kubernetes&lt;/h2&gt;
+&lt;p&gt;As part of Spring Cloud 2021.0.0-M3, we have added an &lt;code&gt;EnvironmentRepository&lt;/code&gt; for the Config Server. It adds support for fetching data from Config Maps and Secrets stored on Kubernetes. You can still use the other &lt;code&gt;EnvironmentRepository&lt;/code&gt;s the Config Server supports, but, now, when you deploy the Config Server to Kubernetes and enable the &lt;code&gt;kubernetes&lt;/code&gt; profile, you can include any configuration data stored in Config Maps or Secrets.&lt;/p&gt;
+&lt;p&gt;While the Config Server still needs access to the Kubernetes API server, it is no longer true that every app needs access. Instead, only the Config Server needs access, and the rest of the apps need only make HTTP requests to the Config Server, as normal.&lt;/p&gt;
+&lt;p&gt;You can read more about the Kubernetes Config Server in our &lt;a href="https://docs.spring.io/spring-cloud-kubernetes/docs/2.1.0-M3/reference/html/#spring-cloud-kubernetes-configserver"&gt;documentation&lt;/a&gt;, and we have provided an image you can use to deploy the Config Server to Kubernetes &lt;a href="https://hub.docker.com/r/springcloud/spring-cloud-kubernetes-configserver/tags"&gt;on Docker Hub&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;You can pull this image using Docker Hub by running the following command.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker pull springcloud/spring-cloud-kubernetes-configserver:2.1.0-M3&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;To deploy the image to Kubernetes, you can use the following YAML.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;---&#xD;
+apiVersion: v1&#xD;
+kind: List&#xD;
+items:&#xD;
+  - apiVersion: v1&#xD;
+    kind: Service&#xD;
+    metadata:&#xD;
+      labels:&#xD;
+        app: spring-cloud-kubernetes-configserver&#xD;
+      name: spring-cloud-kubernetes-configserver&#xD;
+    spec:&#xD;
+      ports:&#xD;
+        - name: http&#xD;
+          port: 8888&#xD;
+          targetPort: 8888&#xD;
+      selector:&#xD;
+        app: spring-cloud-kubernetes-configserver&#xD;
+      type: ClusterIP&#xD;
+  - apiVersion: v1&#xD;
+    kind: ServiceAccount&#xD;
+    metadata:&#xD;
+      labels:&#xD;
+        app: spring-cloud-kubernetes-configserver&#xD;
+      name: spring-cloud-kubernetes-configserver&#xD;
+  - apiVersion: rbac.authorization.k8s.io/v1&#xD;
+    kind: RoleBinding&#xD;
+    metadata:&#xD;
+      labels:&#xD;
+        app: spring-cloud-kubernetes-configserver&#xD;
+      name: spring-cloud-kubernetes-configserver:view&#xD;
+    roleRef:&#xD;
+      kind: Role&#xD;
+      apiGroup: rbac.authorization.k8s.io&#xD;
+      name: namespace-reader&#xD;
+    subjects:&#xD;
+      - kind: ServiceAccount&#xD;
+        name: spring-cloud-kubernetes-configserver&#xD;
+  - apiVersion: rbac.authorization.k8s.io/v1&#xD;
+    kind: Role&#xD;
+    metadata:&#xD;
+      namespace: default&#xD;
+      name: namespace-reader&#xD;
+    rules:&#xD;
+      - apiGroups: [&amp;quot;&amp;quot;, &amp;quot;extensions&amp;quot;, &amp;quot;apps&amp;quot;]&#xD;
+        resources: [&amp;quot;configmaps&amp;quot;, &amp;quot;secrets&amp;quot;]&#xD;
+        verbs: [&amp;quot;get&amp;quot;, &amp;quot;list&amp;quot;]&#xD;
+  - apiVersion: apps/v1&#xD;
+    kind: Deployment&#xD;
+    metadata:&#xD;
+      name: spring-cloud-kubernetes-configserver-deployment&#xD;
+    spec:&#xD;
+      selector:&#xD;
+        matchLabels:&#xD;
+          app: spring-cloud-kubernetes-configserver&#xD;
+      template:&#xD;
+        metadata:&#xD;
+          labels:&#xD;
+            app: spring-cloud-kubernetes-configserver&#xD;
+        spec:&#xD;
+          serviceAccount: spring-cloud-kubernetes-configserver&#xD;
+          containers:&#xD;
+          - name: spring-cloud-kubernetes-configserver&#xD;
+            image: springcloud/spring-cloud-kubernetes-configserver:2.1.0-M3&#xD;
+            imagePullPolicy: IfNotPresent&#xD;
+            env:&#xD;
+                - name: SPRING_PROFILES_INCLUDE&#xD;
+                  value: &amp;quot;kubernetes&amp;quot;&#xD;
+            readinessProbe:&#xD;
+              httpGet:&#xD;
+                port: 8888&#xD;
+                path: /actuator/health/readiness&#xD;
+            livenessProbe:&#xD;
+              httpGet:&#xD;
+                port: 8888&#xD;
+                path: /actuator/health/liveness&#xD;
+            ports:&#xD;
+            - containerPort: 8888
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With these new features, there is always room for improvement, so please try them out and provide feedback as &lt;a href="https://github.com/spring-cloud/spring-cloud-kubernetes/issues"&gt;issues on GitHub&lt;/a&gt; so that we can make these features as useful as possible.&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spot every Spring Boot application issue on the spot using AppDynamics!</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/25/spot-every-spring-boot-application-issue-on-the-spot-using-appdynamics" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-10-22:4580</id>
+    <updated>2021-10-25T16:00:00Z</updated>
+    <content type="html">&lt;p&gt;Today, we are excited to announce the integration of AppDynamics in the Azure Spring Cloud for full stack observability.&lt;/p&gt;
+&lt;p&gt;Over the past 20 months, we worked with many enterprise customers to learn about the scenarios they face. Many of these customers have thousands of Spring Boot applications running in on-premises data centers. As they migrate these applications to the cloud, they need to instrument them for application performance monitoring (APM) using solutions their developers are familiar with and have been using for years. In addition, they must ensure continuity for desktop and mobile applications that are already pre-instrumented for end-to-end monitoring using agents like AppDynamics, which automatically discovers and maps all applications, microservices, and infrastructure as well as any dependencies in dynamic hybrid, multi-cloud environments. With the integration of AppDynamics in Azure Spring Cloud, you can continue your journey and easily instrument your Spring Boot applications with AppDynamics. &lt;/p&gt;
+&lt;p&gt;&amp;ldquo;Our deployment of Azure Spring Cloud is just one component of a much broader multi-region, multi-cloud architecture. We¡¯ve used AppDynamics at Digital Realty for several years and had a strong desire to have this single pane of glass to capture performance metrics and monitor availability across the full stack. But not only that, AppDynamics is a powerful APM tool that is one component of adopting an event-driven architecture. We are experimenting with self-healing and AIOps and need to expand our capabilities in this area, which we can now do.&amp;rdquo; &amp;ndash; Devon Yost, Enterprise Architect, &lt;a href="https://www.digitalrealty.com/"&gt;Digital Realty Trust&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&amp;ldquo;As our customers look to modernize their applications and leverage the ease of use and scaling of cloud platforms like Azure Spring Cloud, the need for full stack observability is more important than ever. Many of Presidio¡¯s customers leverage the instrumentation capabilities of AppDynamics to run their Spring Boot applications in the high performing, cost efficient, and highly available manner that their businesses demand. As they plan their migrations to Azure and the Azure Spring Cloud Platform, they will need more than ever consistency of insights and visibility into their applications. Azure Spring Cloud support for AppDynamics brings together the two platforms and gives Presidio and its customers a clear path forward.&amp;rdquo; &amp;ndash; Rich Gondek, Senior Technical Director, Digital Business Solutions and Services, &lt;a href="https://www.presidio.com/"&gt;Presidio&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;¡°I¡¯m excited by our continued partnership with Microsoft. AppDynamics will provide developers working within Azure Spring Cloud with real-time visibility, with correlated insights that enable them to isolate the root cause of any performance issues and optimize microservices with context to the business impact.¡± &amp;ndash; Gregg Ostrowski, Executive CTO at &lt;a href="https://www.appdynamics.com/"&gt;AppDynamics&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;¡°Microsoft is committed to making it easier for Spring developers to run their apps at scale on Azure. AppDynamics is a critical part of full stack observability for many of our customers, and through our partnership they can now get this functionality integrated into Azure Spring Cloud. Supporting APM tools of choice for developers?like AppDynamics?minimizes change so they can focus on delivering new capabilities.¡± ? Julia Liuson, Corporate Vice President, Developer Division, &lt;a href="https://www.microsoft.com/en-us/"&gt;Microsoft&lt;/a&gt;&lt;/p&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/4dZuRX5bNAs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;The ability to observe and correlate applications to the infrastructure, network, and security throughout the entire IT stack is now essential in a digitally transformed world. Technologists demand full-stack observability so they can foresee issues before they affect customers and the business. At the same time, developers continue to innovate and evolve the IT stack by adopting the latest and most agile cloud platforms like Azure Spring Cloud to deploy and run applications at scale quickly and easily. As they do, it is critical that they can move rapidly towards full-stack visibility, insights and actions transforming siloed data into actionable insights that provide shared context to IT teams so they can deliver exceptional digital experiences, optimize for cost and performance, and maximize digital business revenue. &lt;/p&gt;
+&lt;p&gt;AppDynamics and Microsoft continue to partner together to ensure that Azure customers can maintain that level of business observability with cloud-native applications on Azure. Now, customers can observe what matters most across their services and workloads deployed on Azure Spring Cloud using AppDynamics &amp;ndash; with no code changes required.&lt;/p&gt;
+&lt;img  src="https://raw.githubusercontent.com/joshlong/blog-images/master/spot-the-app-issue-with-appdynamics-10-25-2021/AppDynamics-bar.jpg"/&gt;
+&lt;p&gt;Activating the AppDynamics agent in an Azure Spring Cloud deployment is as simple as configuring the JVM options and environment variables when deploying a service via the Azure CLI.&lt;/p&gt;
+&lt;img width = "600" src="https://raw.githubusercontent.com/joshlong/blog-images/master/spot-the-app-issue-with-appdynamics-10-25-2021/01-activate-with-az.jpg"/&gt;
+&lt;p&gt;&lt;em&gt;Figure 1 - shows Azure CLI command to activate AppDynamics as part a deployment&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The AppDynamics agent can also be activated within Azure Spring Cloud through the Azure Portal, by utilizing Azure Resource Manager (ARM) Templates, Bicep Templates, or via Terraform.&lt;/p&gt;
+&lt;p&gt;Upon activation, open the AppDynamics Portal to begin monitoring. In the view shown below, AppDynamics shows all the Spring Boot application in Azure Spring Cloud.&lt;/p&gt;
+&lt;img width = "600" src="https://raw.githubusercontent.com/joshlong/blog-images/master/spot-the-app-issue-with-appdynamics-10-25-2021/02-birds-eye-view-of-apps.jpg"/&gt;
+&lt;p&gt;&lt;em&gt;Figure 2 - shows all the Spring Boot applications running in a production workload&lt;/em&gt; &lt;/p&gt;
+&lt;p&gt;You can also see automated flow maps that show the flow of data through your applications, revealing Spring Boot apps and their dependencies and the exact locations of any issues to be addressed to mitigate business impact. In the view shown below, automated flow maps are automatically available to you ? no additional configuration required.&lt;/p&gt;
+&lt;img width = "600" src="https://raw.githubusercontent.com/joshlong/blog-images/master/spot-the-app-issue-with-appdynamics-10-25-2021/03-api-gateway.jpg"/&gt;
+&lt;p&gt;&lt;em&gt;Figure 3 - shows automated app flow maps for Spring Boot applications and their dependencies&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;AppDynamics traces key business transactions based on production application behavior. It dynamically baselines performance and automatically discovers what is normal, so customers and developers get alerts only when thresholds are exceeded. In the view shown below, it shows the flow of data from api-gateway app to customers-services app, and then to a MySQL database.&lt;/p&gt;
+&lt;img width = "600" src="https://raw.githubusercontent.com/joshlong/blog-images/master/spot-the-app-issue-with-appdynamics-10-25-2021/04-customers-service.jpg" /&gt;
+&lt;p&gt;&lt;em&gt;Figure 4 - shows flow of data from one Spring Boot app to another Spring Boot app, and then to a MySQL database&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;You can also get deep diagnostics such as full call stacks and granular method-level code details and database queries. You can turn on Development Mode for occasional troubleshooting, in which certain default limits on the data that AppDynamics collects are turned off, giving you with additional visibility on application activities. In the view shown below, we are zooming into all the database calls, in the last few hours, there were about 5M calls with good response times.&lt;/p&gt;
+&lt;img width = "600" src="https://raw.githubusercontent.com/joshlong/blog-images/master/spot-the-app-issue-with-appdynamics-10-25-2021/05-customer-service-db-calls.jpg"/&gt;
+&lt;p&gt;&lt;em&gt;Figure 5 ? zooms into all the database calls from a Spring Boot application&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;You can look for slowest database calls. In the view shown below for customers-service app, these are the slowest database calls ? particularly, plenty of time is spent in setting up connections. As always, there is some room for improvement.&lt;/p&gt;
+&lt;img width = "600" src="https://raw.githubusercontent.com/joshlong/blog-images/master/spot-the-app-issue-with-appdynamics-10-25-2021/06-slowest-db-calls-from-customers-service.jpg" /&gt;
+&lt;p&gt;&lt;em&gt;Figure 6 - shows slowest database calls from a Spring Boot application&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;AppDynamics also has a good JVM metric browser where you can look at JVM metrics across time. In the view shown below, you can look at number of JVM threads versus JVM CPU usage. Certainly, you can draw out many more insights through the metric browser.&lt;/p&gt;
+&lt;img width = "600" src="https://raw.githubusercontent.com/joshlong/blog-images/master/spot-the-app-issue-with-appdynamics-10-25-2021/07-customers-service-jvm-metric-browser.jpg" /&gt;
+&lt;p&gt;&lt;em&gt;Figure 7 ? shows JVM Metrics across time in AppDynamics Metric Browser&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;By using AppDynamics, you can enable seamless collaboration among developers, operators, and business teams. Unified monitoring and real-time insights bring these teams together to maintain application performance, the user experiences and business performance.&lt;/p&gt;&lt;h2&gt;&lt;a href="#build-your-solutions-and-monitor-them-today" class="anchor" name="build-your-solutions-and-monitor-them-today"&gt;&lt;/a&gt;Build your solutions and monitor them today!&lt;/h2&gt;
+&lt;p&gt;Azure Spring Cloud is jointly built, operated, and supported by Microsoft and VMware. It is a fully managed service for Spring Boot applications that abstracts away the complexity of infrastructure and Spring Cloud middleware management, so you can focus on building your business logic and let Azure take care of dynamic scaling, patches, security, compliance, and high availability. With a few steps, you can provision Azure Spring Cloud, create applications, deploy, and scale Spring Boot applications and start monitoring in minutes. We will continue to bring more developer-friendly and enterprise-ready features to Azure Spring Cloud. We would love to hear how you are building impactful solutions using Azure Spring Cloud&amp;hellip;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://aka.ms/Start-AppDynamics"&gt;Start monitoring&lt;/a&gt; your Spring Boot applications with AppDynamics!&lt;/p&gt;&lt;h3&gt;&lt;a href="#resources" class="anchor" name="resources"&gt;&lt;/a&gt;Resources&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Learn using an &lt;a href="https://docs.microsoft.com/en-us/learn/modules/azure-spring-cloud-workshop/"&gt;MS Learn module&lt;/a&gt; or &lt;a href="https://github.com/microsoft/azure-spring-cloud-training"&gt;self-paced workshop&lt;/a&gt; on GitHub&lt;/li&gt;
+  &lt;li&gt;Learn &lt;a href="https://docs.microsoft.com/en-us/azure/spring-cloud/"&gt;more&lt;/a&gt; about implementing solutions on Azure Spring Cloud&lt;/li&gt;
+  &lt;li&gt;See related &lt;a href="https://docs.appdynamics.com/21.9/en/application-monitoring/install-app-server-agents/java-agent/install-the-java-agent/monitor-azure-spring-cloud-with-java-agent"&gt;document published&lt;/a&gt; by AppDynamics&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/Azure-Samples/spring-petclinic-microservices"&gt;Deploy&lt;/a&gt; a distributed version of Spring Petclinic application&lt;/li&gt;
+  &lt;li&gt;Deploy Spring Boot applications by leveraging enterprise best practices ? &lt;a href="https://docs.microsoft.com/en-us/azure/spring-cloud/reference-architecture"&gt;Azure Spring Cloud Reference Architecture&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Migrate your &lt;a href="https://docs.microsoft.com/en-us/azure/developer/java/migration/migrate-spring-boot-to-azure-spring-cloud"&gt;Spring Boot&lt;/a&gt;, &lt;a href="https://docs.microsoft.com/en-us/azure/developer/java/migration/migrate-spring-cloud-to-azure-spring-cloud"&gt;Spring Cloud&lt;/a&gt; and &lt;a href="https://aka.ms/migrate-tomcat-to-azure-spring-cloud-service"&gt;Tomcat&lt;/a&gt; applications to Azure Spring Cloud&lt;/li&gt;
+  &lt;li&gt;Wire Spring applications to &lt;a href="https://docs.microsoft.com/en-us/azure/developer/java/spring-framework/"&gt;interact with Azure services&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;For feedback and questions, please &lt;a href="mailto:AzureSpringCloud-Talk@service.microsoft.com"&gt;e-mail us&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Cloud Square 0.4.0-M3 is available.</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/25/spring-cloud-square-0-4-0-m3-is-available" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Olga Maciaszek-Sharma</name>
+    </author>
+    <id>tag:spring.io,2021-10-25:4581</id>
+    <updated>2021-10-25T11:00:00Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the community, I am pleased to announce that the Milestone 3 (M3) of the &lt;a href="https://cloud.spring.io"&gt;Spring Cloud Square&lt;/a&gt; 0.4.0 is available today. The release can be found in &lt;a href="https://repo.spring.io/milestone/"&gt;Spring Milestone&lt;/a&gt; repository. You can check out the 0.4.0-M3 &lt;a href="https://github.com/spring-cloud-incubator/spring-cloud-square/releases/tag/v0.4.0-M3"&gt;release notes for more information&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is primarily a bugfix release. See all issues included in this release &lt;a href="https://github.com/spring-cloud-incubator/spring-cloud-square/milestone/3?closed=1"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The documentation for this milestone can be found &lt;a href="https://spring-cloud-incubator.github.io/spring-cloud-square/docs/current/reference/html/index.html"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>A Bootiful Podcast: RabbitMQ and Weaveworks founder Alexis Richardson on RabbitMQ, Pivotal, Spring, Kubernetes, and FluxCD</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/21/a-bootiful-podcast-rabbitmq-and-weaveworks-founder-alexis-richardson-on-rabbitmq-pivotal-spring-kubernetes-and-fluxcd" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-10-21:4579</id>
+    <updated>2021-10-21T22:27:00Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! In this installment, &lt;a href="https://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; talk to RabbitMQ and Weaveworks founder &lt;a href="https://twitter.com/monadic"&gt;Alexis Richardson (@monadic)&lt;/a&gt; about RabbitMQ, Pivotal, Spring, Kubernetes, and FluxCD. NB: this interview was done a &lt;em&gt;year&lt;/em&gt; ago, and I was just playing with FluxCD these last few weeks and I figured it was finally time to release this episode! Thanks so much Alexis for sharing and teaching us so much! &lt;/p&gt;
+&lt;iframe title="RabbitMQ and Weaveworks founder Alexis Richardson on RabbitMQ, Pivotal, Spring, Kubernetes, and FluxCD" allowtransparency="true" height="150" width="100%" style="border: none; min-width: min(100%, 430px);" scrolling="no" data-name="pb-iframe-player" src="https://www.podbean.com/player-v2/?i=3vt3v-110e5f7-pb&amp;from=pb6admin&amp;share=1&amp;download=1&amp;rtl=0&amp;fonts=Arial&amp;skin=1&amp;font-color=&amp;btn-skin=7"&gt;&lt;/iframe&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Boot 2.6.0-RC1 is available now</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/21/spring-boot-2-6-0-rc1-is-available-now" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Scott Frederick</name>
+    </author>
+    <id>tag:spring.io,2021-10-21:4578</id>
+    <updated>2021-10-21T22:00:00Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the team and everyone who has contributed, I&amp;rsquo;m happy to announce that Spring Boot &lt;code&gt;2.6.0-RC1&lt;/code&gt; has been released and is now available from &lt;a href="https://repo.spring.io/milestone"&gt;https://repo.spring.io/milestone&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This release includes &lt;a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.6.0-RC1"&gt;85 bug fixes, documentation improvements, and dependency upgrades&lt;/a&gt;. New and Noteworthy features in this release include:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Java runtime information is optionally available in the &lt;code&gt;/actuator/info&lt;/code&gt; endpoint&lt;/li&gt;
+  &lt;li&gt;Support has been added for Log4j2 composite configurations&lt;/li&gt;
+  &lt;li&gt;Additional configuration options have been added for buildpacks&lt;/li&gt;
+  &lt;li&gt;SameSite cookie attributes are now supported with the servlet stack&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For a complete list of the updates along with upgrading instructions, please take a look at &lt;a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.6.0-RC1-Release-Notes"&gt;the release notes&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Thanks to all those who have contributed with issue reports and pull requests. Spring Boot 2.6.0 is due to be released Nov 18, 2021.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
+&lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask on &lt;a href="https://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="https://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt; or chat with the community on &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-boot/docs/2.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Boot 2.5.6 is now available</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/21/spring-boot-2-5-6-is-now-available" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Andy Wilkinson</name>
+    </author>
+    <id>tag:spring.io,2021-10-21:4577</id>
+    <updated>2021-10-21T13:17:00Z</updated>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Update (2021-10-26):&lt;/strong&gt; Multiple Spring projects included in this release contain fixes for security issues. Please, read the related &lt;a href="https://spring.io/blog/2021/10/26/security-reports-for-spring-framework-spring-data-rest-spring-amqp-and-spring-cloud-openfeign"&gt;announcement&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;On behalf of the team and everyone who has contributed, I&amp;rsquo;m happy to announce that Spring Boot &lt;code&gt;2.5.6&lt;/code&gt; has been released and is now available from Maven Central.&lt;/p&gt;
+&lt;p&gt;This release includes &lt;a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.5.6"&gt;43 bug fixes, documentation improvements, and dependency upgrades&lt;/a&gt;. Thanks to all those who have contributed with issue reports and pull requests.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
+&lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask on &lt;a href="https://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="https://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt; or chat with the community on &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-boot/docs/2.5.6/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Boot 2.4.12 is now available</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/21/spring-boot-2-4-12-is-now-available" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Andy Wilkinson</name>
+    </author>
+    <id>tag:spring.io,2021-10-21:4576</id>
+    <updated>2021-10-21T12:20:00Z</updated>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Update (2021-10-26):&lt;/strong&gt; Multiple Spring projects included in this release contain fixes for security issues. Please, read the related &lt;a href="https://spring.io/blog/2021/10/26/security-reports-for-spring-framework-spring-data-rest-spring-amqp-and-spring-cloud-openfeign"&gt;announcement&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;On behalf of the team and everyone who has contributed, I&amp;rsquo;m happy to announce that Spring Boot &lt;code&gt;2.4.12&lt;/code&gt; has been released and is now available from Maven Central.&lt;/p&gt;
+&lt;p&gt;This release includes &lt;a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.4.12"&gt;36 bug fixes, documentation improvements, and dependency upgrades&lt;/a&gt;. Thanks to all those who have contributed with issue reports and pull requests.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
+&lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask on &lt;a href="https://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="https://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt; or chat with the community on &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-boot/docs/2.4.12/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="https://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Framework 5.3.12 available now</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/21/spring-framework-5-3-12-available-now" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>St?phane Nicoll</name>
+    </author>
+    <id>tag:spring.io,2021-10-21:4575</id>
+    <updated>2021-10-21T08:06:00Z</updated>
+    <content type="html">&lt;p&gt;&lt;strong&gt;Update (2021-10-26):&lt;/strong&gt; This release contains a fix for a security issue. Please, read the related &lt;a href="https://spring.io/blog/2021/10/26/security-reports-for-spring-framework-spring-data-rest-spring-amqp-and-spring-cloud-openfeign"&gt;announcement&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;On behalf of the team and everyone who has contributed, I am pleased to announce that Spring Framework &lt;code&gt;5.3.12&lt;/code&gt; is available now.&lt;/p&gt;
+&lt;p&gt;Spring Framework &lt;code&gt;5.3.12&lt;/code&gt; is a follow-up of the recent &lt;code&gt;5.3.11&lt;/code&gt; release fixing &lt;a href="https://github.com/spring-projects/spring-framework/releases/tag/v5.3.12"&gt;2 regressions&lt;/a&gt; in time for the Spring Boot releases.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://projects.spring.io/spring-framework/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-framework"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-framework/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-framework/docs/5.3.12/reference/html/"&gt;Documentation&lt;/a&gt;&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Tips: refreshable configuration with Spring Cloud Bus, and the Spring Cloud Config Monitor</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/20/spring-tips-refreshable-configuration-with-spring-cloud-bus-and-the-spring-cloud-config-monitor" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-10-21:4574</id>
+    <updated>2021-10-21T05:00:00Z</updated>
+    <content type="html">&lt;p&gt;Hi, Spring fans! In this installment, we&amp;rsquo;ll look at fully refreshable configuration using the Spring Cloud Config Server, Spring Cloud Bus, and Spring Cloud Config Monitor.&lt;/p&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/aC_siBP8rx8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Cloud 2021.0.0-M3 (codename Jubilee) Has Been Released</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/20/spring-cloud-2021-0-0-m3-codename-jubilee-has-been-released" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Ryan Baxter</name>
+    </author>
+    <id>tag:spring.io,2021-10-20:4573</id>
+    <updated>2021-10-20T22:39:00Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the community, I am pleased to announce that the Milestone 3 (M3) of the &lt;a href="https://cloud.spring.io"&gt;Spring Cloud 2021&lt;/a&gt; Release Train is available today. The release can be found in &lt;a href="https://repo.spring.io/milestone/"&gt;Spring Milestone&lt;/a&gt; repository. You can check out the 2021 &lt;a href="https://github.com/spring-projects/spring-cloud/wiki/Spring-Cloud-2021-Release-Notes"&gt;release notes for more information&lt;/a&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a href="#notable-changes-in-the-2021-release-train" class="anchor" name="notable-changes-in-the-2021-release-train"&gt;&lt;/a&gt;Notable Changes in the 2021 Release Train&lt;/h2&gt;
+&lt;p&gt;Milestone 3 is compatible with Spring Boot 2.6.0-M3.&lt;/p&gt;
+&lt;p&gt;See the &lt;a href="https://github.com/orgs/spring-cloud/projects/58"&gt;project page&lt;/a&gt; for all the issues and pull requests included in this release.&lt;/p&gt;&lt;h3&gt;&lt;a href="#spring-cloud-gateway" class="anchor" name="spring-cloud-gateway"&gt;&lt;/a&gt;Spring Cloud Gateway&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Added initial support for gRPC &lt;a href="https://github.com/spring-cloud/spring-cloud-gateway/pull/2388"&gt;#2388&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;h3&gt;&lt;a href="#spring-cloud-function" class="anchor" name="spring-cloud-function"&gt;&lt;/a&gt;Spring Cloud Function&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Aside form various enhancements and bug fixes this milestone of Spring Cloud Function introduces initial support for gRPC.&lt;br/&gt;Initial documentation is available &lt;a href="https://github.com/spring-cloud/spring-cloud-function/tree/main/spring-cloud-function-adapters/spring-cloud-function-grpc"&gt;here&lt;/a&gt;. Samples, more documentation and separate blog post are coming as well.&lt;/li&gt;
+&lt;/ul&gt;&lt;h3&gt;&lt;a href="#spring-cloud-vault" class="anchor" name="spring-cloud-vault"&gt;&lt;/a&gt;Spring Cloud Vault&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;TOKEN auth from file (~/.vault_token) [#609](&lt;a href="https://github.com/spring-cloud/spring-cloud-vault/issues/609"&gt;https://github.com/spring-cloud/spring-cloud-vault/issues/609&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;h3&gt;&lt;a href="#spring-cloud-sleuth" class="anchor" name="spring-cloud-sleuth"&gt;&lt;/a&gt;Spring Cloud Sleuth&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Added &lt;a href="https://github.com/spring-cloud/spring-cloud-sleuth/issues/2039"&gt;Exemplars support&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;h3&gt;&lt;a href="#spring-cloud-kubernetes" class="anchor" name="spring-cloud-kubernetes"&gt;&lt;/a&gt;Spring Cloud Kubernetes&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+  &lt;p&gt;Added an &lt;code&gt;EnvironmentRepsitory&lt;/code&gt; for Config Maps and Secrets to support supplying configuration data from Kubernetes resources using Spring Cloud Config Server. An image is now available for the Spring Cloud Config Server containing this new &lt;code&gt;EnvrionmentRepository&lt;/code&gt; implementation is now available on DockerHub. Documentation for using this new feature is provided &lt;a href="https://docs.spring.io/spring-cloud-kubernetes/docs/2.1.0-M3/reference/html/#spring-cloud-kubernetes-configserver"&gt;here&lt;/a&gt;. &lt;a href="https://github.com/spring-cloud/spring-cloud-kubernetes/pull/881"&gt;#881&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li&gt;
+  &lt;p&gt;Added a new &lt;a href="https://docs.spring.io/spring-cloud-kubernetes/docs/2.1.0-M3/reference/html/#spring-cloud-kubernetes-configserver"&gt;Kubernetes &lt;code&gt;DiscoveryClient&lt;/code&gt; implementation&lt;/a&gt; which takes advantage of a new &lt;a href="https://docs.spring.io/spring-cloud-kubernetes/docs/2.1.0-M3/reference/html/#spring-cloud-kubernetes-discoveryserver"&gt;Kubernetes Discovery Sever&lt;/a&gt;. &lt;a href="https://github.com/spring-cloud/spring-cloud-kubernetes/pull/886"&gt;#886&lt;/a&gt; &lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The following modules were updated as part of 2021.0.0-M3:&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Module &lt;/th&gt;
+      &lt;th&gt;Version &lt;/th&gt;
+      &lt;th&gt;Issues&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Zookeeper &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Cli &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Consul &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Bus &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Gateway &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;(&lt;a href="https://github.com/spring-cloud/spring-cloud-gateway/milestone/57?closed=1"&gt;issues&lt;/a&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Starter Build &lt;/td&gt;
+      &lt;td&gt;2021.0.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Vault &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Cloudfoundry &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Commons &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Openfeign &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Task &lt;/td&gt;
+      &lt;td&gt;2.4.0-M3 &lt;/td&gt;
+      &lt;td&gt;(&lt;a href="https://github.com/spring-cloud/spring-cloud-task/milestone/50?closed=1"&gt;issues&lt;/a&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Config &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Sleuth &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;(&lt;a href="https://github.com/spring-cloud/spring-cloud-sleuth/milestone/95?closed=1"&gt;issues&lt;/a&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Netflix &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;(&lt;a href="https://github.com/spring-cloud/spring-cloud-netflix/milestone/105?closed=1"&gt;issues&lt;/a&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Kubernetes &lt;/td&gt;
+      &lt;td&gt;2.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;(&lt;a href="https://github.com/spring-cloud/spring-cloud-kubernetes/milestone/36?closed=1"&gt;issues&lt;/a&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Circuitbreaker &lt;/td&gt;
+      &lt;td&gt;2.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;&amp;nbsp;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Spring Cloud Contract &lt;/td&gt;
+      &lt;td&gt;3.1.0-M3 &lt;/td&gt;
+      &lt;td&gt;(&lt;a href="https://github.com/spring-cloud/spring-cloud-contract/milestone/80?closed=1"&gt;issues&lt;/a&gt;)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;As always, we welcome feedback on &lt;a href="https://github.com/spring-cloud/"&gt;GitHub&lt;/a&gt;, on &lt;a href="https://gitter.im/spring-cloud/spring-cloud"&gt;Gitter&lt;/a&gt;, on &lt;a href="https://stackoverflow.com/questions/tagged/spring-cloud"&gt;Stack Overflow&lt;/a&gt;, or on &lt;a href="https://twitter.com/SpringCloud"&gt;Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To get started with Maven with a BOM (dependency management only):&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;&lt;br/&gt;    &amp;lt;repositories&amp;gt;&#xD;
+        &amp;lt;repository&amp;gt;&#xD;
+            &amp;lt;id&amp;gt;spring-milestones&amp;lt;/id&amp;gt;&#xD;
+            &amp;lt;name&amp;gt;Spring Milestones&amp;lt;/name&amp;gt;&#xD;
+            &amp;lt;url&amp;gt;https://repo.spring.io/milestone&amp;lt;/url&amp;gt;&#xD;
+            &amp;lt;snapshots&amp;gt;&#xD;
+                &amp;lt;enabled&amp;gt;false&amp;lt;/enabled&amp;gt;&#xD;
+            &amp;lt;/snapshots&amp;gt;&#xD;
+        &amp;lt;/repository&amp;gt;&#xD;
+    &amp;lt;/repositories&amp;gt;&#xD;
+&amp;lt;dependencyManagement&amp;gt;&#xD;
+    &amp;lt;dependencies&amp;gt;&#xD;
+        &amp;lt;dependency&amp;gt;&#xD;
+            &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt;&#xD;
+            &amp;lt;artifactId&amp;gt;spring-cloud-dependencies&amp;lt;/artifactId&amp;gt;&#xD;
+            &amp;lt;version&amp;gt;2021.0.0-M3&amp;lt;/version&amp;gt;&#xD;
+            &amp;lt;type&amp;gt;pom&amp;lt;/type&amp;gt;&#xD;
+            &amp;lt;scope&amp;gt;import&amp;lt;/scope&amp;gt;&#xD;
+        &amp;lt;/dependency&amp;gt;&#xD;
+    &amp;lt;/dependencies&amp;gt;&#xD;
+&amp;lt;/dependencyManagement&amp;gt;&#xD;
+&amp;lt;dependencies&amp;gt;&#xD;
+    &amp;lt;dependency&amp;gt;&#xD;
+        &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt;&#xD;
+        &amp;lt;artifactId&amp;gt;spring-cloud-starter-config&amp;lt;/artifactId&amp;gt;&#xD;
+    &amp;lt;/dependency&amp;gt;&#xD;
+    &amp;lt;dependency&amp;gt;&#xD;
+        &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt;&#xD;
+        &amp;lt;artifactId&amp;gt;spring-cloud-starter-netflix-eureka-client&amp;lt;/artifactId&amp;gt;&#xD;
+    &amp;lt;/dependency&amp;gt;&#xD;
+    ...&#xD;
+&amp;lt;/dependencies&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;or with Gradle:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;buildscript {&#xD;
+dependencies {&#xD;
+classpath &amp;quot;io.spring.gradle:dependency-management-plugin:1.0.2.RELEASE&amp;quot;&#xD;
+}&#xD;
+}&#xD;
+&#xD;
+repositories {&#xD;
+maven {&#xD;
+url &amp;#39;https://repo.spring.io/milestone&amp;#39;&#xD;
+}&#xD;
+}&#xD;
+&#xD;
+apply plugin: &amp;quot;io.spring.dependency-management&amp;quot;&#xD;
+&#xD;
+dependencyManagement {&#xD;
+imports {&#xD;
+mavenBom &amp;#39;org.springframework.cloud:spring-cloud-dependencies:2021.0.0-M3&amp;#39;&#xD;
+}&#xD;
+}&#xD;
+&#xD;
+dependencies {&#xD;
+compile &amp;#39;org.springframework.cloud:spring-cloud-starter-config&amp;#39;&#xD;
+compile &amp;#39;org.springframework.cloud:spring-cloud-starter-netflix-eureka-client&amp;#39;&#xD;
+...&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Cloud Square 0.4.0-M2 is available.</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/20/spring-cloud-square-0-4-0-m2-is-available" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Olga Maciaszek-Sharma</name>
+    </author>
+    <id>tag:spring.io,2021-10-20:4572</id>
+    <updated>2021-10-20T15:09:43Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the community, I am pleased to announce that the Milestone 2 (M2) of the &lt;a href="https://cloud.spring.io"&gt;Spring Cloud Square&lt;/a&gt; 0.4.0 is available today. The release can be found in &lt;a href="https://repo.spring.io/milestone/"&gt;Spring Milestone&lt;/a&gt; repository. You can check out the 0.4.0-M2 &lt;a href="https://github.com/spring-cloud-incubator/spring-cloud-square/releases/tag/v0.4.0-M2"&gt;release notes for more information&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;See all issues included in this release &lt;a href="https://github.com/spring-cloud-incubator/spring-cloud-square/milestone/1?closed=1"&gt;here&lt;/a&gt;.&lt;/p&gt;&lt;h2&gt;&lt;a href="#notable-changes-in-0-4-0-m2" class="anchor" name="notable-changes-in-0-4-0-m2"&gt;&lt;/a&gt;Notable Changes in 0.4.0-M2&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Spring Native support adjustments for non-load-balanced use-cases (&lt;a href="https://github.com/spring-cloud-incubator/spring-cloud-square/pull/23"&gt;PR&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;Support for configuring different WebClient.Builder beans (not shared) for each &lt;code&gt;@RetrofitClient&lt;/code&gt; instance (&lt;a href="https://github.com/spring-cloud-incubator/spring-cloud-square/pull/30"&gt;PR&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The documentation for this milestone can be found &lt;a href="https://spring-cloud-incubator.github.io/spring-cloud-square/docs/current/reference/html/index.html"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>This Week in Spring - October 19th, 2021</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/19/this-week-in-spring-october-19th-2021" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2021-10-19:4571</id>
+    <updated>2021-10-19T17:00:00Z</updated>
+    <content type="html">&lt;img  style = "text-align: center;" width="600" src="https://content.cdntwrk.com/files/aHViPTYzOTc1JmNtZD1pdGVtZWRpdG9yaW1hZ2UmZmlsZW5hbWU9aXRlbWVkaXRvcmltYWdlXzYxNjkwNTA1Y2ViNWUuanBnJnZlcnNpb249MDAwMCZzaWc9YTQyODAzMjJkZDI0YTc4NjQ5NjIyMTg5YmVmYTM1ZWQ%253D" /&gt;
+&lt;p&gt;Hi, Spring fans! Welcome to another installment of &lt;em&gt;This Week in Spring&lt;/em&gt;! How&amp;rsquo;re you doing? Good? Keepin&amp;rsquo; busy? Good. I&amp;rsquo;m doing alright, too. &lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Last week, I did a sort of &lt;em&gt;sm?rg?sbord&lt;/em&gt; episode of Tanzu Code on &lt;a href="https://twitch.tv/vmwaretanzu"&gt;twitch.tv/vmwaretanzu&lt;/a&gt;. It was super fun! I stream on VMWare Tanzu as well as on my own Twitch channel, &lt;a href="https://twitch.tv/JavaJoshLong"&gt;twitch.tv/JavaJoshLong&lt;/a&gt; about all things Spring, Java, and more.&lt;/li&gt;
+  &lt;li&gt;In last week&amp;rsquo;s super short-and-to-the-point installment of &lt;a href="https://spring.io/blog/2021/10/13/spring-tips-spring-plugin"&gt;&lt;em&gt;Spring Tips&lt;/em&gt;, I looked at the Spring Plugin project&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;I also put out &lt;a href="https://tanzu.vmware.com/content/josh-blog/this-month-in-spring-october-2021"&gt;&lt;em&gt;This Month in Spring&lt;/em&gt;&lt;/a&gt; - a newsletter digest version of this very weekly roundup that comes out every&amp;hellip; month. Naturally.&lt;/li&gt;
+  &lt;li&gt;Did you see this? Twitter is now using &lt;code&gt;graphql-java&lt;/code&gt;, the very same project that underpins the Spring GraphQL project, for their APIs and they&amp;rsquo;re reporting incredible performance gains! &lt;a href="https://github.com/graphql-java/graphql-java/discussions/2591"&gt;twitter + graphql-java ¡¤ Discussion #2591 ¡¤ graphql-java/graphql-java&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;In last week&amp;rsquo;s &lt;a href="https://spring.io/blog/2021/10/14/a-bootiful-podcast-net-legend-layla-porter-on-azure-spring-cloud-steeltoe-net-and-more"&gt;&lt;em&gt;A Bootiful Podcast&lt;/em&gt;, I talked to .NET legend Layla Porter on Azure Spring Cloud, Steeltoe.NET, and more&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://knative.dev/blog/articles/announcing-knative-1.0/"&gt;Announcing: Knative 1.0 &lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://www.steadybit.com/blog/harden-performance-rest-calls-spring-webflux"&gt;Harden Performance of REST calls using Spring WebFlux&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://javarevisited.blogspot.com/2021/10/how-to-upload-download-file-using-spring.html?m=1"&gt;How to upload/download file using Spring MVC and Spring Boot ? Example Tutorial&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://youtube.com/watch?v=F9oydL_MndA&amp;feature=share"&gt; Matt Raible and I did a talk for the SF JUG about Spring Native and GraalVM with Spring Boot and JHipster&lt;/a&gt;. It was a ton of fun and I hope you&amp;rsquo;ll enjoy it.&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://dev.to/__nikolamicic21/multiple-hierarchical-contexts-in-spring-boot-25nf"&gt;Multiple Hierarchical Contexts in Spring Boot - DEV Community&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Did you get your tickets for the &lt;a href="https://twitter.com/reactivesummit/status/1448414246941954056?s=12"&gt;Reactive Summit &lt;/a&gt;? There are going to be some amazing talks this year!&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/testcontainers/testcontainers-java/releases/tag/1.16.1"&gt;Release 1.16.1 ¡¤ testcontainers/testcontainers-java&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://github.com/reactor/reactor/releases/tag/2020.0.12"&gt;Release Europium-SR12 (2020.0.12) ¡¤ reactor/reactor&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/18/spring-data-2021-0-6-and-2020-0-14-released"&gt;Spring Data 2021.0.6 and 2020.0.14 released&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/18/spring-data-2021-1-enters-rc-phase"&gt;Spring Data 2021.1 enters RC phase&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/18/spring-data-jdbc-how-do-i-implement-caching"&gt;Spring Data JDBC - How do I implement caching?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://spring.io/blog/2021/10/14/spring-framework-5-3-11-and-5-2-18-available-now"&gt;Spring Framework 5.3.11 and 5.2.18 available now&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://m.youtube.com/watch?v=MuwjqsYMHvA&amp;feature=youtu.be"&gt;The State of Java 2021&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Data 2021.1 enters RC phase</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/10/18/spring-data-2021-1-enters-rc-phase" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Mark Paluch</name>
+    </author>
+    <id>tag:spring.io,2021-10-18:4570</id>
+    <updated>2021-10-18T14:08:52Z</updated>
+    <content type="html">&lt;p&gt;Dear Spring community,&lt;/p&gt;
+&lt;p&gt;On behalf of the Spring Data team and everyone who contributed, it is my pleasure to announce that Spring Data &lt;code&gt;2021.1.0&lt;/code&gt; has entered its release candidate phase by releasing &lt;code&gt;RC1&lt;/code&gt; today. It is available from the milestone repository. This release ships with several tickets fixed. The most notable changes are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Deprecate support for RxJava 2 in preparation for removal of RxJava 2 support with Spring Data 3.0.&lt;/li&gt;
+  &lt;li&gt;Fluent Query API for Querydsl and Query-by-Example, allowing for projections, pagination, and consuming results as a &lt;code&gt;Stream&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Spring Data JDBC ships with a refined SQL DSL, accepting complex JOIN conditions and subselects.&lt;/li&gt;
+  &lt;li&gt;Support for &lt;code&gt;exists&lt;/code&gt; and &lt;code&gt;not empty&lt;/code&gt; keywords in Elasticsearch repository query methods and support for field exclusion in &lt;code&gt;source&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;Improve mapping performance for custom queries and paths in Neo4j and support for &lt;code&gt;ReactiveQuerydslPredicateExecutor&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We are working towards the GA release in early November. Looking ahead, our focus shifts towards Spring Data 3.0 development with a Java 17 and Jakarta EE 9 baseline. Spring Data 3.0 development will be an ongoing endeavor throughout the next year. We plan to adhere to our 6-month release cadence, so you should expect a lighter Spring Data 2.7 (2022.0) feature release shipping mostly bug fixes and dependency upgrades in May of 2022.&lt;/p&gt;
+&lt;p&gt;Please give Spring Data &lt;code&gt;2021.1.0-RC1&lt;/code&gt; a try (for example, as part of the upcoming Spring Boot &lt;code&gt;2.6.0-RC1&lt;/code&gt; release), which will be available &lt;a href="https://start.spring.io"&gt;start.spring.io&lt;/a&gt; soon, and let us know about any regressions or other issues.&lt;/p&gt;
+&lt;p&gt;Here are the detailed links to each individual artifact and the reference documentation:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Spring Data Commons 2.6 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-commons/2.6.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/commons/docs/2.6.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/commons/docs/2.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-commons/releases/tag/2.6.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data JDBC 2.3 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-jdbc/2.3.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jdbc/docs/2.3.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jdbc/docs/2.3.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-jdbc/releases/tag/2.3.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data JPA 2.6 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-jpa/2.6.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jpa/docs/2.6.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/jpa/docs/2.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-jpa/releases/tag/2.6.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data KeyValue 2.6 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-keyvalue/2.6.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/keyvalue/docs/2.6.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/keyvalue/docs/2.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-keyvalue/releases/tag/2.6.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data for Apache Cassandra 3.3 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-cassandra/3.3.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/cassandra/docs/3.3.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/cassandra/docs/3.3.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-cassandra/releases/tag/3.3.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data for Apache Geode 2.6 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-geode/2.6.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/geode/docs/2.6.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/geode/docs/2.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-geode/releases/tag/2.6.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data Neo4j 6.2 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-neo4j/6.2.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/neo4j/docs/6.2.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/neo4j/docs/6.2.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-neo4j/releases/tag/6.2.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data MongoDB 3.3 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-mongodb/3.3.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/mongodb/docs/3.3.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/mongodb/docs/3.3.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-mongodb/releases/tag/3.3.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data R2DBC 1.4 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-r2dbc/1.4.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/1.4.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/r2dbc/docs/1.4.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-r2dbc/releases/tag/1.4.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data LDAP 2.6 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-ldap/2.6.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/ldap/docs/2.6.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/ldap/docs/2.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-ldap/releases/tag/2.6.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data Envers 2.6 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-envers/2.6.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/envers/docs/2.6.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/envers/docs/2.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-envers/releases/tag/2.6.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data REST 3.6 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-rest-webmvc/3.6.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/rest/docs/3.6.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/rest/docs/3.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-rest/releases/tag/3.6.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data Redis 2.6 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-redis/2.6.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/redis/docs/2.6.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/redis/docs/2.6.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-redis/releases/tag/2.6.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data Elasticsearch 4.3 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-elasticsearch/4.3.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/elasticsearch/docs/4.3.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/elasticsearch/docs/4.3.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-elasticsearch/releases/tag/4.3.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Spring Data Couchbase 4.3 RC1 - &lt;a href="https://repo.spring.io/libs-milestone/org/springframework/data/spring-data-couchbase/4.3.0-RC1"&gt;Artifacts&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/couchbase/docs/4.3.0-RC1/api"&gt;Javadoc&lt;/a&gt; - &lt;a href="https://docs.spring.io/spring-data/couchbase/docs/4.3.0-RC1/reference/html"&gt;Documentation&lt;/a&gt; - &lt;a href="https://github.com/spring-projects/spring-data-couchbase/releases/tag/4.3.0-RC1"&gt;Changelog&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+</feed>

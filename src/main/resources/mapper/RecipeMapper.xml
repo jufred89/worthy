@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mapper.MysqlMapper">
+<mapper namespace="com.example.mapper.RecipeMapper">
  	<select id="list" resultType="com.example.domain.RecipeVO">
 		select * from tbl_information_food
 		order by fi_no desc

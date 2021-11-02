@@ -12,7 +12,7 @@ import com.example.domain.RecipeVO;
 public class RecipeDAOImpl implements RecipeDAO {
 	@Autowired
 	SqlSession session;
-	String namespace="com.example.mapper.MysqlMapper";
+	String namespace="com.example.mapper.RecipeMapper";
 	
 	@Override
 	public List<RecipeVO> list() {
