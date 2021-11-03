@@ -39,6 +39,7 @@ public class InfoController {
 	public String noticeInsert() {
 		return "/info/notice_insert";
 	}
+	
 	//공지사항 입력
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.POST)
 	public String noticeInsertPost(NoticeVO vo){
@@ -46,6 +47,7 @@ public class InfoController {
 		ndao.insert(vo);
 		return "/info/notice_list";
 	}
+	
 	//공지사항 삭제
 	@RequestMapping(value = "/notice/delete", method = RequestMethod.POST)
 	public void noticeDelete(int nb_no){

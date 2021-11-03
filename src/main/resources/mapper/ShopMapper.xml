@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.ShopMapper">
  	<select id="prod_list" resultType="hashmap">
- 		select * from tbl_shop_product
+ 		select *, format(prod_normalprice, 0) prod_normalprice_f from tbl_shop_product
  		<if test="keyword != null">
  			where prod_name like concat("%", #{keyword}, "%") || prod_detail like concat("%", #{keyword}, "%")
  		</if>
@@ -28,10 +28,13 @@
 		values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image})
  	</insert>
  	<update id="prod_update">
- 		update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}
+ 		update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, prod_saleprice=#{prod_saleprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}
  		where prod_id=#{prod_id}
  	</update>
  	<select id="prod_maxID" resultType="String">
  		select max(prod_id) from tbl_shop_product
+ 	</select>
+ 	<select id="prod_delete">
+ 		delete from tbl_shop_product where prod_id = #{prod_id}
  	</select>
 </mapper>
