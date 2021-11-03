@@ -23,6 +23,15 @@
 		<input type="text" name="prod_saleprice" placeholder="세일 가격" />
 		<input type="text" name="prod_detail" placeholder="간단한 소개 " />
 	</div>
+	<div>
+		<input type="text" name="prod_cap" placeholder="상품 중량" />
+		<input type="text" name="prod_mfd" placeholder="제조일자" />
+		<input type="text" name="prod_exp" placeholder="유통기한" />
+	</div>
+	<div>
+		<img src="http://placehold.it/300x300" id="photo" />
+		<input type="file" name="p_file" />
+	</div>
 	<input type="submit" value="등록" />
 </form>
 <script>
@@ -35,6 +44,17 @@
 	$(frm.file).on("change", function() {
 		var file = $(frm.file)[0].files[0];
 		$("#image").attr("src", URL.createObjectURL(file));
+	});
+	
+	//상세 이미지
+	$("#photo").on("click", function() {
+		$(frm.p_file).click();
+	});
+
+	//이미지 미리보기
+	$(frm.p_file).on("change", function() {
+		var file = $(frm.p_file)[0].files[0];
+		$("#photo").attr("src", URL.createObjectURL(file));
 	});
 	
 	$(frm).on("submit", function(e){
