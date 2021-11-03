@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.BoardMapper">
+ 	<select id="list" resultType="com.example.domain.BoardVO">
+ 		select * from tbl_board
+ 		order by fb_no desc;
+ 	</select>
+ 	<insert id="insert">
+ 		insert into tbl_board(fb_title,fb_content,fb_writer,fb_image,fb_category)
+		values(#{fb_title},#{fb_content},#{fb_writer},#{fb_image},#{fb_category})
+ 	</insert>
+ 	<insert id="attachInsert">
+		insert into tbl_board_attach(fb_ano,fb_bno)
+		values(#{image},#{fb_no})
+	</insert>
+ 	
+ 	<select id="read" resultType="com.example.domain.BoardVO">
+ 		select * from tbl_board
+ 		where fb_no = #{fb_no}
+ 	</select>
+ 	<update id="update">
+ 		update tbl_board set fb_title=#{fb_title}, fb_content=#{fb_content},
+ 		fb_image=#{fb_image}
+ 		where fb_no = #{fb_no}
+ 	</update>
+ 	<select id="maxNo" resultType="int">
+		select max(fb_no) from tbl_board
+	</select>
+</mapper>
