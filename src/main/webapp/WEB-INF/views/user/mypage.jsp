@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <style>
 	
 	#menu{float:left;}
@@ -22,7 +22,7 @@
 <h3>MY PAGE</h3>
 <h4>마이 페이지</h4>
 
-<h1>OOO님 반가워요!</h1>
+<h1>${uid}님 반가워요!</h1>
 <div style="border-bottom:4px solid black;"></div>
 <div style="overflow:hidden; width:80%; margin:0 auto;">
 	<div id="menu">

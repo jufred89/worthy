@@ -57,9 +57,17 @@
 				<a href="/board/list">자유게시판</a>
 			</div>
 			<div>|</div>
-      <div><a href="/user/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></div>
-      <div><a href="/user/join"><span class="glyphicon glyphicon-user"></span> Sign Up</a></div>
-      <div><a href="/mypage">Mypage</a></div>
+     		 <c:if test="${uid!=null}">
+					<span style="float:right;">
+						<a href="/mypage?uid=${uid}">${uid}</a>
+						<a href="/user/logout">로그아웃</a>
+					</span>
+			</c:if>
+			<c:if test="${uid==null}">
+					<a href="/user/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+					<a href="/user/join"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+				    <div><a href="/mypage">Mypage</a></div>
+			</c:if>
     </div>
   </div>
 </nav>

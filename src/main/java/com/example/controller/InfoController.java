@@ -23,12 +23,13 @@ public class InfoController {
 	@Autowired
 	RecipeDAO rdao;
 	
-	//°øÁö»çÇ×
+	//ê³µì§€ì‚¬í•­
 	@RequestMapping(value = "/notice/list", method = RequestMethod.GET)
 	public String noticeList() {
 		return "/info/notice_list";
 	}
-	//°øÁö»çÇ× ¸ñ·Ï
+	
+	//ê³µì§€ì‚¬í•­ ëª©ë¡
 	@RequestMapping(value="/nlist.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<NoticeVO> noticeJSON(){
@@ -39,26 +40,29 @@ public class InfoController {
 	public String noticeInsert() {
 		return "/info/notice_insert";
 	}
-	//°øÁö»çÇ× ÀÔ·Â
+	
+	//ê³µì§€ì‚¬í•­ ì…ë ¥
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.POST)
 	public String noticeInsertPost(NoticeVO vo){
 		vo.setnb_writer("admin");
 		ndao.insert(vo);
 		return "/info/notice_list";
 	}
-	//°øÁö»çÇ× »èÁ¦
+	
+	//ê³µì§€ì‚¬í•­ ì‚­ì œ
 	@RequestMapping(value = "/notice/delete", method = RequestMethod.POST)
 	public void noticeDelete(int nb_no){
 		ndao.delete(nb_no);
 	}
-	//°øÁö»çÇ× ÀĞ±â
+	
+	//ê³µì§€ì‚¬í•­ ì½ê¸°
 	@RequestMapping(value = "/notice/read", method = RequestMethod.GET)
 	public String noticeRead(int nb_no, Model model) {
 		model.addAttribute("vo", ndao.read(nb_no));
 		return "/info/notice_read";
 	}
 	
-	//ÆÁ
+	//íŒ
 	@RequestMapping(value = "/tip/list", method = RequestMethod.GET)
 	public String tipList() {
 		return "/info/tip_list";
@@ -74,13 +78,12 @@ public class InfoController {
 		return "/info/tip_read";
 	}
 	
-	//·¹½ÃÇÇ
+	//ë ˆì‹œí”¼ ëª©ë¡
 	@RequestMapping(value = "/recipe/list", method = RequestMethod.GET)
 	public String recipeList() {
 		return "/info/recipe_list";
 	}
 	
-	//·¹½ÃÇÇ ¸ñ·Ï
 	@RequestMapping(value="/rlist.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<RecipeVO> recipeJSON(){
@@ -92,7 +95,7 @@ public class InfoController {
 		return "/info/recipe_insert";
 	}
 	
-	//·¹½ÃÇÇ ÀÔ·Â
+	//ë ˆì‹œí”¼ ì…ë ¥
 	@RequestMapping(value = "/recipe/insert", method = RequestMethod.POST)
 	public String recipeInsertPost(RecipeVO vo){
 		vo.setFi_writer("admin");
@@ -101,7 +104,7 @@ public class InfoController {
 		return "/info/recipe_insert";
 	}
 	
-	//·¹½ÃÇÇ ÀĞ±â
+	//ë ˆì‹œí”¼ ì½ê¸°
 	@RequestMapping(value = "/recipe/read", method = RequestMethod.GET)
 	public String recipeRead(int fi_no, Model model) {
 		model.addAttribute("vo",rdao.read(fi_no));
