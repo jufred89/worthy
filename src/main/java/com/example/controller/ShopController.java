@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
 import com.example.domain.PageMaker;
 import com.example.domain.ShopVO;
@@ -74,7 +75,7 @@ public class ShopController {
 
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
-		pm.setTotalCount(dao.totalCount());
+		pm.setTotalCount(dao.totalCount(cri));
 
 		map.put("pm", pm);
 		return map;
@@ -107,7 +108,7 @@ public class ShopController {
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(ShopVO vo, MultipartHttpServletRequest multi, String oldImage) throws IllegalStateException, IOException{
+	public String update(ShopVO vo, MultipartHttpServletRequest multi, String oldImage) throws Exception {
 		MultipartFile file = multi.getFile("file");
 		
 		System.out.println(oldImage);
