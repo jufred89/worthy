@@ -12,15 +12,6 @@
 #item{
 	margin: 20px;
 }
-#prod_name {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	width: 350px;
-}
-#shop img{
-	border-radius: 10px;
-}
 </style>
 
 <h1>캠핑상점</h1>
@@ -33,7 +24,7 @@
 		<option value="price_desc">높은가격순</option>
 	</select>
 </div>
-<a href="/shop/insert">상품 등록</a>
+<a href="/shop/insert">상품등록 페이지 이동 버튼 위치는 관리자페이지로 옮길 예정</a>
 <div id="shop"></div>
 <script id="temp" type="text/x-handlebars-template">
 	{{#each list}}
@@ -41,7 +32,7 @@
 			<img src="/shop/display?file={{prod_image}}" width="350" height="350"/>
 			<div>
 				<p id="prod_name">{{prod_name}}</p>
-				<p>{{prod_normalprice}}</p>
+				<p>{{prod_normalprice_f}}</p>
 				<p>{{prod_detail}}</p>
 			</div>
 		</div>
