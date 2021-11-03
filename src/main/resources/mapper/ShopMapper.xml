@@ -15,26 +15,46 @@
  		<if test="searchType == 'price_desc'">
  			order by prod_normalprice desc
  		</if>
+ 		limit #{pageStart}, #{perPageNum}
  	</select>
+ 	
  	<select id="prod_read" resultType="com.example.domain.ShopVO">
  		select * from tbl_shop_product
  		where prod_id = #{prod_id}
  	</select>
+ 	
  	<select id="totalCount" resultType="int">
  		select count(*) from tbl_shop_product
+ 		<if test="keyword != null">
+ 			where prod_name like concat("%", #{keyword}, "%") || prod_detail like concat("%", #{keyword}, "%")
+ 		</if>
  	</select>
+ 	
  	<insert id="prod_insert">
  		insert into tbl_shop_product(prod_id, prod_name, prod_comp, prod_normalprice, prod_detail, prod_image)
 		values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image})
  	</insert>
+ 	
  	<update id="prod_update">
  		update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, prod_saleprice=#{prod_saleprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}
  		where prod_id=#{prod_id}
  	</update>
+ 	
  	<select id="prod_maxID" resultType="String">
  		select max(prod_id) from tbl_shop_product
  	</select>
+ 	
  	<select id="prod_delete">
  		delete from tbl_shop_product where prod_id = #{prod_id}
+ 	</select>
+ 	
+ 	<insert id="att_insert">
+ 		insert into tbl_shop_attach(shop_ano, shop_pid)
+ 		values(#{shop_ano}, #{shop_pid})
+ 	</insert>
+ 	
+ 	<select id="attach" resultType="String">
+ 		select * from tbl_shop_attach
+ 		where shop_pid = #{shop_pid}
  	</select>
 </mapper>

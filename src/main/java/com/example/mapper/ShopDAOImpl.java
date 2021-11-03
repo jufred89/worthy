@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
 import com.example.domain.ShopVO;
 
@@ -29,8 +30,8 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 	@Override
-	public int totalCount() {
-		return session.selectOne(namespace + ".totalCount");
+	public int totalCount(Criteria cri) {
+		return session.selectOne(namespace + ".totalCount", cri);
 	}
 
 	@Override
@@ -51,6 +52,16 @@ public class ShopDAOImpl implements ShopDAO{
 	@Override
 	public void prod_delete(String prod_id) {
 		session.delete(namespace + ".prod_delete", prod_id);
+	}
+
+	@Override
+	public String attach(String shop_pid) {
+		return session.selectOne(namespace + ".attach", shop_pid);
+	}
+
+	@Override
+	public void att_insert(AttachVO vo) {
+		session.insert(namespace + ".att_insert", vo);
 	}
 
 }

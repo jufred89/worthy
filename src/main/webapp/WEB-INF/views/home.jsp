@@ -51,7 +51,7 @@
 				<a href="/info/notice/list">캠핑정보 </a>
 			</div>
 			<div>
-				<a href="/shop/list">캠핑상점 </a>
+				<a href="/shop">캠핑상점 </a>
 			</div>
 			<div>
 				<a href="/board/list">자유게시판</a>
@@ -62,11 +62,11 @@
 						<a href="/mypage?uid=${uid}">${uid}</a>
 						<a href="/user/logout">로그아웃</a>
 					</span>
+				    <div><a href="/mypage">Mypage</a></div>
 			</c:if>
 			<c:if test="${uid==null}">
 					<a href="/user/login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
 					<a href="/user/join"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
-				    <div><a href="/mypage">Mypage</a></div>
 			</c:if>
     </div>
   </div>
