@@ -13,4 +13,5 @@ public interface ShopDAO {
 	public void prod_insert(ShopVO vo);
 	public void prod_update(ShopVO vo);
 	public String prod_maxID();
+	public void prod_delete(String prod_id);
 }
