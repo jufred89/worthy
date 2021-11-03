@@ -17,6 +17,7 @@ import com.example.mapper.UserDAO;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
 	@Autowired
 	UserDAO udao;
 	
@@ -25,7 +26,7 @@ public class UserController {
 	 session.invalidate();
 	 return "redirect:/";
 	}
-	
+
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String userJoin() {
 		return "/user/join";
@@ -36,12 +37,13 @@ public class UserController {
 		model.addAttribute("pageName", "login.jsp");
 		return "/user/login";
 	}
-	
+
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String userMypage() {
 		
 		return "/user/mypage";
 	}
+
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	@ResponseBody
 	public int loginPost(String uid, String upass, HttpSession session, boolean isLogin, HttpServletResponse response){
