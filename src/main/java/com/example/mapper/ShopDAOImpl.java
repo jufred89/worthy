@@ -48,4 +48,9 @@ public class ShopDAOImpl implements ShopDAO{
 		return session.selectOne(namespace + ".prod_maxID");
 	}
 
+	@Override
+	public void prod_delete(String prod_id) {
+		session.delete(namespace + ".prod_delete", prod_id);
+	}
+
 }
