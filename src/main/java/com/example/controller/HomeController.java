@@ -46,6 +46,7 @@ public class HomeController {
 		return "home";
 	}
 
+<<<<<<< HEAD
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.GET)
 	public String noticeInsert(Model model) {
 		model.addAttribute("pageName", "info/notice_insert.jsp");
@@ -69,6 +70,12 @@ public class HomeController {
 	@RequestMapping(value = "/recipe/list", method = RequestMethod.GET)
 	public String recipeList(Model model) {
 		model.addAttribute("pageName", "info/recipe_list.jsp");
+=======
+
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	public String info(Model model) {
+		model.addAttribute("pageName", "info.jsp");
+>>>>>>> a5bd56885ef774485a075d0122f678efd122802f
 		return "home";
 	}
 

@@ -5,7 +5,8 @@
 }
 
 #header {
-	height: 60px;
+	height:50px;
+	position:sticky;
 }
 
 #header div {
@@ -25,9 +26,15 @@
 
 #header div:nth-child(3) {
 	justify-content: right;
+	height: 60px;
 }
-
-#search div {
+.container-fluid{
+	background:white;
+}
+.navbar{
+	border:none;
+}
+#menus div {
 	margin-right: 20px;
 }
 
@@ -35,9 +42,29 @@
 	position: relative;
 }
 
-.modal-body input {
-	position: absolute;
-	width: 50%;
-	left: 25%;
-	top: 50px;
+ul{
+	
+	display:flex;
+	list-style: none;
+	justify-content:left;
+
+	flex-flow:row wrap;
+	padding:0px;
+	padding-left:34px;
+}
+ul li{
+	width:100px;
+	height:50px;
+	display:inline-block;
+		display:flex;
+			justify-content:center;
+			align-items:center;
+}
+ul li:hover{
+background:black;
+color:white;
+
+}
+hr{
+	border:1px solid lightgray;
 }
