@@ -3,6 +3,7 @@ package com.example.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.example.domain.BoardReplyVO;
 import com.example.domain.BoardVO;
+import com.example.domain.Criteria;
+import com.example.domain.PageMaker;
 import com.example.mapper.BoardDAO;
 import com.example.mapper.BoardService;
 
@@ -42,9 +46,10 @@ public class BoardController {
 	   in.close();
 	   return image;
 	}
-
-	 
+ 
 	
+	
+	//----------------------------게시판---------------------------
 	//자유게시판 목록 페이지 이동
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String boardList(Model model) {
@@ -104,7 +109,7 @@ public class BoardController {
 		
 		service.insert(vo);
 
-		return "redirect:/";
+		return "redirect:/board/list";
 	}
 	
 	
@@ -112,10 +117,90 @@ public class BoardController {
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public String boardRead(Model model, int fb_no) {
 		model.addAttribute("pageName","board/read.jsp");
-		model.addAttribute("vo",dao.read(fb_no));
+		model.addAttribute("vo",service.read(fb_no));
+		model.addAttribute("attList",dao.attachList(fb_no));
+		
 		return "home";
 	}
 	
 	//자유게시판 글수정
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public String update(BoardVO vo, String oldImage, MultipartHttpServletRequest multi) throws Exception{
+		MultipartFile file = multi.getFile("file");
+		
+		if(!file.isEmpty()){  //이미지가 바뀐경우
+			new File(path+"/"+vo.getFb_image()).delete();
+			String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+			file.transferTo(new File(path+"/"+image));
+			vo.setFb_image(image);
+		}else{
+			vo.setFb_image(oldImage);
+		}
+		//System.out.println(vo.toString());
+		dao.update(vo);
+		return "redirect:/board/list";
+	}
 	
+	//자유게시판 글삭제
+	@RequestMapping(value="/delete",method=RequestMethod.POST)
+	public String deletePost(int fb_no){
+		
+		File folder = new File(path+"/"+fb_no);
+		File[] files = folder.listFiles();
+
+           for(File file : files){
+               file.delete(); // 하위 파일 삭제
+           }
+        
+		//폴더자체를 삭제
+		new File(path+"/"+fb_no).delete();
+		
+		//게시글테이블, 첨부파일테이블 삭제
+		service.delete(fb_no);
+		return "redirect:list";
+	}
+	
+	
+	//----------------------------첨부파일---------------------------
+	//자유게시판 첨부파일 추가
+	@RequestMapping(value="/attInsert",method=RequestMethod.POST)
+	@ResponseBody
+	public String attInsert(int fb_no, MultipartFile file) throws Exception{
+		//첨부파일 업로드
+		File attPath = new File(path+"/"+fb_no);
+		if(!attPath.exists()) attPath.mkdir();
+		String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+		file.transferTo(new File(path+"/"+fb_no +"/"+image));
+
+		//첨부데이터 입력
+		dao.insertAttach(image, fb_no);
+		return image;
+	}
+	
+	//자유게시판 첨부파일 삭제
+	@RequestMapping(value="/attDelete",method=RequestMethod.POST)
+	@ResponseBody
+	public void attDelete(String image, int fb_no) throws Exception{
+		new File(path+"/"+fb_no+"/"+image).delete();
+		dao.deleteAttach(image);
+	}
+	
+	
+	
+	//----------------------------댓글---------------------------
+	//자유게시판 댓글 리스트 불러오기
+	@RequestMapping("/reply.json")
+	@ResponseBody
+	public List<BoardReplyVO> replyList(int fb_bno){
+		return dao.replyList(fb_bno);
+	}
+
+	
+	//자유게시판 댓글 추가 
+	@RequestMapping(value="/replyInsert",method=RequestMethod.POST)
+	@ResponseBody
+	public void replyInsert(BoardReplyVO vo){
+		dao.replyInsert(vo);
+	}
+
 }

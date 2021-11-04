@@ -23,4 +23,18 @@ public class BoardServiceImpl implements BoardService{
 			dao.insertAttach(image, vo.getFb_no());
 		}
 	}
+
+	@Transactional
+	@Override
+	public void delete(int fb_no) {
+		dao.deleteAttachAll(fb_no);
+		dao.delete(fb_no);
+	} 
+
+	@Transactional
+	@Override
+	public BoardVO read(int fb_no) {
+		dao.updateView(fb_no);
+		return dao.read(fb_no);
+	}
 }

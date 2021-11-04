@@ -10,6 +10,7 @@
 	#desc ul{list-style: none; margin-right:30px;}
 	#desc ul li{display: inline-block; margin-left:10px;}
 	#tbl_board{width:900px; margin:20px auto;}
+	td{ border:1px solid black; padding:10px 20px;}
 </style>
 <h1>FreeBoard</h1>
 <a href="/board/insert">글 등록</a>
@@ -36,16 +37,16 @@
 <table id="tbl_board"></table>
 <script id="temp" type="text/x-handlebars-template">
 	<tr>
-		<th>No.</th>
+		<th width=50>No.</th>
 		<th>카테고리</th>
 		<th>제목</th>
 		<th>작성자</th>
 		<th>작성일</th>
-		<th>좋아요</th>
-		<th>조회수</th>
+		<th width=50>좋아요</th>
+		<th width=50>조회수</th>
 	</tr>
 	{{#each .}}
-	<tr class="row" onClick="location.href='/board/read?fb_no={{fb_no}}'">
+	<tr class="rows" onClick="location.href='/board/read?fb_no={{fb_no}}'">
 		<td>{{fb_no}}</td>
 		<td>{{fb_category}}</td>
 		<td>{{fb_title}}</td>
