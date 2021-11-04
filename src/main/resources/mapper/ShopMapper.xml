@@ -53,8 +53,29 @@
  		values(#{shop_ano}, #{shop_pid})
  	</insert>
  	
- 	<select id="attach" resultType="String">
+ 	<select id="attach" resultType="com.example.domain.AttachVO">
  		select * from tbl_shop_attach
  		where shop_pid = #{shop_pid}
+ 	</select>
+ 	
+ 	<select id="att_update">
+ 		update tbl_shop_attach set shop_ano = #{shop_ano}
+ 		where shop_pid = #{shop_pid}
+ 	</select>
+ 	
+ 	<select id="pre_list" resultType="HashMap">
+ 		select * from tbl_shop_preview
+ 		where prod_rid = #{prod_rid}
+ 		order by prod_rno desc
+ 	</select>
+ 	
+ 	<insert id="pre_insert">
+ 		insert into tbl_shop_preview(prod_ruid, prod_rstar, prod_review, prod_rid)
+		values(#{prod_ruid}, #{prod_rstar}, #{prod_review}, #{prod_rid})
+ 	</insert>
+ 	
+ 	<select id="pre_totalCount" resultType="int">
+ 		select count(*) from tbl_shop_preview
+ 		where prod_rid = #{prod_id}
  	</select>
 </mapper>

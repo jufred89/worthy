@@ -20,20 +20,13 @@
 <div id="condition">
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
 	<span id="total"></span> 
-<!-- 
-	<select id="searchType">
-		<option value="desc">최신순</option>
-		<option value="price">낮은가격순</option>
-		<option value="price_desc">높은가격순</option>
-	</select>
- -->
 	<div id="searchType">
 		<a href="desc" class="on">최신순</a>
 		<a href="price">낮은가격순</a>
 		<a href="price_desc">높은가격순</a>
 	</div>
 	<select id="perPageNum">
-		<option value="9">9개씩 보기</option>
+		<option value="3">3개씩 보기</option>
 		<option value="18">18개씩 보기</option>
 		<option value="36">36개씩 보기</option>
 	</select>
@@ -57,14 +50,8 @@
 <script>
 	var page = 1;
 	getList();
-		
-	//select박스 정렬순서
-//	$("#searchType").on("change", function() {
-//		page = 1;
-//		getList();
-//	});
 	
-	//a태그 정렬순서
+	//정렬 순서
 	$("#searchType a").on("click", function(e){
 		e.preventDefault();
 		
@@ -95,7 +82,6 @@
 	function getList() {
 		
 		var keyword = $("#keyword").val();
-//		var searchType = $("#searchType").val();
 		var searchType = $(".on").attr("href");
 		var perPageNum = $("#perPageNum").val();	
 

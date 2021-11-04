@@ -24,6 +24,17 @@
 		<input type="text" name="prod_saleprice" value="${vo.prod_saleprice}" />
 		<input type="text" name="prod_detail" value="${vo.prod_detail}" />
 	</div>
+	<div>
+		<input type="text" name="prod_cap" placeholder="상품 중량" />
+		<input type="text" name="prod_mfd" placeholder="제조일자" />
+		<input type="text" name="prod_exp" placeholder="유통기한" />
+	</div>
+	<div>
+		<img src="/shop/display?file=${avo.shop_ano}" id="photo" />
+		<input type="file" name="att_file" />
+		<input type="hidden" name="shop_pid" value="${vo.prod_id}" />
+		<input type="hidden" name="att_oldImage" value="${avo.shop_ano}" />
+	</div>
 	<input type="submit" value="수정" />
 </form>
 <script>
@@ -36,6 +47,17 @@
 	$(frm.file).on("change", function() {
 		var file = $(frm.file)[0].files[0];
 		$("#image").attr("src", URL.createObjectURL(file));
+	});
+	
+	//상세 이미지
+	$("#photo").on("click", function() {
+		$(frm.att_file).click();
+	});
+
+	//이미지 미리보기
+	$(frm.att_file).on("change", function() {
+		var file = $(frm.att_file)[0].files[0];
+		$("#photo").attr("src", URL.createObjectURL(file));
 	});
 	
 	$(frm).on("submit", function(e){

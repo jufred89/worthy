@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
 import com.example.domain.ShopVO;
+import com.example.domain.Shop_previewVO;
 
 @Repository
 public class ShopDAOImpl implements ShopDAO{
@@ -55,13 +56,36 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 	@Override
-	public String attach(String shop_pid) {
+	public AttachVO attach(String shop_pid) {
 		return session.selectOne(namespace + ".attach", shop_pid);
 	}
 
 	@Override
-	public void att_insert(AttachVO vo) {
-		session.insert(namespace + ".att_insert", vo);
+	public void att_insert(AttachVO avo) {
+		session.insert(namespace + ".att_insert", avo);
+	}
+
+	@Override
+	public void att_update(AttachVO avo) {
+		session.update(namespace + ".att_update", avo);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> pre_list(Criteria cri, String prod_rid) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("prod_rid", prod_rid);
+		map.put("cri", cri);
+		return session.selectList(namespace + ".pre_list", map);
+	}
+
+	@Override
+	public void pre_insert(Shop_previewVO pvo) {
+		session.insert(namespace + ".pre_insert", pvo);
+	}
+
+	@Override
+	public int pre_totalCount(String prod_rid) {
+		return session.selectOne(namespace + ".pre_totalCount", prod_rid);
 	}
 
 }
