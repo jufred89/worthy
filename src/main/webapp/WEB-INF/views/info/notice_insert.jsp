@@ -9,7 +9,7 @@
 	<textarea rows="30" cols="100" name="nb_content" placeholder="내용을 입력하세요"></textarea>
 	<hr/>
 	<input type="submit" value="공지등록"/>
-	<input type="reset" value="등록취소" onClick="location.href='/info/notice/list'"/>
+	<input type="reset" value="등록취소" onClick="location.href='/notice/list'"/>
 </form>
 <script>
 	$(frm).on("submit",function(e){
@@ -23,9 +23,12 @@
 			return;
 		}
 		if(!confirm("공지사항을 등록 하시겠습니까?")) return;
-		frm.action="/info/notice/insert";
-		frm.method="post";
-		frm.submit();
-		location.href="/info/notice/list";	
+		$.ajax({
+			type:"post",
+			url:"/notice/insert",
+			data:{"nb_title":nb_title,"nb_content":nb_content},
+			success:function(){}
+		});
+		location.href="/notice/list";	
 	});	
 </script>

@@ -1,5 +1,6 @@
 package com.example.controller;
 
+
 import java.util.Locale;
 
 import org.springframework.stereotype.Controller;
@@ -31,13 +32,6 @@ public class HomeController {
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String join(Model model) {
 		model.addAttribute("pageName", "user/join.jsp");
-		return "home";
-	}
-
-
-	@RequestMapping(value = "/info", method = RequestMethod.GET)
-	public String info(Model model) {
-		model.addAttribute("pageName", "info.jsp");
 		return "home";
 	}
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.TipMapper">
+ 	<select id="list" resultType="com.example.domain.TipVO">
+ 		select * from tbl_information_tip
+ 		order by tip_no desc
+ 	</select>
+ 	<select id="read" resultType="com.example.domain.TipVO">
+ 		select * from tbl_information_tip
+ 		where tip_no=#{tip_no}
+ 	</select>
+ 	<insert id="insert">
+ 		insert into tbl_information_tip(tip_title,tip_content,tip_writer)
+ 		values(#{tip_title},#{tip_content},#{tip_writer})
+ 	</insert>
+ 	<delete id="delete">
+ 		delete from tbl_information_tip
+ 		where tip_no=#{tip_no}
+ 	</delete>
+</mapper>

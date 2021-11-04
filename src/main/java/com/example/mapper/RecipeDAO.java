@@ -9,4 +9,5 @@ public interface RecipeDAO {
 	public RecipeVO read(int fi_no);
 	public void insert(RecipeVO vo);
 	public void delete(int fi_no);
+	public void update(int fi_no);
 }

@@ -13,7 +13,11 @@ public class RecipeVO {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
 	private Date fi_regdate;
 	
-	
+	@Override
+	public String toString() {
+		return "RecipeVO [fi_no=" + fi_no + ", fi_title=" + fi_title + ", fi_content=" + fi_content + ", fi_writer="
+				+ fi_writer + ", fi_image=" + fi_image + ", fi_regdate=" + fi_regdate + "]";
+	}
 	public int getFi_no() {
 		return fi_no;
 	}
@@ -49,12 +53,5 @@ public class RecipeVO {
 	}
 	public void setFi_regdate(Date fi_regdate) {
 		this.fi_regdate = fi_regdate;
-	}
-	@Override
-	public String toString() {
-		return "RecipeVO [fi_no=" + fi_no + ", fi_title=" + fi_title + ", fi_content=" + fi_content + ", fi_writer="
-				+ fi_writer + ", fi_image=" + fi_image + ", fi_regdate=" + fi_regdate + "]";
-	}
-	
-	
+	}	
 }

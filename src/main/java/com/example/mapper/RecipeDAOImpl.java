@@ -12,7 +12,7 @@ import com.example.domain.RecipeVO;
 public class RecipeDAOImpl implements RecipeDAO {
 	@Autowired
 	SqlSession session;
-	String namespace="com.example.mapper.MysqlMapper";
+	String namespace="com.example.mapper.RecipeMapper";
 	
 	@Override
 	public List<RecipeVO> list() {
@@ -34,4 +34,9 @@ public class RecipeDAOImpl implements RecipeDAO {
 		session.delete(namespace + ".delete", fi_no);
 	}
 
+	@Override
+	public void update(int fi_no) {
+		session.update(namespace + ".update", fi_no);
+		
+	}
 }
