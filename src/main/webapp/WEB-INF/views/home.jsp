@@ -48,7 +48,7 @@
 				<a data-toggle="modal" href="#myModal3">태마검색 </a>
 			</div>
 			<div>
-				<a href="/info/notice/list">캠핑정보 </a>
+				<a href="/notice/list">캠핑정보 </a>
 			</div>
 			<div>
 				<a href="/shop">캠핑상점 </a>

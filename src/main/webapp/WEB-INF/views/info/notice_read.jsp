@@ -16,5 +16,6 @@
 <div id="divRead">
 	<h3>${vo.nb_no} . ${vo.nb_title}</h3>
 	<div>${fn:replace(vo.nb_content, replaceChar, "<br/>")}</div>
-	<button id="list" onClick="location.href='/info/notice/list'">목록</button>
+	
+	<button id="list" onClick="location.href='/notice/list'">목록</button>
 </div>

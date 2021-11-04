@@ -14,6 +14,10 @@
 		float:right;
 		margin:15px;
 	}
+	#update{
+		float:right;
+		margin:15px;
+	}
 </style>
 <h1>레시피 읽기</h1>
 <div id="divRead">
@@ -21,6 +25,6 @@
 		<img src="http://placehold.it/300x300"/><h3>${vo.fi_no} : ${vo.fi_title}</h3>
 		<div>${fn:replace(vo.fi_content, replaceChar, "<br/>")}</div>
 	</div>
-	<button id="list" onClick="location.href='/info/recipe/list'">목록</button>
-	
+	<button id="list" onClick="location.href='/recipe/list'">목록</button>
+	<button id="update" onClick="location.href='/recipe/update?fi_no=${vo.fi_no}'">수정</button>
 </div>

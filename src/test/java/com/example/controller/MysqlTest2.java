@@ -10,16 +10,17 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import com.example.mapper.MysqlMapper;
 import com.example.mapper.NoticeDAO;
 import com.example.mapper.RecipeDAO;
+import com.example.mapper.TipDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class) //먼저 SpringJUnit4ClassRunner.class import한다. 
 @ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
 public class MysqlTest2 {
 
 	@Autowired
-	private RecipeDAO mapper;
+	private TipDAO mapper;
 
 	@Test
 	public void getTime() { 
-		mapper.list(); 
+		mapper.list();
 	}
 }

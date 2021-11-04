@@ -11,25 +11,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.domain.NoticeVO;
 import com.example.domain.RecipeVO;
+import com.example.domain.TipVO;
 import com.example.mapper.NoticeDAO;
 import com.example.mapper.RecipeDAO;
+import com.example.mapper.TipDAO;
 
 @Controller
-@RequestMapping("/info")
 public class InfoController {
 	@Autowired
 	NoticeDAO ndao;
-	
 	@Autowired
 	RecipeDAO rdao;
+	@Autowired
+	TipDAO tdao;
 	
 	//공지사항
 	@RequestMapping(value = "/notice/list", method = RequestMethod.GET)
-	public String noticeList() {
-		return "/info/notice_list";
+	public String noticeList(Model model) {
+		model.addAttribute("pageName", "info/notice_list.jsp");
+		return "home";
 	}
-	
-	//공지사항 목록
+	//공지사항 JSON
 	@RequestMapping(value="/nlist.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<NoticeVO> noticeJSON(){
@@ -37,8 +39,9 @@ public class InfoController {
 	}
 	
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.GET)
-	public String noticeInsert() {
-		return "/info/notice_insert";
+	public String noticeInsert(Model model) {
+		model.addAttribute("pageName", "info/notice_insert.jsp");
+		return "home";
 	}
 	
 	//공지사항 입력
@@ -59,40 +62,71 @@ public class InfoController {
 	@RequestMapping(value = "/notice/read", method = RequestMethod.GET)
 	public String noticeRead(int nb_no, Model model) {
 		model.addAttribute("vo", ndao.read(nb_no));
-		return "/info/notice_read";
+		model.addAttribute("pageName","info/notice_read.jsp");
+		return "home";
 	}
 	
-	//팁
+	//팁 목록
 	@RequestMapping(value = "/tip/list", method = RequestMethod.GET)
-	public String tipList() {
-		return "/info/tip_list";
+	public String tipList(Model model) {
+		model.addAttribute("pageName", "info/tip_list.jsp");
+		return "home";
 	}
+	
+	//팁JSON
+	@RequestMapping(value="/tlist.json", method = RequestMethod.GET)
+	@ResponseBody
+	public List<TipVO> tipJSON(){
+		return tdao.list();
+	}	
 	
 	@RequestMapping(value = "/tip/insert", method = RequestMethod.GET)
-	public String tipInsert() {
+	public String tipInsert(Model model) {
+		model.addAttribute("pageName", "info/tip_insert.jsp");
+		return "home";
+	}
+	
+	//팁 입력
+	@RequestMapping(value = "/tip/insert", method = RequestMethod.POST)
+	public String tipInsertPost(TipVO vo){
+		vo.setTip_writer("admin");
+		vo.setTip_image("none");
+		tdao.insert(vo);
 		return "/info/tip_insert";
 	}
 	
+	//팁 읽기
 	@RequestMapping(value = "/tip/read", method = RequestMethod.GET)
-	public String tipRead() {
-		return "/info/tip_read";
+	public String tipRead(int tip_no, Model model) {
+		model.addAttribute("vo", tdao.read(tip_no));
+		model.addAttribute("pageName", "info/tip_read.jsp");
+		return "home";
 	}
 	
-	//레시피 목록
+	//팁 삭제
+	@RequestMapping(value = "/tip/delete", method = RequestMethod.POST)
+	public void tipDelete(int tip_no){
+		tdao.delete(tip_no);
+	}
+	
+	//레시피
 	@RequestMapping(value = "/recipe/list", method = RequestMethod.GET)
-	public String recipeList() {
-		return "/info/recipe_list";
+	public String recipeList(Model model) {
+		model.addAttribute("pageName", "info/recipe_list.jsp");
+		return "home";
 	}
 	
+	//레시피 JSON
 	@RequestMapping(value="/rlist.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<RecipeVO> recipeJSON(){
 		return rdao.list();
 	}
-	
+
 	@RequestMapping(value = "/recipe/insert", method = RequestMethod.GET)
-	public String recipeInsert() {
-		return "/info/recipe_insert";
+	public String recipeInsert(Model model) {
+		model.addAttribute("pageName", "info/recipe_insert.jsp");
+		return "home";
 	}
 	
 	//레시피 입력
@@ -108,11 +142,25 @@ public class InfoController {
 	@RequestMapping(value = "/recipe/read", method = RequestMethod.GET)
 	public String recipeRead(int fi_no, Model model) {
 		model.addAttribute("vo",rdao.read(fi_no));
-		return "/info/recipe_read";
+		model.addAttribute("pageName","info/recipe_read.jsp");
+		return "home";
 	}
 
+	//레시피 삭제
 	@RequestMapping(value = "/recipe/delete", method = RequestMethod.POST)
 	public void recipeDelete(int fi_no){
 		rdao.delete(fi_no);
+	}
+	
+	@RequestMapping(value = "/recipe/update", method = RequestMethod.GET)
+	public String recipeUpdate(int fi_no, Model model){
+		model.addAttribute("pageName", "info/recipe_update.jsp");
+		return "home";
+	}
+	
+	//레시피 수정
+	@RequestMapping(value = "/recipe/update", method = RequestMethod.POST)
+	public void recipeUpdatePost(int fi_no){
+		rdao.update(fi_no);
 	}
 }
