@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CampingMapper">
+ 	<select id="campList" resultType="com.example.domain.CampingVO">
+ 		select * from tbl_camp_list limit 0,10
+ 	</select>
+ 	<select id="campRead" resultType="com.example.domain.CampingVO">
+ 		select * from tbl_camp_list where camp_id=#{camp_id}
+ 	</select>
+ 	<select id="campStyleRead" resultType="com.example.domain.CampingVO">
+ 		select camp_id,style_name,style_qty from tbl_camp_style as cs, tbl_style_name as sn
+		where cs.style_no = sn.style_no and camp_id=#{camp_id};
+ 	</select>
+ 	<select id="campFacilityRead" resultType="com.example.domain.CampingVO">
+		select camp_id,facility_name from tbl_camp_facility as cf, tbl_facility_name as fn
+		where cf.facility_no = fn.facility_no and camp_id=#{camp_id};
+ 	</select>
+</mapper>

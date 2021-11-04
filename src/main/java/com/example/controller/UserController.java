@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.WebUtils;
 
 import com.example.domain.UserVO;
 import com.example.mapper.UserDAO;
@@ -22,7 +24,18 @@ public class UserController {
 	UserDAO udao;
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session,HttpServletRequest request,HttpServletResponse response) {
+	 
+	 // 쿠키 삭제
+	 Cookie cookie = WebUtils.getCookie(request, "uid");
+	 String uid = cookie.getValue();
+	 if(uid!=null){
+		 cookie.setPath("/");
+		 cookie.setMaxAge(0);
+		 response.addCookie(cookie);
+	 }
+	 
+	 // 세션초기화
 	 session.invalidate();
 	 return "redirect:/";
 	}
