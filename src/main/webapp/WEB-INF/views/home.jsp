@@ -48,11 +48,7 @@
 				<a data-toggle="modal" href="#myModal3">태마검색 </a>
 			</div>
 			<div>
-<<<<<<< HEAD
 				<a href="/notice/list">캠핑정보 </a>
-=======
-				<a href="/info/notice/list">캠핑정보 </a>
->>>>>>> a5bd56885ef774485a075d0122f678efd122802f
 			</div>
 			<div>
 				<a href="/shop">캠핑상점 </a>
@@ -206,7 +202,7 @@
 				</div>
 			</div>
 			<!-- 모달창2끝 -->
-			
+
 			<jsp:include page="${pageName}"></jsp:include>
 		</div>
 	</div>

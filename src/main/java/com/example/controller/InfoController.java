@@ -20,139 +20,147 @@ import com.example.mapper.TipDAO;
 public class InfoController {
 	@Autowired
 	NoticeDAO ndao;
-	
 	@Autowired
 	RecipeDAO rdao;
-
 	@Autowired
 	TipDAO tdao;
 	
-<<<<<<< HEAD
-	//∞¯¡ˆªÁ«◊ ∏Ò∑œ JSON
-=======
 	//Í≥µÏßÄÏÇ¨Ìï≠
 	@RequestMapping(value = "/notice/list", method = RequestMethod.GET)
-	public String noticeList() {
-		return "/info/notice_list";
+	public String noticeList(Model model) {
+		model.addAttribute("pageName", "info/notice_list.jsp");
+		return "home";
 	}
-	
-	//Í≥µÏßÄÏÇ¨Ìï≠ Î™©Î°ù
->>>>>>> a5bd56885ef774485a075d0122f678efd122802f
+	//Í≥µÏßÄÏÇ¨Ìï≠ JSON
 	@RequestMapping(value="/nlist.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<NoticeVO> noticeJSON(){
 		return ndao.list();
 	}
 	
-<<<<<<< HEAD
-	//∞¯¡ˆªÁ«◊ ¿‘∑¬
-	@RequestMapping(value = "/ninsert", method = RequestMethod.POST)
-=======
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.GET)
-	public String noticeInsert() {
-		return "/info/notice_insert";
+	public String noticeInsert(Model model) {
+		model.addAttribute("pageName", "info/notice_insert.jsp");
+		return "home";
 	}
 	
 	//Í≥µÏßÄÏÇ¨Ìï≠ ÏûÖÎ†•
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.POST)
->>>>>>> a5bd56885ef774485a075d0122f678efd122802f
 	public String noticeInsertPost(NoticeVO vo){
 		vo.setnb_writer("admin");
 		ndao.insert(vo);
-		return "/notice_list";
+		return "/info/notice_list";
 	}
 	
-<<<<<<< HEAD
-	//∞¯¡ˆªÁ«◊ ªË¡¶
-=======
 	//Í≥µÏßÄÏÇ¨Ìï≠ ÏÇ≠Ï†ú
->>>>>>> a5bd56885ef774485a075d0122f678efd122802f
 	@RequestMapping(value = "/notice/delete", method = RequestMethod.POST)
 	public void noticeDelete(int nb_no){
 		ndao.delete(nb_no);
 	}
 	
-<<<<<<< HEAD
-	//∞¯¡ˆªÁ«◊ ¿–±‚
-=======
 	//Í≥µÏßÄÏÇ¨Ìï≠ ÏùΩÍ∏∞
->>>>>>> a5bd56885ef774485a075d0122f678efd122802f
 	@RequestMapping(value = "/notice/read", method = RequestMethod.GET)
 	public String noticeRead(int nb_no, Model model) {
 		model.addAttribute("vo", ndao.read(nb_no));
-		model.addAttribute("pageName", "info/notice_read.jsp");
+		model.addAttribute("pageName","info/notice_read.jsp");
 		return "home";
 	}
 	
-<<<<<<< HEAD
-	//∆¡ ∏Ò∑œ
+	//ÌåÅ Î™©Î°ù
+	@RequestMapping(value = "/tip/list", method = RequestMethod.GET)
+	public String tipList(Model model) {
+		model.addAttribute("pageName", "info/tip_list.jsp");
+		return "home";
+	}
+	
+	//ÌåÅJSON
 	@RequestMapping(value="/tlist.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<TipVO> tipJSON(){
 		return tdao.list();
-=======
-	//ÌåÅ
-	@RequestMapping(value = "/tip/list", method = RequestMethod.GET)
-	public String tipList() {
-		return "/info/tip_list";
-	}
+	}	
 	
 	@RequestMapping(value = "/tip/insert", method = RequestMethod.GET)
-	public String tipInsert() {
-		return "/info/tip_insert";
->>>>>>> a5bd56885ef774485a075d0122f678efd122802f
+	public String tipInsert(Model model) {
+		model.addAttribute("pageName", "info/tip_insert.jsp");
+		return "home";
 	}
 	
+	//ÌåÅ ÏûÖÎ†•
+	@RequestMapping(value = "/tip/insert", method = RequestMethod.POST)
+	public String tipInsertPost(TipVO vo){
+		vo.setTip_writer("admin");
+		vo.setTip_image("none");
+		tdao.insert(vo);
+		return "/info/tip_insert";
+	}
+	
+	//ÌåÅ ÏùΩÍ∏∞
 	@RequestMapping(value = "/tip/read", method = RequestMethod.GET)
-	public String tipRead(Model model) {
+	public String tipRead(int tip_no, Model model) {
+		model.addAttribute("vo", tdao.read(tip_no));
 		model.addAttribute("pageName", "info/tip_read.jsp");
 		return "home";
 	}
 	
-<<<<<<< HEAD
-	
-=======
-	//Î†àÏãúÌîº Î™©Î°ù
-	@RequestMapping(value = "/recipe/list", method = RequestMethod.GET)
-	public String recipeList() {
-		return "/info/recipe_list";
+	//ÌåÅ ÏÇ≠Ï†ú
+	@RequestMapping(value = "/tip/delete", method = RequestMethod.POST)
+	public void tipDelete(int tip_no){
+		tdao.delete(tip_no);
 	}
->>>>>>> a5bd56885ef774485a075d0122f678efd122802f
 	
+	//Î†àÏãúÌîº
+	@RequestMapping(value = "/recipe/list", method = RequestMethod.GET)
+	public String recipeList(Model model) {
+		model.addAttribute("pageName", "info/recipe_list.jsp");
+		return "home";
+	}
+	
+	//Î†àÏãúÌîº JSON
 	@RequestMapping(value="/rlist.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<RecipeVO> recipeJSON(){
 		return rdao.list();
 	}
-	
-<<<<<<< HEAD
-	//∑πΩ√«« ¿‘∑¬
-=======
+
 	@RequestMapping(value = "/recipe/insert", method = RequestMethod.GET)
-	public String recipeInsert() {
-		return "/info/recipe_insert";
+	public String recipeInsert(Model model) {
+		model.addAttribute("pageName", "info/recipe_insert.jsp");
+		return "home";
 	}
 	
 	//Î†àÏãúÌîº ÏûÖÎ†•
->>>>>>> a5bd56885ef774485a075d0122f678efd122802f
 	@RequestMapping(value = "/recipe/insert", method = RequestMethod.POST)
 	public String recipeInsertPost(RecipeVO vo){
 		vo.setFi_writer("admin");
 		vo.setFi_image("none");
 		rdao.insert(vo);
-		return "/recipe_insert";
+		return "/info/recipe_insert";
 	}
 	
 	//Î†àÏãúÌîº ÏùΩÍ∏∞
 	@RequestMapping(value = "/recipe/read", method = RequestMethod.GET)
 	public String recipeRead(int fi_no, Model model) {
 		model.addAttribute("vo",rdao.read(fi_no));
-		model.addAttribute("pageName", "info/recipe_read.jsp");
+		model.addAttribute("pageName","info/recipe_read.jsp");
 		return "home";
 	}
 
+	//Î†àÏãúÌîº ÏÇ≠Ï†ú
 	@RequestMapping(value = "/recipe/delete", method = RequestMethod.POST)
 	public void recipeDelete(int fi_no){
 		rdao.delete(fi_no);
+	}
+	
+	@RequestMapping(value = "/recipe/update", method = RequestMethod.GET)
+	public String recipeUpdate(int fi_no, Model model){
+		model.addAttribute("pageName", "info/recipe_update.jsp");
+		return "home";
+	}
+	
+	//Î†àÏãúÌîº ÏàòÏ†ï
+	@RequestMapping(value = "/recipe/update", method = RequestMethod.POST)
+	public void recipeUpdatePost(int fi_no){
+		rdao.update(fi_no);
 	}
 }
