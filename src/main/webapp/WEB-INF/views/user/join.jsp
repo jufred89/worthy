@@ -60,7 +60,8 @@ $("#chkid").on("click",function(){
 
 
 $(frm).on("submit", function(e){
-	var email_rule =  /^([\w-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([\w-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$/;
+	var email_rule = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	var tel_rule =  /^[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}/;
 	e.preventDefault();
     var uid=$(frm.uid).val();
     var upass=$(frm.upass).val();
@@ -92,6 +93,13 @@ $(frm).on("submit", function(e){
     }else if(!email_rule.test(umail)){
             alert("이메일을 형식에 맞게 입력해주세요.");
           return false;
+    }else if(tel==""){
+    	$(frm.tel).focus();
+    	alert("전화번호를 입력하세요")
+    	return;
+    }else if(!tel_rule.test(tel)){
+    	alert("전화번호사이에'-'를 입력해주세요")
+    	return false;
     }else if(uname==""){
        $(frm.uname).focus();
        alert("이름를 입력하세요!");
