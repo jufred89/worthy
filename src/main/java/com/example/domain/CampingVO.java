@@ -5,6 +5,7 @@ public class CampingVO {
 	private String camp_name;
 	private String camp_maker;
 	private String camp_addr;
+	private String camp_tel;
 	private int camp_price;
 	private String camp_status;
 	private String camp_memo;
@@ -47,6 +48,14 @@ public class CampingVO {
 
 	public void setCamp_addr(String camp_addr) {
 		this.camp_addr = camp_addr;
+	}
+
+	public String getCamp_tel() {
+		return camp_tel;
+	}
+
+	public void setCamp_tel(String camp_tel) {
+		this.camp_tel = camp_tel;
 	}
 
 	public int getCamp_price() {
@@ -116,9 +125,10 @@ public class CampingVO {
 	@Override
 	public String toString() {
 		return "CampingVO [camp_id=" + camp_id + ", camp_name=" + camp_name + ", camp_maker=" + camp_maker
-				+ ", camp_addr=" + camp_addr + ", camp_price=" + camp_price + ", camp_status=" + camp_status
-				+ ", camp_memo=" + camp_memo + ", camp_detail=" + camp_detail + ", camp_image=" + camp_image
-				+ ", style_name=" + style_name + ", Style_qty=" + Style_qty + ", facility_name=" + facility_name + "]";
+				+ ", camp_addr=" + camp_addr + ", camp_tel=" + camp_tel + ", camp_price=" + camp_price
+				+ ", camp_status=" + camp_status + ", camp_memo=" + camp_memo + ", camp_detail=" + camp_detail
+				+ ", camp_image=" + camp_image + ", style_name=" + style_name + ", Style_qty=" + Style_qty
+				+ ", facility_name=" + facility_name + "]";
 	}
 
 }
