@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
 	
 	#menu{float:left;}
@@ -38,8 +39,13 @@
 		</ul>
 		<ul>
 			<li style="font-size:140%;">내 계정</li>
-			<li><a href='/myinfo'>회원 정보 수정</a></li>
-			<li>1:1 문의</li>
+			<li><a href='/beforeMyinfo'>회원 정보 수정</a></li>
+			<c:if test="${uid ne 'admin'}">
+				<li><a href='/chat' id="chat">1:1 문의</a></li>
+			</c:if>
+			<c:if test="${uid eq 'admin'}">
+				<li><a href='/adminChat' id="adminChat">1:1 문의 목록</a></li>
+			</c:if>
 		</ul>
 	</div>
 		<div id="mypage">
@@ -48,6 +54,11 @@
 </div>
 
 <script>
+	$('#chat').on('click',function(e){
+		e.preventDefault();
+		window.open("/chat?chat_id=${uid}","chat","width=500,height=800,top=80,left=900");  //url,창이름,속성
+	});
+
 	$('#btnSearch').on('click',function(){
 		location.href='/camping/list';
 	});

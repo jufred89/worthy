@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ChatMapper">
+ 	<select id="list" resultType="com.example.domain.ChatVO">
+ 		select * from tbl_mypage_chat
+ 		where chat_id = #{chat_id}
+ 	</select>
+ 	<insert id="insert">
+ 		insert into tbl_mypage_chat(chat_id,chat_msg) 
+ 		values (#{chat_id},#{chat_msg});
+ 	</insert>
+ 	<delete id="delete">
+ 		delete from tbl_mypage_chat 
+ 		where chat_no=#{chat_no};
+ 	</delete>
+ 	<select id="lastNo" resultType="int">
+ 		select max(chat_no) from tbl_mypage_chat
+ 		where chat_id = #{chat_id}
+ 	</select>
+ 	<select id="chatList" resultType="com.example.domain.ChatVO">
+ 		select chat_id,chat_msg,chat_regdate 
+		from tbl_mypage_chat
+		where chat_no in 
+		(select max(chat_no) from tbl_mypage_chat group by chat_id)
+ 	</select>
+</mapper>
