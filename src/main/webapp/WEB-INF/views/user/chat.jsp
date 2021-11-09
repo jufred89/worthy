@@ -18,7 +18,7 @@
 </head>
 <body>
 <div class="chat_wrap">
-		<div class="header">1:1문의 ( ${chatName} ) <span id="close">채팅닫기</span></div>
+		<div class="header">1:1문의 ( ${chat_room} ) <span id="close">채팅닫기</span></div>
 		<div id="chat"></div>
       <script id="temp" type="text/x-handlebars-template">
       {{#each .}}
@@ -57,10 +57,10 @@
 
 </body>
 <script>
-
+	var chat_room = "${chat_room}";
 	getList();
 	var uid = "${uid}";
-
+	
 
 	   //메시지 삭제
 	   $('#chat').on('click','.chat_msg a',function(e){
@@ -93,7 +93,7 @@
 			$.ajax({
         		type:"post",
         	 	url:"chat/insert",
-        	 	data:{"chat_id":uid, "chat_msg":message},
+        	 	data:{"chat_id":uid, "chat_msg":message, "chat_room":chat_room},
         	 	success: function(data){
         			//서버로 메시지 보내기
         			sock.send(uid+"|"+message);
@@ -116,12 +116,11 @@
 	
 	// 채팅 데이터 불러오기
     function getList() {
-    	var chatName = "${chatName}";
         $.ajax({
            type : "get",
            url : "/chat.json",
            dataType : "json",
-           data:{"chat_id":chatName},
+           data:{"chat_room":chat_room},
            success : function(data) {
               var template = Handlebars.compile($("#temp").html());
               $("#chat").html(template(data));

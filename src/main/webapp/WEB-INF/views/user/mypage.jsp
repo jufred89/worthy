@@ -44,7 +44,7 @@
 				<li><a href='/chat' id="chat">1:1 문의</a></li>
 			</c:if>
 			<c:if test="${uid eq 'admin'}">
-				<li><a href='/adminChat' id="adminChat">1:1 문의 목록</a></li>
+				<li><a href='/adminChat' id="adminChat">1:1 채팅 목록</a></li>
 			</c:if>
 		</ul>
 	</div>
