@@ -75,16 +75,16 @@ public class MyPageController {
 	//채팅창 열기
 	@RequestMapping("/chat")
 	public String chat(Model model,String chat_id){
-		model.addAttribute("chatName",chat_id);
+		model.addAttribute("chat_room",chat_id);
 		return "user/chat";
 	}
 	//채팅데이터 가져오기
 	@RequestMapping(value = "/chat.json", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ChatVO> list(String chat_id){
-		System.out.println(chat_id);
-		System.out.println(cdao.list(chat_id));
-		return cdao.list(chat_id);
+	public List<ChatVO> list(String chat_room){
+		System.out.println(chat_room);
+		System.out.println(cdao.list(chat_room));
+		return cdao.list(chat_room);
 	}
 	//채팅 입력
 	@RequestMapping(value="/chat/insert", method=RequestMethod.POST)

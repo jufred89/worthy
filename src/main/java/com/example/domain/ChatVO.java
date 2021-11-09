@@ -12,6 +12,17 @@ public class ChatVO {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
 	private Date chat_regdate;
 
+	private String chat_room;
+
+	
+	public String getChat_room() {
+		return chat_room;
+	}
+
+	public void setChat_room(String chat_room) {
+		this.chat_room = chat_room;
+	}
+
 	public int getChat_no() {
 		return chat_no;
 	}
@@ -47,7 +58,9 @@ public class ChatVO {
 	@Override
 	public String toString() {
 		return "ChatVO [chat_no=" + chat_no + ", chat_id=" + chat_id + ", chat_msg=" + chat_msg + ", chat_regdate="
-				+ chat_regdate + "]";
+				+ chat_regdate + ", chat_room=" + chat_room + "]";
 	}
+
+
 		
 }
