@@ -19,8 +19,8 @@ public class BoardDAOImpl implements BoardDAO{
 	String namespace="com.example.mapper.BoardMapper";
 
 	@Override
-	public List<BoardVO> list() {
-		return session.selectList(namespace+".list");
+	public List<BoardVO> list(Criteria cri) {
+		return session.selectList(namespace+".list",cri);
 	}
 
 	@Override
@@ -49,7 +49,12 @@ public class BoardDAOImpl implements BoardDAO{
 		return session.selectOne(namespace+".maxNo");
 	}
 	
-	//---------------------Ï≤®Î∂ÄÌååÏùº---------------------
+	@Override
+	public int totalCount(Criteria cri) {
+		return session.selectOne(namespace+".totalCount",cri);
+	}
+	
+	//---------------------√∑∫Œ∆ƒ¿œ---------------------
 	@Override
 	public void insertAttach(String image, int fb_no) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -80,16 +85,66 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 
 
-	//----------------------ÔøΩÔøΩÔøΩ------------------------
+	//----------------------¥Ò±€------------------------
 	
 	@Override
-	public List<BoardReplyVO> replyList(int fb_bno) {
-		return session.selectList(namespace+".replyList",fb_bno);
+	public List<BoardReplyVO> replyList(int fb_bno,Criteria cri) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("cri", cri);
+		map.put("fb_bno", fb_bno);
+		return session.selectList(namespace+".replyList",map);
 	}
 
 	@Override
 	public void replyInsert(BoardReplyVO vo) {
 		session.insert(namespace+".replyInsert",vo);
 	}
+
+	@Override
+	public void replyDelete(int fb_rno) {
+		session.delete(namespace+".replyDelete",fb_rno);
+	}
+
+	@Override
+	public int replyCount(int fb_bno) {
+		return session.selectOne(namespace+".replyCount",fb_bno);
+	}
+
 	
+	//----------------------¡¡æ∆ø‰-----------------------
+
+
+	@Override
+	public int likeIt(String uid, int fb_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("uid", uid);
+		map.put("fb_no", fb_no);
+		return session.selectOne(namespace+".likeIt",map);
+	}
+
+	@Override
+	public void likeTableInsert(String uid, int fb_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("uid", uid);
+		map.put("fb_no", fb_no);
+		session.selectOne(namespace+".likeTableInsert",map);
+	}
+	
+	@Override
+	public int likeCheck(String uid, int fb_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("uid", uid);
+		map.put("fb_no", fb_no);
+		return session.selectOne(namespace+".likeCheck",map);
+	}
+
+	@Override
+	public void like(int likeCheck, String uid, int fb_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("likeCheck", likeCheck);
+		map.put("uid", uid);
+		map.put("fb_no", fb_no);
+		session.selectOne(namespace+".like",map);
+	}
+
 }

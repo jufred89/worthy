@@ -22,4 +22,9 @@ public class UserDAOImpl implements UserDAO{
 		session.insert(namespace+".join", vo);
 	}
 
+	@Override
+	public void update(UserVO vo) {
+		session.update(namespace+".update",vo);
+	}
+
 }

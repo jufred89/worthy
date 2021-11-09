@@ -3,8 +3,8 @@
 
 <style>
 	#condition{margin-top:30px;}
-	input{padding:5px 110px; margin-left:10px;}
-	select{padding:5px;}
+	input{width:500px; padding:5px 10px; margin-left:10px;}
+	select{padding:7px;}
 	#desc{float:right; margin-right:50px;}
 	#desc ul, #desc li{all: unset;}
 	#desc ul{list-style: none; margin-right:30px;}
@@ -16,15 +16,18 @@
 <a href="/board/insert">글 등록</a>
 
 <div id="condition">
-	<select>
-		<option selected>카테고리</option>
-		<option>팝니다</option>
-		<option>삽니다</option>
-		<option>가입인사</option>
-		<option>캠핑톡</option>
+	<select id="searchType">
+		<option value="">카테고리</option>
+		<option value="sell">팝니다</option>
+		<option value="buy">삽니다</option>
+		<option value="greetings">가입인사</option>
+		<option value="talk">캠핑톡</option>
 	</select>
-	<input type="text"/>
+	<input type="text" id="keyword" placeholder="검색어 입력"/>
 </div>
+<b>검색 수: <span id="total"></span></b>
+
+
 <div style="overflow:hidden;">
 	<div id="desc">
 		<ul>
@@ -45,7 +48,7 @@
 		<th width=50>좋아요</th>
 		<th width=50>조회수</th>
 	</tr>
-	{{#each .}}
+	{{#each list}}
 	<tr class="rows" onClick="location.href='/board/read?fb_no={{fb_no}}'">
 		<td>{{fb_no}}</td>
 		<td>{{fb_category}}</td>
@@ -57,20 +60,47 @@
 	</tr>
 	{{/each}}
 </script>
+<div style="text-align:center">
+	<div id="pagination" class="pagination"></div>
+</div>
+<script src="/resources/pagination.js"></script>
 
 <script>
+	var page = 1;
+	
 	getList();
+
+	
+	//검색창에서 엔터를 누른 경우
+		$('#keyword').on('keypress',function(e){
+		if(e.keyCode==13){
+			page=1;
+			getList();	
+		}
+	});
 	
 	function getList(){
+		var keyword = $('#keyword').val();
+		var searchType = $('#searchType').val();
+
 		$.ajax({
 			type:'get',
 			url:'/board/list.json',
 			dataType:'json',
+			data:{"page":page,"keyword":keyword,"searchType":searchType},
 			success:function(data){
 				var temp = Handlebars.compile($('#temp').html());
 				$('#tbl_board').html(temp(data));
+				$('#pagination').html(getPagination(data));
+				$('#total').html(data.pm.totalCount);
 			}
 		});
 		
 	}
+	
+	$('#pagination').on('click','a',function(e){
+		e.preventDefault();
+		page = $(this).attr('href');
+		getList();
+	});
 </script>

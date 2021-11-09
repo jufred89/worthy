@@ -1,0 +1,79 @@
+@CHARSET "UTF-8";
+@font-face {
+    font-family: 'IBMPlexSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+* {
+	font-family: 'IBMPlexSansKR-Regular';
+	margin: 0px;
+	padding: 0px;
+}
+
+.chat_wrap .header {
+	font-size: 14px;
+	padding: 15px 0px;
+	background: #0899af;
+	color: white;
+	text-align: center;
+	position: sticky;
+   top: 0;
+	
+}
+
+.chat_wrap #chat {
+	padding-bottom: 80px;
+	width: 100%;
+}
+
+.chat_wrap #chat .left {
+	text-align: left;
+}
+
+.chat_wrap #chat .right {
+	text-align: right;
+}
+
+.chat_wrap #chat {
+	font-size: 12px;
+}
+
+.chat_wrap #chat .chat_id {
+	margin: 10px 25px 0px 10px;
+	font-weight: bold;
+}
+
+.chat_wrap #chat .chat_msg {
+	display: inline-block;
+	margin: 5px 20px 0px 10px;
+	max-width: 75%;
+	border: 1px solid gray;
+	padding: 5px;
+	border-radius: 5px;
+	background-color: #FCFCFC;
+	text-align: left;
+}
+
+.chat_wrap #chat .chat_regdate {
+	margin: 5px 20px 10px 10px;
+	font-size: 10px;
+}
+
+.chat_wrap .input-div {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	background-color: #FFF;
+	text-align: center;
+	border-top: 1px solid #0899af;
+}
+
+#txtMessage {
+	width: 100%;
+	height: 80px;
+	border: none;
+	padding: 5px;
+}
