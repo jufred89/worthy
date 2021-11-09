@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.BoardMapper">
-	<!-- 게시글 -->
  	<select id="list" resultType="com.example.domain.BoardVO">
  		select * from tbl_board
- 		order by fb_no desc;
+ 		where (fb_title like concat('%',#{keyword},'%') or 
+ 		fb_content like concat('%',#{keyword},'%'))
+		<if test="searchType!=''">
+			and fb_category = #{searchType}
+		</if>
+ 		order by fb_no desc
+ 		limit #{pageStart},#{perPageNum}
  	</select>
  	<insert id="insert">
- 		insert into tbl_board(fb_title,fb_content,fb_writer,fb_image,fb_category)
-		values(#{fb_title},#{fb_content},#{fb_writer},#{fb_image},#{fb_category})
+ 		insert into tbl_board(fb_no,fb_title,fb_content,fb_writer,fb_image,fb_category)
+		values(#{fb_no},#{fb_title},#{fb_content},#{fb_writer},#{fb_image},#{fb_category})
  	</insert> 	
  	<select id="read" resultType="com.example.domain.BoardVO">
  		select * from tbl_board
@@ -26,8 +31,17 @@
  	<select id="maxNo" resultType="int">
 		select max(fb_no) from tbl_board
 	</select>
+	<select id="totalCount" resultType="int">
+		select count(*) from tbl_board
+ 		where (fb_title like concat('%',#{keyword},'%') or 
+ 		fb_content like concat('%',#{keyword},'%'))
+		<if test="searchType!=''">
+			and fb_category = #{searchType}
+		</if>
+	</select>
 	
-	<!-- 첨부파일 -->
+	
+	
 	<insert id="attachInsert">
 		insert into tbl_board_attach(fb_ano,fb_bno)
 		values(#{image},#{fb_no})
@@ -45,21 +59,55 @@
 		where fb_bno=#{fb_no}
 	</delete>
 	
-	<!-- 조회수 -->
+
 	<update id="updateView">
 		update tbl_board set
 		fb_viewcnt = fb_viewcnt+1
 		where fb_no = #{fb_no}
 	</update>
 	
-	<!-- 댓글 -->
+
 	<select id="replyList" resultType="com.example.domain.BoardReplyVO">
 		select * from tbl_board_reply
-		where fb_bno = #{fb_bno}
+		where fb_bno = #{fb_bno} 		
 		order by fb_rno desc
+ 		limit #{cri.pageStart},#{cri.perPageNum}
 	</select>
 	<insert id="replyInsert">
 		insert into tbl_board_reply(fb_bno,fb_reply,fb_replyer)
 		values (#{fb_bno},#{fb_reply},#{fb_replyer});
 	</insert>
+	<delete id="replyDelete">
+		delete from tbl_board_reply
+		where fb_rno = #{fb_rno}
+	</delete>
+	<select id="replyCount" resultType="int">
+		select count(*) from tbl_board_reply
+		where fb_bno=#{fb_bno}
+	</select>
+	
+	
+	
+	<select id="likeIt" resultType="int">
+		select count(*) from tbl_board_like 
+		where fb_lk_uid=#{uid} and fb_lk_bno=#{fb_no};
+	</select>
+	<insert id="likeTableInsert">
+		insert into tbl_board_like(fb_lk_uid,fb_lk_bno)
+		values(#{uid},#{fb_no})
+	</insert>
+	<select id="likeCheck" resultType="int">
+		select fb_lk_check from tbl_board_like
+		where fb_lk_uid=#{uid} and fb_lk_bno=#{fb_no}
+	</select>
+	<update id="like">
+		update tbl_board_like set 
+		<if test="likeCheck==0">
+			fb_lk_check = 1
+		</if>
+		<if test="likeCheck==1">
+			fb_lk_check = 0
+		</if>
+		where fb_lk_uid=#{uid} and fb_lk_bno=#{fb_no}
+	</update>
 </mapper>

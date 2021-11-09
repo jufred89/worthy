@@ -99,7 +99,12 @@
 	</form>
 	<hr/>
 	<div>
+		<c:if test="${likeCheck==0 }">
 		<input type="button" id="bntLike" value="좋아요"/>
+		</c:if>
+		<c:if test="${likeCheck!=0 }">
+		<input type="button" id="bntLike" value="좋아요취소"/>
+		</c:if>
 	</div>
 	<hr/>
 	
@@ -115,26 +120,72 @@
 	<h4>댓글목록 (<span id="total"></span>개의 댓글)</h4>
 	<div id="replies"></div>
 	<script id="temp" type="text/x-handlebars-template">
-		{{#each .}}
+		{{#each list}}
 		<div class="box">
 			<div>
 				<span class="rno">[{{fb_rno}}]</span>
 				<span class="replyer">{{fb_replyer}}</span>
 				<span class="replydate">{{fb_replydate}}</span>
+				<a href='{{fb_rno}}' class='delete' style="float:right; display:{{printDel fb_replyer}}">삭제</a>
 			</div>
 			<div class="reply">{{fb_reply}}</div>
 		</div>
 		{{/each}}
 	</script>
-
+	<div style="text-align:center">
+		<div id="pagination" class="pagination"></div>
+	</div>
+	<script src="/resources/pagination.js"></script>
 </div>
-
+<script>
+	Handlebars.registerHelper("printDel",function(fb_replyer){
+		if(fb_replyer != "${uid}") return "none";
+	});
+</script>
 
 <script>
 	var fb_no = $(frm.fb_no).val();
 	var uid="${uid}";
+	var page = 1;
+	var likeCheck = "${likeCheck}";
 	
 	getReplyList();
+	
+	//좋아요 버튼 클릭한 경우
+	$('#bntLike').on('click',function(){
+		$.ajax({
+			type:'post',
+			url:'like',
+			data:{"likeCheck":likeCheck,"uid":uid,"fb_no":fb_no},
+			success: function(){
+				location.href="/board/read?fb_no="+fb_no;
+			}
+				
+		});
+	});
+	
+	//댓글 페이징
+	$('#pagination').on('click','a',function(e){
+		e.preventDefault();
+		page = $(this).attr('href');
+		getReplyList();
+	});
+	
+	//댓글 삭제 버튼을 클릭한 경우
+	$('#replies').on('click','.box .delete',function(e){
+		e.preventDefault();
+		var fb_rno = $(this).attr('href');
+		if(!confirm('댓글을 삭제하시겠습니까?')) return;
+		
+		$.ajax({
+			type:'post',
+			url:'replyDelete',
+			data:{"fb_rno":fb_rno},
+			success:function(){
+				getReplyList();
+			}
+		});
+	});
 	
 	//댓글 등록 버튼을 클릭한 경우
 	$('#btnReplyInsert').on('click',function(){
@@ -151,7 +202,7 @@
 		$.ajax({
 			type:'post',
 			url:'replyInsert',
-			data:{"fb_bno":1, "fb_reply":fb_reply, "fb_replyer":fb_replyer},
+			data:{"fb_bno":fb_no, "fb_reply":fb_reply, "fb_replyer":fb_replyer},
 			success:function(){
 				$('#txtReply').val("");
 
@@ -167,10 +218,12 @@
 			type:'get',
 			url:'reply.json',
 			dataType:'json',
-			data:{"fb_bno":fb_no},
+			data:{"fb_bno":fb_no, "page":page},
 			success: function(data){
 				var temp = Handlebars.compile($("#temp").html());
 				$("#replies").html(temp(data));
+				$('#total').html(data.pm.totalCount);
+				$('#pagination').html(getPagination(data));
 			}
 
 		});

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,15 @@ public class BoardController {
 	//자유게시판 목록 JSON 데이터 가져오기
 	@RequestMapping(value = "/list.json", method = RequestMethod.GET)
 	@ResponseBody
-	public List<BoardVO> boardListJSON() {
-		return dao.list();
+	public HashMap<String, Object> boardListJSON(Criteria cri) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("list", dao.list(cri));
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(dao.totalCount(cri));
+		map.put("cri", cri);
+		map.put("pm", pm);
+		return map;
 	}
 	
 	
@@ -115,10 +123,19 @@ public class BoardController {
 	
 	//자유게시판 글읽기
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public String boardRead(Model model, int fb_no) {
+	public String boardRead(Model model, int fb_no, HttpSession session) {
 		model.addAttribute("pageName","board/read.jsp");
 		model.addAttribute("vo",service.read(fb_no));
+		//첨부파일 리스트
 		model.addAttribute("attList",dao.attachList(fb_no));
+		
+		
+		String uid = (String)session.getAttribute("uid");
+		int check = dao.likeIt(uid, fb_no); //게시글에 들어간적있는지 확인
+		if(check==0){
+			dao.likeTableInsert(uid, fb_no); //좋아요 테이블에 좋아요0 상태로 입력
+		}
+		model.addAttribute("likeCheck",dao.likeCheck(uid, fb_no)); //좋아요 상태가지고 가기
 		
 		return "home";
 	}
@@ -191,8 +208,18 @@ public class BoardController {
 	//자유게시판 댓글 리스트 불러오기
 	@RequestMapping("/reply.json")
 	@ResponseBody
-	public List<BoardReplyVO> replyList(int fb_bno){
-		return dao.replyList(fb_bno);
+	public HashMap<String, Object> replyList(int fb_bno,Criteria cri){
+		HashMap<String, Object> map = new HashMap<>();
+		cri.setPerPageNum(5);
+		
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(dao.replyCount(fb_bno));
+		
+		map.put("cri", cri);
+		map.put("pm", pm);
+		map.put("list", dao.replyList(fb_bno, cri));
+		return map;
 	}
 
 	
@@ -201,6 +228,22 @@ public class BoardController {
 	@ResponseBody
 	public void replyInsert(BoardReplyVO vo){
 		dao.replyInsert(vo);
+	}
+	
+	//자유게시판 댓글 삭제
+	@RequestMapping(value="/replyDelete",method=RequestMethod.POST)
+	@ResponseBody
+	public void replyDelete(int fb_rno){
+		dao.replyDelete(fb_rno);
+	}
+	
+
+	//----------------------------좋아요---------------------------
+	//자유게시판 좋아요 기능
+	@RequestMapping(value="/like",method=RequestMethod.POST)
+	@ResponseBody
+	public void like(int likeCheck, String uid, int fb_no){
+		dao.like(likeCheck, uid, fb_no);
 	}
 
 }
