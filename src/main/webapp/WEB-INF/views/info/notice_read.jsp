@@ -11,11 +11,17 @@
 		float:right;
 		margin:15px;
 	}
+	#update{
+		float:right;
+		margin:15px;
+	}
 </style>
 <h1>공지사항 읽기</h1>
 <div id="divRead">
 	<h3>${vo.nb_no} . ${vo.nb_title}</h3>
 	<div>${fn:replace(vo.nb_content, replaceChar, "<br/>")}</div>
-	
-	<button id="list" onClick="location.href='/notice/list'">목록</button>
+	<div>
+		<button id="list" onClick="location.href='/notice/list'">목록</button>
+		<button id="update" onClick="location.href='/notice/update?nb_no=${vo.nb_no}'">수정</button>
+	</div>
 </div>
