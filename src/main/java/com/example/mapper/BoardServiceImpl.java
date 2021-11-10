@@ -37,4 +37,12 @@ public class BoardServiceImpl implements BoardService{
 		dao.updateView(fb_no);
 		return dao.read(fb_no);
 	}
+	
+
+	@Transactional
+	@Override
+	public void like(int likeCheck, String uid, int fb_no) {
+		dao.like(likeCheck, uid, fb_no);
+		dao.likeUpdate(fb_no);
+	}
 }

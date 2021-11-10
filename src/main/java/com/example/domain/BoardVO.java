@@ -19,9 +19,15 @@ public class BoardVO {
 	private String fb_category;
 	private int fb_like;
 	private int fb_viewcnt;
+	private int replycnt;
 	
 	
-	
+	public int getReplycnt() {
+		return replycnt;
+	}
+	public void setReplycnt(int replycnt) {
+		this.replycnt = replycnt;
+	}
 	public ArrayList<String> getImages() {
 		return images;
 	}
@@ -86,9 +92,10 @@ public class BoardVO {
 	public String toString() {
 		return "BoardVO [fb_no=" + fb_no + ", fb_title=" + fb_title + ", fb_content=" + fb_content + ", fb_writer="
 				+ fb_writer + ", fb_image=" + fb_image + ", images=" + images + ", fb_regdate=" + fb_regdate
-				+ ", fb_category=" + fb_category + ", fb_like=" + fb_like + ", fb_viewcnt=" + fb_viewcnt + "]";
+				+ ", fb_category=" + fb_category + ", fb_like=" + fb_like + ", fb_viewcnt=" + fb_viewcnt + ", replycnt="
+				+ replycnt + "]";
 	}
+
 	
 
-		
 }
