@@ -1,11 +1,13 @@
 package com.example.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.domain.Criteria;
 import com.example.domain.RecipeVO;
 
 @Repository
@@ -15,8 +17,8 @@ public class RecipeDAOImpl implements RecipeDAO {
 	String namespace="com.example.mapper.RecipeMapper";
 	
 	@Override
-	public List<RecipeVO> list() {
-		return session.selectList(namespace + ".list");
+	public List<HashMap<String, Object>> list(Criteria cri) {
+		return session.selectList(namespace + ".list", cri);
 	}
 
 	@Override
@@ -35,8 +37,13 @@ public class RecipeDAOImpl implements RecipeDAO {
 	}
 
 	@Override
-	public void update(int fi_no) {
-		session.update(namespace + ".update", fi_no);
-		
+	public void update(RecipeVO vo) {
+		session.update(namespace + ".update", vo);
 	}
+
+	@Override
+	public int totalCount(Criteria cri) {
+		return session.selectOne(namespace + ".totalCount", cri);
+	}
+
 }
