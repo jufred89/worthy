@@ -30,11 +30,9 @@
 
 <div style="overflow:hidden;">
 	<div id="desc">
-		<ul>
-			<li>최신순</li>
-			<li>인기순</li>
-			<li>댓글순</li>			
-		</ul>
+		<a href="fb_no" class="on">최신순</a>
+		<a href="fb_like">인기순</a>
+		<a href="replycnt">댓글순</a>
 	</div>
 </div>
 <table id="tbl_board"></table>
@@ -52,7 +50,7 @@
 	<tr class="rows" onClick="location.href='/board/read?fb_no={{fb_no}}'">
 		<td>{{fb_no}}</td>
 		<td>{{fb_category}}</td>
-		<td>{{fb_title}}</td>
+		<td>{{fb_title}}({{replycnt}})</td>
 		<td>{{fb_writer}}</td>
 		<td>{{fb_regdate}}</td>
 		<td>{{fb_like}}</td>
@@ -67,9 +65,20 @@
 
 <script>
 	var page = 1;
-	
 	getList();
 
+	//정렬 순서
+	$("#desc a").on("click", function(e){
+		e.preventDefault();
+		
+		$("#desc").find("a").removeClass("on");
+		$(this).addClass("on");
+		$("#desc a").attr("style", "color: #23527c;")
+		$(".on").attr("style", "color: red; font-weight: bold");
+		
+		page=1;
+		getList();
+	});
 	
 	//검색창에서 엔터를 누른 경우
 		$('#keyword').on('keypress',function(e){
@@ -82,12 +91,13 @@
 	function getList(){
 		var keyword = $('#keyword').val();
 		var searchType = $('#searchType').val();
-
+		var desc = $(".on").attr("href");
+		
 		$.ajax({
 			type:'get',
 			url:'/board/list.json',
 			dataType:'json',
-			data:{"page":page,"keyword":keyword,"searchType":searchType},
+			data:{"page":page,"keyword":keyword,"searchType":searchType,"desc":desc},
 			success:function(data){
 				var temp = Handlebars.compile($('#temp').html());
 				$('#tbl_board').html(temp(data));
