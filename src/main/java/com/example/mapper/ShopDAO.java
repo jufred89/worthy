@@ -6,6 +6,7 @@ import java.util.List;
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
 import com.example.domain.ShopVO;
+import com.example.domain.Shop_cartVO;
 import com.example.domain.Shop_previewVO;
 
 public interface ShopDAO {
@@ -26,4 +27,8 @@ public interface ShopDAO {
 	public List<HashMap<String, Object>> pre_list(Criteria cri, String prod_rid);
 	public void pre_insert(Shop_previewVO pvo);
 	public int pre_totalCount(String prod_rid);
+	public void pre_delete(int prod_rno);
+	
+	//장바구니
+	public void cart_insert(Shop_cartVO cvo);
 }

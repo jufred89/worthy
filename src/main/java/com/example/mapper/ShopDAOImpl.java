@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
 import com.example.domain.ShopVO;
+import com.example.domain.Shop_cartVO;
 import com.example.domain.Shop_previewVO;
 
 @Repository
@@ -86,6 +87,16 @@ public class ShopDAOImpl implements ShopDAO{
 	@Override
 	public int pre_totalCount(String prod_rid) {
 		return session.selectOne(namespace + ".pre_totalCount", prod_rid);
+	}
+
+	@Override
+	public void pre_delete(int prod_rno) {
+		session.delete(namespace + ".pre_delete", prod_rno);
+	}
+
+	@Override
+	public void cart_insert(Shop_cartVO cvo) {
+		session.insert(namespace + ".cart_insert", cvo);
 	}
 
 }
