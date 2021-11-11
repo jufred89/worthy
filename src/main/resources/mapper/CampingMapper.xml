@@ -3,7 +3,7 @@
 <mapper namespace="com.example.mapper.CampingMapper">
 	<!-- 캠핑장 목록 -->
  	<select id="campList" resultType="com.example.domain.CampingVO">
- 		select * from tbl_camp_list limit 0,10
+ 		select * from tbl_camp_list order by camp_id desc limit 0,10
  	</select>
  	<!-- 캠핑장 시설명 리스트 -->
  	<select id="campFacilityList" resultType="com.example.domain.CampingFacilityVO">
@@ -40,5 +40,10 @@
  	<insert id="campFacilityInsert">
  		insert into tbl_camp_facility(camp_id,facility_no)
  		values(#{camp_id},#{facility_no})
+ 	</insert>
+ 	<!-- 특정 캠핑장 스타일목록 등록 -->
+ 	<insert id="campStyleInsert">
+ 		insert into tbl_camp_style(camp_id,style_no,style_qty)
+ 		values(#{camp_id},#{style_no},#{style_qty})
  	</insert>
 </mapper>

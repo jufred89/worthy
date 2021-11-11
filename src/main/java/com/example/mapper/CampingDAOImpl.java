@@ -66,4 +66,13 @@ public class CampingDAOImpl implements CampingDAO {
 		session.insert(namespace+".campFacilityInsert", map);
 	}
 
+	@Override
+	public void campStyleInsert(String camp_id, String sno, int sqty) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("camp_id", camp_id);
+		map.put("style_no", sno);
+		map.put("style_qty", sqty);
+		session.insert(namespace+".campStyleInsert", map);
+	}
+
 }
