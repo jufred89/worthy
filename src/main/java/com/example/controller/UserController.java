@@ -26,7 +26,7 @@ public class UserController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
-		// 쿠키 삭제
+		//쿠키 삭제
 		try {
 			Cookie cookie = WebUtils.getCookie(request, "uid");
 			String uid = cookie.getValue();
@@ -39,7 +39,7 @@ public class UserController {
 			System.out.println("logout error : "+e.toString());
 		}
 
-		// 세션초기화
+		// 세션 초기화
 		session.invalidate();
 		return "redirect:/";
 	}
@@ -97,6 +97,7 @@ public class UserController {
 	}
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public String joinPost(UserVO vo){
+		vo.setAddress(vo.getAddress()+" "+vo.getDetail());
 		System.out.println(vo.toString());
 		udao.insert(vo);
 		return "/user/login";

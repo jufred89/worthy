@@ -7,6 +7,16 @@ public class UserVO {
 	private String umail;
 	private String tel;
 	private String address;
+	private String detail;
+	
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 
 	public String getUid() {
 		return uid;
@@ -59,7 +69,7 @@ public class UserVO {
 	@Override
 	public String toString() {
 		return "UserVO [uid=" + uid + ", upass=" + upass + ", uname=" + uname + ", umail=" + umail + ", tel=" + tel
-				+ ", address=" + address + "]";
+				+ ", address=" + address + ", detail=" + detail + "]";
 	}
 
 }
