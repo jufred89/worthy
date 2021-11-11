@@ -21,7 +21,7 @@
 		<ul>
 			<li class="menuTitle">My Shop</li>
 			<li><a href='/myshop'>주문 내역</a></li>
-			<li>장바구니</li>
+			<li><a href='/mycart'>장바구니</a></li>
 		</ul>
 		<ul>
 			<li class="menuTitle">내 계정</li>
