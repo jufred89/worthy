@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<h1>회원정보확인</h1>
-<form name="frm">
-	<span>아이디</span><input type="text" value="${uid }"/><br>
-	<span>비밀번호</span><input type="password" name="upass"/><br/>
-	<input type="submit" value="확인"/>
-	<input type="reset" value="취소"/>
-</form>
+<div id="sub">
+	<div class="subheading">회원정보확인</div>
+
+	<form name="frm" id="checkfrm">
+		<div class="inputs">아이디</div><input type="text" value="${uid }"/><br>
+		<div class="inputs">비밀번호</div><input type="password" name="upass"/><br/>	
+		<div id="checkfrmBtns">
+			<input type="submit" class="blackBtn" value="확인"/>
+			<input type="reset" class="whiteBtn" value="취소"/>
+		</div>
+	</form>
+</div>
 
 <script>
 	$(frm).on('submit',function(e){
