@@ -4,7 +4,7 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <h1>캠핑장 등록</h1>
-<form name="frm" action="/camping/insert" method="post" enctype="multipart/form-data">
+	<form name="frm" action="/camping/insert" method="post" enctype="multipart/form-data">
 	<img src="http://placehold.it/300x250" id="image" width="350">
 	<input type="file" name="file" style="display:none;"/>
 	<table border="1">
@@ -52,7 +52,7 @@
 	</table>
 	<table border="1" id="campStyleList">
 		<tr>
-			<th colspan="2">캠프 스타일</th>
+			<th colspan="3">캠프 스타일</th>
 		</tr>
 	</table>
 	<input type="submit" value="캠핑장 등록"/>
@@ -68,8 +68,9 @@
 <script id="temp2" type="text/x-handlebars-template">
 		{{#each .}}
 			<tr>
+				<td><input class="style_no" type="checkbox" name="style_no" value="{{style_no}}"></td>
 				<td>{{style_name}}</td>
-				<td><input type="text" class="style_frm" name="{{style_no}}" value="0"/></td>
+				<td><input class="style_qty" type="text" name="style_qty"/></td>
 			</tr>
 		{{/each}}
 </script>
@@ -109,7 +110,7 @@
 			dataType:"json",
 			success:function(data){
 				var temp2 = Handlebars.compile($('#temp2').html());
-				$('#campStyleList').html(temp2(data));
+				$('#campStyleList').append(temp2(data));
 			}
 		})
 	}
@@ -117,6 +118,7 @@
 	// submit시 유효성 체크
 	$(frm).on("submit",function(e){
 		e.preventDefault();
+		
 		// 데이터 값 가지고 오기
 		var camp_id=$(frm.camp_id).val();
 		var camp_name=$(frm.camp_name).val();
@@ -145,30 +147,25 @@
        		alert("캠핑 시설란을 확인해주세요.");
        		return;
        	}
-
-       	/*
-		// 캠핑 스타일 체크		
-		var camp_style = [];
-		var style_no = [];
-		var camp_sno = $("#campStyleList input[class=style_frm]").attr("name");
-		var camp_sqty = $("#campStyleList input[class=style_frm]").val();
-		if(camp_sqty!=0){				
-			$("input[class=style_frm]").each(function(){
-				camp_style.push(camp_sno,camp_sqty);
-			});
-		}
-		style_no.push(camp_style);
-		console.log(style_no);
+       	
+       	// 캠핑 스타일 체크
+       	var style_no = new Array(); // 배열 선언
+		$('input:checkbox[name=style_no]:checked').each(function(){ // 체크된 체크박스의 value 값을 가지고 온다.
+			style_no.push(this.value);
+		});
+       	// 캠핑 스타일 갯수
+       	var style_qty = new Array(); // 배열 선언
+       	$('input[name=style_qty]').each(function(){
+		    var style_val=$(this).val();
+			if(style_val>0){
+				style_qty.push(style_val);
+			}
+    	});
 		
-		var elem = document.getElementsByClassName("style_frm");
-		var names = [];
-		for (var i = 0; i < elem.length; ++i) {
-		    if (typeof elem[i].value !== "undefined") {
-		        names.push(elem[i].value);
-		      }
-		}
-		var webcamval = names;
-		*/
+       	if(style_no.length===0 || style_qty.length===0){
+       		alert("캠핑 스타일란을 확인해주세요.");
+       		return;
+       	}
 
 		// 가격 숫자 유효성 체크
 		if (camp_price == '' || camp_price.replace(/[0-9]/g, '')) {
@@ -176,10 +173,11 @@
 			$(frm.price).focus();
 			return;
 		}
-		if(!confirm("상품을 등록하시겠습니까?"))return;
 		
+		if(!confirm("상품을 등록하시겠습니까?"))return;
 		frm.action="/camping/insert"
 		frm.method="post"
 		frm.submit();
+
 	});
 </script>

@@ -6,6 +6,41 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <script src="/resources/pagination.js"></script>
+<style>
+	#campList{
+		width:1600px;
+		margin: 0px auto;
+		overflow: hidden;
+	}
+	.camp_box{
+		height: 450px;
+		width: 400px;
+		float: left;
+		margin-bottom: 10px;
+	}
+	.image-box {
+	    width:350px;
+	    height:350px;
+	    overflow:hidden;
+	    margin:0 auto;
+	    border-radius:25px;
+	}
+	.image-thumbnail {
+	    width:100%;
+	    height:100%;
+	    object-fit:cover;
+	}
+	.cname-box{
+		font-size: 20px;
+		font-weight: bold;
+	}
+	.caddr-box{
+		font-size: 15px;
+	}
+	.cprice-box{
+		font-size: 15px;
+	}
+</style>
 <div>
 	<input type="text" placeholder="검색어를 입력해보세요."/> 
 	<select id="searchType">
@@ -19,11 +54,11 @@
 <div id="campList"></div>
 <script id="temp" type="text/x-handlebars-template">
 		{{#each .}}
-		<div onClick="location.href='/camping/read?camp_id={{camp_id}}'">
-			<div><img src="http://placehold.it/340x340"/></div>
-			<div>{{camp_name}}</div>
-			<div>{{camp_addr}}</div>
-			<div>{{camp_price}}</div>
+		<div class="camp_box" onClick="location.href='/camping/read?camp_id={{camp_id}}'">
+			<div class="image-box"><img class="image-thumbnail" src="/camping/display?file={{camp_image}}"/></div>
+			<div class="cname-box">{{camp_name}}</div>
+			<div class="caddr-box">{{camp_addr}}</div>
+			<div class="cprice-box">₩ {{camp_price}}원 / 박</div>
 		</div>
 		{{/each}}
 </script>
