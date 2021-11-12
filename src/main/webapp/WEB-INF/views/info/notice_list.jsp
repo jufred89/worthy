@@ -2,16 +2,8 @@
 	pageEncoding="UTF-8"%>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-<style>
-    #info_nav span{
-    	margin:10px;
-    	font-size:16px;
-    }
-    #info_nav span a{
-	  	color:gray; 
-      	text-decoration: none;
-    }
-</style>
+<script src="../resources/bootstrap-datepicker.js"></script>
+<link rel="stylesheet" href="../resources/bootstrap-datepicker.css">
 <style>
 	table {
 		border-collapse: collapse;
@@ -33,26 +25,61 @@
 	}
 	
 	.nb_title:hover {
+       
 		color: gray;
 		cursor: pointer;
+		
 	}
-	a{
-		color:black;
-		font-weight:bold;
-		text-decoration:none;
+	#info_nav{
+	height:100px;
+	align-content:center;
+	justify-content:center;
+	list-style:none;
+	display:flex;
+	margin-bottom:0;
+
+	
 	}
-	a:hover{
-		color:red;
+	#info_nav li{
+	margin:50px;
+	width:100px;
+	height:50px;
+	
+	
+	}
+	#info_nav li p{
+	justify-content:center;
+	align-items:center;
+	display:flex;
+	color:gray;
+	font-size:20px;
+	width:100px;
+	height:50px;
+	}
+	#info_nav li p:hover{
+	background:black;
+	color:white;
+   
+	
+	}
+	#tbl{
+	position:sticky;
+	}
+	#footer{
+	position:static;
 	}
 </style>
 
-<div id="info_nav">
-	<span><a href="/notice/list">공지사항</a></span>
-	<span><a href="/tip/list">캠핑팁</a></span>
-	<span><a href="/recipe/list">레시피</a></span>
+<ul id="info_nav">
+	<li><p onClick="location.href='/notice/list'">공지사항</p></li>
+	<li><p onClick="location.href='/tip/list'">캠핑팁</p></li>
+	<li><p onClick="location.href='/recipe/list'">레시피</p></li>
+</ul>
+	<hr style="border:2px dotted black;width:960px;">
 	<h1>공지사항</h1>
-	<span><a href="/notice/insert">공지사항 등록</a></span>
-</div>
+	<button onClick="location.href='/notice/insert'" class='nb_title' style="margin:10px;">공지사항 등록</button>
+
+
 
 <table id="tbl"></table>
 <script id="temp" type="text/x-handlebars-template">
