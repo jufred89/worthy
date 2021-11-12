@@ -124,10 +124,15 @@ border:1px dashed black;
 			</c:if>
 			  
 			
-     		 <c:if test="${uid!=null}">
+     		 <c:if test="${uid eq 'admin'}">
+					<div style="float:right;">
+						<div><a href="/admin">${uid}</a>님 환영합니다!</div>
+						<a href="/user/logout"><span class='glyphicon glyphicon-share-alt'></span>Logout</a>
+					</div>
+			</c:if>
+     		 <c:if test="${uid!=null && uid ne 'admin'}">
 					<div style="float:right;">
 						<div><a href="/mypage?uid=${uid}">${uid}</a>님 환영합니다!</div>
-						  
 						<a href="/user/logout"><span class='glyphicon glyphicon-share-alt'></span>Logout</a>
 					</div>
 				    <!-- <div><a href="/mypage">Mypage</a></div> -->
