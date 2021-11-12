@@ -1,6 +1,96 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
+    #info_nav span{
+    	margin:10px;
+    	font-size:18px;
+    }
+    #info_nav div a{
+    	margin:10px;
+    	font-size:16px;
+    	color:gray; 
+      	text-decoration: none;
+    }
+    #info_nav span a{
+	  	color:gray; 
+      	text-decoration: none;
+    }
+    #condition{
+    	width:960px;
+    	margin:0 auto;
+    	padding:5px;
+    	margin-bottom:5px;
+    	overflow:hidden;
+    }
+    #condition input[type=text]{
+    	float:left;
+    	size:20px;
+    }
+    #condition select{
+    	float:right;
+    	margin-botton:10px;
+    	margin-left:15px;
+    	width:150px;
+    	padding:5px;
+    	border-radius:5px 5px 5px;
+    }
+    #total{float:left; margin-left:3px;}
+</style>
+<style>
+	#tbl {
+		border-collapse: collapse;
+		margin-top: 10px;
+		text-align:center;
+		width:960px;
+		margin:0 auto;
+	}
+	
+	td {
+		border-bottom: 1px solid black;
+		padding: 10px 0px;
+	}
+	
+	.title {
+		background: gray;
+		color: white;
+		text-align: center;
+	}
+	
+	.tip_title:hover {
+		color: gray;
+		cursor: pointer;
+	}
+	#tbl a{
+		color:black;
+		font-weight:bold;
+		text-decoration:none;
+	}
+	#tbl a:hover{
+		color:red;
+	}
+	a{border:none;}
+	#pagination {
+	  margin-top:15px;
+	  text-align: center;
+	  float:none;
+	}
+	
+	#pagination a {
+	  color: black;
+	  float: left;
+	  padding: 8px 16px;
+	  text-decoration: none;
+	}
+	
+	#pagination a.active {
+	  background-color: gray;
+	  color: white;
+	}
+	
+	#pagination a:hover:not(.active) {
+	   background-color: #ddd;
+	}
 #info_nav{
    height:100px;
    align-content:center;
@@ -71,9 +161,10 @@
 	<li><p onClick="location.href='/recipe/list'">레시피</p></li>
 </ul>
 <hr style="border:2px dotted black;width:960px;">
-	<h1>팁 목록 페이지</h1>
-	<button onClick="location.href='/tip/insert" class='tip_title' style="margin:10px;">팁 등록</button>
-
+   <h1>팁</h1>
+   <c:if test="${uid!=null}">
+      <button onClick="location.href='/tip/insert'">팁 등록</button>
+   </c:if>
 <div id="condition">
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
 	<span id="total"></span> 
@@ -91,12 +182,13 @@
 <script id="temp" type="text/x-handlebars-template">
 		<tr class="title">
 			<td></td>
-			<td width=90>팁번호</td>
-			<td width=170>이미지</td>
-			<td width=300>제목</td>
-			<td width=150>작성자</td>
-			<td width=150>작성일시</td>
-			<td width=100>삭제</td>
+			<td width=80>번호</td>
+			<td width=160>이미지</td>
+			<td width=400>제목</td>
+			<td width=110>작성자</td>
+			<td width=100>작성일시</td>
+			<td width=80>좋아요</td>
+			<td width=80>조회수</td>
 		</tr>
 	{{#each list}}
 		<tr class="row">
@@ -105,7 +197,8 @@
 			<td class="tip_title" onClick="location.href='/tip/read?tip_no={{tip_no}}'">{{tip_title}}</td>
 			<td>{{tip_writer}}</td>
 			<td>{{dateConv tip_regdate}}</td>
-			<td><input type="button" class="btnDelete" value="삭제"></td>
+			<td>{{tip_like}}</td>
+			<td>{{tip_viewcnt}}</td>
 		</tr>
 	{{/each}}
 </script>
@@ -123,7 +216,7 @@
         var hour = ("0" +(dateObj.getHours())).slice(-2);
         var min = ("0" +(dateObj.getMinutes())).slice(-2);
         var sec = ("0" +(dateObj.getSeconds())).slice(-2);
-        tip_regdate = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec 
+        tip_regdate = year + "-" + month + "-" + date;// + " " + hour + ":" + min + ":" + sec; 
         return tip_regdate;  
 	});
 </script>
@@ -145,30 +238,12 @@
 			data:{"page":page, "keyword":keyword, "searchType":searchType, "perPageNum":perPageNum},
 			success : function(data) {
 				$("#pagination").html(getPagination(data));
-				$("#total").html("검색건: " + data.pm.totalCount + "건");
+				$("#total").html("<h5>검색건: " + data.pm.totalCount + "건</h5>");
 				var temp = Handlebars.compile($("#temp").html());
 				$("#tbl").html(temp(data));
 			}
 		});
 	}
-	
-	//팁 삭제
-	$("#tbl").on("click", ".row .btnDelete",function(){
-		var tip_no=$(this).parent().parent().find(".tip_no").html();
-		var image=$(this).parent().parent().find(".tip_image").attr("src").split("=");
-		var tip_image = image[image.length-1]; //파일명
-		
-		if(!confirm("해당 팁을 삭제하시겠습니까?")) return;
-		$.ajax({
-			type:"post",
-			url:"/tip/delete",
-			data:{"tip_no":tip_no, "image":tip_image},
-			success:function(){
-				alert("삭제완료!");
-			}
-		})
-		location.href="/tip/list";
-	});
 	
 	//특정 페이지 번호를 클릭한 경우
 	$("#pagination").on("click", "a", function(e){

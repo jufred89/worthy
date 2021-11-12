@@ -9,7 +9,7 @@
 <form name="frm" action="/tip/insert" method="POST" enctype="multipart/form-data">
 	<input type="text" name="tip_title" style="margin-bottom:15px; width:722px;" placeholder="제목을 입력하세요"/><br/>
 	<div id="imageBox">
-		<img name="image" src="http://placehold.it/150x120"/>
+		<img name="image" src="http://placehold.it/400x300"/>
 		<div id="file">
 			<input type="file" name="file"/>
 		</div>
@@ -41,12 +41,13 @@
 		if(!confirm("팁을 등록 하시겠습니까?")) return;
 		frm.submit();	
 	});	
+	
 	//이미지 미리보기
 	$(frm.file).on("change",function(){
 		var file = $(frm.file)[0].files[0];
 		$(frm.image).attr("src", URL.createObjectURL(file));
-		$(frm.image).css("width",150);
-		$(frm.image).css("height",120);
+		$(frm.image).css("width",400);
+		$(frm.image).css("height",300);
 		console.log(file);
 	});
 </script>
