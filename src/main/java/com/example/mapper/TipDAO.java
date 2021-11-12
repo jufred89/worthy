@@ -13,4 +13,14 @@ public interface TipDAO {
 	public void insert(TipVO vo);
 	public void update(TipVO vo);
 	public int totalCount(Criteria cri);
+	
+	public void updateView(int tip_no);
+	
+	//좋아요
+	public int likeIt(String uid, int tip_no);
+	public void likeInsert(String uid, int tip_no);
+	public int likeCheck(String uid, int tip_no);
+	public void like(int likeCheck, String uid, int tip_no);
+	public void likeUpdate(int tip_no);
+	public void likeDel(int tip_no);
 }

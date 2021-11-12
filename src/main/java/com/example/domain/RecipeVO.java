@@ -12,11 +12,27 @@ public class RecipeVO {
 	private String fi_image;
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
 	private Date fi_regdate;
+	private int fi_like;
+	private int fi_viewcnt;
+	
 	
 	@Override
 	public String toString() {
 		return "RecipeVO [fi_no=" + fi_no + ", fi_title=" + fi_title + ", fi_content=" + fi_content + ", fi_writer="
-				+ fi_writer + ", fi_image=" + fi_image + ", fi_regdate=" + fi_regdate + "]";
+				+ fi_writer + ", fi_image=" + fi_image + ", fi_regdate=" + fi_regdate + ", fi_like=" + fi_like
+				+ ", fi_viewcnt=" + fi_viewcnt + "]";
+	}
+	public int getFi_like() {
+		return fi_like;
+	}
+	public void setFi_like(int fi_like) {
+		this.fi_like = fi_like;
+	}
+	public int getFi_viewcnt() {
+		return fi_viewcnt;
+	}
+	public void setFi_viewcnt(int fi_viewcnt) {
+		this.fi_viewcnt = fi_viewcnt;
 	}
 	public int getFi_no() {
 		return fi_no;

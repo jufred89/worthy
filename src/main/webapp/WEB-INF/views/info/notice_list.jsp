@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <style>
     #info_nav span{
     	margin:10px;
@@ -17,11 +18,13 @@
     }
     #condition{
     	width:960px;
-    	margin:10px;
-    	padding:10px;
-    	margin-left:230px;
+    	margin:0 auto;
+    	padding:5px;
+    	margin-bottom:5px;
+    	overflow:hidden;
     }
     #condition input[type=text]{
+    	float:left;
     	size:20px;
     }
     #condition select{
@@ -32,6 +35,7 @@
     	padding:5px;
     	border-radius:5px 5px 5px;
     }
+    #total{float:left; margin-left:3px;}
 </style>
 <style>
 	#tbl {
@@ -94,7 +98,9 @@
 	<span><a href="/tip/list">캠핑팁</a></span>
 	<span><a href="/recipe/list">레시피</a></span>
 	<h1>공지사항</h1>
-	<div><a href="/notice/insert">공지사항 등록</a></div>
+	<c:if test="${uid!=null}">
+	<button onClick="location.href='/notice/insert'">공지사항 등록</button>
+	</c:if>
 </div>
 <div id="condition">
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
@@ -113,12 +119,13 @@
 <script id="temp" type="text/x-handlebars-template">
 		<tr class="title">
 			<td></td>
-			<td width=90>글번호</td>
-			<td width=170>이미지</td>
-			<td width=300>제목</td>
-			<td width=150>작성자</td>
-			<td width=150>작성일시</td>
-			<td width=100>삭제</td>
+			<td width=80>번호</td>
+			<td width=160>이미지</td>
+			<td width=400>제목</td>
+			<td width=110>작성자</td>
+			<td width=100>작성일시</td>
+			<td width=80>좋아요</td>
+			<td width=80>조회수</td>
 		</tr>
 	{{#each list}}
 		<tr class="row">
@@ -127,17 +134,13 @@
 			<td class="nb_title" onClick="location.href='/notice/read?nb_no={{nb_no}}'">{{nb_title}}</td>
 			<td>{{nb_writer}}</td>
 			<td class="nb_regdate">{{dateConv nb_regdate}}</td>
-			<td><input type="button" class="btnDelete" value="삭제"></td>
+			<td>{{nb_like}}</td>
+			<td>{{nb_viewcnt}}</td>
 		</tr>
 	{{/each}}
 </script>
 <script>
 	Handlebars.registerHelper("dateConv", function(nb_regdate, option){
-//		console.log(this);
-//		console.log(this.fi_regdate);
-//		console.log(fi_regdate);
-//		console.log(option);
-		
 		var dateObj = new Date(nb_regdate);
         var year = dateObj.getFullYear();
         var month = ("0" +(dateObj.getMonth() + 1)).slice(-2);
@@ -145,7 +148,7 @@
         var hour = ("0" +(dateObj.getHours())).slice(-2);
         var min = ("0" +(dateObj.getMinutes())).slice(-2);
         var sec = ("0" +(dateObj.getSeconds())).slice(-2);
-        nb_regdate = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec 
+        nb_regdate = year + "-" + month + "-" + date;// + " " + hour + ":" + min + ":" + sec 
         return nb_regdate;  
 	});
 </script>
@@ -154,6 +157,7 @@
 <script>
 	var page = 1;	
 	getNoticeList();
+	
 	//공지사항 목록
 	function getNoticeList() {
 		var keyword = $("#keyword").val();
@@ -166,30 +170,12 @@
 			data:{"page":page, "keyword":keyword, "searchType":searchType, "perPageNum":perPageNum},
 			success : function(data) {
 				$("#pagination").html(getPagination(data));
-				$("#total").html("검색건: " + data.pm.totalCount + "건");
+				$("#total").html("<h5>검색건: " + data.pm.totalCount + "건</h5>");
 				var temp = Handlebars.compile($("#temp").html());
 				$("#tbl").html(temp(data));
 			}
 		});
 	}
-	
-	//공지사항 삭제
-	$("#tbl").on("click", ".row .btnDelete",function(){
-		var nb_no=$(this).parent().parent().find(".nb_no").html();
-		var image=$(this).parent().parent().find(".nb_image").attr("src").split("=");
-		var nb_image = image[image.length-1]; //파일명
-		
-		if(!confirm("해당 공지사항을 삭제하시겠습니까?")) return;
-		$.ajax({
-			type:"post",
-			url:"/notice/delete",
-			data:{"nb_no":nb_no,"image":nb_image},
-			success:function(){
-				alert("삭제완료!");
-			}
-		})
-		location.href="/notice/list";
-	});
 	
 	//특정 페이지 번호를 클릭한 경우
 	$("#pagination").on("click", "a", function(e){
