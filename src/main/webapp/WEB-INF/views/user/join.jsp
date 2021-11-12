@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="../resources/bootstrap-datepicker.js"></script>
+<link rel="stylesheet" href="../resources/bootstrap-datepicker.css">
 <link rel="stylesheet" href="../resources/join.css" />
 <div class="wrapper fadeInDown">
   <div id="formContent">
