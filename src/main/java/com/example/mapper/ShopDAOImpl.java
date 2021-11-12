@@ -99,4 +99,19 @@ public class ShopDAOImpl implements ShopDAO{
 		session.insert(namespace + ".cart_insert", cvo);
 	}
 
+	@Override
+	public List<HashMap<String, Object>> prod_slide() {
+		return session.selectList(namespace + ".prod_slide");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> cart_list(String cart_uid) {
+		return session.selectList(namespace + ".cart_list", cart_uid);
+	}
+
+	@Override
+	public void cart_delete(int cart_no) {
+		session.delete(namespace + ".cart_delete", cart_no);
+	}
+
 }

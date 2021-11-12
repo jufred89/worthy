@@ -86,7 +86,24 @@
  	</delete>
  	
  	<insert id="cart_insert">
- 		insert into tbl_shop_cart(cart_pid, cart_uid, cart_price, cart_pqty, cart_status)
- 		values(#{cart_pid}, #{cart_uid}, #{cart_price}, #{cart_pqty}, #{cart_status})
+ 		insert into tbl_shop_cart(cart_pid, cart_uid, cart_price, cart_pqty, cart_status, cart_pimage, cart_pname)
+ 		values(#{cart_pid}, #{cart_uid}, #{cart_price}, #{cart_pqty}, #{cart_status}, #{cart_pimage}, #{cart_pname})
  	</insert>
+ 	
+ 	<select id="prod_slide" resultType="HashMap">
+ 		select *, format(prod_normalprice, 0) prod_normalprice_f from tbl_shop_product
+ 		order by prod_id desc
+ 		limit 0, 7
+ 	</select>
+ 	
+ 	<select id="cart_list" resultType="HashMap">
+ 		select * from tbl_shop_cart
+ 		where cart_uid = #{cart_uid}
+ 		order by cart_no desc
+ 	</select>
+ 	
+ 	<delete id="cart_delete">
+ 		delete from tbl_shop_cart
+ 		where cart_no = #{cart_no}
+ 	</delete>
 </mapper>
