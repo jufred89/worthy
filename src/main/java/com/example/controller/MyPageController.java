@@ -26,9 +26,19 @@ public class MyPageController {
 	ChatDAO cdao;
 	
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String mypage(Model model) {
+	public String mypage(Model model,HttpSession session) {
+		String uid = (String)session.getAttribute("uid");
+		String uname = udao.login(uid).getUname();
+		session.setAttribute("uname", uname);
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName","mycamping.jsp");
+		return "home";
+	}
+	//관심캠핑장 페이지 이동
+	@RequestMapping(value = "/mycampingLike", method = RequestMethod.GET)
+	public String mycampingLike(Model model) {
+		model.addAttribute("pageName", "user/mypage.jsp");
+		model.addAttribute("myPageName","mycampingLike.jsp");
 		return "home";
 	}
 	
@@ -120,6 +130,13 @@ public class MyPageController {
 	public String myshop(Model model) {
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName","myshop.jsp");
+		return "home";
+	}
+	
+	@RequestMapping(value = "/mycart", method = RequestMethod.GET)
+	public String mycart(Model model) {
+		model.addAttribute("pageName", "user/mypage.jsp");
+		model.addAttribute("myPageName","mycart.jsp");
 		return "home";
 	}
 }

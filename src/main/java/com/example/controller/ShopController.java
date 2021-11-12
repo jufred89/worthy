@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import org.apache.commons.io.IOUtils;
@@ -21,6 +22,7 @@ import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
 import com.example.domain.PageMaker;
 import com.example.domain.ShopVO;
+import com.example.domain.Shop_cartVO;
 import com.example.domain.Shop_previewVO;
 import com.example.mapper.ShopDAO;
 
@@ -57,6 +59,7 @@ public class ShopController {
 		model.addAttribute("prod_id", maxID);
 		// System.out.println(maxID);
 		model.addAttribute("pageName", "shop/insert.jsp");
+		
 		return "home";
 	}
 
@@ -84,11 +87,7 @@ public class ShopController {
 		map.put("pm", pm);
 		return map;
 	}
-
-	public String shopRead() {
-		return "/shop/read";
-	}
-
+	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insert(ShopVO vo, MultipartHttpServletRequest multi, AttachVO avo) throws IllegalStateException, IOException {
 		MultipartFile file = multi.getFile("file");
@@ -170,12 +169,12 @@ public class ShopController {
 	@RequestMapping("/pre_list.json")
 	@ResponseBody
 	public HashMap<String, Object> pre_list(String prod_rid, Criteria cri){
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<>();
 		
 		cri.setPerPageNum(5);
 		
-		map.put("cri", cri);
 		map.put("list", dao.pre_list(cri, prod_rid));
+		map.put("cri", cri);
 		
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
@@ -183,11 +182,27 @@ public class ShopController {
 		
 		map.put("pm", pm);
 		
+		//System.out.println(map);
+		
 		return map;
 	}
 	
-	@RequestMapping("/pre_insert")
+	@RequestMapping(value="/pre_insert", method=RequestMethod.POST)
+	@ResponseBody
 	public void pre_insert(Shop_previewVO pvo, Criteria cri){
+		//System.out.println(pvo.toString());
 		dao.pre_insert(pvo);
+	}
+	
+	@RequestMapping(value="/pre_delete", method=RequestMethod.POST)
+	@ResponseBody
+	public void pre_delete(int prod_rno){
+		dao.pre_delete(prod_rno);
+	}
+	
+	@RequestMapping(value="/cart_insert", method=RequestMethod.POST)
+	@ResponseBody
+	public void cart_insert(Shop_cartVO cvo){
+		dao.cart_insert(cvo);
 	}
 }

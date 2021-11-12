@@ -2,14 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.BoardMapper">
  	<select id="list" resultType="com.example.domain.BoardVO">
- 		select * from tbl_board
- 		where (fb_title like concat('%',#{keyword},'%') or 
- 		fb_content like concat('%',#{keyword},'%'))
-		<if test="searchType!=''">
-			and fb_category = #{searchType}
+ 		select * from view_board
+ 		where (fb_title like concat('%',#{cri.keyword},'%') or 
+ 		fb_content like concat('%',#{cri.keyword},'%'))
+		<if test="cri.searchType!=''">
+			and fb_category = #{cri.searchType}
 		</if>
- 		order by fb_no desc
- 		limit #{pageStart},#{perPageNum}
+		<if test="desc=='fb_no'">
+			order by fb_no desc
+		</if>
+ 		<if test="desc=='fb_like'">
+			order by fb_like desc
+		</if>
+		<if test="desc=='replycnt'">
+			order by replycnt desc
+		</if>
+ 		limit #{cri.pageStart},#{cri.perPageNum}
  	</select>
  	<insert id="insert">
  		insert into tbl_board(fb_no,fb_title,fb_content,fb_writer,fb_image,fb_category)
@@ -109,5 +117,11 @@
 			fb_lk_check = 0
 		</if>
 		where fb_lk_uid=#{uid} and fb_lk_bno=#{fb_no}
+	</update>
+	<update id="likeUpdate">
+		update tbl_board set fb_like = (select sum(fb_lk_check) 
+										from tbl_board_like 
+										where fb_lk_bno=#{fb_no})
+		where fb_no=#{fb_no}
 	</update>
 </mapper>

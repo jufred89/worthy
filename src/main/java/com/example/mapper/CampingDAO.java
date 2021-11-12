@@ -16,4 +16,5 @@ public interface CampingDAO {
 	public List<CampingStyleVO> campStyleList();
 	public void campInsert(CampingVO vo);
 	public void campFacilityInsert(String camp_id,String facility_no);
+	public void campStyleInsert(String camp_id, String style_no, int style_qty);
 }

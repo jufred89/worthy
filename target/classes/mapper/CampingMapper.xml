@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.CampingMapper">
+	<!-- 캠핑장 목록 -->
  	<select id="campList" resultType="com.example.domain.CampingVO">
- 		select * from tbl_camp_list limit 0,10
+ 		select * from tbl_camp_list order by camp_id desc limit 0,10
  	</select>
+ 	<!-- 캠핑장 시설명 리스트 -->
+ 	<select id="campFacilityList" resultType="com.example.domain.CampingFacilityVO">
+ 		select * from tbl_facility_name
+ 	</select>
+ 	<!-- 캠핑장 스타일명 리스트 -->
+ 	<select id="campStyleList" resultType="com.example.domain.CampingStyleVO">
+ 		select * from tbl_Style_name
+ 	</select>
+ 	<!-- 캠핑장 정보 페이지 -->
  	<select id="campRead" resultType="com.example.domain.CampingVO">
  		select * from tbl_camp_list where camp_id=#{camp_id}
  	</select>
+ 	<!-- 특정 캠핑장 스타일 정보 읽어오기 -->
  	<select id="campStyleRead" resultType="com.example.domain.CampingVO">
  		select camp_id,style_name,style_qty from tbl_camp_style as cs, tbl_style_name as sn
 		where cs.style_no = sn.style_no and camp_id=#{camp_id};
  	</select>
+ 	<!-- 특정 캠핑장 시설 정보 읽어오기 -->
  	<select id="campFacilityRead" resultType="com.example.domain.CampingVO">
 		select camp_id,facility_name from tbl_camp_facility as cf, tbl_facility_name as fn
 		where cf.facility_no = fn.facility_no and camp_id=#{camp_id};
  	</select>
+ 	<!-- 캠핑장 등록시 camp_id 최대값 읽어오기 -->
+ 	<select id="maxCode" resultType="string">
+ 		select max(camp_id) from tbl_camp_list
+ 	</select>
+ 	<!-- 캠팡정 둥록 -->
+ 	<insert id="campInsert">
+ 		insert into tbl_camp_list(camp_id,camp_name,camp_maker,camp_addr,camp_tel,camp_detail,camp_memo,camp_price,camp_image)
+ 		values(#{camp_id},#{camp_name},#{camp_maker},#{camp_addr},#{camp_tel},#{camp_detail},#{camp_memo},#{camp_price},#{camp_image})
+ 	</insert>
+ 	<!-- 특정 캠핑장 시설목록 등록 -->
+ 	<insert id="campFacilityInsert">
+ 		insert into tbl_camp_facility(camp_id,facility_no)
+ 		values(#{camp_id},#{facility_no})
+ 	</insert>
+ 	<!-- 특정 캠핑장 스타일목록 등록 -->
+ 	<insert id="campStyleInsert">
+ 		insert into tbl_camp_style(camp_id,style_no,style_qty)
+ 		values(#{camp_id},#{style_no},#{style_qty})
+ 	</insert>
 </mapper>

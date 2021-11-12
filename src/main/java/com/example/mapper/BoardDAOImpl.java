@@ -19,8 +19,11 @@ public class BoardDAOImpl implements BoardDAO{
 	String namespace="com.example.mapper.BoardMapper";
 
 	@Override
-	public List<BoardVO> list(Criteria cri) {
-		return session.selectList(namespace+".list",cri);
+	public List<BoardVO> list(Criteria cri,String desc) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("cri", cri);
+		map.put("desc", desc);		
+		return session.selectList(namespace+".list",map);
 	}
 
 	@Override
@@ -144,7 +147,12 @@ public class BoardDAOImpl implements BoardDAO{
 		map.put("likeCheck", likeCheck);
 		map.put("uid", uid);
 		map.put("fb_no", fb_no);
-		session.selectOne(namespace+".like",map);
+		session.update(namespace+".like",map);
+	}
+
+	@Override
+	public void likeUpdate(int fb_no) {
+		session.update(namespace+".likeUpdate",fb_no);
 	}
 
 }

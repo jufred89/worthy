@@ -6,6 +6,7 @@
 <h1>캠핑장 정보</h1>
 <!-- 캠핑장 정보 부분 -->
 <div>
+	<a href="/camping/update?camp_id=${cvo.camp_id}">캠핑장 수정</a>
 	<div>
 		<h1>${cvo.camp_name}</h1>
 		<h3 id="from_addr">${cvo.camp_addr}</h3>
