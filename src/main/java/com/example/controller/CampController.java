@@ -60,6 +60,7 @@ public class CampController {
 		return cdao.campStyleList();
 	}
 	
+	// 특정 캠핑장 상세 페이지
 	@RequestMapping(value = "/camping/read", method = RequestMethod.GET)
 	public String campRead(Model model, String camp_id) {
 		model.addAttribute("cvo",cdao.campRead(camp_id));
@@ -67,6 +68,7 @@ public class CampController {
 		return "home";
 	}
 	
+	// 캠핑장 insert page
 	@RequestMapping(value = "/camping/insert", method = RequestMethod.GET)
 	public String campInsertPage(Model model) {
 		String maxCode = cdao.maxCode();
@@ -76,6 +78,7 @@ public class CampController {
 		return "home";
 	}
 	
+	// 캠핑장 insert 작업
 	@RequestMapping(value = "/camping/insert",produces="text/json; charset=utf-8", method = RequestMethod.POST)
 	public String campInsert(CampingVO vo, MultipartHttpServletRequest multi, 
 			@RequestParam(value="facility_no") List<String> facility_no,
@@ -112,12 +115,14 @@ public class CampController {
 		return "redirect:/camping/list";
 	}
 	
+	// 캠핑장 스타일 목록
 	@ResponseBody
 	@RequestMapping(value = "/camping/cslist.json", method = RequestMethod.GET)
 	public List<CampingVO> campStyleRead(String camp_id) {
 		return cdao.campStyleRead(camp_id);
 	}
 	
+	// 캠핑장 시설 목록
 	@ResponseBody
 	@RequestMapping(value = "/camping/cflist.json", method = RequestMethod.GET)
 	public List<CampingVO> campFacilityRead(String camp_id) {
@@ -134,4 +139,5 @@ public class CampController {
 		in.close();
 		return image;
 	}
+	
 }

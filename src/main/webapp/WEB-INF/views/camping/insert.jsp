@@ -89,7 +89,7 @@
 		$("#image").attr("src",URL.createObjectURL(file));
 	})
 	
-	// 캠핑 시설명 목록 가지고 오기
+	// 특정 캠핑 시설명 목록 가지고 오기
 	function getCampFacility(){
 		$.ajax({
 			type:"get",
@@ -102,7 +102,7 @@
 		})
 	}
 	
-	// 캠핑 스타일명 목록 가지고 오기
+	// 특정 캠핑 스타일명 목록 가지고 오기
 	function getCampStyle(){
 		$.ajax({
 			type:"get",
@@ -174,8 +174,8 @@
 			return;
 		}
 		
-		if(!confirm("상품을 등록하시겠습니까?"))return;
-		frm.action="/camping/insert"
+		if(!confirm("상품을 수정하시겠습니까?"))return;
+		frm.action="/camping/update"
 		frm.method="post"
 		frm.submit();
 
