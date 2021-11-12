@@ -3,7 +3,22 @@
 <mapper namespace="com.example.mapper.CampingMapper">
 	<!-- 캠핑장 목록 -->
  	<select id="campList" resultType="com.example.domain.CampingVO">
- 		select * from tbl_camp_list order by camp_id desc limit 0,10
+ 		select * from tbl_camp_list
+ 		<if test="searchType=='camp_id'">
+			where camp_id like concat('%',#{keyword},'%')
+			order by camp_id desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+		<if test="searchType=='camp_name'">
+			where camp_name like concat('%',#{keyword},'%')
+			order by camp_id desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+		<if test="searchType=='camp_addr'">
+			where camp_addr like concat('%',#{keyword},'%')
+			order by camp_id desc
+			limit #{pageStart},#{perPageNum}
+		</if>
  	</select>
  	<!-- 캠핑장 시설명 리스트 -->
  	<select id="campFacilityList" resultType="com.example.domain.CampingFacilityVO">
@@ -46,4 +61,17 @@
  		insert into tbl_camp_style(camp_id,style_no,style_qty)
  		values(#{camp_id},#{style_no},#{style_qty})
  	</insert>
+ 	<!-- 총 캠핑장 갯수 -->
+ 	<select id="campTotcount" resultType="int">
+		select count(*) from tbl_camp_list
+		<if test="searchType=='camp_id'">
+			where camp_id like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType=='camp_name'">
+			where camp_name like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType=='camp_addr'">
+			where camp_addr like concat('%',#{keyword},'%')
+		</if>
+	</select>
 </mapper>

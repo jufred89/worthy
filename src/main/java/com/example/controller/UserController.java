@@ -62,27 +62,33 @@ public class UserController {
 		return "/user/mypage";
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	@ResponseBody
-	public int loginPost(String uid, String upass, HttpSession session, boolean isLogin, HttpServletResponse response){
-		int result=0;
-		UserVO vo=udao.login(uid);
-		if(vo != null){
-			if(upass.equals(vo.getUpass())){
-				session.setAttribute("uid", uid);
-				if(isLogin){
-					Cookie cookie = new Cookie("uid", uid);
-					cookie.setPath("/");
-					cookie.setMaxAge(60*60*24*7);
-					response.addCookie(cookie);
-				}
-				result=1;
-			}else{
-				result=2;
-			}
-		}
-		return result;
-	}
+	   @RequestMapping(value="/login", method=RequestMethod.POST)
+	   @ResponseBody
+	   public int loginPost(String uid, String upass, HttpSession session, boolean isLogin, HttpServletResponse response){
+	      int result=0;
+	      UserVO vo=udao.login(uid);
+	      if(vo != null){
+	         if(upass.equals(vo.getUpass())){
+	            session.setAttribute("uid", uid);
+	            if(isLogin){
+	               Cookie cookie = new Cookie("uid", uid);
+	               cookie.setPath("/");
+	               cookie.setMaxAge(60*60*24*7);
+	               response.addCookie(cookie);
+	               
+	            }
+	            if(uid.contains("admin")){
+	               result=3;
+	               
+	            }else result=1;
+	            
+	         }else{
+	            result=2;
+	         }
+	      }
+	      System.out.println(result);
+	      return result;
+	   }
 	@RequestMapping(value="/chkid", method=RequestMethod.POST)
 	@ResponseBody
 	public int chkid(String uid, String upass, HttpSession session){
