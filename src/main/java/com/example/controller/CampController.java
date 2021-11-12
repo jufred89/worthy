@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.example.domain.CampingFacilityVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
+import com.example.domain.Criteria;
 import com.example.mapper.CampingDAO;
 
 @Controller
@@ -42,8 +43,8 @@ public class CampController {
 	//캠핑장 목록 json으로 가지고 오기
 	@ResponseBody
 	@RequestMapping(value = "/camping/list.json", method = RequestMethod.GET)
-	public List<CampingVO> list() {
-		return cdao.campList();
+	public List<CampingVO> list(Criteria cri) {
+		return cdao.campList(cri);
 	}
 	
 	//캠핑장 시설목록 json으로 가지고 오기
@@ -67,7 +68,7 @@ public class CampController {
 		model.addAttribute("pageName", "camping/read.jsp");
 		return "home";
 	}
-	
+	/*
 	// 캠핑장 insert page
 	@RequestMapping(value = "/camping/insert", method = RequestMethod.GET)
 	public String campInsertPage(Model model) {
@@ -77,7 +78,7 @@ public class CampController {
 		model.addAttribute("pageName", "camping/insert.jsp");
 		return "home";
 	}
-	
+	*/
 	// 캠핑장 insert 작업
 	@RequestMapping(value = "/camping/insert",produces="text/json; charset=utf-8", method = RequestMethod.POST)
 	public String campInsert(CampingVO vo, MultipartHttpServletRequest multi, 

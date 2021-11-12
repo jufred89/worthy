@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.example.domain.CampingFacilityVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
+import com.example.domain.Criteria;
 
 @Repository
 public class CampingDAOImpl implements CampingDAO {
@@ -19,8 +20,8 @@ public class CampingDAOImpl implements CampingDAO {
 	String namespace="com.example.mapper.CampingMapper";
 
 	@Override
-	public List<CampingVO> campList() {
-		return session.selectList(namespace+".campList");
+	public List<CampingVO> campList(Criteria cri) {
+		return session.selectList(namespace+".campList",cri);
 	}
 
 	@Override
@@ -73,6 +74,11 @@ public class CampingDAOImpl implements CampingDAO {
 		map.put("style_no", sno);
 		map.put("style_qty", sqty);
 		session.insert(namespace+".campStyleInsert", map);
+	}
+
+	@Override
+	public int totCount(Criteria cri) {
+		return session.selectOne(namespace+".campTotcount",cri);
 	}
 
 }
