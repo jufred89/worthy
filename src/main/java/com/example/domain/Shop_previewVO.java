@@ -1,12 +1,14 @@
 package com.example.domain;
 
+import java.util.Date;
+
 public class Shop_previewVO {
 	private int prod_rno;
 	private String prod_ruid;
-	private String prod_rstar;
+	private int prod_rstar;
 	private String prod_review;
 	private String prod_rid;
-	private String prod_r_regdate;
+	private Date prod_r_regdate;
 	
 	@Override
 	public String toString() {
@@ -26,12 +28,6 @@ public class Shop_previewVO {
 	public void setProd_ruid(String prod_ruid) {
 		this.prod_ruid = prod_ruid;
 	}
-	public String getProd_rstar() {
-		return prod_rstar;
-	}
-	public void setProd_rstar(String prod_rstar) {
-		this.prod_rstar = prod_rstar;
-	}
 	public String getProd_review() {
 		return prod_review;
 	}
@@ -44,10 +40,16 @@ public class Shop_previewVO {
 	public void setProd_rid(String prod_rid) {
 		this.prod_rid = prod_rid;
 	}
-	public String getProd_r_regdate() {
+	public int getProd_rstar() {
+		return prod_rstar;
+	}
+	public void setProd_rstar(int prod_rstar) {
+		this.prod_rstar = prod_rstar;
+	}
+	public Date getProd_r_regdate() {
 		return prod_r_regdate;
 	}
-	public void setProd_r_regdate(String prod_r_regdate) {
+	public void setProd_r_regdate(Date prod_r_regdate) {
 		this.prod_r_regdate = prod_r_regdate;
 	}
 }

@@ -61,14 +61,14 @@ public class BoardController {
 	//자유게시판 목록 JSON 데이터 가져오기
 	@RequestMapping(value = "/list.json", method = RequestMethod.GET)
 	@ResponseBody
-	public HashMap<String, Object> boardListJSON(Criteria cri) {
+	public HashMap<String, Object> boardListJSON(Criteria cri,String desc) {
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("list", dao.list(cri));
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
 		pm.setTotalCount(dao.totalCount(cri));
 		map.put("cri", cri);
 		map.put("pm", pm);
+		map.put("list", dao.list(cri,desc));
 		return map;
 	}
 	
@@ -243,7 +243,7 @@ public class BoardController {
 	@RequestMapping(value="/like",method=RequestMethod.POST)
 	@ResponseBody
 	public void like(int likeCheck, String uid, int fb_no){
-		dao.like(likeCheck, uid, fb_no);
+		service.like(likeCheck, uid, fb_no);
 	}
 
 }

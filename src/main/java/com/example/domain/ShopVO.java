@@ -8,7 +8,11 @@ public class ShopVO {
 	private int prod_saleprice;
 	private String prod_detail;
 	private String prod_image;
-	private String prod_del;
+	private String prod_status;
+	private int prod_stack_qty;
+	private String prod_cap;
+	private String prod_mfd;
+	private String prod_exp;
 	
 	public String getProd_id() {
 		return prod_id;
@@ -52,16 +56,41 @@ public class ShopVO {
 	public void setProd_image(String prod_image) {
 		this.prod_image = prod_image;
 	}
-	public String getProd_del() {
-		return prod_del;
+	public String getProd_status() {
+		return prod_status;
 	}
-	public void setProd_del(String prod_del) {
-		this.prod_del = prod_del;
+	public void setProd_status(String prod_status) {
+		this.prod_status = prod_status;
+	}
+	public int getProd_stack_qty() {
+		return prod_stack_qty;
+	}
+	public void setProd_stack_qty(int prod_stack_qty) {
+		this.prod_stack_qty = prod_stack_qty;
+	}
+	public String getProd_cap() {
+		return prod_cap;
+	}
+	public void setProd_cap(String prod_cap) {
+		this.prod_cap = prod_cap;
+	}
+	public String getProd_mfd() {
+		return prod_mfd;
+	}
+	public void setProd_mfd(String prod_mfd) {
+		this.prod_mfd = prod_mfd;
+	}
+	public String getProd_exp() {
+		return prod_exp;
+	}
+	public void setProd_exp(String prod_exp) {
+		this.prod_exp = prod_exp;
 	}
 	@Override
 	public String toString() {
-		return "UserVO [prod_id=" + prod_id + ", prod_name=" + prod_name + ", prod_comp=" + prod_comp
+		return "ShopVO [prod_id=" + prod_id + ", prod_name=" + prod_name + ", prod_comp=" + prod_comp
 				+ ", prod_normalprice=" + prod_normalprice + ", prod_saleprice=" + prod_saleprice + ", prod_detail="
-				+ prod_detail + ", prod_image=" + prod_image + ", prod_del=" + prod_del + "]";
+				+ prod_detail + ", prod_image=" + prod_image + ", prod_status=" + prod_status + ", prod_stack_qty="
+				+ prod_stack_qty + ", prod_cap=" + prod_cap + ", prod_mfd=" + prod_mfd + ", prod_exp=" + prod_exp + "]";
 	}
 }

@@ -16,8 +16,8 @@ public class ChatDAOImpl implements ChatDAO{
 	String namespace="com.example.mapper.ChatMapper";
 	
 	@Override
-	public List<ChatVO> list(String chat_id) {
-		return session.selectList(namespace+".list",chat_id);
+	public List<ChatVO> list(String chat_room) {
+		return session.selectList(namespace+".list",chat_room);
 	}
 
 	@Override

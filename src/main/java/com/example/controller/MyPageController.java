@@ -26,9 +26,19 @@ public class MyPageController {
 	ChatDAO cdao;
 	
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String mypage(Model model) {
+	public String mypage(Model model,HttpSession session) {
+		String uid = (String)session.getAttribute("uid");
+		String uname = udao.login(uid).getUname();
+		session.setAttribute("uname", uname);
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName","mycamping.jsp");
+		return "home";
+	}
+	//관심캠핑장 페이지 이동
+	@RequestMapping(value = "/mycampingLike", method = RequestMethod.GET)
+	public String mycampingLike(Model model) {
+		model.addAttribute("pageName", "user/mypage.jsp");
+		model.addAttribute("myPageName","mycampingLike.jsp");
 		return "home";
 	}
 	
@@ -75,16 +85,16 @@ public class MyPageController {
 	//채팅창 열기
 	@RequestMapping("/chat")
 	public String chat(Model model,String chat_id){
-		model.addAttribute("chatName",chat_id);
+		model.addAttribute("chat_room",chat_id);
 		return "user/chat";
 	}
 	//채팅데이터 가져오기
 	@RequestMapping(value = "/chat.json", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ChatVO> list(String chat_id){
-		System.out.println(chat_id);
-		System.out.println(cdao.list(chat_id));
-		return cdao.list(chat_id);
+	public List<ChatVO> list(String chat_room){
+		System.out.println(chat_room);
+		System.out.println(cdao.list(chat_room));
+		return cdao.list(chat_room);
 	}
 	//채팅 입력
 	@RequestMapping(value="/chat/insert", method=RequestMethod.POST)
@@ -120,6 +130,13 @@ public class MyPageController {
 	public String myshop(Model model) {
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName","myshop.jsp");
+		return "home";
+	}
+	
+	@RequestMapping(value = "/mycart", method = RequestMethod.GET)
+	public String mycart(Model model) {
+		model.addAttribute("pageName", "user/mypage.jsp");
+		model.addAttribute("myPageName","mycart.jsp");
 		return "home";
 	}
 }

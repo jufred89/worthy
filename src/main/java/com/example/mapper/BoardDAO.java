@@ -7,7 +7,7 @@ import com.example.domain.BoardVO;
 import com.example.domain.Criteria;
 
 public interface BoardDAO {
-	public List<BoardVO> list(Criteria cri);
+	public List<BoardVO> list(Criteria cri,String desc);
 	public void insert(BoardVO vo);
 	public BoardVO read(int fb_no);
 	public void update(BoardVO vo);
@@ -38,4 +38,5 @@ public interface BoardDAO {
 	public void likeTableInsert(String uid, int fb_no);
 	public int likeCheck(String uid, int fb_no);
 	public void like(int likeCheck, String uid, int fb_no);
+	public void likeUpdate(int fb_no); 
 }

@@ -9,23 +9,27 @@
 ﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>﻿
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+/>
+
 <style>
-	#close{
-		float:right;
-		margin-right:15px;
-	}
+ .fa-minus-circle{
+ 	margin-top:20px;
+ 	color:red;
+ }
 </style>
 </head>
 <body>
 <div class="chat_wrap">
-		<div class="header">1:1문의 ( ${chatName} ) <span id="close">채팅닫기</span></div>
-		<div id="chat"></div>
+	<div class="header">1:1문의 ( ${chat_room} ) <i class="fas fa-times fa-lg"></i></div>
+	<div id="chat"></div>
       <script id="temp" type="text/x-handlebars-template">
       {{#each .}}
            	<div class="{{printLeftRight chat_id}}">
           		<div class="chat_id">{{chat_id}}</div>
           		<div class="chat_msg">{{chat_msg}}
-					<a href="{{chat_no}}" style="display:{{printDel chat_id}}"> X</a>
+					<a href="{{chat_no}}" style="display:none"> X</a>
 				</div>
         	  	<div class="chat_regdate">{{chat_regdate}}</div>
        		</div>
@@ -41,14 +45,7 @@
                return "right";
             }
          });
-         
-         Handlebars.registerHelper("printDel", function(chat_id) {
-             if (uid != chat_id) {
-                return "none";
-             } else {
-                return "";
-             }
-          });
+
       	</script>
       <div class="input-div">
          <textarea id="txtMessage" placeholder="메세지를 입력한 후 엔터키를 누르세요!"></textarea>
@@ -57,27 +54,30 @@
 
 </body>
 <script>
-
+	var chat_room = "${chat_room}";
 	getList();
 	var uid = "${uid}";
+		
+	//메시지 더블클릭시 삭제
+	$('#chat').on('dblclick','.chat_msg',function(){
+		var chat_id = $(this).parent().find('.chat_id').html();
+		var chat_no = $(this).find('a').attr('href');
+		if(uid==chat_id){
+			if(!confirm(chat_no+'메시지를 삭제하실래요?')) return;
+			
+			   $.ajax({
+					  type:"post",
+					  url:"chat/delete",
+					  data:{"chat_no":chat_no},
+					  success: function(){
+						  sock.send("delete");
+					  }
+				 });
+		}
+		 
+	});
 
 
-	   //메시지 삭제
-	   $('#chat').on('click','.chat_msg a',function(e){
-		   e.preventDefault(); 
-		   var chat_no = $(this).attr('href');
-		   if(!confirm(chat_no+'을 삭제하실래요?')) return;
-
-		   $.ajax({
-				  type:"post",
-				  url:"chat/delete",
-				  data:{"chat_no":chat_no},
-				  success: function(){
-					  sock.send("delete");
-				  }
-			 });
-
-	   });
 	
 	$('#txtMessage').on("keydown",function(e){
 		if(e.keyCode==13 && !e.shiftKey){
@@ -93,7 +93,7 @@
 			$.ajax({
         		type:"post",
         	 	url:"chat/insert",
-        	 	data:{"chat_id":uid, "chat_msg":message},
+        	 	data:{"chat_id":uid, "chat_msg":message, "chat_room":chat_room},
         	 	success: function(data){
         			//서버로 메시지 보내기
         			sock.send(uid+"|"+message);
@@ -116,12 +116,11 @@
 	
 	// 채팅 데이터 불러오기
     function getList() {
-    	var chatName = "${chatName}";
         $.ajax({
            type : "get",
            url : "/chat.json",
            dataType : "json",
-           data:{"chat_id":chatName},
+           data:{"chat_room":chat_room},
            success : function(data) {
               var template = Handlebars.compile($("#temp").html());
               $("#chat").html(template(data));
@@ -133,7 +132,7 @@
      } 
 
 	// 채팅창 닫기
-	$('#close').on('click',function(){
+	$('.fa-times').on('click',function(){
 		window.close();
 	});
 </script>

@@ -9,4 +9,9 @@
 		insert into tbl_user(uid,upass,umail,uname,tel,address)
 		values(#{uid},#{upass},#{umail},#{uname},#{tel},#{address})
 	</insert>
+	<update id="update">
+		update tbl_user set 
+		upass=#{upass}, umail=#{umail}, uname=#{uname},tel=#{tel}, address=#{address}
+		where uid=#{uid}
+	</update>
 </mapper>

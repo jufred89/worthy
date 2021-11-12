@@ -1,22 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-<h3>내 정보 변경</h3>
-<div>
-    <!-- 정보 변경 -->
-    <form name="frm" >   
-      <input type="text" name="uid" value="${vo.uid }" readonly /><br>
-       <input type="password" name="upass" placeholder="변경 비밀번호"/><br>
-      <input type="password" name="passcheck" placeholder="변경 비밀번호확인"/><br>
-      <input type="email" name="umail" placeholder="이메일" value="${vo.umail }"/><br>
-      <input type="text" name="uname" value="${vo.uname }" readonly/><br>
-      <input type="text" name="address" placeholder="주소" value="${vo.address }"/><br>
-      <input type="text" name="tel" placeholder="번호" value="${vo.tel }"/><br>
-     
-      <input type="submit" value="회원 정보 수정">
-    </form>
+<div id="sub">
+	<div class="subheading">회원 정보 수정</div>
+	<div>
+	    <!-- 정보 변경 -->
+	    <form name="frm" id="frm"> 
+	    	<div class="frmTitle">아이디</div>  
+	      	<input type="text" name="uid" value="${vo.uid }" readonly /><br>
+	       	<div class="frmTitle">비밀번호</div>  
+	       	<input type="password" name="upass" placeholder="변경 비밀번호"/><br> 
+	      	<input type="password" name="passcheck" placeholder="변경 비밀번호확인"/><br>
+	     	<div class="frmTitle">이메일</div>  
+	      	<input type="email" name="umail" placeholder="이메일" value="${vo.umail }"/><br>
+			<div class="frmTitle">이름</div>  	     
+		    <input type="text" name="uname" value="${vo.uname }" readonly/><br>
+	      	<div class="frmTitle">주소</div>  
+	      	<input type="text" name="address" placeholder="주소" value="${vo.address }"/><br>
+	      	<div class="frmTitle">전화번호</div>  
+	      	<input type="text" name="tel" placeholder="번호" value="${vo.tel }"/><br>
+	     <div id="frmBtns">
+	      <input type="submit" class="blackBtn" value="수정">
+	      <input type="reset" class="whiteBtn" value="취소">
+	     </div>
+	    </form>
+  	</div>
+</div>
 
-  </div>
   <script>
   //유효성 검사
   $(frm).on("submit", function(e){
