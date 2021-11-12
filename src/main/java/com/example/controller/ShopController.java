@@ -166,6 +166,15 @@ public class ShopController {
 		return "redirect:/shop";
 	}
 	
+	@RequestMapping("/prod_slide.json")
+	@ResponseBody
+	public HashMap<String, Object> prod_slide(){
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("slide", dao.prod_slide());
+		//System.out.println(map);
+		return map;		
+	}
+	
 	@RequestMapping("/pre_list.json")
 	@ResponseBody
 	public HashMap<String, Object> pre_list(String prod_rid, Criteria cri){
@@ -204,5 +213,20 @@ public class ShopController {
 	@ResponseBody
 	public void cart_insert(Shop_cartVO cvo){
 		dao.cart_insert(cvo);
+	}
+	
+	@RequestMapping("/cart_list.json")
+	@ResponseBody
+	public HashMap<String, Object> cart_listJSON(String cart_uid){
+		HashMap<String, Object> cart = new HashMap<>();
+		cart.put("cart_list", dao.cart_list(cart_uid));
+		return cart;
+	}
+	
+	@RequestMapping(value="/cart_delete", method=RequestMethod.POST)
+	@ResponseBody
+	public void cart_delete(int cart_no){
+		System.out.println(cart_no);
+		dao.cart_delete(cart_no);
 	}
 }
