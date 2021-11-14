@@ -36,7 +36,7 @@ public class AdminController {
 		model.addAttribute("pageName", "admin/admin.jsp");
 		return "home";
 	}
-
+	//----------------------------------------캠핑장 관련 시작-----------------------------------------------------------
 	// 관리자 페이지 캠핑장 리스트 연결
 	@RequestMapping(value = "/admin/camping/list", method = RequestMethod.GET)
 	public String adminCampList(Model model) {
@@ -60,13 +60,13 @@ public class AdminController {
 	@RequestMapping("/admin/camping/list.json")
 	public HashMap<String, Object> adminCampListJSON(Criteria cri) {
 		HashMap<String, Object> map = new HashMap<>();
-		cri.setPerPageNum(8);
-		map.put("cri", cri);
+		cri.setPerPageNum(10);
 		map.put("list", cdao.campList(cri));
 
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
-		pm.setTotalCount(cdao.totCount(cri));
+		pm.setTotalCount(cdao.campTotcount(cri));
+		map.put("cri", cri);
 		map.put("pm", pm);
 		return map;
 	}
@@ -74,8 +74,11 @@ public class AdminController {
 	// 관리자 페이지 캠핑장 업데이트 페이지
 	@RequestMapping(value = "/admin/camping/update", method = RequestMethod.GET)
 	public String adminCampUpdate(Model model, String camp_id) {
+		model.addAttribute("styleList",cdao.campFacilityRead(camp_id));
+		model.addAttribute("cvo", cdao.campRead(camp_id));
 		model.addAttribute("pageName", "admin/admin.jsp");
 		model.addAttribute("adminPageName", "campingUpdate.jsp");
 		return "home";
 	}
+	//----------------------------------------캠핑장 관련 끝-----------------------------------------------------------
 }

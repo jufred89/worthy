@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
@@ -12,11 +13,12 @@
 		<h3 id="from_addr">${cvo.camp_addr}</h3>
 	</div>
 	<div>
-		<img src="http://placehold.it/510x510" /> <img
-			src="http://placehold.it/250x250" /> <img
-			src="http://placehold.it/250x250" /> <img
-			src="http://placehold.it/250x250" /> <img
-			src="http://placehold.it/250x250" />
+		<img src="/camping/display?file=${cvo.camp_image}" width=500/> 
+	</div>
+	<div id="campImages">
+		<c:forEach items="${attList}" var="camp_image">
+			<img src="/camping/display?file=${camp_image}" width=250 />
+		</c:forEach>
 	</div>
 	<div>${cvo.camp_price}</div>
 	<div>${cvo.camp_memo}</div>

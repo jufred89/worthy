@@ -77,7 +77,7 @@ public class CampingDAOImpl implements CampingDAO {
 	}
 
 	@Override
-	public int totCount(Criteria cri) {
+	public int campTotcount(Criteria cri) {
 		return session.selectOne(namespace+".campTotcount",cri);
 	}
 

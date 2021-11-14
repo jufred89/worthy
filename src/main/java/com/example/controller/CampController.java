@@ -2,11 +2,10 @@ package com.example.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +22,20 @@ import com.example.domain.CampingFacilityVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
+import com.example.mapper.CampingAttachDAO;
 import com.example.mapper.CampingDAO;
+import com.example.service.CampingService;
 
 @Controller
 public class CampController {
 	@Autowired
 	CampingDAO cdao;
+	
+	@Autowired
+	CampingAttachDAO cadao;
+	
+	@Autowired
+	CampingService cservice;
 	
 	@Resource(name = "uploadPath")
 	private String path;
@@ -64,6 +71,7 @@ public class CampController {
 	// 특정 캠핑장 상세 페이지
 	@RequestMapping(value = "/camping/read", method = RequestMethod.GET)
 	public String campRead(Model model, String camp_id) {
+		model.addAttribute("attList",cadao.list(camp_id));
 		model.addAttribute("cvo",cdao.campRead(camp_id));
 		model.addAttribute("pageName", "camping/read.jsp");
 		return "home";
@@ -80,7 +88,7 @@ public class CampController {
 	}
 	*/
 	// 캠핑장 insert 작업
-	@RequestMapping(value = "/camping/insert",produces="text/json; charset=utf-8", method = RequestMethod.POST)
+	@RequestMapping(value = "/camping/insert", method = RequestMethod.POST)
 	public String campInsert(CampingVO vo, MultipartHttpServletRequest multi, 
 			@RequestParam(value="facility_no") List<String> facility_no,
 			@RequestParam(value="style_no") List<String> style_no,
@@ -92,11 +100,28 @@ public class CampController {
 		vo.setCamp_image(image);
 		// 파일 업로드 하기
 		file.transferTo(new File(path + "/camping/" + image));
-		// 데이터 입력
-		cdao.campInsert(vo);
+		
+		// new
+		// 첨부 파일 업로드 하기
+		List<MultipartFile> files = multi.getFiles("files");
+		ArrayList<String> images=new ArrayList<String>();
+		for(MultipartFile attFile:files){
+			if(!attFile.isEmpty()){
+				String attImage=System.currentTimeMillis()+"_"+attFile.getOriginalFilename();
+				images.add(vo.getCamp_id()+"/"+attImage); // new
+				// 새폴더 생성
+				File folder = new File(path+"/camping/"+vo.getCamp_id());
+				if(!folder.exists()){
+					folder.mkdir();
+				}
+				// 해당 폴더 업로드
+				attFile.transferTo(new File(path+"/camping/"+vo.getCamp_id()+"/"+attImage));
+			}
+		}
+		vo.setImages(images);
+		cservice.insert(vo);
 		
 		// 시설 목록 배열에 담아서 값 넘기기
-		System.out.println(facility_no);
 		for(String fno:facility_no){
 			String camp_id=vo.getCamp_id();
 			cdao.campFacilityInsert(camp_id, fno);
