@@ -4,7 +4,7 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-<h3>캠핑장 등록</h3>
+<h3>캠핑장 정보</h3>
 <style>
 	.tbl_body1{
 	margin: 0px auto;
@@ -50,44 +50,41 @@
 </style>
 <hr />
 	<form name="frm" action="/camping/insert" method="post" enctype="multipart/form-data">
-	<img src="http://placehold.it/300x250" id="image" width=400>
+	<img src="/camping/display?file=${cvo.camp_image}" id="image" width=400>
 	<input type="file" name="file" style="display:none;"/>
 <hr />
-	<div>첨부이미지 : <input type="file" name="files"  acceept="image/*"  multiple/></div>
-	<div id="files"></div>
-<hr/>
 	<table class="tbl_body1" border="1">
 		<tr>
 			<th class="tbl_head">캠핑장 번호</th>
-			<td class="tbl_data"><input type="text" name="camp_id" value="${camp_id}" readonly/></td>
+			<td class="tbl_data"><input type="text" name="camp_id" value="${cvo.camp_id}" readonly/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 이름</th>
-			<td class="tbl_data"><input type="text" name="camp_name" placeholder="캠핑장 이름"/></td>
+			<td class="tbl_data"><input type="text" name="camp_name" value="${cvo.camp_name}"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 운영사</th>
-			<td class="tbl_data"><input type="text" name="camp_maker" placeholder="캠핑장 운영사"/></td>
+			<td class="tbl_data"><input type="text" name="camp_maker" value="${cvo.camp_maker}"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 주소</th>
-			<td class="tbl_data"><input type="text" name="camp_addr" placeholder="캠핑장 주소" onclick="search()"/></td>
+			<td class="tbl_data"><input type="text" name="camp_addr" value="${cvo.camp_addr}" onclick="search()"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 전화번호</th>
-			<td class="tbl_data"><input type="text" name="camp_tel" placeholder="캠핑장 전화번호"/></td>
+			<td class="tbl_data"><input type="text" name="camp_tel" value="${cvo.camp_tel}"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 설명</th>
-			<td class="tbl_data"><input type="text" name="camp_detail" placeholder="캠핑장 설명"/></td>
+			<td class="tbl_data"><input type="text" name="camp_detail" value="${cvo.camp_detail}"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 기타 편의사항</th>
-			<td class="tbl_data"><input type="text" name="camp_memo" placeholder="캠핑장 기타 편의사항"/></td>
+			<td class="tbl_data"><input type="text" name="camp_memo" value="${cvo.camp_memo}"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 가격</th>
-			<td class="tbl_data"><input type="text" name="camp_price" placeholder="캠핑장 가격"/></td>
+			<td class="tbl_data"><input type="text" name="camp_price" value="${cvo.camp_price}"/></td>
 		</tr>
 	</table>
 	<table class="tbl_body2" border="1">
@@ -95,7 +92,22 @@
 			<th class="tbl_head2">캠프 시설</th>
 		</tr>
 		<tr>
-			<td id="campFacilityList" class="tbl_data2">
+			<td id="campFacilityList" class="tbl_data2">	
+				<input type="checkbox" name="facility_no" value="1">&nbsp전기
+				<input type="checkbox" name="facility_no" value="2">&nbsp무선인터넷
+				<input type="checkbox" name="facility_no" value="3">&nbsp장작판매
+				<input type="checkbox" name="facility_no" value="4">&nbsp온수
+				<input type="checkbox" name="facility_no" value="5">&nbsp트렘폴린
+				<input type="checkbox" name="facility_no" value="6">&nbsp물놀이장
+				<input type="checkbox" name="facility_no" value="7">&nbsp놀이터
+				<input type="checkbox" name="facility_no" value="8">&nbsp산책로
+				<input type="checkbox" name="facility_no" value="9">&nbsp운동장
+				<input type="checkbox" name="facility_no" value="10">&nbsp운동시설
+				<input type="checkbox" name="facility_no" value="12">&nbsp마트
+				<input type="checkbox" name="facility_no" value="13">&nbsp편의점
+				<input type="checkbox" name="facility_no" value="14">&nbsp화장실
+				<input type="checkbox" name="facility_no" value="14">&nbsp샤워시설
+				<input type="checkbox" name="facility_no" value="15">&nbsp개수대
 			</td>
 		</tr>
 	</table>
@@ -107,12 +119,6 @@
 	<input type="submit" value="캠핑장 등록"/>
 	<input type="reset" value="등록 취소"/>
 </form>
-<!-- 캠핑 시설명 목록 가지고 오기 -->
-<script id="temp1" type="text/x-handlebars-template">
-		{{#each .}}
-			<input type="checkbox" name="facility_no" value="{{facility_no}}">&nbsp{{facility_name}}
-		{{/each}}
-</script>
 <!-- 캠핑 스타일명 목록 가지고 오기 -->
 <script id="temp2" type="text/x-handlebars-template">
 		{{#each .}}
@@ -146,16 +152,6 @@
 		var file=$(this)[0].files[0];
 		$("#image").attr("src",URL.createObjectURL(file));
 	})
-	
-	// 첨부 이미지 미리보기
-	$(frm.files).on("change",function(){
-		var files=$(this)[0].files;
-		var str="";
-		$.each(files,function(index,file){
-			str+="<img src='"+URL.createObjectURL(file)+"' width=200/>"
-		});
-		$("#files").html(str);
-	});
 	
 	// 특정 캠핑 시설명 목록 가지고 오기
 	function getCampFacility(){
@@ -242,8 +238,8 @@
 			return;
 		}
 		
-		if(!confirm("상품을 등록하시겠습니까?"))return;
-		frm.action="/camping/insert"
+		if(!confirm("상품을 수정하시겠습니까?"))return;
+		frm.action="/camping/update"
 		frm.method="post"
 		frm.submit();
 
