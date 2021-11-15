@@ -4,6 +4,13 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<style>
+	#reserve_box{
+		border:1px solid black;
+		width: 290px;
+		height:514px;
+	}
+</style>
 <h1>캠핑장 정보</h1>
 <!-- 캠핑장 정보 부분 -->
 <div>
@@ -20,7 +27,11 @@
 			<img src="/camping/display?file=${camp_image}" width=250 />
 		</c:forEach>
 	</div>
-	<div>${cvo.camp_price}</div>
+	<div id="reserve_box">
+		<div>₩ ${cvo.camp_price} / 박</div>
+		<div></div>
+		<div></div>
+	</div>
 	<div>${cvo.camp_memo}</div>
 	<div>${cvo.camp_detail}</div>
 </div>
@@ -31,7 +42,7 @@
 <!-- 시설 목록 부분 -->
 <div id="facilityList"></div>
 <!-- 주소 기반 지도 -->
-<div id="map" style="width: 500px; height: 400px;"></div>
+<div id="map" style="width: 100%; height: 400px;"></div>
 <!-- 캠핑장스타일, 시설 목록 template -->
 <script id="temp2" type="text/x-handlebars-template">
 		{{#each .}}
@@ -51,6 +62,7 @@
 	var camp_id = '${cvo.camp_id}';
 	getStyleList();
 	getFacilityList();
+	
 	function getStyleList() {
 		$.ajax({
 			type : 'get',

@@ -1,5 +1,6 @@
 package com.example.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.example.domain.CampingFacilityVO;
@@ -17,6 +18,7 @@ public interface CampingDAO {
 	public List<CampingStyleVO> campStyleList();
 	public void campInsert(CampingVO vo);
 	public void campFacilityInsert(String camp_id,String facility_no);
-	public void campStyleInsert(String camp_id, String style_no, int style_qty);
+	public void campStyleInsert(String camp_id, String style_no, int style_qty, int style_price);
 	public int campTotcount(Criteria cri);
+	public List<HashMap<String, Object>> campSearchList(String camp_addr,String reser_checkin,String reser_checkout);
 }

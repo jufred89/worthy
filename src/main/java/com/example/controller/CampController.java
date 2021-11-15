@@ -3,6 +3,7 @@ package com.example.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -42,7 +43,11 @@ public class CampController {
 	
 	//캠핑장 홈이랑 연결
 	@RequestMapping(value = "/camping/list", method = RequestMethod.GET)
-	public String campList(Model model) {
+	public String campList(Model model,String camp_addr,String reser_checkin,String reser_checkout) {
+		System.out.println(camp_addr+"/"+reser_checkin+"/"+reser_checkout);
+		model.addAttribute("camp_addr",camp_addr);
+		model.addAttribute("reser_checkin",reser_checkin);
+		model.addAttribute("reser_checkout",reser_checkout);
 		model.addAttribute("pageName", "camping/list.jsp");
 		return "home";
 	}
@@ -70,7 +75,10 @@ public class CampController {
 	
 	// 특정 캠핑장 상세 페이지
 	@RequestMapping(value = "/camping/read", method = RequestMethod.GET)
-	public String campRead(Model model, String camp_id) {
+	public String campRead(Model model, String camp_id, String reser_checkin, String reser_checkout) {
+		System.out.println(camp_id+","+reser_checkin+","+reser_checkout);
+		model.addAttribute("reser_checkin", reser_checkin);
+		model.addAttribute("reser_checkout", reser_checkout);
 		model.addAttribute("attList",cadao.list(camp_id));
 		model.addAttribute("cvo",cdao.campRead(camp_id));
 		model.addAttribute("pageName", "camping/read.jsp");
@@ -92,7 +100,8 @@ public class CampController {
 	public String campInsert(CampingVO vo, MultipartHttpServletRequest multi, 
 			@RequestParam(value="facility_no") List<String> facility_no,
 			@RequestParam(value="style_no") List<String> style_no,
-			@RequestParam(value="style_qty") List<Integer> style_qty) throws Exception {
+			@RequestParam(value="style_qty") List<Integer> style_qty,
+			@RequestParam(value="style_price") List<Integer> style_price) throws Exception {
 		// 이미지 복사
 		MultipartFile file = multi.getFile("file"); // 업로드한 파일 지정
 		// 파일 이름 유니크하게
@@ -127,8 +136,11 @@ public class CampController {
 			cdao.campFacilityInsert(camp_id, fno);
 		}
 
-		// null 값 제거
+		// style_qty null 값 제거
 		while (style_qty.remove(null)) {
+		}
+		// style_price null 값 제거
+		while (style_price.remove(null)) {
 		}
 		
 		// 스타일 목록에 값 넘기기
@@ -136,7 +148,8 @@ public class CampController {
 			String camp_id=vo.getCamp_id();
 			String sno=style_no.get(i);
 			int sqty=style_qty.get(i);
-			cdao.campStyleInsert(camp_id, sno, sqty);
+			int sprice=style_price.get(i);			
+			cdao.campStyleInsert(camp_id, sno, sqty,sprice);
 		}
 		return "redirect:/camping/list";
 	}
@@ -164,6 +177,20 @@ public class CampController {
 		byte[] image = IOUtils.toByteArray(in);
 		in.close();
 		return image;
+	}
+	/*
+	// 지역, 날짜 조건 캠핑장 목록
+	@ResponseBody
+	@RequestMapping("/camping/campSearchList.json")
+	public List<HashMap<String, Object>> campSearchLit() {
+		return cdao.campSearchList();
+	}
+	*/
+	@ResponseBody
+	@RequestMapping(value="/camping/searchlist.json", method = RequestMethod.GET)
+	public List<HashMap<String, Object>> campSearchList(String camp_addr, String reser_checkin,String reser_checkout){
+		System.out.println("............."+camp_addr+"/"+reser_checkin+"/"+reser_checkout);
+		return cdao.campSearchList(camp_addr,reser_checkin,reser_checkout);
 	}
 	
 }
