@@ -1,111 +1,100 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="../resources/board.css" />
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+/>
 <style>
-	#page{
-		width:1200px;
-		margin: 0 auto;
-		text-align:left;
-	}
-	.box{
-		background-color: #ecf5fe;
-		margin:15px;
-		padding:10px;
-		width:900px;
-	}
-	.rno{
-		font-size:70%;
-		font-weight:bold;
-	}
-	.replyer{
-		font-size:105%;
-		font-weight:bold;
-		color:#0077c0;
-	}
-	
-	.replydate{
-		font-size:80%;
-		color:gray;
-		margin-left:10px;
-	}
-	.reply{
-		margin-top:5px;
-	}
 
-	.write{
-		margin-bottom:20px;
-		border: 1px solid #dadada;
-		padding:15px;
-	}
-	#uid,#btnReplyInsert,#txtReply{
-		margin-left:5px;
-	}
-	
 </style>
-<div id="page">
-	<h1>글 읽기</h1>
-	<form name="frm" enctype="multipart/form-data">
-		<div>
-			카테고리
-			<select name="fb_category">
-				<option value="${vo.fb_category }">${vo.fb_category }</option>
-			</select>
-		</div>
-		
-	
-		<div class="cont">
-			<span>글번호</span><input type="text" name="fb_no" value="${vo.fb_no }" readonly/><br>
-			<span>제목</span><input type="text" name="fb_title" value="${vo.fb_title }"/><br>
-			<span>작성자</span><input type="text" name="fb_writer" value="${vo.fb_writer }" readonly/>	
-		</div>
-		<div class="cont">
-			<textarea rows="20" cols="120" name="fb_content">${vo.fb_content }</textarea>
-		</div>
-		
-		
-		<!-- 대표사진 -->
-		<div class="cont">
-			<div><h4>대표사진</h4></div>
-			<img src="/board/display?file=${vo.fb_image }" name="fb_image" id="fb_image" width=320 height=250/>
-			<!-- 이미지를 변경하지 않았을 때 기존 이미지 사용 -->
-			<input type="hidden" name="oldImage" value="${vo.fb_image }"/>
-			<br>
-			<!-- 대표 이미지 첨부 -->
-			<div><b>첨부이미지</b> <input type="file" name="file" style="display:none;"/></div>
-		</div>
-		
-		
-		<!-- 첨부파일 -->
-		<div style="width:900px; margin:0 auto;">
-			첨부파일추가 <input type="file" name="attFile"/>
-			<!-- 첨부파일 리스트 출력 -->
-			<div id="attachments" style="overflow:hidden;">
-				<c:forEach items="${attList }" var="attach">
-					<img src="display?file=/${vo.fb_no }/${attach }" width=200 height=150/>
-					<a href="${attach }">삭제</a>
-				</c:forEach>
-			</div>
-			<hr/>
+<div id="subject">FREE BOARD</div>
+<h5>자유게시판</h5>
 
-			<!-- 수정, 삭제, 취소 버튼 -->
-			<div style="margin-top:20px;">
-			<c:if test="${uid == vo.fb_writer}">
-				<input type="submit" value="글수정"/>
-				<input type="button" id="btnDelete" value="삭제"/>
-			</c:if>
-				<input type="reset" value="취소"/>		
-			</div>
-		</div>
-	</form>
-	<hr/>
-	<div>
+<div id="readPage">
+	<div id="pageLike">
 		<c:if test="${likeCheck==0 }">
-		<input type="button" id="bntLike" value="좋아요"/>
+		<img src="/resources/heart.png" title="좋아요" width=35 id="bntLike"/>
 		</c:if>
 		<c:if test="${likeCheck!=0 }">
-		<input type="button" id="bntLike" value="좋아요취소"/>
+		<img src="/resources/heart_colored.png" title="좋아요취소" width=35 id="bntLike"/>
 		</c:if>
 	</div>
+	<div id="pageContent">
+		<form name="frm" enctype="multipart/form-data">
+			<div id="condition">
+				<div class="title">카테고리</div>
+				<c:if test="${vo.fb_writer == uid}">
+					<select id="fb_category" name="fb_category">
+						<option value="sell">팝니다</option>
+						<option value="buy">삽니다</option>
+						<option value="greetings">가입인사</option>
+						<option value="talk">캠핑톡</option>
+					 </select>	
+				</c:if>
+				<c:if test="${vo.fb_writer != uid}">
+					<input type="text" value="${vo.fb_category }"/>
+				</c:if>
+					<input type="hidden" name="fb_no" value="${vo.fb_no }"/><br>
+					<div class="title">제목</div><input type="text" name="fb_title" value="${vo.fb_title }"/><br>
+					<div class="title">작성자</div><input type="text" name="fb_writer" value="${vo.fb_writer }" readonly/>	
+			</div>
+			<div id="fb_content">
+				<textarea rows="15" cols="120" name="fb_content">${vo.fb_content }</textarea>
+			</div>
+			
+			<div id="form-images">
+				<!-- 대표사진 -->
+				<div id="form-image">
+					<div class="title">대표사진</div>
+					<c:if test="${vo.fb_image == null }">
+						<img src="http://placehold.it/200x150"/>
+					</c:if>
+					<c:if test="${vo.fb_image != null }">
+						<img src="/board/display?file=${vo.fb_image }" name="fb_image" id="fb_image" width=200 height=150/>
+					</c:if>
+					<input type="file" name="file" style="display:none;"/>
+					<!-- 이미지를 변경하지 않았을 때 기존 이미지 사용 -->
+					<input type="hidden" name="oldImage" value="${vo.fb_image }"/>	
+				</div>
+								
+				<!-- 첨부파일 -->
+
+				<div id="form-attach">
+					<div class="title">첨부이미지</div>
+					<c:if test="${vo.fb_writer == uid}">
+						<input type="file" name="attFile" accept="image/*"/>
+					</c:if>
+					<div id="attachments">
+						<c:if test="${attList!=null}">
+							<!-- 첨부파일 리스트 출력 -->
+							<c:forEach items="${attList }" var="attach">
+								<div class="attachBox">
+									<img src="display?file=/${vo.fb_no }/${attach }" width=150 height=100/>
+									<div class="printDel">
+										<c:if test="${vo.fb_writer == uid}">
+											<a href="${attach }">삭제</a>
+										</c:if>
+									</div>
+								</div>
+							</c:forEach>		
+						</c:if>	
+					</div>
+				</div>
+			</div>
+			<!---------------------- 수정, 삭제, 취소 버튼 ------------------->
+				<div id="readBtns">
+				<c:if test="${uid == vo.fb_writer}">
+					<input type="submit" value="수정"/>
+					<input type="button" id="btnDelete" value="삭제"/>
+				</c:if>
+				<input type="button" value="목록으로" onClick="location.href='/board/list'"/>		
+				</div>
+		</form>
+	</div>
+
+	
+
 	<hr/>
 	
 	<!------------------------------ 댓글 --------------------------->
@@ -149,6 +138,19 @@
 	var page = 1;
 	var likeCheck = "${likeCheck}";
 	
+	var category = "${vo.fb_category }";
+	if(category=='sell'){
+		$('#fb_category option:eq(0)').prop("selected",true);
+	}else if(category=='buy'){
+		$('#fb_category option:eq(1)').prop("selected",true);
+	}else if(category=='greetings'){
+		$('#fb_category option:eq(2)').prop("selected",true);
+	}else{
+		$('#fb_category option:eq(3)').prop("selected",true);
+	}
+	
+
+
 	getReplyList();
 	
 	//좋아요 버튼 클릭한 경우
@@ -191,6 +193,7 @@
 	$('#btnReplyInsert').on('click',function(){
 		var fb_reply = $('#txtReply').val();
 		var fb_replyer = uid;
+		var fb_category = $(frm.fb_category).val();
 		
 		if(fb_reply==""){
 			alert('댓글 내용을 입력하세요!');
@@ -202,7 +205,7 @@
 		$.ajax({
 			type:'post',
 			url:'replyInsert',
-			data:{"fb_bno":fb_no, "fb_reply":fb_reply, "fb_replyer":fb_replyer},
+			data:{"fb_bno":fb_no, "fb_reply":fb_reply, "fb_replyer":fb_replyer, "fb_category":fb_category },
 			success:function(){
 				$('#txtReply').val("");
 
@@ -265,11 +268,7 @@
 			processData: false,
 			contentType: false,
 			success: function(data){
-				var str='<img src="display?file=/'+fb_no+"/"+data+'" width=200 height=150/>';
-				str+='<a href="'+data+'">삭제</a>';
-				
-				$("#attachments").append(str);
-				
+			
 				location.href="/board/read?fb_no="+fb_no;
 			}
 		});
@@ -316,6 +315,7 @@
 		var fb_title = $(frm.fb_title).val();
 		var fb_writer = $(frm.fb_writer).val();
 		var fb_content = $(frm.fb_content).val();
+		var fb_image = $(frm.fb_image).val();
 		var file = $(frm.file).val();
 		var oldImage = $(frm.oldImage).val();
 		
@@ -331,10 +331,11 @@
 		}
 
 		if(!confirm('글을 수정하실래요?')) return;
-
+		
 		frm.action="update";
 		frm.method="post";
 		frm.submit();
+
 	});
 	
 </script>

@@ -66,36 +66,31 @@ border:5px double skyblue;
 border:5px double skyblue;
 }
 
-#myModal3 .modal-body h3{
-border:1px dashed black;
 
-
-}
 </style>
 </head>
 <body>
 
 	<div id="header">
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header col-sm-2">
-      
-     
-       <h2>worthy</h2>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header col-sm-2">
+	      
+	     
+	       <h2 id="logo" onClick="location.href='/'">worthy</h2>
       
     </div>
     <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
     <div class="nav navbar-nav col-sm-4">
-   
-    <div><i class="fa fa-map-marker" aria-hidden="true"></i> <a
-					data-toggle="modal" href="#myModal">어디로 떠날까요?</a></div>
+   <div id="info_search_box" >
+    <div id="search_where"><input class="form-control"  type="text" placeholder="어디로?"> </div>
       
-    <div style="margin:10px;">|</div>
-			<div>
-				<i class="fa fa-calendar-check-o" aria-hidden="true"></i> <a
-					data-toggle="modal" href="#myModal2">언제 떠날까요?</a>
-			</div>
+<div class="input-group input-daterange">
+    <input type="text" id="start" class="form-control"  placeholder="언제부터">
+    <input type="text" id="end" class="form-control"placeholder="언제까지">
+</div>
+    </div>
     </div>
     </c:if>
     <c:if test="${uid.indexOf('admin')!=-1}">
@@ -109,7 +104,7 @@ border:1px dashed black;
     <div class="nav navbar-nav navbar-right col-sm-6" id="menus">
     <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
     <div>
-				<a data-toggle="modal" href="#myModal3">태마검색 </a>
+				<a data-toggle="modal" href="#myModal3">테마검색 </a>
 			</div>
 			<div>
 				<a href="/notice/list">캠핑정보 </a>
@@ -120,27 +115,23 @@ border:1px dashed black;
 			<div>
 				<a href="/board/list">자유게시판</a>
 			</div>
-			<span>|</span>
+			
 			</c:if>
 			  
 			
-     		 <c:if test="${uid eq 'admin'}">
-					<div style="float:right;">
-						<div><a href="/admin">${uid}</a>님 환영합니다!</div>
-						<a href="/user/logout"><span class='glyphicon glyphicon-share-alt'></span>Logout</a>
-					</div>
-			</c:if>
-     		 <c:if test="${uid!=null && uid ne 'admin'}">
+     		 <c:if test="${uid!=null}">
 					<div style="float:right;">
 						<div><a href="/mypage?uid=${uid}">${uid}</a>님 환영합니다!</div>
-						<a href="/user/logout"><span class='glyphicon glyphicon-share-alt'></span>Logout</a>
+						  
+						<a href="/user/logout" id="logout"><span class='glyphicon glyphicon-share-alt'></span>LOGOUT</a>
 					</div>
 				    <!-- <div><a href="/mypage">Mypage</a></div> -->
 			</c:if>
 			<c:if test="${uid==null}">
+				<span>|</span>
 				<div id="login_join_imoticon" >
-					<a href="/user/login" ><span class="glyphicon glyphicon-log-in"></span> Login</a>
-					<a href="/user/join"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+					<a href="/user/login" ><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
+					<a href="/user/join"><span class="glyphicon glyphicon-user"></span>SIGN UP</a>
 				</div>
 			</c:if>
     </div>
@@ -388,7 +379,7 @@ border:1px dashed black;
 					<div class="modal-content" style="height: 900px;">
 
 						<!-- Modal Header -->
-						<div class="modal-header" style="background:lightgray;">
+						<div class="modal-header">
 							
 							<h1>테마검색</h1>
 							<p>원하는 캠핑 스타일을 선택 후 검색버튼을 클릭하세요!</p>
@@ -504,7 +495,7 @@ $("#search_local").on("click","ul li",function(){
  $("div.input-daterange").each(function(){
     var $inputs = $(this).find('input');
    
-    $inputs.datepicker("setDate", new Date());
+   // $inputs.datepicker("setDate", new Date());
     if ($inputs.length >= 2) {
         var $from = $inputs.eq(0);
         var $to   = $inputs.eq(1);

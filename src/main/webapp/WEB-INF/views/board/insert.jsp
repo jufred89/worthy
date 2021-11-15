@@ -23,7 +23,7 @@
 	<div class="cont">
 		<span>글번호</span><input type="text" name="fb_no" value="${fb_no }" /><br>
 		<span>제목</span><input type="text" name="fb_title"/><br>
-		<span>작성자</span><input type="text" name="fb_writer" value="user01"/>	
+		<span>작성자</span><input type="text" name="fb_writer" value="${uid }" readonly/>	
 	</div>
 	<div class="cont">
 		<textarea rows="20" cols="120" name="fb_content"></textarea>
