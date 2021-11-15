@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.CampingMapper">
-	<!-- 캠핑장 목록 -->
+	<!-- 유저 메인 페이지 지역, 날짜 조건 캠핑장 목록 -->
+	<select id="campSearchList" resultType="hashmap">
+	select c.*, r.* from
+	(select * from view_camp_sql where camp_addr like concat('%',#{camp_addr},'%')) c
+	left join
+	(select camp_id, count(*) reserve_cnt from tbl_camp_reserve
+	where (reser_checkin between #{reser_checkin} and #{reser_checkout}) or
+	(reser_checkout between #{reser_checkin} and #{reser_checkout}) group by camp_id) r
+	on c.camp_id= r.camp_id order by c.camp_id desc
+	</select>
+	<!-- 관리자 페이지 캠핑장 목록 -->
  	<select id="campList" resultType="com.example.domain.CampingVO">
- 		select * from tbl_camp_list order by camp_id desc limit 0,10
+ 		select * from tbl_camp_list
+ 		<if test="searchType=='camp_id'">
+			where camp_id like concat('%',#{keyword},'%')
+			order by camp_id desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+		<if test="searchType=='camp_name'">
+			where camp_name like concat('%',#{keyword},'%')
+			order by camp_id desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+		<if test="searchType=='camp_addr'">
+			where camp_addr like concat('%',#{keyword},'%')
+			order by camp_id desc
+			limit #{pageStart},#{perPageNum}
+		</if>
  	</select>
  	<!-- 캠핑장 시설명 리스트 -->
  	<select id="campFacilityList" resultType="com.example.domain.CampingFacilityVO">
@@ -43,7 +68,20 @@
  	</insert>
  	<!-- 특정 캠핑장 스타일목록 등록 -->
  	<insert id="campStyleInsert">
- 		insert into tbl_camp_style(camp_id,style_no,style_qty)
- 		values(#{camp_id},#{style_no},#{style_qty})
+ 		insert into tbl_camp_style(camp_id,style_no,style_qty,style_price)
+ 		values(#{camp_id},#{style_no},#{style_qty},#{style_price})
  	</insert>
+ 	<!-- 총 캠핑장 갯수 -->
+ 	<select id="campTotcount" resultType="int">
+		select count(*) from tbl_camp_list
+		<if test="searchType=='camp_id'">
+			where camp_id like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType=='camp_name'">
+			where camp_name like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType=='camp_addr'">
+			where camp_addr like concat('%',#{keyword},'%')
+		</if>
+	</select>
 </mapper>
