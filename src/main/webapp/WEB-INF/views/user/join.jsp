@@ -8,26 +8,35 @@
 
     <!-- Icon -->
     <div class="first" style="margin:50px;">
-    <h2>Worthy Family가 되어주세요!</h2>
+    <h3><b>Worthy Family가 되어주세요!</b></h3>
     </div>
 
     <!-- Login Form -->
     <form action="post" id="join" name="frm">
-        <div>
-         <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="아이디" >
+      <div>
+        <div class="title">아이디</div>
+        <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="아이디" >
         <input type="button" value="중복체크" id="chkid"/>
       </div>
-      <input type="password" id="upass" class="fadeIn third" name="upass" placeholder="비밀번호">
-      <input type="password" id="passcheck" class="fadeIn third" name="passcheck" placeholder="비밀번호확인">
+	      
+	    <div class="title">비밀번호</div>
+      	<input type="password" id="upass" class="fadeIn third" name="upass" placeholder="비밀번호">
+      	<input type="password" id="passcheck" class="fadeIn third" name="passcheck" placeholder="비밀번호확인">
+      
+      <div class="title">이메일</div>
       <input type="email" id="umail" class="fadeIn second" name="umail" placeholder="이메일" >
+      <div class="title">이름</div>
       <input type="text" id="uname" class="fadeIn second" name="uname" placeholder="성함" >
+      <div class="title">전화번호</div>
       <input type="text" id="tel" class="fadeIn second" name="tel" placeholder="연락처" >
-     	<div>
+     
+     <div id="addr">
+     	<div class="title">주소</div>
      	<input type="button" onclick="search()" value="주소검색"><br>
      	<input type="text" id="road" name="address" placeholder="도로명주소">
      	<span id="guide" style="color:#999;display:none"></span>
     	<input type="text" id="detail" name="detail" placeholder="상세주소">
-      	</div>
+     </div>
       <input type="submit" class="fadeIn fourth" value="Join Us">
     </form>
 
