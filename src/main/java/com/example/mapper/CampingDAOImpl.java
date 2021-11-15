@@ -68,17 +68,27 @@ public class CampingDAOImpl implements CampingDAO {
 	}
 
 	@Override
-	public void campStyleInsert(String camp_id, String sno, int sqty) {
+	public void campStyleInsert(String camp_id, String sno, int sqty, int sprice) {
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		map.put("camp_id", camp_id);
 		map.put("style_no", sno);
 		map.put("style_qty", sqty);
+		map.put("style_price", sprice);
 		session.insert(namespace+".campStyleInsert", map);
 	}
 
 	@Override
 	public int campTotcount(Criteria cri) {
 		return session.selectOne(namespace+".campTotcount",cri);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> campSearchList(String camp_addr,String reser_checkin,String reser_checkout) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("camp_addr", camp_addr);
+		map.put("reser_checkin", reser_checkin);
+		map.put("reser_checkout", reser_checkout);
+		return session.selectList(namespace+".campSearchList",map);
 	}
 
 }
