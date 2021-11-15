@@ -44,7 +44,9 @@ background-position:97%;
     
     <div id="search_box">
  <h1>어디로 떠날까요?</h1>
- <input type="text" placeholder='원하는 지역을 검색해보세요'/>
+ <input type="text" name="camp_addr">
+ <input type="text" name="reser_checkin">
+ <input type="text" name="reser_checkout">
 </div>
 
 </div>
@@ -53,10 +55,13 @@ background-position:97%;
 
 <script>
 $('#search_box').on('keypress','input',function(e){
-	if(e.keyCode==13){
-	var keyword=$('#search_box input').val()
-	alert(keyword)
-	}
+   if(e.keyCode==13){
+   var camp_addr=$('#search_box input[name=camp_addr]').val()
+   var reser_checkin=$('#search_box input[name=reser_checkin]').val()
+   var reser_checkout=$('#search_box input[name=reser_checkout]').val()
+   alert(camp_addr+"/"+reser_checkin+"/"+reser_checkout)
+	location.href = "/camping/list?camp_addr=" + camp_addr
+	+ "&reser_checkin=" + reser_checkin + "&reser_checkout="+reser_checkout
+   }
 })
-
 </script>
