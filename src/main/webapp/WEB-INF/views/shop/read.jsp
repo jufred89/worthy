@@ -54,6 +54,32 @@
     	text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
 	}
 </style>
+ <style>
+ 	.slide{
+ 		width: 1000px;
+ 		margin: 0 auto;
+ 	}
+    *{margin:0;padding:0;}
+    ul,li{list-style:none;}
+    .slide{height:300px;overflow:hidden;} 
+    .slide ul{width:calc(30% * 7);display:flex;animation:slide 10s infinite;} /* slide를 8초동안 진행하며 무한반복 함 */
+    .slide li{width:calc(100% / 7);height:300px;}
+    @keyframes slide {
+      0% {margin-left:0;} /* 0 ~ 10  : 정지 */
+      15% {margin-left:0;} /* 10 ~ 25 : 변이 */
+      25% {margin-left:-25%;} /* 25 ~ 35 : 정지 */
+      40% {margin-left:-25%;} /* 35 ~ 50 : 변이 */
+      50% {margin-left:-50%;}
+      65% {margin-left:-50%;}
+      75% {margin-left:-75%;}
+      90% {margin-left:-75%;}
+      100% {margin-left:0;}
+    }
+    .slide_info{
+    	line-height: em;
+    }
+  </style>
+
 <a href="/shop/update?prod_id=${vo.prod_id}">수정 버튼은 관리자페이지로 옮길 예정</a>
 <h1>상품 정보 페이지</h1>
 
@@ -86,7 +112,21 @@
 
 <!-- 슬라이드 -->
 <div>
-	<h3>상품 추천 슬라이드</h3>
+	<div class="slide">
+		<ul>
+			
+		</ul>
+	</div>
+	<script id="temp_slide" type="text/x-handlebars-template">
+		{{#each slide}}
+				<li>
+					<div>
+					<img src="/shop/display?file={{prod_image}}" width="200" />
+					</div>
+					<div class="slide_info">{{prod_name}}</div>
+				</li>
+		{{/each}}
+	</script>
 </div>
 
 <!-- 메뉴 -->
@@ -104,18 +144,21 @@
 
 <!-- 상세 설명 -->
 <div>
-	<div>
-		<span>원산지</span>
-		<span>상품상세 참조</span>
-	</div>
-	<div>
-		<span>상품 번호</span>
-		<span>${vo.prod_id }</span>
-	</div>
-	<div>
-		<span>포장단위별 내용물의 용량(중량), 수량</span>
-		<span>${vo.prod_cap }</span>
-	</div>
+	<table>
+		<tr>
+			<td>원산지</td>
+			<td>상품상세 참조</td>
+		</tr>
+		<tr>
+			<td>상품번호</td>
+			<td>${vo.prod_id }</td>
+		</tr>
+		<tr>
+			<td>포장단위별 내용물의 용량(중량), 수량</td>
+			<td>${vo.prod_cap }</td>
+		</tr>
+		
+	</table>
 </div>
 
 <!-- 상품 상세 이미지 -->
@@ -123,9 +166,61 @@
 	<img src="/shop/display?file=${avo.shop_ano}" />
 </div>
 
+<div>
+	<table>
+		<tr>
+			<td>원산지</td>
+			<td>상품상세참조</td>
+		</tr>
+		<tr>
+			<td>상품번호</td>
+			<td>${vo.prod_id }</td>
+		</tr>
+		<tr>
+			<td>상품상태</td>
+			<td>새상품</td>
+		</tr>
+		<tr>
+			<td>소비자상담 관련 전화번호</td>
+			<td>2021-1111</td>
+		</tr>
+		<tr>
+			<td>제조년월일과 유통기한 또는 품질유지기한</td>
+			<td>상품상세참조</td>
+		</tr>
+		<tr>
+			<td>원재료명 및 함량(원산지정보)</td>
+			<td>상품상세참조</td>
+		</tr>
+		<tr>
+			<td>식품의 유형</td>
+			<td>상품상세참조</td>
+		</tr>
+		<tr>
+			<td>생산자 및 생산자의 소재지, 수입자</td>
+			<td>상품상세참조</td>
+		</tr>
+		<tr>
+			<td>수입식품여부</td>
+			<td>상품상세참조</td>
+		</tr>
+		<tr>
+			<td>포장단위별 내용물의 용량(중량), 수량</td>
+			<td>${vo.prod_cap }</td>
+		</tr>
+		<tr>
+			<td>제품명</td>
+			<td>상품상세참조</td>
+		</tr>
+		<tr>
+			<td>소비자 안전을 위한 주의사항</td>
+			<td>상품상세참조</td>
+		</tr>
+	</table>
+	<p>해당 인증 정보는 판매자가 등록한 것으로 등록 정보에 대한 일체의 책임은 판매자에게 있습니다.</p>
+</div>
 
-
-<!-- 리뷰 이동 예정 -->
+<!-- 리뷰 등록 이동 예정 -->
 <div id="scroll_review">
 	<span>리뷰</span><span id="total"></span>
 	<hr/>
@@ -178,23 +273,28 @@
 	var prod_rid = "${vo.prod_id}";
 	var page = 1;
 	getPreview();
+	getSlide();
 	
 	//장바구니 담기
 	$("#cart").on("click", function(){
 		var cart_pid = "${vo.prod_id}";
-		var cart_uid = "user01";
+		var cart_uid = "${uid}";
 		var cart_pqty = $("#prod_count").val();
-		var prod_normalprice = "${vo.prod_normalprice}";
-		var cart_price = prod_normalprice * cart_pqty;
+		var normalprice = "${vo.prod_normalprice}";
+		var cart_price = normalprice * cart_pqty;
+		var cart_pimage = "${vo.prod_image}";
+		var cart_pname = "${vo.prod_name}";
 		
 		//alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
 		
 		$.ajax({
 			type: "post",
 			url: "/shop/cart_insert",
-			data: {"cart_pid" : cart_pid, "cart_uid" : cart_uid, "cart_pqty" : cart_pqty, "cart_price" : cart_price},
+			data: {"cart_pid" : cart_pid, "cart_uid" : cart_uid, "cart_pqty" : cart_pqty,
+				"cart_price" : cart_price, "cart_pimage" : cart_pimage, "cart_pname" : cart_pname},
 			success: function(){
-				alert("장바구니 이동 버튼 예정");
+				if(!confirm("장바구니로 이동")) return;
+				location.href="/mycart";
 			}
 			
 		});
@@ -250,12 +350,26 @@
 		}
 	});
 	
+	//슬라이드
+	function getSlide(){
+		$.ajax({
+			type: "get",
+			url: "/shop/prod_slide.json",
+			dataType: "json",
+			success: function(data){
+				var temp_slide = Handlebars.compile($("#temp_slide").html());
+				$(".slide ul").html(temp_slide(data));
+			}
+		});
+	}
+	
 
 	//댓글 등록
 	$("#pre_insert").on("click", function(){
 		
 		var prod_review = $("#pre_review").val();
 		var prod_rstar = $(".rating:checked").val() * 20;
+		var prod_ruid = "${uid}";
 		
 		//alert(prod_review);
 		//alert(prod_rstar);
@@ -276,7 +390,7 @@
 		$.ajax({
 			type: "post",
 			url: "/shop/pre_insert",
-			data: {"prod_ruid" : "user01", "prod_rstar" : prod_rstar, "prod_review" : prod_review, "prod_rid" : prod_rid},
+			data: {"prod_ruid" : prod_ruid, "prod_rstar" : prod_rstar, "prod_review" : prod_review, "prod_rid" : prod_rid},
 			success: function(){
 				alert("등록되었습니다");
 				$("#pre_review").val("");

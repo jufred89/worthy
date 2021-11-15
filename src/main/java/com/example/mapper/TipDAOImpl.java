@@ -45,4 +45,49 @@ public class TipDAOImpl implements TipDAO {
 	public int totalCount(Criteria cri) {
 		return session.selectOne(namespace + ".totalCount", cri);
 	}
+	
+	//좋아요
+	@Override
+	public int likeIt(String uid, int tip_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("uid",uid);
+		map.put("tip_no", tip_no);
+		return session.selectOne(namespace+".likeIt", map);
+	}
+	@Override
+	public void likeInsert(String uid, int tip_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("uid",uid);
+		map.put("tip_no", tip_no);
+		session.selectOne(namespace + ".likeInsert", map);
+	}
+	@Override
+	public int likeCheck(String uid, int tip_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("uid",uid);
+		map.put("tip_no", tip_no);
+		return session.selectOne(namespace + ".likeCheck", map);
+	}
+	@Override
+	public void like(int likeCheck, String uid, int tip_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("likeCheck", likeCheck);
+		map.put("uid",uid);
+		map.put("tip_no", tip_no);
+		session.update(namespace + ".like", map);
+	}
+	@Override
+	public void likeUpdate(int tip_no) {
+		session.update(namespace + ".likeUpdate", tip_no);
+	}
+	
+	//조회수
+	@Override
+	public void updateView(int tip_no) {
+		session.update(namespace + ".updateView", tip_no);
+	}
+	@Override
+	public void likeDel(int tip_no) {
+		session.delete(namespace + ".likeDel", tip_no);
+	}
 }

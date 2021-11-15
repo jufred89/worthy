@@ -12,11 +12,27 @@ public class TipVO {
 	private String tip_image;
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
 	private Date tip_regdate;
+	private int tip_like;
+	private int tip_viewcnt;
+	
 	
 	@Override
 	public String toString() {
 		return "TipVO [tip_no=" + tip_no + ", tip_title=" + tip_title + ", tip_content=" + tip_content + ", tip_writer="
-				+ tip_writer + ", tip_image=" + tip_image + ", tip_regdate=" + tip_regdate + "]";
+				+ tip_writer + ", tip_image=" + tip_image + ", tip_regdate=" + tip_regdate + ", tip_like=" + tip_like
+				+ ", tip_viewcnt=" + tip_viewcnt + "]";
+	}
+	public int getTip_like() {
+		return tip_like;
+	}
+	public void setTip_like(int tip_like) {
+		this.tip_like = tip_like;
+	}
+	public int getTip_viewcnt() {
+		return tip_viewcnt;
+	}
+	public void setTip_viewcnt(int tip_viewcnt) {
+		this.tip_viewcnt = tip_viewcnt;
 	}
 	public int getTip_no() {
 		return tip_no;

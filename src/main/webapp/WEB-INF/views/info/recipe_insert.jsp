@@ -9,7 +9,7 @@
 <form name="frm" action="/recipe/insert" method="POST" enctype="multipart/form-data">
 	<input type="text" name="fi_title" style="margin-bottom:15px; width:722px;" placeholder="제목을 입력하세요"/><br/>
 	<div id="imageBox">
-		<img name="image" src="http://placehold.it/150x120"/>
+		<img name="image" src="http://placehold.it/400x300"/>
 		<div id="file">
 			<input type="file" name="file"/>
 		</div>
@@ -20,6 +20,9 @@
 	<input type="reset" value="등록취소" onClick="location.href='/recipe/list'"/>
 </form>
 <script>
+	var uid = "${uid}";
+	
+	//레시피 등록
 	$(frm).on("submit",function(e){
 		e.preventDefault();
 
@@ -46,8 +49,8 @@
 	$(frm.file).on("change",function(){
 		var file = $(frm.file)[0].files[0];
 		$(frm.image).attr("src", URL.createObjectURL(file));
-		$(frm.image).css("width",150);
-		$(frm.image).css("height",120);
+		$(frm.image).css("width",400);
+		$(frm.image).css("height",300);
 		console.log(file);
 	});
 </script>

@@ -1,5 +1,7 @@
 package com.example.domain;
 
+import java.util.ArrayList;
+
 public class CampingVO {
 	private String camp_id;
 	private String camp_name;
@@ -17,6 +19,10 @@ public class CampingVO {
 	private String style_name;
 	private int Style_qty;
 	private String facility_name;
+	
+	// camping attach image
+	
+	private ArrayList<String> images;
 
 	public String getCamp_id() {
 		return camp_id;
@@ -122,13 +128,21 @@ public class CampingVO {
 		this.facility_name = facility_name;
 	}
 
+	public ArrayList<String> getImages() {
+		return images;
+	}
+
+	public void setImages(ArrayList<String> images) {
+		this.images = images;
+	}
+
 	@Override
 	public String toString() {
 		return "CampingVO [camp_id=" + camp_id + ", camp_name=" + camp_name + ", camp_maker=" + camp_maker
 				+ ", camp_addr=" + camp_addr + ", camp_tel=" + camp_tel + ", camp_price=" + camp_price
 				+ ", camp_status=" + camp_status + ", camp_memo=" + camp_memo + ", camp_detail=" + camp_detail
 				+ ", camp_image=" + camp_image + ", style_name=" + style_name + ", Style_qty=" + Style_qty
-				+ ", facility_name=" + facility_name + "]";
+				+ ", facility_name=" + facility_name + ", images=" + images + "]";
 	}
-
+	
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,24 +70,29 @@ public class InfoController {
 	
 	//공지사항 입력
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.POST)
-	public String noticeInsertPost(NoticeVO vo,MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
-		vo.setnb_writer("admin");
+	public String noticeInsertPost(NoticeVO vo,MultipartHttpServletRequest multi, HttpSession session) throws IllegalStateException, IOException{
+		String uid = (String)session.getAttribute("uid");
+		vo.setnb_writer(uid);
 		MultipartFile file = multi.getFile("file");
-		
+		System.out.println(file);
 		//이미지 저장
-		String nb_image = System.currentTimeMillis()+"_" + file.getOriginalFilename();
-		file.transferTo(new File(path + "/" + nb_image));
-		vo.setNb_image(nb_image);
-
-		//System.out.println(vo.toString());
-		
-		ndao.insert(vo);
-		return "redirect:/notice/list";
+		String image = System.currentTimeMillis()+"_" + file.getOriginalFilename();
+		if(image.equals(System.currentTimeMillis()+"_")){//이미지를 none.jpg로 바꿈
+			vo.setNb_image("none.jpg");
+			ndao.insert(vo);
+			return "redirect:/notice/list";
+		}else{
+			file.transferTo(new File(path + "/" + image));
+			vo.setNb_image(image);
+			ndao.insert(vo);
+			return "redirect:/notice/list";
+		}
 	}
 
 	//공지사항 삭제
 	@RequestMapping(value = "/notice/delete", method = RequestMethod.POST)
 	public void noticeDelete(int nb_no, String image){
+		ndao.likeDel(nb_no);
 		ndao.delete(nb_no);
 		if(image.equals("none.jpg")){
 			return;
@@ -96,10 +102,31 @@ public class InfoController {
 	
 	//공지사항 읽기
 	@RequestMapping(value = "/notice/read", method = RequestMethod.GET)
-	public String noticeRead(int nb_no, Model model) {
+	public String noticeRead(int nb_no, Model model, HttpSession session) {
 		model.addAttribute("vo", ndao.read(nb_no));
 		model.addAttribute("pageName","info/notice_read.jsp");
+		
+		ndao.updateView(nb_no);
+		
+		String uid = (String)session.getAttribute("uid");
+		if(uid!=null){ //로그인을 했을경우
+			int check = ndao.likeIt(uid, nb_no); //게시글에 들어간적있는지 확인
+			if(check==0){
+				ndao.likeInsert(uid, nb_no); //좋아요 테이블에 좋아요0 상태로 입력
+			}
+			model.addAttribute("likeCheck",ndao.likeCheck(uid, nb_no)); //좋아요 상태가지고 가기
+		}else if(uid==null){//로그인을 안한경우
+			return "home";
+		}
 		return "home";
+	}
+	
+	//공지사항 좋아요
+	@RequestMapping(value="/notice/like", method=RequestMethod.POST)
+	@ResponseBody
+	public void noticeLike(int likeCheck, String uid, int nb_no){
+		ndao.like(likeCheck, uid, nb_no);
+		ndao.likeUpdate(nb_no);
 	}
 	
 	@RequestMapping(value = "/notice/update", method = RequestMethod.GET)
@@ -148,38 +175,64 @@ public class InfoController {
 	
 	//팁 입력
 	@RequestMapping(value = "/tip/insert", method = RequestMethod.POST)
-	public String tipInsertPost(TipVO vo,MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
-		vo.setTip_writer("admin");
+	public String tipInsertPost(TipVO vo,MultipartHttpServletRequest multi,HttpSession session) throws IllegalStateException, IOException{
+		String uid = (String)session.getAttribute("uid");
+		vo.setTip_writer(uid);
 		MultipartFile file = multi.getFile("file");
 		
 		//이미지 저장
-		String tip_image = System.currentTimeMillis()+"_" + file.getOriginalFilename();
-		file.transferTo(new File(path + "/" + tip_image));
-		vo.setTip_image(tip_image);
-
-		//System.out.println(vo.toString());
-		
-		tdao.insert(vo);
-		return "redirect:/tip/list";
+		String image = System.currentTimeMillis()+"_" + file.getOriginalFilename();
+		if(image.equals(System.currentTimeMillis()+"_")){
+			vo.setTip_image("none.jpg");
+			tdao.insert(vo);
+			return "redirect:/tip/list";
+		}else{
+			file.transferTo(new File(path + "/" + image));
+			vo.setTip_image(image);
+			tdao.insert(vo);
+			return "redirect:/tip/list";
+		}
 	}
 	
 	//팁 읽기
 	@RequestMapping(value = "/tip/read", method = RequestMethod.GET)
-	public String tipRead(int tip_no, Model model) {
+	public String tipRead(int tip_no, Model model, HttpSession session) {
 		model.addAttribute("vo", tdao.read(tip_no));
 		model.addAttribute("pageName", "info/tip_read.jsp");
+
+		tdao.updateView(tip_no);
+		
+		String uid = (String)session.getAttribute("uid");
+		
+		if(uid!=null){ //로그인을 했을경우
+			int check = tdao.likeIt(uid, tip_no); //게시글에 들어간적있는지 확인
+			if(check==0){
+				tdao.likeInsert(uid, tip_no); //좋아요 테이블에 좋아요0 상태로 입력
+			}
+			model.addAttribute("likeCheck",tdao.likeCheck(uid, tip_no)); //좋아요 상태가지고 가기
+		}else if(uid==null){//로그인을 안한경우
+			return "home";
+		}
 		return "home";
+	}
+	
+	//팁 좋아요
+	@RequestMapping(value="/tip/like", method=RequestMethod.POST)
+	@ResponseBody
+	public void tipLike(int likeCheck, String uid, int tip_no){
+		tdao.like(likeCheck, uid, tip_no);
+		tdao.likeUpdate(tip_no);
 	}
 	
 	//팁 삭제
 	@RequestMapping(value = "/tip/delete", method = RequestMethod.POST)
 	public void tipDelete(int tip_no, String image){
+		tdao.likeDel(tip_no);
 		tdao.delete(tip_no);
 		if(image.equals("none.jpg")){
 			return;
 		}
 		new File(path + File.separator + image).delete();
-		System.out.println("......"+image);
 	}
 
 	@RequestMapping(value = "/tip/update", method = RequestMethod.GET)
@@ -228,33 +281,62 @@ public class InfoController {
 	
 	//레시피 입력
 	@RequestMapping(value = "/recipe/insert", method = RequestMethod.POST)
-	public String recipeInsertPost(RecipeVO vo, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
-		vo.setFi_writer("admin");
+	public String recipeInsertPost(RecipeVO vo, HttpSession session, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
+		String uid = (String)session.getAttribute("uid");
+		
+		vo.setFi_writer(uid);
 		MultipartFile file = multi.getFile("file");
 		
 		//이미지 저장
-		String fi_image = System.currentTimeMillis()+"_" + file.getOriginalFilename();
-		file.transferTo(new File(path + "/" + fi_image));
-		vo.setFi_image(fi_image);
-
-		//System.out.println(vo.toString());
-		
-		rdao.insert(vo);
-		return "redirect:/recipe/list";
+		String image = System.currentTimeMillis()+"_" + file.getOriginalFilename();
+		if(image.equals(System.currentTimeMillis()+"_")){
+			vo.setFi_image("none.jpg");
+			rdao.insert(vo);
+			return "redirect:/recipe/list";
+		}else{
+			file.transferTo(new File(path + "/" + image));
+			vo.setFi_image(image);
+			rdao.insert(vo);
+			return "redirect:/recipe/list";
+		}
 	}
 	
 	//레시피 읽기
 	@RequestMapping(value = "/recipe/read", method = RequestMethod.GET)
-	public String recipeRead(int fi_no, Model model) {
+	public String recipeRead(int fi_no, Model model, HttpSession session) {
 		model.addAttribute("vo",rdao.read(fi_no));
 		model.addAttribute("pageName","info/recipe_read.jsp");
+		
+		rdao.updateView(fi_no);
+		
+		String uid = (String)session.getAttribute("uid");
+		
+		if(uid!=null){ //로그인을 했을경우
+			int check = rdao.likeIt(uid, fi_no); //게시글에 들어간적있는지 확인
+			if(check==0){
+				rdao.likeInsert(uid, fi_no); //좋아요 테이블에 좋아요0 상태로 입력
+			}
+			model.addAttribute("likeCheck",rdao.likeCheck(uid, fi_no)); //좋아요 상태가지고 가기
+		}else if(uid==null){//로그인을 안한경우
+			return "home";
+		}
 		return "home";
+	}
+	
+	//레시피 좋아요
+	@RequestMapping(value="/recipe/like", method=RequestMethod.POST)
+	@ResponseBody
+	public void recipeLike(int likeCheck, String uid, int fi_no){
+		rdao.like(likeCheck, uid, fi_no);
+		rdao.likeUpdate(fi_no);
 	}
 
 	//레시피 삭제
 	@RequestMapping(value = "/recipe/delete", method = RequestMethod.POST)
 	public void recipeDelete(int fi_no, String image){
+		rdao.likeDel(fi_no);
 		rdao.delete(fi_no);
+		System.out.println(image);
 		if(image.equals("none.jpg")){
 			return;
 		}

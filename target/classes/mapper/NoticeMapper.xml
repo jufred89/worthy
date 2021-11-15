@@ -1,20 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.NoticeMapper">
- 	<select id="list" resultType="com.example.domain.NoticeVO">
+ 	<select id="list" resultType="hashmap">
  		select * from tbl_information_notice
- 		order by nb_no desc
+		<if test="keyword != null">
+ 			where nb_title like concat("%", #{keyword}, "%") || nb_content like concat("%", #{keyword}, "%")
+ 		</if>
+ 		<if test="searchType == 'desc'">
+ 			order by nb_no desc
+ 		</if>
+ 		<if test="searchType == 'asc'">
+ 			order by nb_no
+ 		</if>
+ 		limit #{pageStart},#{perPageNum}
  	</select>
  	<select id="read" resultType="com.example.domain.NoticeVO">
  		select * from tbl_information_notice
  		where nb_no=#{nb_no}
  	</select>
  	<insert id="insert">
- 		insert into tbl_information_notice(nb_title,nb_content,nb_writer)
- 		values(#{nb_title},#{nb_content},#{nb_writer})
+ 		insert into tbl_information_notice(nb_title,nb_content,nb_image,nb_writer)
+ 		values(#{nb_title},#{nb_content},#{nb_image},#{nb_writer})
  	</insert>
  	<delete id="delete">
  		delete from tbl_information_notice
  		where nb_no=#{nb_no}
+ 	</delete>
+ 	<update id="update">
+ 		update tbl_information_notice
+ 		set nb_title=#{nb_title}, nb_content=#{nb_content}
+ 		where nb_no=#{nb_no}
+ 	</update>
+ 	<select id="totalCount" resultType="int">
+ 		select count(*) from tbl_information_notice
+ 		<if test="keyword != null">
+ 			where nb_title like concat("%", #{keyword}, "%") || nb_content like concat("%", #{keyword}, "%")
+ 		</if>
+ 	</select>
+ 	
+ 	<update id="updateView">
+ 		update tbl_information_notice
+ 		set nb_viewcnt=nb_viewcnt+1
+ 		where nb_no=#{nb_no}
+ 	</update>
+ 	
+ 	<!-- 첨부파일 -->
+ 	
+ 	
+ 	<!-- 좋아요 -->
+ 	<select id="likeIt" resultType="int">
+		select count(*) from tbl_information_notice_like 
+		where nb_lk_uid=#{uid} and nb_lk_bno=#{nb_no};
+	</select>
+ 	<insert id="likeInsert">
+ 		insert into tbl_information_notice_like(nb_lk_uid, nb_lk_bno)
+ 		values(#{uid}, #{nb_no})
+ 	</insert>
+ 	<select id="likeCheck" resultType="int">
+		select nb_lk_chk from tbl_information_notice_like 
+		where nb_lk_uid=#{uid} and nb_lk_bno=#{nb_no};
+	</select>
+	<update id="likeUpdate">
+		update tbl_information_notice set nb_like=(select sum(nb_lk_chk)
+													from tbl_information_notice_like
+													where nb_lk_bno=#{nb_no})
+		where nb_no=#{nb_no}
+	</update>
+ 	<update id="like">
+ 		update tbl_information_notice_like set
+ 		<if test="likeCheck==0">
+ 			 nb_lk_chk=1
+ 		</if>
+ 		<if test="likeCheck==1">
+ 			 nb_lk_chk=0
+ 		</if>
+ 		where nb_lk_uid=#{uid} and nb_lk_bno=#{nb_no};
+ 	</update>
+ 	<delete id="likeDel">
+ 		delete from tbl_information_notice_like 
+ 		where nb_lk_bno=#{nb_no}
  	</delete>
 </mapper>

@@ -13,5 +13,15 @@ public interface NoticeDAO {
 	public void delete(int nb_no);
 	public void update(NoticeVO vo);
 	public int totalCount(Criteria cri);
+	
+	public void updateView(int nb_no);
+	
+	//좋아요
+	public int likeIt(String uid, int nb_no);
+	public void likeInsert(String uid, int nb_no);
+	public int likeCheck(String uid, int nb_no);
+	public void like(int likeCheck, String uid, int nb_no);
+	public void likeUpdate(int nb_no);
+	public void likeDel(int nb_no);
 }
 

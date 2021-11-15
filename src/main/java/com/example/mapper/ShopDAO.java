@@ -17,6 +17,7 @@ public interface ShopDAO {
 	public void prod_update(ShopVO vo);
 	public String prod_maxID();
 	public void prod_delete(String prod_id);
+	public List<HashMap<String, Object>> prod_slide();
 	
 	//상세 이미지
 	public AttachVO attach(String shop_pid);
@@ -31,4 +32,6 @@ public interface ShopDAO {
 	
 	//장바구니
 	public void cart_insert(Shop_cartVO cvo);
+	public List<HashMap<String, Object>> cart_list(String cart_uid);
+	public void cart_delete(int cart_no);
 }

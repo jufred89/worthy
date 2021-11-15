@@ -1,82 +1,146 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-<h1>캠핑장 등록</h1>
+<h3>캠핑장 정보</h3>
+<style>
+	.tbl_body1{
+	margin: 0px auto;
+	margin-bottom: 20px;
+	}
+	.tbl_head{
+	width: 200px;
+	padding: 5px;
+	}
+	.tbl_data{
+	width: 400px;
+	}
+	.tbl_data input{
+	width: 100%;
+	border:none;
+	}
+	.tbl_body2{
+	width:600px;
+	margin: 0px auto;
+	margin-bottom: 20px;
+	}
+	.tbl_head2{
+	padding: 5px;
+	}
+	.tbl_data2{
+	padding: 5px;
+	}
+	.tbl_body3{
+	width:600px;
+	margin: 0px auto;
+	margin-bottom: 20px;
+	}
+	.tbl_head3{
+	padding: 5px;
+	}
+	.tbl_data3{
+	padding: 5px;
+	}
+	.tbl_data3 input{
+	width: 100%;
+	border:none;
+	}
+</style>
+<hr />
 	<form name="frm" action="/camping/insert" method="post" enctype="multipart/form-data">
-	<img src="http://placehold.it/300x250" id="image" width="350">
+	<img src="/camping/display?file=${cvo.camp_image}" id="image" width=400>
 	<input type="file" name="file" style="display:none;"/>
-	<table border="1">
+<hr />
+	<table class="tbl_body1" border="1">
 		<tr>
-			<th>캠핑장 번호</th>
-			<td><input type="text" name="camp_id" value="${camp_id}" readonly/></td>
+			<th class="tbl_head">캠핑장 번호</th>
+			<td class="tbl_data"><input type="text" name="camp_id" value="${cvo.camp_id}" readonly/></td>
 		</tr>
 		<tr>
-			<th>캠핑장 이름</th>
-			<td><input type="text" name="camp_name" placeholder="캠핑장 이름"/></td>
+			<th class="tbl_head">캠핑장 이름</th>
+			<td class="tbl_data"><input type="text" name="camp_name" value="${cvo.camp_name}"/></td>
 		</tr>
 		<tr>
-			<th>캠핑장 운영사</th>
-			<td><input type="text" name="camp_maker" placeholder="캠핑장 운영사"/></td>
+			<th class="tbl_head">캠핑장 운영사</th>
+			<td class="tbl_data"><input type="text" name="camp_maker" value="${cvo.camp_maker}"/></td>
 		</tr>
 		<tr>
-			<th>캠핑장 주소</th>
-			<td><input type="text" name="camp_addr" placeholder="캠핑장 주소" /></td>
+			<th class="tbl_head">캠핑장 주소</th>
+			<td class="tbl_data"><input type="text" name="camp_addr" value="${cvo.camp_addr}" onclick="search()"/></td>
 		</tr>
 		<tr>
-			<th>캠핑장 전화번호</th>
-			<td><input type="text" name="camp_tel" placeholder="캠핑장 전화번호" /></td>
+			<th class="tbl_head">캠핑장 전화번호</th>
+			<td class="tbl_data"><input type="text" name="camp_tel" value="${cvo.camp_tel}"/></td>
 		</tr>
 		<tr>
-			<th>캠핑장 설명</th>
-			<td><input type="text" name="camp_detail" placeholder="캠핑장 설명"/></td>
+			<th class="tbl_head">캠핑장 설명</th>
+			<td class="tbl_data"><input type="text" name="camp_detail" value="${cvo.camp_detail}"/></td>
 		</tr>
 		<tr>
-			<th>캠핑장 기타 편의사항</th>
-			<td><input type="text" name="camp_memo" placeholder="캠핑장 기타 편의사항"/></td>
+			<th class="tbl_head">캠핑장 기타 편의사항</th>
+			<td class="tbl_data"><input type="text" name="camp_memo" value="${cvo.camp_memo}"/></td>
 		</tr>
 		<tr>
-			<th>캠핑장 가격</th>
-			<td><input type="text" name="camp_price" placeholder="캠핑장 가격"/></td>
+			<th class="tbl_head">캠핑장 가격</th>
+			<td class="tbl_data"><input type="text" name="camp_price" value="${cvo.camp_price}"/></td>
 		</tr>
 	</table>
-	<table border="1">
+	<table class="tbl_body2" border="1">
 		<tr>
-			<th>캠프 시설</th>
+			<th class="tbl_head2">캠프 시설</th>
 		</tr>
 		<tr>
-			<td id="campFacilityList">
+			<td id="campFacilityList" class="tbl_data2">	
+				<input type="checkbox" name="facility_no" value="1">&nbsp전기
+				<input type="checkbox" name="facility_no" value="2">&nbsp무선인터넷
+				<input type="checkbox" name="facility_no" value="3">&nbsp장작판매
+				<input type="checkbox" name="facility_no" value="4">&nbsp온수
+				<input type="checkbox" name="facility_no" value="5">&nbsp트렘폴린
+				<input type="checkbox" name="facility_no" value="6">&nbsp물놀이장
+				<input type="checkbox" name="facility_no" value="7">&nbsp놀이터
+				<input type="checkbox" name="facility_no" value="8">&nbsp산책로
+				<input type="checkbox" name="facility_no" value="9">&nbsp운동장
+				<input type="checkbox" name="facility_no" value="10">&nbsp운동시설
+				<input type="checkbox" name="facility_no" value="12">&nbsp마트
+				<input type="checkbox" name="facility_no" value="13">&nbsp편의점
+				<input type="checkbox" name="facility_no" value="14">&nbsp화장실
+				<input type="checkbox" name="facility_no" value="14">&nbsp샤워시설
+				<input type="checkbox" name="facility_no" value="15">&nbsp개수대
 			</td>
 		</tr>
 	</table>
-	<table border="1" id="campStyleList">
+	<table class="tbl_body3" border="1" id="campStyleList">
 		<tr>
-			<th colspan="3">캠프 스타일</th>
+			<th class="tbl_head3" colspan="3">캠프 스타일</th>
 		</tr>
 	</table>
 	<input type="submit" value="캠핑장 등록"/>
 	<input type="reset" value="등록 취소"/>
 </form>
-<!-- 캠핑 시설명 목록 가지고 오기 -->
-<script id="temp1" type="text/x-handlebars-template">
-		{{#each .}}
-			<input type="checkbox" name="facility_no" value="{{facility_no}}">{{facility_name}}
-		{{/each}}
-</script>
 <!-- 캠핑 스타일명 목록 가지고 오기 -->
 <script id="temp2" type="text/x-handlebars-template">
 		{{#each .}}
 			<tr>
-				<td><input class="style_no" type="checkbox" name="style_no" value="{{style_no}}"></td>
-				<td>{{style_name}}</td>
-				<td><input class="style_qty" type="text" name="style_qty"/></td>
+				<td class="tbl_data3"><input class="style_no" type="checkbox" name="style_no" value="{{style_no}}"></td>
+				<td class="tbl_data3">{{style_name}}</td>
+				<td class="tbl_data3"><input class="style_qty" type="text" name="style_qty" placeholder="숫자만 입력하세요."/></td>
 			</tr>
 		{{/each}}
 </script>
 <script>
 	getCampFacility();
 	getCampStyle();
+	
+	// 주소 검색 버튼을 눌렀을때
+	function search(){
+		new daum.Postcode({
+			oncomplete:function(data){
+				$(frm.camp_addr).val(data.address);
+			}
+		}).open();
+	};
 	
 	// 이미지 테그 클릭시
 	$("#image").on("click",function(){
