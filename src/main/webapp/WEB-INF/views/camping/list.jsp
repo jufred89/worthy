@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <h1>캠핑장을 찾아보세요.</h1>
-<h4>어디갈지 모르겠다면?</h4>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
@@ -17,6 +16,9 @@
 		width: 400px;
 		float: left;
 		margin-bottom: 10px;
+	}
+	.camp_box:hover{
+		cursor:pointer;
 	}
 	.image-box {
 	    width:350px;
@@ -42,38 +44,54 @@
 	}
 </style>
 <div>
-	<input type="text" placeholder="검색어를 입력해보세요."/> 
-	<select id="searchType">
-		<option value="search1">조회순</option>
-		<option value="search2">최신상품순</option>
-		<option value="search3">높은가격순</option>
-		<option value="search4">낮은가격순</option>
-	</select>
+	<h3>${camp_addr }에서 ${reser_checkin }에서 ${reser_checkout }까지 예약 가능한 숙소입니다.</h3>
 </div>
 <hr />
 <div id="campList"></div>
 <script id="temp" type="text/x-handlebars-template">
 		{{#each .}}
-		<div class="camp_box" onClick="location.href='/camping/read?camp_id={{camp_id}}'">
+		<div class="camp_box" camp_id={{camp_id}}>
 			<div class="image-box"><img class="image-thumbnail" src="/camping/display?file={{camp_image}}"/></div>
 			<div class="cname-box">{{camp_name}}</div>
 			<div class="caddr-box">{{camp_addr}}</div>
-			<div class="cprice-box">₩ {{camp_price}}원 / 박</div>
+			<div class="ctqty-box">예약가능 사이트 {{nulltozero camp_tqty reserve_cnt}}개</div>
+			<div class="cprice-box">₩ {{camp_minprice}} ~ {{camp_maxprice}} 원 / 박</div>
 		</div>
 		{{/each}}
 </script>
 <script>
-	var page = 1;
+	var camp_addr = '${camp_addr}';
+	var reser_checkin = '${reser_checkin}';
+	var reser_checkout = '${reser_checkout}';
 	getList();
 	function getList() {
 		$.ajax({
 			type : 'get',
-			url : '/camping/list.json',
+			url : '/camping/searchlist.json',
 			dataType : 'json',
+			data:{
+				camp_addr:camp_addr,
+				reser_checkin:reser_checkin,
+				reser_checkout:reser_checkout
+			},
 			success : function(data) {
 				var temp = Handlebars.compile($('#temp').html());
 				$('#campList').html(temp(data));
 			}
 		})
 	}
+	// 예약가능한 갯수와 예약된 갯수 연산 레지스터헬퍼
+	Handlebars.registerHelper("nulltozero",function(camp_tqty,reserve_cnt){
+		if(reserve_cnt==null){
+			return camp_tqty
+		}else{
+			return camp_tqty-reserve_cnt
+		}
+	});
+	// 캠핑 아이디 및 원하는 예약 날짜 가지고 리드 페이지로 가지고 가기
+	$("#campList").on("click",".camp_box",function(){
+		var camp_id = $(this).attr("camp_id");
+		location.href = "/camping/read?camp_id=" + camp_id
+		+ "&reser_checkin=" + reser_checkin + "&reser_checkout="+reser_checkout
+	})
 </script>

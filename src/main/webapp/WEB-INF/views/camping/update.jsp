@@ -3,7 +3,7 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-<h1>캠핑장 등록</h1>
+<h1>캠핑장 수정</h1>
 	<form name="frm" action="/camping/insert" method="post" enctype="multipart/form-data">
 	<img src="http://placehold.it/300x250" id="image" width="350">
 	<input type="file" name="file" style="display:none;"/>
@@ -89,7 +89,7 @@
 		$("#image").attr("src",URL.createObjectURL(file));
 	})
 	
-	// 특정 캠핑 시설명 목록 가지고 오기
+	// 캠핑 시설명 목록 가지고 오기
 	function getCampFacility(){
 		$.ajax({
 			type:"get",
@@ -102,7 +102,7 @@
 		})
 	}
 	
-	// 특정 캠핑 스타일명 목록 가지고 오기
+	// 캠핑 스타일명 목록 가지고 오기
 	function getCampStyle(){
 		$.ajax({
 			type:"get",
@@ -174,8 +174,8 @@
 			return;
 		}
 		
-		if(!confirm("상품을 수정하시겠습니까?"))return;
-		frm.action="/camping/update"
+		if(!confirm("상품을 등록하시겠습니까?"))return;
+		frm.action="/camping/insert"
 		frm.method="post"
 		frm.submit();
 

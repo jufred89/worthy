@@ -7,11 +7,26 @@ public class Shop_cartVO {
 	private int cart_price;
 	private int cart_pqty;
 	private String cart_status;
+	private String cart_pimage;
+	private String cart_pname;
 	
 	@Override
 	public String toString() {
 		return "Shop_cartVO [cart_no=" + cart_no + ", cart_pid=" + cart_pid + ", cart_uid=" + cart_uid + ", cart_price="
-				+ cart_price + ", cart_pqty=" + cart_pqty + ", cart_status=" + cart_status + "]";
+				+ cart_price + ", cart_pqty=" + cart_pqty + ", cart_status=" + cart_status + ", cart_pimage="
+				+ cart_pimage + ", cart_pname=" + cart_pname + "]";
+	}
+	public String getCart_pimage() {
+		return cart_pimage;
+	}
+	public void setCart_pimage(String cart_pimage) {
+		this.cart_pimage = cart_pimage;
+	}
+	public String getCart_pname() {
+		return cart_pname;
+	}
+	public void setCart_pname(String cart_pname) {
+		this.cart_pname = cart_pname;
 	}
 	public int getCart_no() {
 		return cart_no;

@@ -20,10 +20,15 @@
 
 
 #header {
-	height:80px;
+	z-index:2;
+	height:120px;
 	position:sticky;
 	background:white;
 	overflow:hidden;
+	display:flex;
+			justify-content:center;
+			align-items:center;
+
 }
 .navbar{
 	height:80px;
@@ -43,13 +48,15 @@ position:sticky;
 }
 #content {
 	
+z-index:-1;
 	margin:0 auto;
 text-align:center;
 	
 }
 #header div {
+	font-size:20px;
 	display: flex;
-	
+	height:100px;
 	align-items: center;
 	
 }
@@ -64,6 +71,7 @@ text-align:center;
 #menus {
 	justify-content: right;
 	height: 80px;
+	margin:20px;
 }
 
 #menus a, #menus a:visited {
@@ -90,30 +98,8 @@ text-align:center;
 .modal-backdrop{
 	position:static;
 }
-#district{
-	
-	display:flex;
-	list-style: none;
-	justify-content:left;
-
-	flex-flow:row wrap;
-	padding:0px;
-	padding-left:34px;
-}
-#district li{
-	width:100px;
-	height:70px;
-	display:inline-block;
-		display:flex;
-			justify-content:center;
-			align-items:center;
-}
-#district li:hover{
-background:black;
-color:white;
 
 
-}
 hr{
 	border:1px solid lightgray;
 }
@@ -183,6 +169,7 @@ hr{
 #login_join_imoticon a span, #logout span{
 	color:gray;
 	margin-right:3px;
+	font-size:20px;
 }
 #logout{
 	color:gray;
@@ -200,8 +187,7 @@ hr{
 	background:white;
 }
 #footer p{
-	
-z-index:-1;
+
 	text-align:center !important;
 	font-size:20px;
 }

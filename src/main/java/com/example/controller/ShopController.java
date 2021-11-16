@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,8 +22,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
 import com.example.domain.PageMaker;
+import com.example.domain.Shop_payVO;
 import com.example.domain.ShopVO;
 import com.example.domain.Shop_cartVO;
+import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 import com.example.mapper.ShopDAO;
 
@@ -166,6 +169,15 @@ public class ShopController {
 		return "redirect:/shop";
 	}
 	
+	@RequestMapping("/prod_slide.json")
+	@ResponseBody
+	public HashMap<String, Object> prod_slide(){
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("slide", dao.prod_slide());
+		//System.out.println(map);
+		return map;		
+	}
+	
 	@RequestMapping("/pre_list.json")
 	@ResponseBody
 	public HashMap<String, Object> pre_list(String prod_rid, Criteria cri){
@@ -204,5 +216,38 @@ public class ShopController {
 	@ResponseBody
 	public void cart_insert(Shop_cartVO cvo){
 		dao.cart_insert(cvo);
+	}
+	
+	@RequestMapping("/cart_list.json")
+	@ResponseBody
+	public HashMap<String, Object> cart_listJSON(String cart_uid, Model model){
+		HashMap<String, Object> cart = new HashMap<>();
+		cart.put("cart_list", dao.cart_list(cart_uid));
+		return cart;
+	}
+	
+	@RequestMapping(value="/cart_delete", method=RequestMethod.POST)
+	@ResponseBody
+	public void cart_delete(int cart_no){
+		System.out.println(cart_no);
+		dao.cart_delete(cart_no);
+	}
+	
+	@RequestMapping("/cart_price_sum")
+	@ResponseBody
+	public int cart_price_sum(String cart_uid){
+		return dao.cart_price_sum(cart_uid);
+	}
+	
+	@RequestMapping(value="/pay_insert", method=RequestMethod.POST)
+	@ResponseBody
+	public void pay_insert(Shop_payVO pvo){
+		dao.pay_insert(pvo);
+	}
+	
+	@RequestMapping(value="/order_insert", method=RequestMethod.POST)
+	@ResponseBody
+	public void pay_insert(Shop_orderVO ovo){
+		dao.order_insert(ovo);
 	}
 }
