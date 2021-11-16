@@ -124,12 +124,41 @@
 	}
 	
 	
-	.box{
-		background-color: #ecf5fe;
-		margin:15px;
-		padding:10px;
-		width:900px;
-	}
+	
+	
+/* 댓글 */
+
+.line{
+	border-bottom:3px solid black;
+	margin: 40px 20px;
+}
+.write{
+	margin-bottom:20px;
+	padding:15px;
+}
+#uid,#btnReplyInsert,#txtReply{
+	margin-left:35px;
+}
+#uid{font-size:120%; margin-bottom:10px;}
+#txtReply{border:1px solid black;}	
+#replyList{margin-left:50px;}
+#btnReplyInsert{
+	width:100px;
+	padding:7px 15px;
+	background-color:black;
+	color:white;
+	border:1px solid black;
+	margin-top:6px;
+}
+.divider{border-bottom:1px solid #c2c2c3;	margin:20px;}
+
+#replies{width:100%; margin:0 auto;}
+.box{
+	background-color: #ecf5fe;
+	padding:10px;
+	margin:15px;
+	width:850px;
+}
 	.rno{
 		font-size:70%;
 		font-weight:bold;
@@ -149,14 +178,5 @@
 		margin-top:5px;
 	}
 
-	.write{
-		margin-bottom:20px;
-		border: 1px solid #dadada;
-		padding:15px;
-	}
-	#uid,#btnReplyInsert,#txtReply{
-		margin-left:5px;
-	}
-	
 
 

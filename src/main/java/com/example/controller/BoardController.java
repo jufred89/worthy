@@ -147,13 +147,13 @@ public class BoardController {
 		return "home";
 	}
 	
-	//�옄�쑀寃뚯떆�뙋 湲��닔�젙
+	//게시글 수정
 	@RequestMapping(value="/update",method=RequestMethod.POST)
-	public String update(BoardVO vo, String fb_image, String oldImage, MultipartHttpServletRequest multi) throws Exception{
+	public String update(BoardVO vo, String oldImage, MultipartHttpServletRequest multi) throws Exception{
 		MultipartFile file = multi.getFile("file");
 		if(!file.isEmpty()){ 
-			new File(path+"/board/"+vo.getFb_image()).delete();
-			System.out.println(path+"/board/"+vo.toString());
+			new File(path+"/board/"+oldImage).delete();
+			
 			String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
 			file.transferTo(new File(path+"/board/"+image));
 			vo.setFb_image(image);
@@ -165,21 +165,25 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	//�옄�쑀寃뚯떆�뙋 湲��궘�젣
+	//게시글 삭제
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
-	public String deletePost(int fb_no){
+	public String deletePost(int fb_no,String formImage){
+		System.out.println(formImage);
+		File thumbnail = new File(path+"/board/"+formImage);
+		thumbnail.delete();
 		
-		File folder = new File(path+"/"+fb_no);
+		
+		//첨부파일 삭제
+		File folder = new File(path+"/board/"+fb_no);
 		File[] files = folder.listFiles();
 
            for(File file : files){
-               file.delete(); // �븯�쐞 �뙆�씪 �궘�젣
+               file.delete(); 
            }
-        
-		//�뤃�뜑�옄泥대�� �궘�젣
-		new File(path+"/"+fb_no).delete();
+		//폴더 자체를 삭제
+		new File(path+"/board/"+fb_no).delete();
 		
-		//寃뚯떆湲��뀒�씠釉�, 泥⑤��뙆�씪�뀒�씠釉� �궘�젣
+		//게시글, 첨부파일, 좋아요 테이블에서 삭제
 		service.board_delete(fb_no);
 		return "redirect:list";
 	}

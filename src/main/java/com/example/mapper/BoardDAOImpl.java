@@ -46,6 +46,10 @@ public class BoardDAOImpl implements BoardDAO{
 		session.delete(namespace+".board_delete",fb_no);
 	}
 	
+	@Override
+	public void board_like_delete(int fb_no) {
+		session.delete(namespace+".board_like_delete",fb_no);
+	}
 
 	@Override
 	public int board_maxNo() {
@@ -154,5 +158,7 @@ public class BoardDAOImpl implements BoardDAO{
 	public void board_likeUpdate(int fb_no) {
 		session.update(namespace+".board_likeUpdate",fb_no);
 	}
+
+
 
 }

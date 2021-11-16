@@ -12,6 +12,7 @@ public interface BoardDAO {
 	public BoardVO board_read(int fb_no);
 	public void board_update(BoardVO vo);
 	public void board_delete(int fb_no);
+	public void board_like_delete(int fb_no); //게시글 삭제시 좋아요테이블에서 삭제
 	public int board_maxNo();
 	public int board_totalCount(Criteria cri);
 	

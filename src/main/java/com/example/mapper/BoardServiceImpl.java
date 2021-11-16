@@ -27,6 +27,7 @@ public class BoardServiceImpl implements BoardService{
 	@Transactional
 	@Override
 	public void board_delete(int fb_no) {
+		dao.board_like_delete(fb_no);
 		dao.board_deleteAttachAll(fb_no);
 		dao.board_delete(fb_no);
 	} 
