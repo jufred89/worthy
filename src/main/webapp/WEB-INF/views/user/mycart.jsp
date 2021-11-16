@@ -51,6 +51,7 @@
 			<tr>
 				<td><button id="btnDel">삭제</button></td>
 				<td><button id="payment" >구매하기</button></td>
+				<td><img src="/resources/kakao_payment.png" width=80 onClick="kakaoPay()"/></td>
 			</tr>
 		</script>
 	</div>
@@ -58,6 +59,19 @@
 <script>
 	getCart();
 	getSum();
+
+	//카카오페이
+	function kakaoPay(){
+		$.ajax({
+			type:'post',
+			url:'/shop/kakaoPay',
+			dataType:'json',
+			success:function(data){
+				var box = data.next_redirect_pc_url;
+				window.open(box,'kakaoPay','width=500,height=600,top=80,left=1100');
+			}
+		});
+	}
 
 	//구매하기
 	$("#tblCart").on("click", "#payment", function(){

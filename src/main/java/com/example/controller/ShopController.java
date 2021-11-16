@@ -1,8 +1,16 @@
 package com.example.controller;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -249,5 +257,52 @@ public class ShopController {
 	@ResponseBody
 	public void pay_insert(Shop_orderVO ovo){
 		dao.order_insert(ovo);
+	}
+	
+	
+	//카카오페이
+	@RequestMapping(value="/kakaoPay", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPay(){
+		SSLTrust.sslTrustAllCerts();
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&item_name=초코파이&quantity=1&total_amount=2200&tax_free_amount=0";
+			param +="&vat_amount=200";
+			param +="&approval_url=http://localhost:8088";
+			param +="&fail_url=http://localhost:8088";
+			param +="&cancel_url=http://localhost:8088";
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			dataout.writeBytes(param);
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+			InputStreamReader reader = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return "null";
 	}
 }
