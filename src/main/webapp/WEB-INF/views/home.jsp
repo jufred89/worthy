@@ -81,7 +81,7 @@ border:5px double skyblue;
 	       <h2 id="logo" onClick="location.href='/'">worthy</h2>
       
     </div>
-    <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
+   <%--  <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
     <div class="nav navbar-nav col-sm-4">
    <div id="info_search_box" >
     <div id="search_where"><input class="form-control"  type="text" placeholder="어디로?"> </div>
@@ -93,16 +93,16 @@ border:5px double skyblue;
     </div>
     </div>
     </c:if>
-    <c:if test="${uid.indexOf('admin')!=-1}">
-    <div class="nav navbar-nav col-sm-4">
+ --%>
+    <div class="nav navbar-nav col-sm-2">
    
  
     </div>
-    </c:if>
+    
     
  
     <div class="nav navbar-nav navbar-right col-sm-6" id="menus">
-    <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
+  
     <div>
 				<a data-toggle="modal" href="#myModal3">테마검색 </a>
 			</div>
@@ -116,7 +116,7 @@ border:5px double skyblue;
 				<a href="/board/list">자유게시판</a>
 			</div>
 			
-			</c:if>
+			
 			  
 			
      		 <c:if test="${uid!=null}">
