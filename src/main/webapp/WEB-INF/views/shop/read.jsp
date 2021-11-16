@@ -62,18 +62,14 @@
     *{margin:0;padding:0;}
     ul,li{list-style:none;}
     .slide{height:300px;overflow:hidden;} 
-    .slide ul{width:calc(30% * 7);display:flex;animation:slide 10s infinite;} /* slide를 8초동안 진행하며 무한반복 함 */
-    .slide li{width:calc(100% / 7);height:300px;}
+    .slide ul{width:calc(35% * 7);display:flex;animation:slide 15s infinite;} /* slide를 8초동안 진행하며 무한반복 함 */
+    .slide li{width:calc(72% / 7);height:300px;}
     @keyframes slide {
       0% {margin-left:0;} /* 0 ~ 10  : 정지 */
-      15% {margin-left:0;} /* 10 ~ 25 : 변이 */
-      25% {margin-left:-25%;} /* 25 ~ 35 : 정지 */
-      40% {margin-left:-25%;} /* 35 ~ 50 : 변이 */
-      50% {margin-left:-50%;}
-      65% {margin-left:-50%;}
-      75% {margin-left:-75%;}
-      90% {margin-left:-75%;}
-      100% {margin-left:0;}
+      30% {margin-left:0;} /* 10 ~ 25 : 변이 */
+      40% {margin-left:-100%;} /* 25 ~ 35 : 정지 */
+      70% {margin-left:-100%;} /* 35 ~ 50 : 변이 */
+      100% {margin-left:0%;}
     }
     .slide_info{
     	line-height: em;
@@ -121,7 +117,7 @@
 		{{#each slide}}
 				<li>
 					<div>
-					<img src="/shop/display?file={{prod_image}}" width="200" />
+					<img src="/shop/display?file={{prod_image}}" width="230" onClick="location.href='/shop/read?prod_id={{prod_id}}'" />
 					</div>
 					<div class="slide_info">{{prod_name}}</div>
 				</li>
@@ -329,6 +325,7 @@
 		
 		if(prod_count == 1){
 			$("#minus").attr("disabled", true);
+			alert('수량은 1개 이상 입력해주세요');
 		}else{
 			count--;
 			$("#prod_count").val(count);

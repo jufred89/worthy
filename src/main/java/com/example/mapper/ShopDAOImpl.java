@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
+import com.example.domain.Shop_payVO;
 import com.example.domain.ShopVO;
 import com.example.domain.Shop_cartVO;
+import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 
 @Repository
@@ -95,13 +97,13 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 	@Override
-	public void cart_insert(Shop_cartVO cvo) {
-		session.insert(namespace + ".cart_insert", cvo);
-	}
-
-	@Override
 	public List<HashMap<String, Object>> prod_slide() {
 		return session.selectList(namespace + ".prod_slide");
+	}
+	
+	@Override
+	public void cart_insert(Shop_cartVO cvo) {
+		session.insert(namespace + ".cart_insert", cvo);
 	}
 
 	@Override
@@ -112,6 +114,21 @@ public class ShopDAOImpl implements ShopDAO{
 	@Override
 	public void cart_delete(int cart_no) {
 		session.delete(namespace + ".cart_delete", cart_no);
+	}
+
+	@Override
+	public int cart_price_sum(String cart_uid) {
+		return session.selectOne(namespace + ".cart_price_sum", cart_uid);
+	}
+
+	@Override
+	public void pay_insert(Shop_payVO pvo) {
+		session.insert(namespace + ".pay_insert", pvo);
+	}
+
+	@Override
+	public void order_insert(Shop_orderVO ovo) {
+		session.insert(namespace + ".order_insert", ovo);
 	}
 
 }

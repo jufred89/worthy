@@ -31,12 +31,16 @@
  	</select>
  	
  	<insert id="prod_insert">
- 		insert into tbl_shop_product(prod_id, prod_name, prod_comp, prod_normalprice, prod_detail, prod_image)
-		values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image})
+ 		insert into tbl_shop_product(prod_id, prod_name, prod_comp, prod_normalprice, prod_detail, prod_image, 
+ 		prod_cap, prod_mfd, prod_exp)
+		values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image},
+		#{prod_cap}, #{prod_mfd}, #{prod_exp})
  	</insert>
  	
  	<update id="prod_update">
- 		update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, prod_saleprice=#{prod_saleprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}
+ 		update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, 
+ 		prod_saleprice=#{prod_saleprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}, prod_cap=#{prod_cap},
+ 		prod_mfd=#{prod_mfd}, prod_exp=#{prod_exp}
  		where prod_id=#{prod_id}
  	</update>
  	
@@ -47,6 +51,8 @@
  	<select id="prod_delete">
  		delete from tbl_shop_product where prod_id = #{prod_id}
  	</select>
+ 	
+ 	
  	
  	<insert id="att_insert">
  		insert into tbl_shop_attach(shop_ano, shop_pid)
@@ -62,6 +68,8 @@
  		update tbl_shop_attach set shop_ano = #{shop_ano}
  		where shop_pid = #{shop_pid}
  	</select>
+ 	
+ 	
  	
  	<select id="pre_list" resultType="HashMap">
  		select *, date_format(prod_r_regdate, '%Y-%m-%d') prod_r_regdate_f from tbl_shop_preview
@@ -84,26 +92,48 @@
  		delete from tbl_shop_preview
  		where prod_rno = #{prod_rno}
  	</delete>
+
+
+
+ 	<select id="prod_slide" resultType="HashMap">
+ 		select *, format(prod_normalprice, 0) prod_normalprice_f from tbl_shop_product
+ 		order by prod_id desc
+ 		limit 0, 8
+ 	</select>
+ 	
+ 	
  	
  	<insert id="cart_insert">
  		insert into tbl_shop_cart(cart_pid, cart_uid, cart_price, cart_pqty, cart_status, cart_pimage, cart_pname)
  		values(#{cart_pid}, #{cart_uid}, #{cart_price}, #{cart_pqty}, #{cart_status}, #{cart_pimage}, #{cart_pname})
  	</insert>
  	
- 	<select id="prod_slide" resultType="HashMap">
- 		select *, format(prod_normalprice, 0) prod_normalprice_f from tbl_shop_product
- 		order by prod_id desc
- 		limit 0, 7
- 	</select>
- 	
  	<select id="cart_list" resultType="HashMap">
  		select * from tbl_shop_cart
- 		where cart_uid = #{cart_uid}
+ 		where cart_uid = #{cart_uid} and cart_status = 1
  		order by cart_no desc
  	</select>
  	
- 	<delete id="cart_delete">
- 		delete from tbl_shop_cart
+ 	<update id="cart_delete">
+ 		update tbl_shop_cart set cart_status = '3'
  		where cart_no = #{cart_no}
- 	</delete>
+ 	</update>
+ 	
+ 	<select id="cart_price_sum" resultType="int">
+ 		select sum(cart_price) from tbl_shop_cart
+ 		where cart_uid = #{cart_uid}
+ 	</select>
+ 	
+ 	
+ 	<insert id="pay_insert">
+ 		insert into tbl_shop_payment(pay_no, pay_price, pay_type, pay_uid, pay_status, deli_postno, deli_address1,
+ 		deli_address2, deli_tel, deli_name, deli_memo)
+ 		values(#{pay_no}, #{pay_price}, #{pay_type}, #{pay_uid}, #{pay_status}, #{deli_postno}, 
+ 		#{deli_address1}, #{deli_address2}, #{deli_tel}, #{deli_name}, #{deli_memo})
+ 	</insert>
+ 	
+ 	<insert id="order_insert">
+ 		insert into tbl_shop_order(order_id, cart_no)
+ 		values(#{order_id}, #{cart_no})
+ 	</insert>
 </mapper>

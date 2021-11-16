@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
+import com.example.domain.Shop_payVO;
 import com.example.domain.ShopVO;
 import com.example.domain.Shop_cartVO;
+import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 
 public interface ShopDAO {
@@ -34,4 +36,11 @@ public interface ShopDAO {
 	public void cart_insert(Shop_cartVO cvo);
 	public List<HashMap<String, Object>> cart_list(String cart_uid);
 	public void cart_delete(int cart_no);
+	public int cart_price_sum(String cart_uid);
+	
+	//구매
+	public void pay_insert(Shop_payVO pvo);
+	
+	//order
+	public void order_insert(Shop_orderVO ovo);
 }
