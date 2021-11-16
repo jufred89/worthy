@@ -36,6 +36,10 @@
  		delete from tbl_board
  		where fb_no = #{fb_no}
  	</delete>
+ 	<delete id="board_like_delete">
+ 		delete from tbl_board_like 
+ 		where fb_lk_bno = #{fb_no}
+ 	</delete>
  	<select id="board_maxNo" resultType="int">
 		select max(fb_no) from tbl_board
 	</select>

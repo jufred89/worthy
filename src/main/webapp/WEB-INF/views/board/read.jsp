@@ -6,7 +6,7 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
 />
 <style>
-
+body{padding:50px;}
 </style>
 <div id="subject">FREE BOARD</div>
 <h5>자유게시판</h5>
@@ -95,20 +95,21 @@
 
 	
 
-	<hr/>
+	<div class="line"></div>
 	
 	<!------------------------------ 댓글 --------------------------->
 	<!-------- 댓글입력 -------->
 	<div class="write">
 		<div id="uid"><b>${uid}</b></div>
 		<textarea rows="5" cols="120" id="txtReply"></textarea><br/>
-		<button id="btnReplyInsert">등록</button>
+		<button id="btnReplyInsert">댓글등록</button>
 	</div>
 	
 	<!--------댓글목록 ------>
-	<h4>댓글목록 (<span id="total"></span>개의 댓글)</h4>
-	<div id="replies"></div>
-	<script id="temp" type="text/x-handlebars-template">
+	<div id="replyList">
+		<h4><b>댓글목록</b> (<span id="total"></span>개의 댓글)</h4>
+		<div id="replies"></div>
+		<script id="temp" type="text/x-handlebars-template">
 		{{#each list}}
 		<div class="box">
 			<div>
@@ -120,7 +121,8 @@
 			<div class="reply">{{fb_reply}}</div>
 		</div>
 		{{/each}}
-	</script>
+		</script>
+	</div>
 	<div style="text-align:center">
 		<div id="pagination" class="pagination"></div>
 	</div>
@@ -235,11 +237,15 @@
 	
 	//글 삭제 버튼을 누른 경우
 	$('#btnDelete').on('click',function(){
+		var formImage = $(frm.file).val();
+		if(formImage==""){
+			formImage = $(frm.oldImage).val();
+		}
 		if(!confirm('삭제하시겠습니까?')) return;
 		$.ajax({
 			type:'post',
 			url:'delete',
-			data:{"fb_no":fb_no},
+			data:{"fb_no":fb_no,"formImage":formImage},
 			success:function(){
 				alert('삭제완료');
 				location.href="/board/list"
@@ -316,9 +322,8 @@
 		var fb_writer = $(frm.fb_writer).val();
 		var fb_content = $(frm.fb_content).val();
 		var fb_image = $(frm.fb_image).val();
-		var file = $(frm.file).val();
-		var oldImage = $(frm.oldImage).val();
-		
+		var fb_oldImage = $(frm.fb_oldImage).val();
+
 		if(fb_title==""){
 			alert("글 제목을 입력하세요");
 			$(frm.fb_title).focus();
