@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,6 @@ public class CampController {
 	//캠핑장 홈이랑 연결
 	@RequestMapping(value = "/camping/list", method = RequestMethod.GET)
 	public String campList(Model model,String camp_addr,String reser_checkin,String reser_checkout) {
-		System.out.println(camp_addr+"/"+reser_checkin+"/"+reser_checkout);
 		model.addAttribute("camp_addr",camp_addr);
 		model.addAttribute("reser_checkin",reser_checkin);
 		model.addAttribute("reser_checkout",reser_checkout);
@@ -76,25 +76,16 @@ public class CampController {
 	// 특정 캠핑장 상세 페이지
 	@RequestMapping(value = "/camping/read", method = RequestMethod.GET)
 	public String campRead(Model model, String camp_id, String reser_checkin, String reser_checkout) {
-		System.out.println(camp_id+","+reser_checkin+","+reser_checkout);
 		model.addAttribute("reser_checkin", reser_checkin);
 		model.addAttribute("reser_checkout", reser_checkout);
 		model.addAttribute("attList",cadao.list(camp_id));
 		model.addAttribute("cvo",cdao.campRead(camp_id));
+		model.addAttribute("styleList", cdao.campStyleRead(camp_id));
+		model.addAttribute("facilityList", cdao.campFacilityRead(camp_id));
+		model.addAttribute("reserList", cdao.campAvailableReser(camp_id, reser_checkin, reser_checkout));
 		model.addAttribute("pageName", "camping/read.jsp");
 		return "home";
 	}
-	/*
-	// 캠핑장 insert page
-	@RequestMapping(value = "/camping/insert", method = RequestMethod.GET)
-	public String campInsertPage(Model model) {
-		String maxCode = cdao.maxCode();
-		String camp_id="c"+(Integer.parseInt(maxCode.substring(1))+1);
-		model.addAttribute("camp_id",camp_id);
-		model.addAttribute("pageName", "camping/insert.jsp");
-		return "home";
-	}
-	*/
 	// 캠핑장 insert 작업
 	@RequestMapping(value = "/camping/insert", method = RequestMethod.POST)
 	public String campInsert(CampingVO vo, MultipartHttpServletRequest multi, 
@@ -154,20 +145,6 @@ public class CampController {
 		return "redirect:/camping/list";
 	}
 	
-	// 캠핑장 스타일 목록
-	@ResponseBody
-	@RequestMapping(value = "/camping/cslist.json", method = RequestMethod.GET)
-	public List<CampingVO> campStyleRead(String camp_id) {
-		return cdao.campStyleRead(camp_id);
-	}
-	
-	// 캠핑장 시설 목록
-	@ResponseBody
-	@RequestMapping(value = "/camping/cflist.json", method = RequestMethod.GET)
-	public List<CampingVO> campFacilityRead(String camp_id) {
-		return cdao.campFacilityRead(camp_id);
-	}
-	
 	// 이미지파일 출력
 	@ResponseBody
 	@RequestMapping("/camping/display")
@@ -178,19 +155,35 @@ public class CampController {
 		in.close();
 		return image;
 	}
-	/*
-	// 지역, 날짜 조건 캠핑장 목록
-	@ResponseBody
-	@RequestMapping("/camping/campSearchList.json")
-	public List<HashMap<String, Object>> campSearchLit() {
-		return cdao.campSearchList();
-	}
-	*/
+	
 	@ResponseBody
 	@RequestMapping(value="/camping/searchlist.json", method = RequestMethod.GET)
 	public List<HashMap<String, Object>> campSearchList(String camp_addr, String reser_checkin,String reser_checkout){
-		System.out.println("............."+camp_addr+"/"+reser_checkin+"/"+reser_checkout);
 		return cdao.campSearchList(camp_addr,reser_checkin,reser_checkout);
 	}
 	
+	// 예약페이지 연결
+	@RequestMapping(value = "/camping/checkout", method = RequestMethod.GET)
+	public String campReservationCheckout(Model model,String camp_id, String reser_checkin, String reser_checkout, String style_no) {
+		model.addAttribute("camp_id",camp_id);
+		model.addAttribute("style_no",style_no);
+		model.addAttribute("reser_checkin",reser_checkin);
+		model.addAttribute("reser_checkout",reser_checkout);
+		model.addAttribute("vo",cdao.campRead(camp_id));
+		model.addAttribute("pageName", "camping/reservation.jsp");
+		return "home";
+	}
+	
+	@RequestMapping(value = "/camping/checkout", method = RequestMethod.POST)
+	public String campReservationCheckoutInsert(HttpSession session,String camp_id, String style_no, String reser_checkin, String reser_checkout) {
+		String uid = (String)session.getAttribute("uid");
+		if(uid!=null){
+			System.out.println(uid);
+			String camp_room_no=camp_id.concat(style_no);
+			System.out.println(camp_room_no);
+			cdao.campReservationCheckoutInsert(camp_id, camp_room_no, reser_checkin, reser_checkout, uid);
+		}
+		return "redirect:/";
+	}
+
 }

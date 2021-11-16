@@ -91,4 +91,25 @@ public class CampingDAOImpl implements CampingDAO {
 		return session.selectList(namespace+".campSearchList",map);
 	}
 
+	@Override
+	public List<HashMap<String, Object>> campAvailableReser(String camp_id, String reser_checkin,
+			String reser_checkout) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("camp_id", camp_id);
+		map.put("reser_checkin", reser_checkin);
+		map.put("reser_checkout", reser_checkout);
+		return session.selectList(namespace+".campAvailableReser", map);
+	}
+
+	@Override
+	public void campReservationCheckoutInsert(String camp_id, String camp_room_no, String reser_checkin,
+			String reser_checkout, String uid) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("camp_id", camp_id);
+		map.put("camp_room_no", camp_room_no);
+		map.put("reser_checkin", reser_checkin);
+		map.put("reser_checkout", reser_checkout);
+		map.put("uid", uid);
+		session.selectList(namespace+".campReservationCheckoutInsert", map);
+	}
 }

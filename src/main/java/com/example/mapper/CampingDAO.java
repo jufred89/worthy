@@ -21,4 +21,6 @@ public interface CampingDAO {
 	public void campStyleInsert(String camp_id, String style_no, int style_qty, int style_price);
 	public int campTotcount(Criteria cri);
 	public List<HashMap<String, Object>> campSearchList(String camp_addr,String reser_checkin,String reser_checkout);
+	public List<HashMap<String, Object>> campAvailableReser(String camp_id,String reser_checkin,String reser_checkout);
+	public void campReservationCheckoutInsert(String camp_id, String camp_room_no, String reser_checkin ,String reser_checkout, String uid);
 }

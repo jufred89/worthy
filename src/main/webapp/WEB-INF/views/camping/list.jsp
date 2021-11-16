@@ -88,8 +88,10 @@
 			return camp_tqty-reserve_cnt
 		}
 	});
+	// 캠핑 아이디 및 원하는 예약 날짜 가지고 리드 페이지로 가지고 가기
 	$("#campList").on("click",".camp_box",function(){
 		var camp_id = $(this).attr("camp_id");
-		alert(camp_id);
+		location.href = "/camping/read?camp_id=" + camp_id
+		+ "&reser_checkin=" + reser_checkin + "&reser_checkout="+reser_checkout
 	})
 </script>

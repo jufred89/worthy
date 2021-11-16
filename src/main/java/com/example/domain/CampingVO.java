@@ -17,8 +17,9 @@ public class CampingVO {
 	// camping Style, camping facility
 
 	private String style_name;
-	private int Style_qty;
+	private int style_qty;
 	private String facility_name;
+	private int style_price;
 	
 	// camping attach image
 	
@@ -113,11 +114,11 @@ public class CampingVO {
 	}
 
 	public int getStyle_qty() {
-		return Style_qty;
+		return style_qty;
 	}
 
 	public void setStyle_qty(int style_qty) {
-		Style_qty = style_qty;
+		this.style_qty = style_qty;
 	}
 
 	public String getFacility_name() {
@@ -126,6 +127,14 @@ public class CampingVO {
 
 	public void setFacility_name(String facility_name) {
 		this.facility_name = facility_name;
+	}
+
+	public int getStyle_price() {
+		return style_price;
+	}
+
+	public void setStyle_price(int style_price) {
+		this.style_price = style_price;
 	}
 
 	public ArrayList<String> getImages() {
@@ -141,8 +150,7 @@ public class CampingVO {
 		return "CampingVO [camp_id=" + camp_id + ", camp_name=" + camp_name + ", camp_maker=" + camp_maker
 				+ ", camp_addr=" + camp_addr + ", camp_tel=" + camp_tel + ", camp_price=" + camp_price
 				+ ", camp_status=" + camp_status + ", camp_memo=" + camp_memo + ", camp_detail=" + camp_detail
-				+ ", camp_image=" + camp_image + ", style_name=" + style_name + ", Style_qty=" + Style_qty
-				+ ", facility_name=" + facility_name + ", images=" + images + "]";
+				+ ", camp_image=" + camp_image + ", style_name=" + style_name + ", style_qty=" + style_qty
+				+ ", facility_name=" + facility_name + ", style_price=" + style_price + ", images=" + images + "]";
 	}
-	
 }
