@@ -11,11 +11,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -263,21 +267,24 @@ public class ShopController {
 	//카카오페이
 	@RequestMapping(value="/kakaoPay", method=RequestMethod.POST)
 	@ResponseBody
-	public String kakaoPay(){
+	public String kakaoPay(String item_name, String total_amount){
 		SSLTrust.sslTrustAllCerts();
 		try {
 			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
-			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
 			conn.setDoOutput(true);
 			
 			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
-			param +="&item_name=초코파이&quantity=1&total_amount=2200&tax_free_amount=0";
+			param +="&quantity=1&tax_free_amount=0";
+			param +="&item_name="+item_name;
+			param +="&total_amount="+total_amount;
 			param +="&vat_amount=200";
-			param +="&approval_url=http://localhost:8088";
+			param +="&approval_url=http://localhost:8088/shop/approval";
 			param +="&fail_url=http://localhost:8088";
 			param +="&cancel_url=http://localhost:8088";
+			
 			OutputStream out = conn.getOutputStream();
 			DataOutputStream dataout = new DataOutputStream(out);
 			dataout.writeBytes(param);
@@ -293,9 +300,12 @@ public class ShopController {
 				in = conn.getErrorStream();
 			}
 			
+		
+			//데이터 읽어오기
 			InputStreamReader reader = new InputStreamReader(in);
 			BufferedReader br = new BufferedReader(reader);
 			String str =  br.readLine();
+			System.out.println(str);
 			return str;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -305,4 +315,68 @@ public class ShopController {
 		
 		return "null";
 	}
+	
+	//결제 승인
+	@RequestMapping(value="/kakaoPayApproval", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPayApproval(String pg_token,String tid, Model model, HttpSession httpSession) { 
+		//String user_id = (String) httpSession.getAttribute("user_id"); 
+		//System.out.println("kakaoPaySuccess pg_token : " + pg_token.substring(9)); 
+		pg_token = pg_token.substring(9);
+		SSLTrust.sslTrustAllCerts();
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/approve");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&tid="+tid;
+			param +="&pg_token="+pg_token;
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			dataout.writeBytes(param);
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			System.out.println(rst);
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+			InputStreamReader reader = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+
+	
+	@RequestMapping(value = "/approval", method = RequestMethod.GET)
+	public String approval() {	
+		return "/paystatus/approval";
+	}
+	@RequestMapping(value = "/fail", method = RequestMethod.GET)
+	public String fail() {	
+		return "/paystatus/fail";
+	}
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	public String cancel() {	
+		return "/paystatus/cancel";
+	}
+	
 }

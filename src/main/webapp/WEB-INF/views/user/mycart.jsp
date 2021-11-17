@@ -60,15 +60,24 @@
 	getCart();
 	getSum();
 
+	
+
 	//카카오페이
 	function kakaoPay(){
+		var item_name = $('#tblCart .item .title').html();
+		var total_amount = $('#order_amount').html();
+		
+		if(!confirm('결제를 진행하시겠습니까?')) return;
 		$.ajax({
 			type:'post',
 			url:'/shop/kakaoPay',
 			dataType:'json',
+			data:{"item_name":item_name, "total_amount":total_amount},
 			success:function(data){
+				localStorage.setItem("tid",data.tid); //세션에 tid 저장
 				var box = data.next_redirect_pc_url;
 				window.open(box,'kakaoPay','width=500,height=600,top=80,left=1100');
+				
 			}
 		});
 	}
@@ -83,6 +92,7 @@
 		
 		
 		alert(pay_price + " / " + pay_uid);
+		
 		
 		$.ajax({
 			type: "post",
