@@ -91,37 +91,31 @@
 	#pagination a:hover:not(.active) {
 	   background-color: #ddd;
 	}
-#info_nav{
+	#info_nav{
    height:100px;
    align-content:center;
    justify-content:center;
    list-style:none;
    display:flex;
    margin-bottom:0;
-
-   
    }
    #info_nav li{
-   margin:50px;
-   width:100px;
-   height:50px;
-   
-   
+	   margin:50px;
+	   width:100px;
+	   height:50px;
    }
    #info_nav li p{
-   justify-content:center;
-   align-items:center;
-   display:flex;
-   color:gray;
-   font-size:20px;
-   width:100px;
-   height:50px;
+	   justify-content:center;
+	   align-items:center;
+	   display:flex;
+	   color:gray;
+	   font-size:20px;
+	   width:100px;
+	   height:50px;
    }
    #info_nav li p:hover{
-   background:black;
-   color:white;
-   
-   
+	   background:black;
+	   color:white;
    }
    table {
       border-collapse: collapse;
@@ -130,41 +124,38 @@
       width:960px;
       margin:0 auto;
    }
-   
    td {
       border-bottom: 1px solid black;
       padding: 10px 0px;
    }
-   
    .title {
       background: gray;
       color: white;
       text-align: center;
    }
-   
    .tip_title:hover {
       color: gray;
       cursor: pointer;
    }
-   
-      #tbl{
-   position:sticky;
+   #tbl{
+	position:sticky;
    }
    #footer{
-   position:static;
+   	position:static;
    }
 </style>
-
 <ul id="info_nav">
 	<li><p onClick="location.href='/notice/list'">공지사항</p></li>
 	<li><p onClick="location.href='/tip/list'">캠핑팁</p></li>
 	<li><p onClick="location.href='/recipe/list'">레시피</p></li>
 </ul>
 <hr style="border:2px dotted black;width:960px;">
-   <h1>팁</h1>
-   <c:if test="${uid!=null}">
-      <button onClick="location.href='/tip/insert'">팁 등록</button>
-   </c:if>
+
+<h1>팁</h1>
+<c:if test="${uid!=null}">
+	<button onClick="location.href='/tip/insert'"
+	style="margin:10px;">팁 등록</button>
+</c:if>
 <div id="condition">
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
 	<span id="total"></span> 
@@ -193,7 +184,7 @@
 	{{#each list}}
 		<tr class="row">
 			<td class="tip_no">{{tip_no}}</td>
-			<td><img src="/info/display?file={{tip_image}}" width=150 height=120 class="tip_image"/></td>
+			<td><img src="/tip/display?file={{tip_image}}" width=150 height=120 class="tip_image"/></td>
 			<td class="tip_title" onClick="location.href='/tip/read?tip_no={{tip_no}}'">{{tip_title}}</td>
 			<td>{{tip_writer}}</td>
 			<td>{{dateConv tip_regdate}}</td>
@@ -216,7 +207,7 @@
         var hour = ("0" +(dateObj.getHours())).slice(-2);
         var min = ("0" +(dateObj.getMinutes())).slice(-2);
         var sec = ("0" +(dateObj.getSeconds())).slice(-2);
-        tip_regdate = year + "-" + month + "-" + date;// + " " + hour + ":" + min + ":" + sec; 
+        tip_regdate = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec; 
         return tip_regdate;  
 	});
 </script>
@@ -260,8 +251,7 @@
 				getTipList();
 		}
 	});
-		
-		
+	
 	//한페이지 출력수
 	$("#perPageNum").on("change", function(){
 		page=1;
