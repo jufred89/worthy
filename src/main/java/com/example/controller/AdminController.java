@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
 import com.example.domain.PageMaker;
+import com.example.domain.UserVO;
 import com.example.domain.ShopVO;
 import com.example.mapper.CampingDAO;
 import com.example.mapper.ShopDAO;
@@ -85,8 +86,45 @@ public class AdminController {
 		model.addAttribute("adminPageName", "campingUpdate.jsp");
 		return "home";
 	}
-	//----------------------------------------캠핑장 관련 끝-----------------------------------------------------------
-	
+
+	//-----------------------------회원관리 --------------------
+	@RequestMapping(value="/admin/user/list",method = RequestMethod.GET)
+	public String list(Model model){
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "userlist.jsp");
+		return "home";
+	}
+	@RequestMapping(value="/admin/userlist.json", method = RequestMethod.GET)
+	@ResponseBody
+	public HashMap<String, Object> adminUserListJSON(Criteria cri) {
+		HashMap<String, Object> map = new HashMap<>();
+		cri.setPerPageNum(10);
+		map.put("list", udao.list(cri));
+
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		map.put("cri", cri);
+		map.put("pm", pm);
+		return map;
+	}
+	@RequestMapping("/admin/user/read")
+	public String read(Model model,String uid){
+		model.addAttribute("vo",udao.read(uid));
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "userread.jsp");
+		return "home";
+	}
+
+	@RequestMapping(value = "/admin/user/update", method = RequestMethod.POST)
+	public String adminUserUpdate(Model model, UserVO vo) {
+		vo.setAddress(vo.getAddress()+" "+vo.getDetail());
+		System.out.println(vo.toString());
+		udao.adminupdate(vo);
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "userread.jsp");
+		return "redirect:/admin/user/list";
+	}
+
 	//----------------------------------------상품 관련 시작-----------------------------------------------------------
 	
 	@RequestMapping("/admin/shop/list")
@@ -125,5 +163,4 @@ public class AdminController {
 		sdao.adminHideUpdate(vo);
 	}
 	
-	//----------------------------------------상품 관련 시작-----------------------------------------------------------
 }
