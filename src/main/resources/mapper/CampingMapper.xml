@@ -3,13 +3,49 @@
 <mapper namespace="com.example.mapper.CampingMapper">
 	<!-- 유저 메인 페이지 지역, 날짜 조건 캠핑장 목록 -->
 	<select id="campSearchList" resultType="hashmap">
-	select c.*, r.* from
-	(select * from view_camp_sql where camp_addr like concat('%',#{camp_addr},'%')) c
-	left join
-	(select camp_id, count(*) reserve_cnt from tbl_camp_reserve
-	where (reser_checkin between #{reser_checkin} and #{reser_checkout}) or
-	(reser_checkout between #{reser_checkin} and #{reser_checkout}) group by camp_id) r
-	on c.camp_id= r.camp_id order by c.camp_id desc
+		SELECT 
+	    *
+	FROM
+	    (SELECT 
+	        c.*, reserve_cnt
+	    FROM
+	        (SELECT 
+	        *
+	    FROM
+	        view_camp_sql
+	    WHERE
+	        camp_addr LIKE concat('%',#{camp_addr},'%')) c
+	    LEFT JOIN (SELECT 
+	        camp_id, COUNT(*) reserve_cnt
+	    FROM
+	        tbl_camp_reserve
+	    WHERE
+	        (reser_checkin BETWEEN #{reser_checkin} AND #{reser_checkout})
+	            OR (reser_checkout BETWEEN #{reser_checkin} AND #{reser_checkout})
+	            OR (reser_checkin <![CDATA[<]]> #{reser_checkin}
+	            AND reser_checkout <![CDATA[<]]> #{reser_checkout})
+	    GROUP BY camp_id) r ON c.camp_id = r.camp_id) tbl
+	<if test="facility_no!=null">
+	WHERE
+	    camp_id IN (SELECT 
+	            camp_id
+	        FROM
+	            view_facility
+	        WHERE
+	            facility_no IN 
+	            <foreach collection="facility_no" item="arr" open="(" close=")" separator=",">
+            		#{arr}
+         		</foreach>
+	        GROUP BY camp_id
+	        HAVING COUNT(*) = #{listSize})
+	        AND camp_id IN (SELECT 
+	            camp_id
+	        FROM
+	            view_style
+	        WHERE
+	            style_no = #{style_no})
+	</if>
+	ORDER BY camp_id desc;
 	</select>
 	<!-- 특정 날짜에 특정 캠핑장에 예약가능한 캠핑장 스타일 목록 -->
 	<select id="campAvailableReser" resultType="hashmap">
