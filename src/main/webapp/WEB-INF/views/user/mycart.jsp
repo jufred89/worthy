@@ -58,7 +58,7 @@
 </div>
 <script>
 	getCart();
-	getSum();
+	
 
 	
 
@@ -102,21 +102,20 @@
 				"deli_address2" : "101동 101호", "deli_tel" : "010-1111-2222", "deli_name" : "원동민", 
 				"deli_memo" : "안전한 배송 부탁드립니다"},
 			success: function(){
-				
 				$("#tblCart .item .chk:checked").each(function(){
-					
 					var cart_no = $(this).parent().find(".no").val();
-					alert(cart_no);
+					//alert(cart_no);
 					
 					$.ajax({
 						type: "post",
 						url: "/shop/order_insert",
 						data: {"order_id" : 1, "cart_no" : cart_no},
 						success: function(){
-							alert("저장됨");
+							
 						}
 					});
 				});
+				alert("저장됨");
 			}
 		});
 	});
@@ -355,6 +354,8 @@
 			success : function(data) {
 				var temp = Handlebars.compile($("#temp").html());
 				$("#tblCart").html(temp(data));
+				
+				getSum();
 
 				$("#tblCart #chkAll").prop("checked", true);
 				$("#tblCart .item .chk").each(function() {

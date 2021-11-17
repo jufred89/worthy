@@ -43,4 +43,11 @@ public interface ShopDAO {
 	
 	//order
 	public void order_insert(Shop_orderVO ovo);
+	
+	//admin
+	public List<HashMap<String, Object>> adminListJSON(Criteria cri);
+	public void adminQtyUpdate(ShopVO vo);
+	public void adminHideUpdate(ShopVO vo);
+	public int adminTotalCount(Criteria cri);
+	
 }

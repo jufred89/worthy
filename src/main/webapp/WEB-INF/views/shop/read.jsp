@@ -281,13 +281,13 @@
 		var cart_pimage = "${vo.prod_image}";
 		var cart_pname = "${vo.prod_name}";
 		
-		//alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
+		alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
 		
 		$.ajax({
 			type: "post",
 			url: "/shop/cart_insert",
 			data: {"cart_pid" : cart_pid, "cart_uid" : cart_uid, "cart_pqty" : cart_pqty,
-				"cart_price" : cart_price, "cart_pimage" : cart_pimage, "cart_pname" : cart_pname},
+				"cart_price" : cart_price, "cart_pimage" : cart_pimage, "cart_pname" : cart_pname, "cart_status" : 1},
 			success: function(){
 				if(!confirm("장바구니로 이동")) return;
 				location.href="/mycart";
