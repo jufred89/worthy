@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
+import com.example.domain.Shop_payVO;
 import com.example.domain.ShopVO;
+import com.example.domain.Shop_cartVO;
+import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 
 @Repository
@@ -88,4 +91,63 @@ public class ShopDAOImpl implements ShopDAO{
 		return session.selectOne(namespace + ".pre_totalCount", prod_rid);
 	}
 
+	@Override
+	public void pre_delete(int prod_rno) {
+		session.delete(namespace + ".pre_delete", prod_rno);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> prod_slide() {
+		return session.selectList(namespace + ".prod_slide");
+	}
+	
+	@Override
+	public void cart_insert(Shop_cartVO cvo) {
+		session.insert(namespace + ".cart_insert", cvo);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> cart_list(String cart_uid) {
+		return session.selectList(namespace + ".cart_list", cart_uid);
+	}
+
+	@Override
+	public void cart_delete(int cart_no) {
+		session.delete(namespace + ".cart_delete", cart_no);
+	}
+
+	@Override
+	public int cart_price_sum(String cart_uid) {
+		return session.selectOne(namespace + ".cart_price_sum", cart_uid);
+	}
+
+	@Override
+	public void pay_insert(Shop_payVO pvo) {
+		session.insert(namespace + ".pay_insert", pvo);
+	}
+
+	@Override
+	public void order_insert(Shop_orderVO ovo) {
+		session.insert(namespace + ".order_insert", ovo);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> adminListJSON(Criteria cri) {
+		return session.selectList(namespace + ".admin_list", cri);
+	}
+
+	@Override
+	public void adminQtyUpdate(ShopVO vo) {
+		session.update(namespace + ".admin_qty_update", vo);
+	}
+
+	@Override
+	public void adminHideUpdate(ShopVO vo) {
+		session.update(namespace + ".admin_hide_update", vo);
+	}
+
+	@Override
+	public int adminTotalCount(Criteria cri) {
+		return session.selectOne(namespace + ".admin_totalCount", cri);
+	}
 }

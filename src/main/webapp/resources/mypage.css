@@ -1,0 +1,196 @@
+@CHARSET "UTF-8";
+
+
+#subject{
+	font-size:150%; 
+	font-weight:bold;
+	letter-spacing:15px;
+	word-spacing:5px;
+	margin: 30px 0 5px 10px;
+}
+#intro{
+	font-size:200%;
+	margin:70px 0 40px 0;
+}
+#intro #modifyInfo{
+	margin-top:15px;
+	font-size:60%;
+}
+#intro #modifyInfo a{
+	font-size:90%;
+	color:#b3b1b1;
+}
+.line{
+	border-bottom:4px solid black;
+	margin: 20px;
+}
+.divider{border-bottom:1px solid #c2c2c3;	margin:20px;}
+
+#menu{
+	float:left; 
+	width:200px;
+	margin-left:150px;
+	margin-top:40px;
+	text-align:left;
+}
+#menu ul{
+	all: unset; 
+	display:block;
+	margin: 50px 0 0 10px;
+}
+#menu li{
+	all: unset; 
+	display:block;
+	line-height:35px;
+}
+#menu li a,#menu li a:visited{
+	color:black;
+}
+#menu .menuTitle{
+	font-size:150%;
+	
+}
+
+#mypage{
+	float:left;
+	width:1000px;
+	margin:0 auto;
+	padding:20px;
+}
+
+
+#sub{
+	padding:30px;
+}
+.subheading{
+	text-align:left;
+	font-size:130%;
+	margin:40px;
+}
+#mycamping .subcontent{
+	margin-left:200px;
+}
+#mycamping #btnSearch{
+	margin-top:10px;
+	font-size:85%;
+	padding:10px 35px;
+	background-color:black;
+	color:white;
+	border:none;
+}
+
+
+
+.campingInfo{
+	float:left;
+	width:500px;
+	margin:30px 0 0 30px;
+	border: 1px solid black;
+	padding:20px;
+	text-align:left;
+}
+.campingInfo .title{
+	font-size:170%;
+	font-weight:bold;
+}
+.campingInfo .etc, .campingInfo .detail{margin-top:10px;}
+.campingInfo .price{
+	font-size:120%;
+	margin:30px 0 0 300px;
+}
+.btnBook{
+	margin-top:10px;
+	font-size:85%;
+	padding:7px 25px;
+	background-color:black;
+	color:white;
+	border:none;
+	margin-left:310px;
+}
+#infoimg{
+	float:left;
+	margin:30px 0 0 30px;
+}
+
+
+#condition{text-align:left; margin-left:50px;}
+#condition input[type=text]{width:500px; padding:10px;}
+.myshop{
+	padding:20px;
+	text-align:left;
+	margin-left:30px;
+}
+
+.orderbox{
+	text-align:left;
+ 	border: 1px solid #c2c2c3;
+ 	padding:20px;
+ }
+.orderbox .status{font-size:150%; font-weight:bold;}
+.orderbox .image{float:left;}
+.orderbox .orderBtn{float:left;}
+
+.whiteBtn{
+	font-size:85%;
+	padding:7px 25px;
+	background-color:white;
+	color:black;
+	border:1px solid black;
+
+}
+.blackBtn{
+	font-size:85%;
+	padding:8px 26px;
+	background-color:black;
+	color:white;
+	border:none;
+	margin-top:5px;
+}
+
+.orderbox .orderinfo{float:left; width:500px; margin-left:30px;}
+.orderinfo .title{font-size:120%;}
+.orderinfo .price{margin-top:70px; font-size:120%; font-weight:bold;}
+
+
+#checkfrm{
+	text-align:left;
+	margin:80px 50px;}
+#checkfrm .inputs{
+	display:inline-block;
+	width:150px; 
+	padding:10px; 
+	font-size:120%; font-weight:bold;
+	}
+#checkfrm input[type=text],#checkfrm input[type=password]{
+	margin:15px; padding:5px; width:400px;
+	border:none; border-bottom:1px solid #c2c2c3;
+}
+#checkfrmBtns{margin-top:30px; margin-left:10px;}
+#checkfrmBtns input{margin:5px; padding:15px 125px;}
+
+
+#frm{
+	text-align:left;
+	margin:50px;
+}
+#frm .frmTitle{font-weight:bold; font-size:115%; margin-top:15px; margin-left:20px;}
+#frm input[type=text],#frm input[type=password],#frm input[type=email]{
+	margin:15px; padding:5px; width:400px;
+	border:none; border-bottom:1px solid #c2c2c3;
+}
+#frmBtns{margin:20px 10px;}
+#frmBtns input{margin:5px; padding:13px 86px;}
+
+
+
+#tblCart{width:1000px; margin:35px;}
+#tblCart th{text-align:center; border-bottom: 1px solid #c2c2c3; padding:7px;}
+#tblCart th:nth-child(1){text-align:left;}
+#tblCart td{padding:10px 7px;}
+#tblCart td:nth-child(5),#tblCart td:nth-child(6){text-align:center;}
+#tblCart .title{font-size:88%;}
+.quantityBox{width:87px; border:1px solid #dadada;}
+.quantityBox button{border:none; font-weight:bold;}
+.quantityBox .minus{padding:3px 10px;}
+.quantityBox .plus{padding:3px 8px;}
+.quantityBox .quantity{display:inline-block;text-align:center; width:25px;}

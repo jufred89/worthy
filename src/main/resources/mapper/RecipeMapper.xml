@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.RecipeMapper">
- 	<select id="list" resultType="com.example.domain.RecipeVO">
+ 	<select id="list" resultType="hashmap">
 		select * from tbl_information_food
-		order by fi_no desc
+		<if test="keyword != null">
+ 			where fi_title like concat("%", #{keyword}, "%") || fi_content like concat("%", #{keyword}, "%")
+ 		</if>
+ 		<if test="searchType == 'desc'">
+ 			order by fi_no desc
+ 		</if>
+ 		<if test="searchType == 'asc'">
+ 			order by fi_no
+ 		</if>
+		limit #{pageStart},#{perPageNum}
  	</select>
  	<select id="read" resultType="com.example.domain.RecipeVO">
 		select * from tbl_information_food
@@ -22,4 +31,72 @@
  		set fi_title=#{fi_title}, fi_content=#{fi_content}
  		where fi_no=#{fi_no}
  	</update>
+ 	<select id="totalCount" resultType="int">
+ 		select count(*) from tbl_information_food
+ 		<if test="keyword != null">
+ 			where fi_title like concat("%", #{keyword}, "%") || fi_content like concat("%", #{keyword}, "%")
+ 		</if>
+ 	</select>
+ 	<select id="maxNo" resultType="int">
+ 		SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'tbl_information_food'
+ 		AND table_schema = 'team1db'
+ 	</select>
+ 	
+ 	<update id="updateView">
+ 		update tbl_information_food
+ 		set fi_viewcnt=fi_viewcnt+1
+ 		where fi_no=#{fi_no}
+ 	</update>
+ 	
+ 	 <!-- 첨부파일 -->
+ 	<select id="att_list" resultType="string">
+ 		select fi_ano from tbl_information_food_attach
+ 		where fi_bno=#{fi_no}
+ 	</select>
+ 	<insert id="att_insert">
+ 		insert into tbl_information_food_attach(fi_ano, fi_bno)
+ 		values(#{image}, #{fi_no})
+ 	</insert>
+ 	<delete id="att_delete">
+ 		delete from tbl_information_food_attach
+ 		where fi_ano=#{image}
+ 	</delete>
+ 	<delete id="att_deleteAll">
+		delete from tbl_information_food_attach
+		where fi_bno=#{fi_no}
+	</delete>
+ 	
+ 	<!-- 좋아요 업데이트 -->
+ 	<select id="likeIt" resultType="int">
+		select count(*) from tbl_information_food_like 
+		where fi_lk_uid=#{uid} and fi_lk_bno=#{fi_no};
+	</select>
+ 	<insert id="likeInsert">
+ 		insert into tbl_information_food_like(fi_lk_uid, fi_lk_bno)
+ 		values(#{uid}, #{fi_no})
+ 	</insert>
+ 	<select id="likeCheck" resultType="int">
+		select fi_lk_chk from tbl_information_food_like 
+		where fi_lk_uid=#{uid} and fi_lk_bno=#{fi_no};
+	</select>
+	<update id="likeUpdate">
+		update tbl_information_food set fi_like=(select sum(fi_lk_chk)
+													from tbl_information_food_like
+													where fi_lk_bno=#{fi_no})
+		where fi_no=#{fi_no}
+	</update>
+ 	<update id="like">
+ 		update tbl_information_food_like set
+ 		<if test="likeCheck==0">
+ 			 fi_lk_chk=1
+ 		</if>
+ 		<if test="likeCheck==1">
+ 			 fi_lk_chk=0
+ 		</if>
+ 		where fi_lk_uid=#{uid} and fi_lk_bno=#{fi_no};
+ 	</update>
+ 	<delete id="likeDel">
+ 		delete from tbl_information_food_like 
+ 		where fi_lk_bno=#{fi_no}
+ 	</delete>
 </mapper>

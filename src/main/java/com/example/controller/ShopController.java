@@ -1,18 +1,32 @@
 package com.example.controller;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -20,7 +34,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
 import com.example.domain.PageMaker;
+import com.example.domain.Shop_payVO;
 import com.example.domain.ShopVO;
+import com.example.domain.Shop_cartVO;
+import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 import com.example.mapper.ShopDAO;
 
@@ -57,6 +74,7 @@ public class ShopController {
 		model.addAttribute("prod_id", maxID);
 		// System.out.println(maxID);
 		model.addAttribute("pageName", "shop/insert.jsp");
+		
 		return "home";
 	}
 
@@ -84,11 +102,7 @@ public class ShopController {
 		map.put("pm", pm);
 		return map;
 	}
-
-	public String shopRead() {
-		return "/shop/read";
-	}
-
+	
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insert(ShopVO vo, MultipartHttpServletRequest multi, AttachVO avo) throws IllegalStateException, IOException {
 		MultipartFile file = multi.getFile("file");
@@ -167,15 +181,24 @@ public class ShopController {
 		return "redirect:/shop";
 	}
 	
+	@RequestMapping("/prod_slide.json")
+	@ResponseBody
+	public HashMap<String, Object> prod_slide(){
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("slide", dao.prod_slide());
+		//System.out.println(map);
+		return map;		
+	}
+	
 	@RequestMapping("/pre_list.json")
 	@ResponseBody
 	public HashMap<String, Object> pre_list(String prod_rid, Criteria cri){
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<>();
 		
 		cri.setPerPageNum(5);
 		
-		map.put("cri", cri);
 		map.put("list", dao.pre_list(cri, prod_rid));
+		map.put("cri", cri);
 		
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
@@ -183,11 +206,177 @@ public class ShopController {
 		
 		map.put("pm", pm);
 		
+		//System.out.println(map);
+		
 		return map;
 	}
 	
-	@RequestMapping("/pre_insert")
+	@RequestMapping(value="/pre_insert", method=RequestMethod.POST)
+	@ResponseBody
 	public void pre_insert(Shop_previewVO pvo, Criteria cri){
+		//System.out.println(pvo.toString());
 		dao.pre_insert(pvo);
 	}
+	
+	@RequestMapping(value="/pre_delete", method=RequestMethod.POST)
+	@ResponseBody
+	public void pre_delete(int prod_rno){
+		dao.pre_delete(prod_rno);
+	}
+	
+	@RequestMapping(value="/cart_insert", method=RequestMethod.POST)
+	@ResponseBody
+	public void cart_insert(Shop_cartVO cvo){
+		dao.cart_insert(cvo);
+	}
+	
+	@RequestMapping("/cart_list.json")
+	@ResponseBody
+	public HashMap<String, Object> cart_listJSON(String cart_uid, Model model){
+		HashMap<String, Object> cart = new HashMap<>();
+		cart.put("cart_list", dao.cart_list(cart_uid));
+		return cart;
+	}
+	
+	@RequestMapping(value="/cart_delete", method=RequestMethod.POST)
+	@ResponseBody
+	public void cart_delete(int cart_no){
+		System.out.println(cart_no);
+		dao.cart_delete(cart_no);
+	}
+	
+	@RequestMapping("/cart_price_sum")
+	@ResponseBody
+	public int cart_price_sum(String cart_uid){
+		return dao.cart_price_sum(cart_uid);
+	}
+	
+	@RequestMapping(value="/pay_insert", method=RequestMethod.POST)
+	@ResponseBody
+	public void pay_insert(Shop_payVO pvo){
+		dao.pay_insert(pvo);
+	}
+	
+	@RequestMapping(value="/order_insert", method=RequestMethod.POST)
+	@ResponseBody
+	public void pay_insert(Shop_orderVO ovo){
+		dao.order_insert(ovo);
+	}
+	
+	
+	//카카오페이
+	@RequestMapping(value="/kakaoPay", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPay(String item_name, String total_amount){
+		SSLTrust.sslTrustAllCerts();
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&quantity=1&tax_free_amount=0";
+			param +="&item_name="+item_name;
+			param +="&total_amount="+total_amount;
+			param +="&vat_amount=200";
+			param +="&approval_url=http://localhost:8088/shop/approval";
+			param +="&fail_url=http://localhost:8088";
+			param +="&cancel_url=http://localhost:8088";
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			dataout.writeBytes(param);
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+		
+			//데이터 읽어오기
+			InputStreamReader reader = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return "null";
+	}
+	
+	//결제 승인
+	@RequestMapping(value="/kakaoPayApproval", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPayApproval(String pg_token,String tid, Model model, HttpSession httpSession) { 
+		//String user_id = (String) httpSession.getAttribute("user_id"); 
+		//System.out.println("kakaoPaySuccess pg_token : " + pg_token.substring(9)); 
+		pg_token = pg_token.substring(9);
+		SSLTrust.sslTrustAllCerts();
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/approve");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&tid="+tid;
+			param +="&pg_token="+pg_token;
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			dataout.writeBytes(param);
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			System.out.println(rst);
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+			InputStreamReader reader = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+
+	
+	@RequestMapping(value = "/approval", method = RequestMethod.GET)
+	public String approval() {	
+		return "/paystatus/approval";
+	}
+	@RequestMapping(value = "/fail", method = RequestMethod.GET)
+	public String fail() {	
+		return "/paystatus/fail";
+	}
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	public String cancel() {	
+		return "/paystatus/cancel";
+	}
+	
 }

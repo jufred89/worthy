@@ -65,30 +65,46 @@ border:5px double skyblue;
 .img_icon img:hover{
 border:5px double skyblue;
 }
+
+
 </style>
 </head>
 <body>
+
 	<div id="header">
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header col-sm-2">
-       <h2 onClick="location.href='/'">worthy</h2>
-    </div>
-    <div class="nav navbar-nav col-sm-4">
-   
-    <div><i class="fa fa-map-marker" aria-hidden="true"></i> <a
-					data-toggle="modal" href="#myModal">어디로 떠날까요?</a></div>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header col-sm-2">
+	      
+	     
+	       <h2 id="logo" onClick="location.href='/'">worthy</h2>
       
-    <div>|</div>
-			<div>
-				<i class="fa fa-calendar-check-o" aria-hidden="true"></i> <a
-					data-toggle="modal" href="#myModal2">언제 떠날까요?</a>
-			</div>
     </div>
+   <%--  <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
+    <div class="nav navbar-nav col-sm-4">
+   <div id="info_search_box" >
+    <div id="search_where"><input class="form-control"  type="text" placeholder="어디로?"> </div>
+      
+<div class="input-group input-daterange">
+    <input type="text" id="start" class="form-control"  placeholder="언제부터">
+    <input type="text" id="end" class="form-control"placeholder="언제까지">
+</div>
+    </div>
+    </div>
+    </c:if>
+ --%>
+    <div class="nav navbar-nav col-sm-2">
+   
+ 
+    </div>
+    
+    
+ 
     <div class="nav navbar-nav navbar-right col-sm-6" id="menus">
+  
     <div>
-				<a data-toggle="modal" href="#myModal3">태마검색 </a>
+				<a data-toggle="modal" href="#myModal3">테마검색 </a>
 			</div>
 			<div>
 				<a href="/notice/list">캠핑정보 </a>
@@ -99,18 +115,23 @@ border:5px double skyblue;
 			<div>
 				<a href="/board/list">자유게시판</a>
 			</div>
-			<div>|</div>
+			
+			
+			  
+			
      		 <c:if test="${uid!=null}">
-					<span style="float:right;">
-						<a href="/mypage?uid=${uid}">${uid}</a>
-						<a href="/user/logout">로그아웃</a>
-					</span>
-				    <div><a href="/mypage">Mypage</a></div>
+					<div style="float:right;">
+						<div><a href="/mypage?uid=${uid}">${uid}</a>님 환영합니다!</div>
+						  
+						<a href="/user/logout" id="logout"><span class='glyphicon glyphicon-share-alt'></span>LOGOUT</a>
+					</div>
+				    <!-- <div><a href="/mypage">Mypage</a></div> -->
 			</c:if>
 			<c:if test="${uid==null}">
-				<div id="login_join_imoticon">
-					<a href="/user/login" ><span class="glyphicon glyphicon-log-in"></span> Login</a>
-					<a href="/user/join"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+				<span>|</span>
+				<div id="login_join_imoticon" >
+					<a href="/user/login" ><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
+					<a href="/user/join"><span class="glyphicon glyphicon-user"></span>SIGN UP</a>
 				</div>
 			</c:if>
     </div>
@@ -123,6 +144,8 @@ border:5px double skyblue;
 	</div>
 	<div id="center">
 		<div id="content">
+		 <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
+		
 			<!-- 모달창1시작 -->
 			<div class="modal" id="myModal">
 				<div class="modal-dialog">
@@ -144,13 +167,13 @@ border:5px double skyblue;
 						<!-- Modal body -->
 						<div class="modal-body" style="height: 400px;">
 						<div id="search_local">
-							<input type="text" id="local" style="border: 1px solid gray;width:200px;"
+							<input type="text" id="local" style="border: 1px solid gray;"
 								placeholder="원하는 지역을 검색해보세요!" value="dahee">
 								
-								<i class="fa fa-search" aria-hidden="true"></i>
+								
 							<hr>
 							<h3>지역</h3>
-							<ul>
+							<ul id="district">
 							<li>국내전체</li>
 							<li>제주</li>
 							<li>강원</li>
@@ -220,15 +243,35 @@ border:5px double skyblue;
     var lastDay = null;
     var $tdDay = null;
     var $tdSche = null;
- 
+   
+	var startValue=$('#start').val()
+    
     $(document).ready(function() {
         drawCalendar();
         initDate();
         drawDays();
         $("#movePrevMonth").on("click", function(){movePrevMonth();});
         $("#moveNextMonth").on("click", function(){moveNextMonth();});
+        ClickDay();
+        //start value값이 change
+        $('#start').on('change',function(){
+        	  
+        		var startValue=$('#start').val()
+    		var arr=startValue.split("-");
+        		var startMonth=$('#cal_top_month').text()
+        		var date=$('.day2').text()
+            	if(startMonth==arr[1]&&arr[2]==date){
+            		$(this)
+            	}
+    	})
     });
-    
+  
+	//color
+	function dateColor(){
+    	var startValue=$('#start').val()
+    	
+    }
+	
     //calendar 그리기
     function drawCalendar(){
         var setTableHTML = "";
@@ -237,7 +280,7 @@ border:5px double skyblue;
         for(var i=0;i<5;i++){
             setTableHTML+='<tr height="50">';
             for(var j=0;j<7;j++){
-                setTableHTML+='<td class="day" style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap" >';
+                setTableHTML+='<td class="day2" style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap" >';
                 setTableHTML+='    <div class="cal-day" ></div>';
                 setTableHTML+='    <div class="cal-schedule"></div>';
                 setTableHTML+='</td>';
@@ -311,7 +354,12 @@ border:5px double skyblue;
         lastDay = new Date(year,month,0);
         drawDays();
     }
-    
+    function ClickDay(){
+    	$('.day2').on('click',function(){
+    		var date=$(this).text();
+    		alert(typeof(date))
+    	})
+    }
 </script>
 						</div>
 						<!-- Modal footer -->
@@ -332,8 +380,8 @@ border:5px double skyblue;
 
 						<!-- Modal Header -->
 						<div class="modal-header">
-							<h1 style="text-align: center">worthy</h1>
-							<h2>테마검색</h2>
+							
+							<h1>테마검색</h1>
 							<p>원하는 캠핑 스타일을 선택 후 검색버튼을 클릭하세요!</p>
 
 						</div>
@@ -341,11 +389,13 @@ border:5px double skyblue;
 						<!-- Modal body -->
 						<div class="modal-body">
 							<h3>캠핑스타일</h3>
-							<div class="img_icon">
-							<img src="../resources/kind/글램핑시설.png">
-							<img src="../resources/kind/방갈로.png">
-							<img src="../resources/kind/오토캠핑.png">
-							<img src="../resources/kind/카라반시설.png">
+							<div class="img_icon" id="icon_style">
+						
+							<img src="../resources/kind/글램핑시설.png" alt='1'>
+							<img src="../resources/kind/방갈로.png" alt='1'>
+							<img src="../resources/kind/오토캠핑.png"alt='1'>
+							
+							<img src="../resources/kind/카라반시설.png" alt='1'>
 					
 							</div>
 							<hr>
@@ -393,21 +443,37 @@ border:5px double skyblue;
 					</div>
 				</div>
 			</div>
+			</c:if> 
 			<!-- 모달창2끝 -->
 
 			<jsp:include page="${pageName}"></jsp:include>
 		</div>
 	</div>
-	<div id="footer"></div>
+	
+	<div id="footer">
+	
+	<p>Created by worthy. © 2021</p>
+	</div>
+	
 </body>
 <script>
 
 var end=1;
+var arr=[];
+var num=$('.num').text()
+var uid="${uid}"
+
+$('#icon_style img').each(function(i){
+	arr[i]=$("#icon_style img:nth-child("+(i+1)+")").attr('alt')
+	
+})
+console.log(arr)
 $('#start').on('click',function(){
 	end=0;
 	
 });
 $('#end').on('click',function(){
+	
 	end=1;
 });
 
@@ -418,6 +484,7 @@ $('#start,#end').datepicker({
     language : "ko"	
 	    
 	})
+	
 $("#search_local").on("click","ul li",function(){
 	var s_input=$(this).parent().parent().find($("#local"))
     var s_li=$(this).text();
@@ -428,7 +495,7 @@ $("#search_local").on("click","ul li",function(){
  $("div.input-daterange").each(function(){
     var $inputs = $(this).find('input');
    
-    $inputs.datepicker("setDate", new Date());
+   // $inputs.datepicker("setDate", new Date());
     if ($inputs.length >= 2) {
         var $from = $inputs.eq(0);
         var $to   = $inputs.eq(1);
@@ -455,6 +522,13 @@ $('#d_start').on('click',function(){
 })
 $('.img_icon').on('click','img',function(){
 	$(this).toggleClass('selected')
+})
+$('.navbar-header').on('click','h2',function(){
+	if(uid.indexOf('admin')!=-1){
+		location.href='/admin'
+	}else{
+		location.href='/'
+	}
 })
 </script>
 </html>

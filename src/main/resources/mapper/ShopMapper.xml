@@ -4,7 +4,7 @@
  	<select id="prod_list" resultType="hashmap">
  		select *, format(prod_normalprice, 0) prod_normalprice_f from tbl_shop_product
  		<if test="keyword != null">
- 			where prod_name like concat("%", #{keyword}, "%") || prod_detail like concat("%", #{keyword}, "%")
+ 			where (prod_name like concat("%", #{keyword}, "%") || prod_detail like concat("%", #{keyword}, "%")) and prod_status = '0'
  		</if>
  		<if test="searchType == 'desc'">
  			order by prod_id desc
@@ -26,17 +26,21 @@
  	<select id="totalCount" resultType="int">
  		select count(*) from tbl_shop_product
  		<if test="keyword != null">
- 			where prod_name like concat("%", #{keyword}, "%") || prod_detail like concat("%", #{keyword}, "%")
+ 			where (prod_name like concat("%", #{keyword}, "%") || prod_detail like concat("%", #{keyword}, "%")) and prod_status = '0'
  		</if>
  	</select>
  	
  	<insert id="prod_insert">
- 		insert into tbl_shop_product(prod_id, prod_name, prod_comp, prod_normalprice, prod_detail, prod_image)
-		values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image})
+ 		insert into tbl_shop_product(prod_id, prod_name, prod_comp, prod_normalprice, prod_detail, prod_image, 
+ 		prod_cap, prod_mfd, prod_exp)
+		values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image},
+		#{prod_cap}, #{prod_mfd}, #{prod_exp})
  	</insert>
  	
  	<update id="prod_update">
- 		update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, prod_saleprice=#{prod_saleprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}
+ 		update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, 
+ 		prod_saleprice=#{prod_saleprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}, prod_cap=#{prod_cap},
+ 		prod_mfd=#{prod_mfd}, prod_exp=#{prod_exp}
  		where prod_id=#{prod_id}
  	</update>
  	
@@ -48,6 +52,14 @@
  		delete from tbl_shop_product where prod_id = #{prod_id}
  	</select>
  	
+ 	 <select id="prod_slide" resultType="HashMap">
+ 		select *, format(prod_normalprice, 0) prod_normalprice_f from tbl_shop_product
+ 		order by prod_id desc
+ 		limit 0, 8
+ 	</select>
+ 	
+ 	
+ 	<!-- 상세 이미지 -->
  	<insert id="att_insert">
  		insert into tbl_shop_attach(shop_ano, shop_pid)
  		values(#{shop_ano}, #{shop_pid})
@@ -63,10 +75,13 @@
  		where shop_pid = #{shop_pid}
  	</select>
  	
+ 	
+ 	<!-- 댓글 -->
  	<select id="pre_list" resultType="HashMap">
- 		select * from tbl_shop_preview
+ 		select *, date_format(prod_r_regdate, '%Y-%m-%d') prod_r_regdate_f from tbl_shop_preview
  		where prod_rid = #{prod_rid}
  		order by prod_rno desc
+ 		limit #{cri.pageStart}, #{cri.perPageNum}
  	</select>
  	
  	<insert id="pre_insert">
@@ -77,5 +92,81 @@
  	<select id="pre_totalCount" resultType="int">
  		select count(*) from tbl_shop_preview
  		where prod_rid = #{prod_id}
+ 	</select>
+ 	
+ 	<delete id="pre_delete">
+ 		delete from tbl_shop_preview
+ 		where prod_rno = #{prod_rno}
+ 	</delete>
+
+ 	
+ 	<!-- 장바구니 -->
+ 	<insert id="cart_insert">
+ 		insert into tbl_shop_cart(cart_pid, cart_uid, cart_price, cart_pqty, cart_status, cart_pimage, cart_pname)
+ 		values(#{cart_pid}, #{cart_uid}, #{cart_price}, #{cart_pqty}, #{cart_status}, #{cart_pimage}, #{cart_pname})
+ 	</insert>
+ 	
+ 	<select id="cart_list" resultType="HashMap">
+ 		select * from tbl_shop_cart
+ 		where cart_uid = #{cart_uid} and cart_status = 1
+ 		order by cart_no desc
+ 	</select>
+ 	
+ 	<update id="cart_delete">
+ 		update tbl_shop_cart set cart_status = '3'
+ 		where cart_no = #{cart_no}
+ 	</update>
+ 	
+ 	<select id="cart_price_sum" resultType="int">
+ 		select sum(cart_price) from tbl_shop_cart
+ 		where cart_uid = #{cart_uid} and cart_status = 1
+ 	</select>
+ 	
+ 	
+ 	<!-- 주문 -->
+ 	<insert id="pay_insert">
+ 		insert into tbl_shop_payment(pay_no, pay_date, pay_price, pay_type, pay_uid, pay_status, deli_postno, deli_address1,
+ 		deli_address2, deli_tel, deli_name, deli_memo)
+ 		values(#{pay_no}, now(), #{pay_price}, #{pay_type}, #{pay_uid}, #{pay_status}, #{deli_postno}, 
+ 		#{deli_address1}, #{deli_address2}, #{deli_tel}, #{deli_name}, #{deli_memo})
+ 	</insert>
+ 	
+ 	<insert id="order_insert">
+ 		insert into tbl_shop_order(order_id, cart_no)
+ 		values(#{order_id}, #{cart_no})
+ 	</insert>
+ 	
+ 	
+ 	<!-- 관리자 -->
+ 	<select id="admin_list" resultType="HashMap">
+ 			select * from tbl_shop_product
+ 		<if test="keyword != null">
+ 			where prod_name like concat("%", #{keyword}, "%")
+ 		</if>
+ 		limit #{pageStart}, 10
+ 	</select>
+ 	
+ 	<update id="admin_qty_update">
+ 		update tbl_shop_product set prod_stack_qty = #{prod_stack_qty}
+		where prod_id = #{prod_id}
+ 	</update>
+ 	
+ 	<update id="admin_hide_update">
+ 		update tbl_shop_product set prod_status = #{prod_status}
+ 		where prod_id = #{prod_id}
+ 	</update>
+ 	
+ 	<select id="admin_totalCount" resultType="int">
+ 		select count(*) from tbl_shop_product
+ 		<if test="keyword != null">
+ 			where prod_name like concat("%", #{keyword}, "%")
+ 		</if>
+ 	</select>
+ 	
+ 	
+ 	<!-- 주문 목록 -->
+ 	<select id="myShop_list" resultType="HashMap">
+ 		select * from tbl_shop_order o, tbl_shop_payment p
+	where o.order_id = p.pay_no and order_id = #{order_id}
  	</select>
 </mapper>

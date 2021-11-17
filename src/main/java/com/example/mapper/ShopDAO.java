@@ -5,7 +5,10 @@ import java.util.List;
 
 import com.example.domain.AttachVO;
 import com.example.domain.Criteria;
+import com.example.domain.Shop_payVO;
 import com.example.domain.ShopVO;
+import com.example.domain.Shop_cartVO;
+import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 
 public interface ShopDAO {
@@ -16,6 +19,7 @@ public interface ShopDAO {
 	public void prod_update(ShopVO vo);
 	public String prod_maxID();
 	public void prod_delete(String prod_id);
+	public List<HashMap<String, Object>> prod_slide();
 	
 	//상세 이미지
 	public AttachVO attach(String shop_pid);
@@ -26,4 +30,24 @@ public interface ShopDAO {
 	public List<HashMap<String, Object>> pre_list(Criteria cri, String prod_rid);
 	public void pre_insert(Shop_previewVO pvo);
 	public int pre_totalCount(String prod_rid);
+	public void pre_delete(int prod_rno);
+	
+	//장바구니
+	public void cart_insert(Shop_cartVO cvo);
+	public List<HashMap<String, Object>> cart_list(String cart_uid);
+	public void cart_delete(int cart_no);
+	public int cart_price_sum(String cart_uid);
+	
+	//구매
+	public void pay_insert(Shop_payVO pvo);
+	
+	//order
+	public void order_insert(Shop_orderVO ovo);
+	
+	//admin
+	public List<HashMap<String, Object>> adminListJSON(Criteria cri);
+	public void adminQtyUpdate(ShopVO vo);
+	public void adminHideUpdate(ShopVO vo);
+	public int adminTotalCount(Criteria cri);
+	
 }

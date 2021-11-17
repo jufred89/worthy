@@ -17,7 +17,9 @@ import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
 import com.example.domain.PageMaker;
 import com.example.domain.UserVO;
+import com.example.domain.ShopVO;
 import com.example.mapper.CampingDAO;
+import com.example.mapper.ShopDAO;
 import com.example.mapper.UserDAO;
 
 @Controller
@@ -28,6 +30,9 @@ public class AdminController {
 
 	@Autowired
 	CampingDAO cdao;
+	
+	@Autowired
+	ShopDAO sdao;
 
 	@RequestMapping("/admin")
 	public String home(HttpSession session, Model model) {
@@ -81,7 +86,7 @@ public class AdminController {
 		model.addAttribute("adminPageName", "campingUpdate.jsp");
 		return "home";
 	}
-	//----------------------------------------캠핑장 관련 끝-----------------------------------------------------------
+
 	//-----------------------------회원관리 --------------------
 	@RequestMapping(value="/admin/user/list",method = RequestMethod.GET)
 	public String list(Model model){
@@ -119,4 +124,43 @@ public class AdminController {
 		model.addAttribute("adminPageName", "userread.jsp");
 		return "redirect:/admin/user/list";
 	}
+
+	//----------------------------------------상품 관련 시작-----------------------------------------------------------
+	
+	@RequestMapping("/admin/shop/list")
+	public String adminList(Model model){
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "shopList.jsp");
+		return "home";
+	}
+	
+	@RequestMapping("/admin/shop/list.json")
+	@ResponseBody
+	public HashMap<String, Object> adminListJSON(Criteria cri) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		map.put("list", sdao.adminListJSON(cri));
+		map.put("cri", cri);
+
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(sdao.adminTotalCount(cri));
+
+		map.put("pm", pm);
+		return map;
+	}
+	
+	@RequestMapping("/admin/shop/qty_update")
+	@ResponseBody
+	public void adminQtyupdate(ShopVO vo){
+		sdao.adminQtyUpdate(vo);
+	}
+	
+	@RequestMapping("/admin/shop/hide_update")
+	@ResponseBody
+	public void adminHideupdate(ShopVO vo){
+		System.out.println(vo.toString());
+		sdao.adminHideUpdate(vo);
+	}
+	
 }

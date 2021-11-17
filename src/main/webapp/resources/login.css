@@ -11,12 +11,16 @@
   display: flex;
   align-items: center;
   flex-direction: column; 
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
-  min-height: 100%;
+  min-height: 90%;
   padding: 20px;
+  padding-top:50px;
 }
 
+.first h1{
+	font-weight:bold;
+}
 #formContent {
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
@@ -25,16 +29,15 @@
   width: 90%;
   max-width: 450px;
   position: relative;
-  padding: 0px;
   box-shadow: none;
   text-align: center;
-  
 }
+
 
 #formFooter {
   background-color: #f6f6f6;
   border-top: 1px solid #dce8f1;
-  padding: 25px;
+  padding: 20px;
   text-align: center;
   -webkit-border-radius: 0 0 10px 10px;
   border-radius: 0 0 10px 10px;
@@ -43,6 +46,8 @@
 
 
 /* TABS */
+
+h2{font-weight:bold; font-size:200%; margin-bottom:40px;}
 
 h2.inactive {
   color: #cccccc;
@@ -80,6 +85,9 @@ input[type=button], input[type=submit], input[type=reset]  {
 }
 #login input[type=submit]{
 	  background-color: black;
+	  width:90%;
+	  border-radius:0;
+	  margin-top:30px;
 }
 #login input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
   background-color: gray;
@@ -123,8 +131,17 @@ input[type=text]:placeholder {
   color: #cccccc;
 }
 
-
-
+input[type=checkbox]{
+	margin:5px;
+	padding:5px;
+	zoom: 1.2;
+	position: relative;
+    top: 1.5px;
+}
+#login label{
+    position: relative;
+    top: -1.5px;
+}
 /* ANIMATIONS */
 
 /* Simple CSS3 Fade-in-down Animation */
