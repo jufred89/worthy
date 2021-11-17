@@ -144,9 +144,9 @@
 	<hr style="border:2px dotted black;width:960px;">
 	<h1>공지사항</h1>
 	<c:if test="${uid!=null}">
-	<button onClick="location.href='/notice/insert'" class='nb_title' style="margin:10px;">공지사항 등록</button>
+		<button onClick="location.href='/notice/insert'" class='nb_title'
+		 style="margin:10px;">공지사항 등록</button>
 	</c:if>
-</div>
 <div id="condition">
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
 	<span id="total"></span> 
@@ -175,7 +175,7 @@
 	{{#each list}}
 		<tr class="row">
 			<td class="nb_no">{{nb_no}}</td>
-			<td><img src="/info/display?file={{nb_image}}" width=150 height=120 class="nb_image"/></td>
+			<td><img src="/notice/display?file={{nb_image}}" width=150 height=120 class="nb_image"/></td>
 			<td class="nb_title" onClick="location.href='/notice/read?nb_no={{nb_no}}'">{{nb_title}}</td>
 			<td>{{nb_writer}}</td>
 			<td class="nb_regdate">{{dateConv nb_regdate}}</td>
@@ -193,7 +193,7 @@
         var hour = ("0" +(dateObj.getHours())).slice(-2);
         var min = ("0" +(dateObj.getMinutes())).slice(-2);
         var sec = ("0" +(dateObj.getSeconds())).slice(-2);
-        nb_regdate = year + "-" + month + "-" + date;// + " " + hour + ":" + min + ":" + sec 
+        nb_regdate = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec 
         return nb_regdate;  
 	});
 </script>
@@ -238,7 +238,6 @@
 		}
 	});
 		
-		
 	//한페이지 출력수
 	$("#perPageNum").on("change", function(){
 		page=1;
@@ -250,6 +249,4 @@
 		page=1;
 		getNoticeList();
 	});
-	
-	
 </script>

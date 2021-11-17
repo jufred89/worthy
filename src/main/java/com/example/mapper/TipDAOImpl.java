@@ -45,6 +45,10 @@ public class TipDAOImpl implements TipDAO {
 	public int totalCount(Criteria cri) {
 		return session.selectOne(namespace + ".totalCount", cri);
 	}
+	@Override
+	public int maxNo() {
+		return session.selectOne(namespace + ".maxNo");
+	}
 	
 	//좋아요
 	@Override
@@ -89,5 +93,30 @@ public class TipDAOImpl implements TipDAO {
 	@Override
 	public void likeDel(int tip_no) {
 		session.delete(namespace + ".likeDel", tip_no);
+	}
+
+	
+
+	@Override
+	public void att_insert(String image, int tip_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("image", image);
+		map.put("tip_no", tip_no);
+		session.insert(namespace + ".att_insert", map);
+	}
+
+	@Override
+	public List<String> att_list(int tip_no) {
+		return session.selectList(namespace + ".att_list", tip_no);
+	}
+
+	@Override
+	public void att_delete(String image) {
+		session.delete(namespace+".att_delete",image);
+	}
+
+	@Override
+	public void att_deleteAll(int tip_no) {
+		session.delete(namespace+".att_deleteAll",tip_no);
 	}
 }
