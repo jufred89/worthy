@@ -13,8 +13,15 @@ public interface RecipeDAO {
 	public void delete(int fi_no);
 	public void update(RecipeVO vo);
 	public int totalCount(Criteria cri);
+	public int maxNo();
 	
 	public void updateView(int fi_no);
+
+	//첨부파일
+	public void att_insert(String image, int fi_no);
+	public List<String> att_list(int fi_no);
+	public void att_delete(String image);
+	public void att_deleteAll(int fi_no);
 	
 	//좋아요
 	public int likeIt(String uid, int fi_no);
