@@ -11,6 +11,18 @@
 	(reser_checkout between #{reser_checkin} and #{reser_checkout}) group by camp_id) r
 	on c.camp_id= r.camp_id order by c.camp_id desc
 	</select>
+	<!-- 특정 날짜에 특정 캠핑장에 예약가능한 캠핑장 스타일 목록 -->
+	<select id="campAvailableReser" resultType="hashmap">
+	select c.*,r.* from
+    (select tcs.camp_id,tcs.style_no,tcs.style_qty,tcs.style_price,tsn.style_name from tbl_camp_style as tcs, tbl_style_name as tsn where tcs.camp_id=#{camp_id} and tcs.style_no=tsn.style_no) c
+    left join
+	(select  *,count(camp_room_no) as reser_count
+    from tbl_camp_reserve
+    where camp_id=#{camp_id} and(
+			(reser_checkin between #{reser_checkin} and #{reser_checkout}) 
+         or (reser_checkout between  #{reser_checkin} and #{reser_checkout}) 
+		 or (reser_checkin <![CDATA[<]]> #{reser_checkin} and reser_checkout <![CDATA[>]]> #{reser_checkout}) ) group by camp_room_no) r on c.style_no=right(r.camp_room_no,1) order by c.camp_id desc
+	</select>
 	<!-- 관리자 페이지 캠핑장 목록 -->
  	<select id="campList" resultType="com.example.domain.CampingVO">
  		select * from tbl_camp_list
@@ -44,7 +56,7 @@
  	</select>
  	<!-- 특정 캠핑장 스타일 정보 읽어오기 -->
  	<select id="campStyleRead" resultType="com.example.domain.CampingVO">
- 		select camp_id,style_name,style_qty from tbl_camp_style as cs, tbl_style_name as sn
+ 		select camp_id,style_name,style_qty,style_price from tbl_camp_style as cs, tbl_style_name as sn
 		where cs.style_no = sn.style_no and camp_id=#{camp_id};
  	</select>
  	<!-- 특정 캠핑장 시설 정보 읽어오기 -->
@@ -84,4 +96,9 @@
 			where camp_addr like concat('%',#{keyword},'%')
 		</if>
 	</select>
+	<!-- 캠핑장 예약 -->
+	<insert id="campReservationCheckoutInsert">
+		insert into tbl_camp_reserve(camp_id,camp_room_no,reser_status,reser_checkin,reser_checkout,uid)
+		values(#{camp_id},#{camp_room_no},'1',#{reser_checkin},#{reser_checkout},#{uid});
+	</insert>
 </mapper>
