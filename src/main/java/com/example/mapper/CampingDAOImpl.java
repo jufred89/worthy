@@ -83,11 +83,15 @@ public class CampingDAOImpl implements CampingDAO {
 	}
 
 	@Override
-	public List<HashMap<String, Object>> campSearchList(String camp_addr,String reser_checkin,String reser_checkout) {
+	public List<HashMap<String, Object>> campSearchList(String camp_addr,String reser_checkin,String reser_checkout,String style_no, List<String> facility_no, int listSize) {
 		HashMap<String, Object> map = new HashMap<String,Object>();
 		map.put("camp_addr", camp_addr);
 		map.put("reser_checkin", reser_checkin);
 		map.put("reser_checkout", reser_checkout);
+		map.put("style_no", style_no);
+		map.put("facility_no", facility_no);
+		map.put("listSize", listSize);
+		System.out.println("/////////////////////////////"+facility_no);
 		return session.selectList(namespace+".campSearchList",map);
 	}
 

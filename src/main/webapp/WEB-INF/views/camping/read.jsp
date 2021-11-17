@@ -37,10 +37,10 @@
 		<div id="available_reser">
 			<c:forEach items="${reserList}" var="rvo">
 				<c:if test="${rvo.style_qty-rvo.reser_count eq 0}">
-				<input type="radio" name="camp_style_list" value="${rvo.style_no}" disabled/>${rvo.style_name}|${rvo.style_qty-rvo.reser_count}개|${rvo.style_price}
+				<input type="radio" name="camp_style_list" value="${rvo.style_no}" price="${rvo.style_price}" disabled/>${rvo.style_name}|${rvo.style_qty-rvo.reser_count}개|${rvo.style_price}
 				</c:if>
 				<c:if test="${rvo.style_qty-rvo.reser_count ne 0}">
-				<input type="radio" name="camp_style_list" value="${rvo.style_no}"/>${rvo.style_name}|${rvo.style_qty-rvo.reser_count}개|${rvo.style_price}
+				<input type="radio" name="camp_style_list" value="${rvo.style_no}" price="${rvo.style_price}"/>${rvo.style_name}|${rvo.style_qty-rvo.reser_count}개|${rvo.style_price}
 				</c:if>
 			</c:forEach>
 		</div>
@@ -93,12 +93,13 @@
 	// 예약페이지로 이동
 	function reservePage(){
 	    var style_no = $("input[name='camp_style_list']:checked").val();
+	    var style_price = $("input[name='camp_style_list']:checked").attr("price");
 	    if(style_no==null){
 	    	alert("스타일을 선택해주세요.")
 	    	return;
 	    }
 		alert("예약페이지로 이동합니다.")
-		location.href = "/camping/checkout?camp_id=" + camp_id +"&style_no=" +style_no
+		location.href = "/camping/checkout?camp_id=" + camp_id +"&style_no=" +style_no+"&style_price="+style_price
 		+ "&reser_checkin=" + reser_checkin + "&reser_checkout="+reser_checkout
 	}
 </script>
