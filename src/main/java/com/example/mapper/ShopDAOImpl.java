@@ -131,4 +131,23 @@ public class ShopDAOImpl implements ShopDAO{
 		session.insert(namespace + ".order_insert", ovo);
 	}
 
+	@Override
+	public List<HashMap<String, Object>> adminListJSON(Criteria cri) {
+		return session.selectList(namespace + ".admin_list", cri);
+	}
+
+	@Override
+	public void adminQtyUpdate(ShopVO vo) {
+		session.update(namespace + ".admin_qty_update", vo);
+	}
+
+	@Override
+	public void adminHideUpdate(ShopVO vo) {
+		session.update(namespace + ".admin_hide_update", vo);
+	}
+
+	@Override
+	public int adminTotalCount(Criteria cri) {
+		return session.selectOne(namespace + ".admin_totalCount", cri);
+	}
 }

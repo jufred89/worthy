@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.BoardMapper">
- 	<select id="list" resultType="com.example.domain.BoardVO">
+ 	<select id="board_list" resultType="com.example.domain.BoardVO">
  		select * from view_board
  		where (fb_title like concat('%',#{cri.keyword},'%') or 
  		fb_content like concat('%',#{cri.keyword},'%'))
@@ -19,27 +19,31 @@
 		</if>
  		limit #{cri.pageStart},#{cri.perPageNum}
  	</select>
- 	<insert id="insert">
+ 	<insert id="board_insert">
  		insert into tbl_board(fb_no,fb_title,fb_content,fb_writer,fb_image,fb_category)
 		values(#{fb_no},#{fb_title},#{fb_content},#{fb_writer},#{fb_image},#{fb_category})
  	</insert> 	
- 	<select id="read" resultType="com.example.domain.BoardVO">
+ 	<select id="board_read" resultType="com.example.domain.BoardVO">
  		select * from tbl_board
  		where fb_no = #{fb_no}
  	</select>
- 	<update id="update">
+ 	<update id="board_update">
  		update tbl_board set fb_title=#{fb_title}, fb_content=#{fb_content},
- 		fb_image=#{fb_image}
+ 		fb_image=#{fb_image}, fb_category=#{fb_category}
  		where fb_no = #{fb_no}
  	</update>
- 	<delete id="delete">
+ 	<delete id="board_delete">
  		delete from tbl_board
  		where fb_no = #{fb_no}
  	</delete>
- 	<select id="maxNo" resultType="int">
+ 	<delete id="board_like_delete">
+ 		delete from tbl_board_like 
+ 		where fb_lk_bno = #{fb_no}
+ 	</delete>
+ 	<select id="board_maxNo" resultType="int">
 		select max(fb_no) from tbl_board
 	</select>
-	<select id="totalCount" resultType="int">
+	<select id="board_totalCount" resultType="int">
 		select count(*) from tbl_board
  		where (fb_title like concat('%',#{keyword},'%') or 
  		fb_content like concat('%',#{keyword},'%'))
@@ -50,65 +54,65 @@
 	
 	
 	
-	<insert id="attachInsert">
+	<insert id="board_attachInsert">
 		insert into tbl_board_attach(fb_ano,fb_bno)
 		values(#{image},#{fb_no})
 	</insert>
-	<select id="attachList" resultType="string">
+	<select id="board_attachList" resultType="string">
 		select * from tbl_board_attach
 		where fb_bno = #{fb_no}
 	</select>
-	<delete id="attachDelete">
+	<delete id="board_attachDelete">
 		delete from tbl_board_attach
 		where fb_ano=#{image}
 	</delete>
-	<delete id="attachDeleteAll">
+	<delete id="board_attachDeleteAll">
 		delete from tbl_board_attach
 		where fb_bno=#{fb_no}
 	</delete>
 	
 
-	<update id="updateView">
+	<update id="board_updateView">
 		update tbl_board set
 		fb_viewcnt = fb_viewcnt+1
 		where fb_no = #{fb_no}
 	</update>
 	
 
-	<select id="replyList" resultType="com.example.domain.BoardReplyVO">
+	<select id="board_replyList" resultType="com.example.domain.BoardReplyVO">
 		select * from tbl_board_reply
 		where fb_bno = #{fb_bno} 		
 		order by fb_rno desc
  		limit #{cri.pageStart},#{cri.perPageNum}
 	</select>
-	<insert id="replyInsert">
+	<insert id="board_replyInsert">
 		insert into tbl_board_reply(fb_bno,fb_reply,fb_replyer)
 		values (#{fb_bno},#{fb_reply},#{fb_replyer});
 	</insert>
-	<delete id="replyDelete">
+	<delete id="board_replyDelete">
 		delete from tbl_board_reply
 		where fb_rno = #{fb_rno}
 	</delete>
-	<select id="replyCount" resultType="int">
+	<select id="board_replyCount" resultType="int">
 		select count(*) from tbl_board_reply
 		where fb_bno=#{fb_bno}
 	</select>
 	
 	
 	
-	<select id="likeIt" resultType="int">
+	<select id="board_likeIt" resultType="int">
 		select count(*) from tbl_board_like 
 		where fb_lk_uid=#{uid} and fb_lk_bno=#{fb_no};
 	</select>
-	<insert id="likeTableInsert">
+	<insert id="board_likeTableInsert">
 		insert into tbl_board_like(fb_lk_uid,fb_lk_bno)
 		values(#{uid},#{fb_no})
 	</insert>
-	<select id="likeCheck" resultType="int">
+	<select id="board_likeCheck" resultType="int">
 		select fb_lk_check from tbl_board_like
 		where fb_lk_uid=#{uid} and fb_lk_bno=#{fb_no}
 	</select>
-	<update id="like">
+	<update id="board_like">
 		update tbl_board_like set 
 		<if test="likeCheck==0">
 			fb_lk_check = 1
@@ -118,7 +122,7 @@
 		</if>
 		where fb_lk_uid=#{uid} and fb_lk_bno=#{fb_no}
 	</update>
-	<update id="likeUpdate">
+	<update id="board_likeUpdate">
 		update tbl_board set fb_like = (select sum(fb_lk_check) 
 										from tbl_board_like 
 										where fb_lk_bno=#{fb_no})
