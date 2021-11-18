@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.w3c.dom.ls.LSInput;
 
 import com.example.domain.CampingFacilityVO;
 import com.example.domain.CampingStyleVO;
@@ -194,7 +192,7 @@ public class CampController {
 		model.addAttribute("pageName", "camping/reservation.jsp");
 		return "home";
 	}
-
+	// 캠핑장 예약
 	@RequestMapping(value = "/camping/checkout", method = RequestMethod.POST)
 	public String campReservationCheckoutInsert(HttpSession session, String camp_id, String style_no,
 			String reser_checkin, String reser_checkout) {
@@ -208,13 +206,18 @@ public class CampController {
 		}
 		return "redirect:/";
 	}
+	
+	// 캠핑장 예약 성공 페이지
+	@RequestMapping(value = "/camping/checkout", method = RequestMethod.GET)
+	public String campReservationSuccess() {
+		
+		return "home";
+	}
 
 	// 카카오페이
 	@RequestMapping(value = "/camping/kakaoPay", method = RequestMethod.POST)
 	@ResponseBody
-	public HashMap<String, Object> kakaoPay() {
-		HashMap<String, Object> map = new HashMap<>();
-		String result = "0";
+	public String kakaoPay() {
 		SSLTrust.sslTrustAllCerts();
 		try {
 			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
@@ -239,32 +242,99 @@ public class CampController {
 			dataout.writeBytes(param);
 			dataout.close(); // flush() 자동 호출
 
-			// 통신
-			int rst = conn.getResponseCode(); // 확인
-
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			System.out.println(rst);
 			InputStream in;
-			if (rst == 200) { // 성공
+			if(rst==200){ //성공
 				in = conn.getInputStream();
-				result = "1";
-				System.out.println("성공" + result);
-			} else { // 실패
+			}else{ //실패
 				in = conn.getErrorStream();
-				result = "0";
-				System.out.println("실패" + result);
 			}
-
+			
 			InputStreamReader reader = new InputStreamReader(in);
 			BufferedReader br = new BufferedReader(reader);
-			String str = br.readLine();
-			System.out.println("str?" + str);
-			map.put("str", str);
-			map.put("result", result);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return map;
+		
+		return null;
+	}
+	
+	// 첨부 파일 삭제
+	@RequestMapping(value="/camping/attDelete", method=RequestMethod.POST)
+	public void attDelete(String camp_image){
+		cadao.delete(camp_image); // 테이블에서 삭제
+		new File(path+"/camping/"+camp_image).delete(); // 디스크에서 삭제
+	}
+	
+	// 첨부 파일 추가
+	@RequestMapping(value="/camping/attInsert", method=RequestMethod.POST)
+	public String attInsert(String camp_id, MultipartFile file) throws Exception{
+		// 첨부파일 업로드
+		File attPath = new File(path+"/camping/"+camp_id);
+		if(!attPath.exists()) {
+			attPath.mkdir(); // .mkdir ; 디렉토리 생성 
+		}
+		String camp_image = camp_id+"/"+System.currentTimeMillis()+"_"+file.getOriginalFilename();
+		file.transferTo(new File(path + "/camping/" +camp_image));
+		
+		// 첨부데이터 입력
+		System.out.println(camp_id+"/"+camp_image);
+		cadao.insert(camp_image,camp_id);
+		return camp_image;
+	}
+	
+	// 캠핑장 update 작업
+	@RequestMapping(value = "/camping/update", method = RequestMethod.POST)
+	public String campUpdate(CampingVO vo, MultipartHttpServletRequest multi,
+			@RequestParam(value = "facility_no", required=false) List<String> facility_no,
+			@RequestParam(value = "style_no", required=false) List<String> style_no,
+			@RequestParam(value = "style_qty", required=false) List<Integer> style_qty,
+			@RequestParam(value = "style_price", required=false) List<Integer> style_price) throws Exception {
+		MultipartFile file = multi.getFile("file");
+		// 이미지가 바뀐 경우 기존 이미지 삭제 후 바뀐 이미지 입력
+		if(!file.isEmpty()){
+			new File(path+"/"+vo.getCamp_image()).delete();
+			String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+			//file.transferTo(new File(path+"/camping/"+image));
+			vo.setCamp_image(image);
+		}
+		// 아니면 update
+		cdao.campUpdate(vo);
+		
+		// 기존 시설 목록 삭제
+		String camp_id = vo.getCamp_id();
+		cdao.campFacilityDelete(camp_id);
+		
+		// 시설 목록 배열에 담아서 값 넘기기
+		for (String fno : facility_no) {
+			cdao.campFacilityInsert(camp_id, fno);
+		}
+
+		// 기존 스타일 목록 삭제
+		cdao.campStyleDelete(camp_id);
+		
+		// style_qty null 값 제거
+		while (style_qty.remove(null)) {
+		}
+		// style_price null 값 제거
+		while (style_price.remove(null)) {
+		}
+
+		// 스타일 목록에 값 넘기기
+		for (int i = 0; i < style_no.size(); i++) {
+			String sno = style_no.get(i);
+			int sqty = style_qty.get(i);
+			int sprice = style_price.get(i);
+			cdao.campStyleInsert(camp_id, sno, sqty, sprice);
+		}
+		return "redirect:/admin/camping/list";
 	}
 
 }

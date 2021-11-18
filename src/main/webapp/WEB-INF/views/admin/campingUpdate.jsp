@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
@@ -47,12 +47,32 @@
 	width: 100%;
 	border:none;
 	}
+	input[name=style_no]{
+	width:20px;
+	}
 </style>
 <hr />
-	<form name="frm" action="/camping/insert" method="post" enctype="multipart/form-data">
-	<img src="/camping/display?file=${cvo.camp_image}" id="image" width=400>
-	<input type="file" name="file" style="display:none;"/>
-<hr />
+	<form name="frm" action="/camping/update" method="post" enctype="multipart/form-data">
+	
+		<img src="/camping/display?file=${cvo.camp_image}" id="image" width=400>
+		<!-- 기존 이미지 -->
+		<input type="hidden" name="camp_image" value="${cvo.camp_image}" style="display:none"/> 
+		
+		<input type="file" name="file" style="display:none;"/>
+		
+		<div>첨부이미지 : <input type="file" name="files"  acceept="image/*" multiple/></div>
+		
+		<div id="files">
+			<c:forEach items="${attList}" var="camp_image">
+			<div class="attachBox">
+				<img src="/camping/display?file=${camp_image}" width=250 />
+				<a href="${camp_image}">삭제</a>
+			</div>
+			</c:forEach>
+		</div>
+		
+	<hr/>
+	
 	<table class="tbl_body1" border="1">
 		<tr>
 			<th class="tbl_head">캠핑장 번호</th>
@@ -83,56 +103,72 @@
 			<td class="tbl_data"><input type="text" name="camp_memo" value="${cvo.camp_memo}"/></td>
 		</tr>
 		<tr>
-			<th class="tbl_head">캠핑장 가격</th>
-			<td class="tbl_data"><input type="text" name="camp_price" value="${cvo.camp_price}"/></td>
+			<th class="tbl_head">캠핑장 예약 가능여부</th>
+			<td class="tbl_data">
+			<c:choose> 
+				<c:when test="${cvo.camp_status eq 0}">
+					<input type="radio" name="camp_status" value="${cvo.camp_status}" checked/>&nbsp예약가능
+					<input type="radio" name="camp_status" value="1"/>&nbsp예약불가능
+				</c:when> 
+				<c:otherwise>
+					<input type="radio" name="camp_status" value="0"/>&nbsp예약가능
+					<input type="radio" name="camp_status" value="${cvo.camp_status}" checked/>&nbsp예약불가능
+				</c:otherwise> 
+			</c:choose> 
+			</td>
 		</tr>
 	</table>
+	
 	<table class="tbl_body2" border="1">
 		<tr>
 			<th class="tbl_head2">캠프 시설</th>
 		</tr>
 		<tr>
-			<td id="campFacilityList" class="tbl_data2">	
-				<input type="checkbox" name="facility_no" value="1">&nbsp전기
-				<input type="checkbox" name="facility_no" value="2">&nbsp무선인터넷
-				<input type="checkbox" name="facility_no" value="3">&nbsp장작판매
-				<input type="checkbox" name="facility_no" value="4">&nbsp온수
-				<input type="checkbox" name="facility_no" value="5">&nbsp트렘폴린
-				<input type="checkbox" name="facility_no" value="6">&nbsp물놀이장
-				<input type="checkbox" name="facility_no" value="7">&nbsp놀이터
-				<input type="checkbox" name="facility_no" value="8">&nbsp산책로
-				<input type="checkbox" name="facility_no" value="9">&nbsp운동장
-				<input type="checkbox" name="facility_no" value="10">&nbsp운동시설
-				<input type="checkbox" name="facility_no" value="12">&nbsp마트
-				<input type="checkbox" name="facility_no" value="13">&nbsp편의점
-				<input type="checkbox" name="facility_no" value="14">&nbsp화장실
-				<input type="checkbox" name="facility_no" value="14">&nbsp샤워시설
-				<input type="checkbox" name="facility_no" value="15">&nbsp개수대
+			<td class="tbl_data2">
+			<c:forEach items="${facilityList}" var="facilityItem" >
+				<span>${facilityItem.facility_name}</span>
+			</c:forEach>
+			</td>
+		</tr>
+		<tr>
+			<th class="tbl_head2">캠프 시설 수정하기</th>
+		</tr>
+		<tr>
+			<td class="tbl_data2">
+			<c:forEach items="${fList}" var="fItem" >
+				<c:if test="${fItem.facility_no ne 0}">
+					<input type="checkbox" name="facility_no" value="${fItem.facility_no}">&nbsp${fItem.facility_name}
+				</c:if>
+			</c:forEach>
 			</td>
 		</tr>
 	</table>
+	
 	<table class="tbl_body3" border="1" id="campStyleList">
 		<tr>
-			<th class="tbl_head3" colspan="3">캠프 스타일</th>
+			<th class="tbl_head3" colspan="4">캠프 스타일</th>
 		</tr>
+		<c:forEach items="${styleList}" var="styleItem">
+			<tr>
+				<td class="tbl_data3" colspan="4">${styleItem.style_name} (${styleItem.style_price} 원 / 박)</td>
+			</tr>
+		</c:forEach>
+		<tr>
+			<th class="tbl_head3" colspan="4">캠프 스타일 수정하기</th>
+		</tr>
+		<c:forEach items="${sList}" var="sItem">
+			<tr class="campStyleItem">
+				<td class="tbl_data3"><input class="style_no" type="checkbox" name="style_no" value="${sItem.style_no}"></td>
+				<td class="tbl_data3">${sItem.style_name}</td>
+				<td class="tbl_data3"><input class="style_qty" type="text" name="style_qty" placeholder="숫자만 입력하세요."/></td>
+				<td class="tbl_data3"><input class="style_price" type="text" name="style_price" placeholder="가격을 입력하세요."/></td>
+			</tr>
+		</c:forEach>
 	</table>
-	<input type="submit" value="캠핑장 등록"/>
+	<input type="submit" value="캠핑장 수정"/>
 	<input type="reset" value="등록 취소"/>
 </form>
-<!-- 캠핑 스타일명 목록 가지고 오기 -->
-<script id="temp2" type="text/x-handlebars-template">
-		{{#each .}}
-			<tr>
-				<td class="tbl_data3"><input class="style_no" type="checkbox" name="style_no" value="{{style_no}}"></td>
-				<td class="tbl_data3">{{style_name}}</td>
-				<td class="tbl_data3"><input class="style_qty" type="text" name="style_qty" placeholder="숫자만 입력하세요."/></td>
-			</tr>
-		{{/each}}
-</script>
 <script>
-	getCampFacility();
-	getCampStyle();
-	
 	// 주소 검색 버튼을 눌렀을때
 	function search(){
 		new daum.Postcode({
@@ -152,33 +188,7 @@
 		var file=$(this)[0].files[0];
 		$("#image").attr("src",URL.createObjectURL(file));
 	})
-	
-	// 특정 캠핑 시설명 목록 가지고 오기
-	function getCampFacility(){
-		$.ajax({
-			type:"get",
-			url:"/camping/campFacilitylist.json",
-			dataType:"json",
-			success:function(data){
-				var temp1 = Handlebars.compile($('#temp1').html());
-				$('#campFacilityList').html(temp1(data));
-			}
-		})
-	}
-	
-	// 특정 캠핑 스타일명 목록 가지고 오기
-	function getCampStyle(){
-		$.ajax({
-			type:"get",
-			url:"/camping/campStylelist.json",
-			dataType:"json",
-			success:function(data){
-				var temp2 = Handlebars.compile($('#temp2').html());
-				$('#campStyleList').append(temp2(data));
-			}
-		})
-	}
-	
+
 	// submit시 유효성 체크
 	$(frm).on("submit",function(e){
 		e.preventDefault();
@@ -186,37 +196,32 @@
 		// 데이터 값 가지고 오기
 		var camp_id=$(frm.camp_id).val();
 		var camp_name=$(frm.camp_name).val();
-		var camp_maker=$(frm.cam_maker).val();
-		var camp_addr=$(frm.camp_id).val();
+		var camp_maker=$(frm.camp_maker).val();
+		var camp_addr=$(frm.camp_addr).val();
 		var camp_tel=$(frm.camp_tel).val();
 		var camp_detail=$(frm.camp_detail).val();
-		var camp_price=$(frm.camp_price).val();
+		var camp_memo=$(frm.camp_memo).val();
+		var camp_image=$(frm.camp_image).val();
 		var file = $(frm.file).val();
-
-        // 데이터 값 null 확인
-		if(camp_name==""||camp_maker==""||camp_addr==""||camp_tel==""||camp_detail==""||file==""){
-			alert("입력란을 확인해주세요.");
-			return;
-		}
+		var camp_status=$("input:radio[name=camp_status]:checked").val();
 		
 		// 시설 데이터 체크
 		var obj = $("[name=facility_no]");
         var facility_no = new Array(); // 배열 선언
- 
         $('input:checkbox[name=facility_no]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
         	facility_no.push(this.value);
         });
-        
-       	if(facility_no.length===0){
-       		alert("캠핑 시설란을 확인해주세요.");
-       		return;
-       	}
+ 		facility_no.push(100)
+ 		facility_no.push(100)
        	
        	// 캠핑 스타일 체크
        	var style_no = new Array(); // 배열 선언
 		$('input:checkbox[name=style_no]:checked').each(function(){ // 체크된 체크박스의 value 값을 가지고 온다.
 			style_no.push(this.value);
 		});
+       	style_no.push(100)
+       	style_no.push(100)
+       	
        	// 캠핑 스타일 갯수
        	var style_qty = new Array(); // 배열 선언
        	$('input[name=style_qty]').each(function(){
@@ -225,23 +230,24 @@
 				style_qty.push(style_val);
 			}
     	});
-		
-       	if(style_no.length===0 || style_qty.length===0){
-       		alert("캠핑 스타일란을 확인해주세요.");
-       		return;
-       	}
-
-		// 가격 숫자 유효성 체크
-		if (camp_price == '' || camp_price.replace(/[0-9]/g, '')) {
-			alert('가격을 숫자로 입력하세요.');
-			$(frm.price).focus();
-			return;
-		}
+       	style_qty.push(100)
+       	style_qty.push(100)
+       	
+       	// 캠핑 스타일별 가격
+       	var style_price = new Array(); // 배열 선언
+       	$('input[name=style_price]').each(function(){
+		    var sprice=$(this).val();
+			if(sprice>0){
+				style_price.push(sprice);
+			}
+    	});
+       	style_price.push(100)
+       	style_price.push(100)
 		
 		if(!confirm("상품을 수정하시겠습니까?"))return;
 		frm.action="/camping/update"
 		frm.method="post"
 		frm.submit();
-
 	});
+
 </script>
