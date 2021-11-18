@@ -103,6 +103,7 @@ public class AdminController {
 
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
+		pm.setTotalCount(udao.userTotcount(cri));
 		map.put("cri", cri);
 		map.put("pm", pm);
 		return map;

@@ -46,4 +46,9 @@ public class UserDAOImpl implements UserDAO{
 		
 	}
 
+	@Override
+	public int userTotcount(Criteria cri) {
+		return session.selectOne(namespace+".userTotcount",cri);
+	}
+
 }
