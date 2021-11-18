@@ -22,6 +22,59 @@ import com.example.domain.Shop_payVO;
 
 @Controller
 public class KakaoPayController {
+	//카카오페이
+	@RequestMapping(value="/kakaoPay", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPay(String item_name, String total_amount ,HttpSession session){
+		SSLTrust.sslTrustAllCerts();
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&quantity=1&tax_free_amount=0";
+			param +="&item_name="+item_name;
+			param +="&total_amount="+total_amount;
+			param +="&vat_amount=200";
+			param +="&approval_url=http://localhost:8088/shop/approval";
+			param +="&fail_url=http://localhost:8088";
+			param +="&cancel_url=http://localhost:8088";
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			//dataout.writeBytes(param);
+			dataout.write(param.getBytes("utf-8")); //한글깨짐 방지
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+		
+			//데이터 읽어오기
+			InputStreamReader reader = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return "null";
+	}
+	
 	//결제 승인
 	@RequestMapping(value="/kakaoPayApproval", method=RequestMethod.POST)
 	@ResponseBody
