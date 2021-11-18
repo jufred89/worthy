@@ -116,4 +116,19 @@ public class CampingDAOImpl implements CampingDAO {
 		map.put("uid", uid);
 		session.selectList(namespace+".campReservationCheckoutInsert", map);
 	}
+
+	@Override
+	public void campUpdate(CampingVO vo) {
+		session.update(namespace+".campUpdate", vo);
+	}
+
+	@Override
+	public void campStyleDelete(String camp_id) {
+		session.delete(namespace+".campStyleDelete", camp_id);
+	}
+
+	@Override
+	public void campFacilityDelete(String camp_id) {
+		session.delete(namespace+".campFacilityDelete", camp_id);
+	}
 }
