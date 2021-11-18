@@ -206,13 +206,6 @@ public class CampController {
 		}
 		return "redirect:/";
 	}
-	
-	// 캠핑장 예약 성공 페이지
-	@RequestMapping(value = "/camping/checkout", method = RequestMethod.GET)
-	public String campReservationSuccess() {
-		
-		return "home";
-	}
 
 	// 카카오페이
 	@RequestMapping(value = "/camping/kakaoPay", method = RequestMethod.POST)
