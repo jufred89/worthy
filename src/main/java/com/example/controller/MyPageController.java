@@ -139,5 +139,12 @@ public class MyPageController {
 		model.addAttribute("myPageName","mycart.jsp");
 		return "home";
 	}
+	
+	@RequestMapping(value = "/orderSuccess", method = RequestMethod.GET)
+	public String orderSuccess(Model model) { 
+		model.addAttribute("pageName", "user/mypage.jsp");
+		model.addAttribute("myPageName","orderSuccess.jsp");
+		return "home";
+	}
 }
  
