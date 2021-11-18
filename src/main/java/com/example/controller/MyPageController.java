@@ -152,10 +152,4 @@ public class MyPageController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/orderSuccess", method = RequestMethod.GET)
-	public String orderSuccess(Model model) { 
-		model.addAttribute("pageName", "user/mypage.jsp");
-		model.addAttribute("myPageName","orderSuccess.jsp");
-		return "home";
-	}
 }

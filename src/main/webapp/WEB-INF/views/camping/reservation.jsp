@@ -210,13 +210,15 @@
 		if (payment_select == "KAKAO") {
 			alert("결제창으로 넘어갑니다.")
 			$.ajax({
-				type : 'post',
-				url : '/camping/kakaoPay',
-				dataType : 'json',
-				success : function(data) {
+				type:'post',
+				url:'/kakaoPay',
+				dataType:'json',
+				data:{"item_name":item_name,"total_amount":total_amount},
+				success:function(data){
+					localStorage.setItem("tid",data.tid); //세션에 tid 저장
 					var box = data.next_redirect_pc_url;
-					window.open(box, 'kakaoPay',
-							'width=500,height=600,top=80,left=1100');
+					window.open(box,'kakaoPay','width=500,height=600,top=80,left=1100');
+					
 				}
 			});
 		}
