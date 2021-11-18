@@ -136,6 +136,12 @@
  		values(#{order_id}, #{cart_no})
  	</insert>
  	
+ 	<update id="pay_update">
+ 		update tbl_shop_payment 
+ 		set pay_type = #{pay_type}, pay_date = #{pay_date}, pay_status = 2
+ 		where pay_no = #{pay_no}
+ 	</update>
+ 	
  	
  	<!-- 관리자 -->
  	<select id="admin_list" resultType="HashMap">

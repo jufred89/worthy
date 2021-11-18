@@ -1,10 +1,9 @@
 package com.example.domain;
 
-import java.util.Date;
 
 public class Shop_payVO {
 	private String pay_no;
-	private Date pay_date;
+	private String pay_date;
 	private int pay_price;
 	private String pay_type;
 	private String pay_uid;
@@ -29,12 +28,13 @@ public class Shop_payVO {
 	public void setPay_no(String pay_no) {
 		this.pay_no = pay_no;
 	}
-	public Date getPay_date() {
+	public String getPay_date() {
 		return pay_date;
 	}
-	public void setPay_date(Date pay_date) {
+	public void setPay_date(String pay_date) {
 		this.pay_date = pay_date;
 	}
+	
 	public int getPay_price() {
 		return pay_price;
 	}
