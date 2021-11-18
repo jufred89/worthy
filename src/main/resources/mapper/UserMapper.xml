@@ -39,4 +39,13 @@
 		select uid, umail, uname, tel, address from tbl_user
 		where uid=#{uid}
 	</select>
+	 	<select id="userTotcount" resultType="int">
+		select count(*) from tbl_user
+		<if test="searchType=='uid'">
+			where uid like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType=='uname'">
+			where uname like concat('%',#{keyword},'%')
+		</if>
+	</select>
 </mapper>

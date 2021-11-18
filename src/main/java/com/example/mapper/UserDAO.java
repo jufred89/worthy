@@ -12,4 +12,5 @@ public interface UserDAO {
 	public void adminupdate(UserVO vo);
 	public List<UserVO> list(Criteria cri);
 	public UserVO read(String uid);
+	public int userTotcount(Criteria cri);
 }

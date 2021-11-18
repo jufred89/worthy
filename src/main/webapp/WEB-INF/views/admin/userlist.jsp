@@ -8,7 +8,9 @@
 	<select id="searchType">
 		<option value="uid">아이디</option>
 		<option value="uname">이름</option>
-	</select> <input type="text" id="keyword" placeholder="검색어" /> 
+	</select>
+	 <input type="text" id="keyword" placeholder="검색어" /> 
+	회원수 : <span id="totCount"></span>
 </div>
 <hr />
 <table id="tbl_user">
@@ -36,13 +38,14 @@
 <script>
 	var page = 1;
 	getList();
-	
 	$('#keyword').on('keypress', function(e) {
 		if (e.keyCode == 13) {
 			page = 1;
 			getList();
 		}
 	})
+	
+	
 	
 	function getList() {
 		var keyword = $('#keyword').val();
@@ -60,6 +63,7 @@
 				var temp = Handlebars.compile($('#temp').html());
 				$('#tbl_user').html(temp(data));
 				$("#pagination").html(getPagination(data));
+				$("#totCount").html(data.pm.totalCount);
 			}
 		})
 	}
