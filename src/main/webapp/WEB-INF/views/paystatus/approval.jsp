@@ -14,22 +14,15 @@
 			String pg_token = request.getQueryString().toString();
 			request.setAttribute("pg_token", pg_token);
 		%>		
-		<h2>결제가 완료되었습니다.</h2>
-		<div id="payment">
-          	<div>주문번호 <span id="aid"></span></div>
-          	<div>상품 <span id="item_name"></span> 포함 <span id="quantity"></span>건
-          	</div>
-          	<div>결제금액 <span id="total"></span></div>
-          	<div>결제일시 <span id="approved_at"></span></div>
-          	<div>결제방법 <span id="payment_method_type"></span></div>
-          	<button 
-				onclick="opener.parent.location.reload(); self.close() ">닫기</button>
-		</div>
+		<h3>결제가 진행중입니다.</h3>
+
 
 		
 	<script>
+	opener.location.href  = '/orderSuccess'; //부모창 url 변경
 	var pg_token = "${pg_token}";
 	var tid = localStorage.getItem("tid"); //mycart.jsp에서 세션에 저장한 tid 가져오기
+
 	
 	
 		$.ajax({
@@ -41,17 +34,27 @@
 				var aid = data.aid;
 				var approved_at = data.approved_at;
 				var payment_method_type = data.payment_method_type;
-				var item_name = data.item_name;
 				var quantity = data.quantity;
 				var total = data.amount.total;
+				var item_name = data.item_name;
+				$.ajax({
+					type:'post',
+					url:'/shop/kakaoPaySuccess',
+					data:{"aid":aid,"pay_date":approved_at,"pay_type":payment_method_type,
+						"quantity":quantity,"pay_price":total},
+					success:function(){
+						
+					}
+				});
 				
-				$('#payment #aid').html(aid);
-				$('#payment #approved_at').html(approved_at);
-				$('#payment #payment_method_type').html(payment_method_type);
-				$('#payment #item_name').html(item_name);
-				$('#payment #quantity').html(quantity);
-				$('#payment #total').html(total);
+				window.opener.$("#aid").html(aid);
+				window.opener.$("#approved_at").html(approved_at);
+				window.opener.$("#payment_method_type").html(payment_method_type);
+				window.opener.$("#total").html(total);
+				window.opener.$("#quantity").html(quantity);
+				window.opener.$("#item_name").html(item_name);
 				
+				self.close();
 	
 			}
 		});

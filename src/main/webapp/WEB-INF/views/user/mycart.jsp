@@ -53,6 +53,7 @@
 				<td><button id="payment" >구매하기</button></td>
 				<td><img src="/resources/kakao_payment.png" width=80 onClick="kakaoPay()"/></td>
 			</tr>
+
 		</script>
 	</div>
 </div>
@@ -72,7 +73,7 @@
 			type:'post',
 			url:'/shop/kakaoPay',
 			dataType:'json',
-			data:{"item_name":item_name, "total_amount":total_amount},
+			data:{"item_name":item_name,"total_amount":total_amount},
 			success:function(data){
 				localStorage.setItem("tid",data.tid); //세션에 tid 저장
 				var box = data.next_redirect_pc_url;
