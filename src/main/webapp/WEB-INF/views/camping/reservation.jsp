@@ -115,6 +115,7 @@
 		</div>
 		<h5>객실타입/기간</h5>
 		<div id="cal_daytrip">
+			<h4 style="display:none"></h4>
 			<c:if test="${style_no eq 1}">
 				<h4>카라반</h4>
 			</c:if>
@@ -170,23 +171,26 @@
 		var start_date = new Date(reser_checkin);
 		var end_date = new Date(reser_checkout);
 		var cal_daytrip = (end_date - start_date) / (1000 * 60 * 60 * 24);
-		$("#cal_daytrip h4").append("/" + cal_daytrip + "박");
+		$("#cal_daytrip h4:nth-child(1)").html(cal_daytrip);
+		$("#cal_daytrip h4:nth-child(2)").append("/" + cal_daytrip + "박");
 		// 몇 박 몇일 기준 총 금액 계산
 		var totalCount = cal_daytrip*style_price
 		$("#totalPrice h4").html(totalCount);
+		return cal_daytrip;
 	}
 
 	// 예약자 정보 보내기
 	function goReservation() {
-		// 예약자 이름, 전화번호 
+		// 스타일 이름, 예약자 이름, 전화번호 
+		var style_name = $("#cal_daytrip h4").html();
 		var reser_booker = $("input[name='reser_booker']").val();
 		var reser_booker_phone = $("input[name='reser_booker_phone']").val();
 		var payment_select = $("#payment_select").val();
+		
 		// 카카오 결제 정보 넘기기
-		var item_name = camp_name+"/"+style_name+"/"+cal_daytrip+"박"
-		//var quantity = cal_daytrip
-		//var total_amount = totalCount
-		alert(item_name)
+		var item_name = camp_name+"/"+style_name
+		var quantity = $("#cal_daytrip h4:nth-child(1)").html();
+		var total_amount = quantity*style_price
 		alert(item_name+"/"+quantity+"/"+total_amount);
 		if (reser_booker == "") {
 			alert("예약자 이름을 입력해주세요.")
@@ -205,24 +209,18 @@
 		}
 		if (payment_select == "KAKAO") {
 			alert("결제창으로 넘어갑니다.")
-			/*
 			$.ajax({
 				type : 'post',
 				url : '/camping/kakaoPay',
 				dataType : 'json',
 				success : function(data) {
-					var elem=""
-					$.each(data.str,function(index,obj){
-						elem+=this.next_redirect_pc_url
-					})
-					alert(elem);
 					var box = data.next_redirect_pc_url;
 					window.open(box, 'kakaoPay',
 							'width=500,height=600,top=80,left=1100');
 				}
 			});
-			*/
 		}
+		
 		/*
 		$.ajax({
 			type : "post",

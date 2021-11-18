@@ -19,6 +19,7 @@ public class CampingVO {
 	private String style_name;
 	private int style_qty;
 	private String facility_name;
+	private String facility_no;
 	private int style_price;
 	
 	// camping attach image
@@ -129,6 +130,14 @@ public class CampingVO {
 		this.facility_name = facility_name;
 	}
 
+	public String getFacility_no() {
+		return facility_no;
+	}
+
+	public void setFacility_no(String facility_no) {
+		this.facility_no = facility_no;
+	}
+
 	public int getStyle_price() {
 		return style_price;
 	}
@@ -151,6 +160,8 @@ public class CampingVO {
 				+ ", camp_addr=" + camp_addr + ", camp_tel=" + camp_tel + ", camp_price=" + camp_price
 				+ ", camp_status=" + camp_status + ", camp_memo=" + camp_memo + ", camp_detail=" + camp_detail
 				+ ", camp_image=" + camp_image + ", style_name=" + style_name + ", style_qty=" + style_qty
-				+ ", facility_name=" + facility_name + ", style_price=" + style_price + ", images=" + images + "]";
+				+ ", facility_name=" + facility_name + ", facility_no=" + facility_no + ", style_price=" + style_price
+				+ ", images=" + images + "]";
 	}
+
 }

@@ -18,6 +18,7 @@ import com.example.domain.Criteria;
 import com.example.domain.PageMaker;
 import com.example.domain.UserVO;
 import com.example.domain.ShopVO;
+import com.example.mapper.CampingAttachDAO;
 import com.example.mapper.CampingDAO;
 import com.example.mapper.ShopDAO;
 import com.example.mapper.UserDAO;
@@ -30,6 +31,9 @@ public class AdminController {
 
 	@Autowired
 	CampingDAO cdao;
+
+	@Autowired
+	CampingAttachDAO cadao;
 	
 	@Autowired
 	ShopDAO sdao;
@@ -50,7 +54,7 @@ public class AdminController {
 		model.addAttribute("adminPageName", "campingList.jsp");
 		return "home";
 	}
-
+	
 	@RequestMapping(value = "/admin/camping/insert", method = RequestMethod.GET)
 	public String adminCampInsert(Model model) {
 		String maxCode = cdao.maxCode();
@@ -80,14 +84,19 @@ public class AdminController {
 	// 관리자 페이지 캠핑장 업데이트 페이지
 	@RequestMapping(value = "/admin/camping/update", method = RequestMethod.GET)
 	public String adminCampUpdate(Model model, String camp_id) {
-		model.addAttribute("styleList",cdao.campFacilityRead(camp_id));
+		model.addAttribute("styleList", cdao.campStyleRead(camp_id));
+		model.addAttribute("facilityList",cdao.campFacilityRead(camp_id));
+		model.addAttribute("fList", cdao.campFacilityList());
+		model.addAttribute("sList", cdao.campStyleList());
+		model.addAttribute("attList", cadao.list(camp_id));
 		model.addAttribute("cvo", cdao.campRead(camp_id));
 		model.addAttribute("pageName", "admin/admin.jsp");
 		model.addAttribute("adminPageName", "campingUpdate.jsp");
 		return "home";
 	}
-
-	//-----------------------------회원관리 --------------------
+	//----------------------------------------캠핑장 관련 끝-----------------------------------------------------------
+	
+	//----------------------------------------회원 관련 시작-----------------------------------------------------------
 	@RequestMapping(value="/admin/user/list",method = RequestMethod.GET)
 	public String list(Model model){
 		model.addAttribute("pageName", "admin/admin.jsp");
@@ -124,9 +133,9 @@ public class AdminController {
 		model.addAttribute("adminPageName", "userread.jsp");
 		return "redirect:/admin/user/list";
 	}
-
-	//----------------------------------------상품 관련 시작-----------------------------------------------------------
+	//----------------------------------------회원 관련 끝-----------------------------------------------------------
 	
+	//----------------------------------------상품 관련 시작-----------------------------------------------------------
 	@RequestMapping("/admin/shop/list")
 	public String adminList(Model model){
 		model.addAttribute("pageName", "admin/admin.jsp");
@@ -162,5 +171,6 @@ public class AdminController {
 		System.out.println(vo.toString());
 		sdao.adminHideUpdate(vo);
 	}
+	//----------------------------------------상품 관련 끝-----------------------------------------------------------
 	
 }

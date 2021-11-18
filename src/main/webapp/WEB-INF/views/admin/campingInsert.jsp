@@ -85,10 +85,12 @@
 			<th class="tbl_head">캠핑장 기타 편의사항</th>
 			<td class="tbl_data"><input type="text" name="camp_memo" placeholder="캠핑장 기타 편의사항"/></td>
 		</tr>
+		<!-- 
 		<tr>
 			<th class="tbl_head">캠핑장 가격</th>
 			<td class="tbl_data"><input type="text" name="camp_price" placeholder="캠핑장 가격"/></td>
 		</tr>
+		 -->
 	</table>
 	<table class="tbl_body2" border="1">
 		<tr>
@@ -119,7 +121,7 @@
 <!-- 캠핑 스타일명 목록 가지고 오기 -->
 <script id="temp2" type="text/x-handlebars-template">
 		{{#each .}}
-			<tr>
+			<tr class="campStyleItem">
 				<td class="tbl_data3"><input class="style_no" type="checkbox" name="style_no" value="{{style_no}}"></td>
 				<td class="tbl_data3">{{style_name}}</td>
 				<td class="tbl_data3"><input class="style_qty" type="text" name="style_qty" placeholder="숫자만 입력하세요."/></td>
@@ -194,11 +196,11 @@
 		// 데이터 값 가지고 오기
 		var camp_id=$(frm.camp_id).val();
 		var camp_name=$(frm.camp_name).val();
-		var camp_maker=$(frm.cam_maker).val();
-		var camp_addr=$(frm.camp_id).val();
+		var camp_maker=$(frm.camp_maker).val();
+		var camp_addr=$(frm.camp_addr).val();
 		var camp_tel=$(frm.camp_tel).val();
 		var camp_detail=$(frm.camp_detail).val();
-		var camp_price=$(frm.camp_price).val();
+		// var camp_price=$(frm.camp_price).val();
 		var file = $(frm.file).val();
 
         // 데이터 값 null 확인
@@ -246,14 +248,14 @@
        		alert("캠핑 스타일란을 확인해주세요.");
        		return;
        	}
-
+		/*
 		// 가격 숫자 유효성 체크
 		if (camp_price == '' || camp_price.replace(/[0-9]/g, '')) {
 			alert('가격을 숫자로 입력하세요.');
 			$(frm.price).focus();
 			return;
 		}
-		
+		*/
 		if(!confirm("상품을 등록하시겠습니까?"))return;
 		frm.action="/camping/insert"
 		frm.method="post"
