@@ -71,7 +71,7 @@
 		if(!confirm('결제를 진행하시겠습니까?')) return;
 		$.ajax({
 			type:'post',
-			url:'/shop/kakaoPay',
+			url:'/kakaoPay',
 			dataType:'json',
 			data:{"item_name":item_name,"total_amount":total_amount},
 			success:function(data){
