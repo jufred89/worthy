@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.example.domain.CampingFacilityVO;
+import com.example.domain.CampingReserVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
@@ -194,7 +195,7 @@ public class CampController {
 		model.addAttribute("pageName", "camping/reservation.jsp");
 		return "home";
 	}
-
+	/*
 	// 캠핑장 예약
 	@RequestMapping(value = "/camping/checkout", method = RequestMethod.POST)
 	public String campReservationCheckoutInsert(HttpSession session, String camp_id, String style_no,
@@ -208,8 +209,9 @@ public class CampController {
 		}
 		return "redirect:/";
 	}
-
+	*/
 	// 첨부 파일 삭제
+	@ResponseBody
 	@RequestMapping(value = "/camping/attDelete", method = RequestMethod.POST)
 	public void attDelete(String camp_image) {
 		cadao.delete(camp_image); // 테이블에서 삭제
@@ -217,6 +219,7 @@ public class CampController {
 	}
 
 	// 첨부 파일 추가
+	@ResponseBody
 	@RequestMapping(value = "/camping/attInsert", method = RequestMethod.POST)
 	public String attInsert(String camp_id, MultipartFile file) throws Exception {
 		// 첨부파일 업로드
@@ -243,9 +246,9 @@ public class CampController {
 		MultipartFile file = multi.getFile("file");
 		// 이미지가 바뀐 경우 기존 이미지 삭제 후 바뀐 이미지 입력
 		if (!file.isEmpty()) {
-			new File(path + "/" + vo.getCamp_image()).delete();
+			new File(path + "/camping/" + vo.getCamp_image()).delete();
 			String image = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-			// file.transferTo(new File(path+"/camping/"+image));
+			file.transferTo(new File(path+"/camping/"+image));
 			vo.setCamp_image(image);
 		}
 		// 아니면 update
@@ -280,4 +283,189 @@ public class CampController {
 		return "redirect:/admin/camping/list";
 	}
 
+	//카카오페이
+	@RequestMapping(value="/camping/kakaoPay", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPay(String camp_id, String uid, String style_no, String reser_checkin, String reser_checkout,
+			String reser_booker, String reser_booker_phone, String item_name, String total_amount ,HttpSession session){
+		SSLTrust.sslTrustAllCerts();
+		System.out.println(camp_id+"/"+uid+"/"+style_no+"/"+reser_checkin+"/"+reser_checkout+"/"+reser_booker+"/"+reser_booker_phone);
+        session.setAttribute("camp_id", camp_id);
+        session.setAttribute("style_no", style_no);
+        session.setAttribute("reser_checkin", reser_checkin);
+        session.setAttribute("reser_checkout", reser_checkout);
+        session.setAttribute("reser_booker", reser_booker);
+        session.setAttribute("reser_booker_phone", reser_booker_phone);
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&quantity=1&tax_free_amount=0";
+			param +="&item_name="+item_name;
+			param +="&total_amount="+total_amount;
+			param +="&vat_amount=200";
+			param +="&approval_url=http://localhost:8088/camping/approval";
+			param +="&fail_url=http://localhost:8088";
+			param +="&cancel_url=http://localhost:8088";
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			//dataout.writeBytes(param);
+			dataout.write(param.getBytes("utf-8")); //한글깨짐 방지
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+		
+			//데이터 읽어오기
+			InputStreamReader reader = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return "null";
+	}
+	
+	//결제 승인
+	@RequestMapping(value="/camping/kakaoPayApproval", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPayApproval(String pg_token,String tid, Model model, HttpSession httpSession) { 
+		//String user_id = (String) httpSession.getAttribute("user_id"); 
+		//System.out.println("kakaoPaySuccess pg_token : " + pg_token.substring(9)); 
+		pg_token = pg_token.substring(9);
+		SSLTrust.sslTrustAllCerts();
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/approve");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&tid="+tid;
+			param +="&pg_token="+pg_token;
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			dataout.writeBytes(param);
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			System.out.println(rst);
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+			InputStreamReader reader = new InputStreamReader(in,"UTF-8"); //한글깨짐 방지
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+
+	//결제 완료
+	@RequestMapping(value="/camping/kakaoPaySuccess", method=RequestMethod.POST)
+	@ResponseBody
+	public void kakaoPayApproval(String aid, String pay_date, String pay_type,
+		String quantity, String pay_price,String camp_id, String uid, String style_no, String reser_checkin, String reser_checkout,
+		String reser_booker, String reser_booker_phone, HttpSession session) { 
+		String item_name = (String)session.getAttribute("item_name");
+		System.out.println("item_name: "+ item_name);
+		System.out.println("aid: "+ aid);
+		StringBuilder st_pay_date = new StringBuilder(pay_date);
+		st_pay_date.setCharAt(10, ' '); //10번째 문자 T대신 공백으로 대체
+		pay_date = st_pay_date.toString();
+		
+		System.out.println("결제타입: "+ pay_type);
+		System.out.println("결제금액: "+ Integer.parseInt(pay_price));
+		System.out.println("결제수량: "+ quantity);
+		System.out.println("결제일자: "+ pay_date);
+		System.out.println("캠프장번호: "+ camp_id);
+		System.out.println("예약자ID: "+uid);
+		System.out.println("캠프스타일: "+style_no);
+		System.out.println("체크인: "+reser_checkin);
+		System.out.println("체크아웃: "+reser_checkout);
+		System.out.println("예약자: "+reser_booker);
+		System.out.println("전화번호: "+reser_booker_phone);
+		String camp_room_no=camp_id.concat(style_no);
+		String reser_status = "1";
+		int reser_price=Integer.parseInt(pay_price);
+		CampingReserVO crvo = new CampingReserVO();
+		crvo.setCamp_id(camp_id);
+		crvo.setCamp_room_no(camp_room_no);
+		crvo.setReser_status(reser_status);
+		crvo.setReser_checkin(reser_checkin);
+		crvo.setReser_checkout(reser_checkout);
+		crvo.setUid(uid);
+		crvo.setReser_booker(reser_booker);
+		crvo.setReser_booker_phone(reser_booker_phone);
+		crvo.setReser_price(reser_price);
+		crvo.setReser_date(pay_date);
+		cdao.campReservationCheckoutInsert(crvo);
+			
+		// 데이터 입력 후 세션 삭제
+        session.removeAttribute("camp_id");
+        session.removeAttribute("style_no");
+        session.removeAttribute("reser_checkin");
+        session.removeAttribute("reser_checkout");
+        session.removeAttribute("reser_booker");
+        session.removeAttribute("reser_booker_phone");
+	}
+	
+	@RequestMapping(value = "/camping/approval", method = RequestMethod.GET)
+	public String approval(Model model, String camp_id, String uid, String style_no, String reser_checkin, String reser_checkout,
+			String reser_booker, String reser_booker_phone) {
+		model.addAttribute("camp_id", camp_id);
+		model.addAttribute("uid", uid);
+		model.addAttribute("style_no", style_no);
+		model.addAttribute("reser_checkin", reser_checkin);
+		model.addAttribute("reser_checkout", reser_checkout);
+		model.addAttribute("reser_booker", reser_booker);
+		model.addAttribute("reser_booker_phone", reser_booker_phone);
+		System.out.println("이곳까지 왔다.");
+		return "/paystatus/campApproval";
+	}
+	@RequestMapping(value = "/camping/fail", method = RequestMethod.GET)
+	public String fail() {	
+		return "/paystatus/fail";
+	}
+	@RequestMapping(value = "/camping/cancel", method = RequestMethod.GET)
+	public String cancel() {	
+		return "/paystatus/cancel";
+	}
+	@RequestMapping(value = "/camping/campReservationSuccess", method = RequestMethod.GET)
+	public String campReservationSuccess() {	
+		return "/mypage/mycamping";
+	}
+	
 }

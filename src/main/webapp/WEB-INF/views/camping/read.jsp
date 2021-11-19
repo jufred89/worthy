@@ -9,10 +9,29 @@
 		width: 300px;
 		height:300px;
 	}
+	#campingReadBox1{
+		background: yellow;
+		width:1200px;
+		margin: 10px auto;
+		padding: 10px;
+	}
+	#campingReadBox2{
+		background: yellow;
+		width:1200px;
+		margin: 10px auto;
+		padding: 10px;
+	}
+	#campingReadBox3{
+		background: yellow;
+		width:1200px;
+		padding: 10px;
+		margin: 10px auto;
+	}
 </style>
 <h1>캠핑장 정보</h1>
+<hr />
 <!-- 캠핑장 정보 부분 -->
-<div>
+<div id="campingReadBox1">
 	<div>
 		<h1>${cvo.camp_name}</h1>
 		<h3 id="from_addr">${cvo.camp_addr}</h3>
@@ -51,6 +70,7 @@
 	<div>${cvo.camp_detail}</div>
 </div>
 <!-- 캠핑장 스타일 목록 -->
+<div id="campingReadBox2">
 <h3>캠핑장 스타일</h3>
 <div id="styleList">
 	<c:forEach items="${styleList}" var="svo">
@@ -59,7 +79,9 @@
 		</div>
 	</c:forEach>
 </div>
+</div>
 <!-- 시설 목록 부분 -->
+<div id="campingReadBox2">
 <h3>캠핑장 시설</h3>
 <div id="facilityList">
 	<c:forEach items="${facilityList}" var="fvo">
@@ -67,6 +89,7 @@
 			<div>${fvo.facility_name}</div>
 		</div>
 	</c:forEach>
+</div>
 </div>
 <!-- 주소 기반 지도 -->
 <div id="map" style="width: 100%; height: 400px;"></div>
@@ -98,7 +121,6 @@
 	    	alert("스타일을 선택해주세요.")
 	    	return;
 	    }
-		alert("예약페이지로 이동합니다.")
 		location.href = "/camping/checkout?camp_id=" + camp_id +"&style_no=" +style_no+"&style_price="+style_price
 		+ "&reser_checkin=" + reser_checkin + "&reser_checkout="+reser_checkout
 	}

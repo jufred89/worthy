@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.domain.ChatVO;
 import com.example.domain.UserVO;
+import com.example.mapper.CampingDAO;
 import com.example.mapper.ChatDAO;
 import com.example.mapper.UserDAO;
 
@@ -24,12 +27,21 @@ public class MyPageController {
 
 	@Autowired
 	ChatDAO cdao;
+	
+	@Autowired
+	CampingDAO campDAO;
 
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String mypage(Model model, HttpSession session) {
 		String uid = (String) session.getAttribute("uid");
 		String uname = udao.login(uid).getUname();
+		
+		// 현재 날짜 구하기 (시스템 시계, 시스템 타임존)
+		LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
+
 		session.setAttribute("uname", uname);
+		model.addAttribute("campReserList", campDAO.campReservationUser(uid));
+		model.addAttribute("now", now);
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName", "mycamping.jsp");
 		return "home";
@@ -149,6 +161,13 @@ public class MyPageController {
 	public String orderSuccess(Model model) {
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName", "orderSuccess.jsp");
+		return "home";
+	}
+	
+	@RequestMapping(value = "/reservationSuccess", method = RequestMethod.GET)
+	public String reservationSuccess(Model model) {
+		model.addAttribute("pageName", "user/mypage.jsp");
+		model.addAttribute("myPageName", "mycamping.jsp");
 		return "home";
 	}
 	

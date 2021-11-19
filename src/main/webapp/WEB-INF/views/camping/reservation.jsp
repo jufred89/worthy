@@ -151,6 +151,7 @@
 	</div>
 </div>
 <script>
+	var uid="${uid}";
 	var camp_id = "${camp_id}";
 	var camp_name= "${vo.camp_name}"
 	var style_no = "${style_no}"
@@ -191,7 +192,16 @@
 		var item_name = camp_name+"/"+style_name
 		var quantity = $("#cal_daytrip h4:nth-child(1)").html();
 		var total_amount = quantity*style_price
+		/*
+		alert(camp_id)
+		alert(uid)
+		alert(style_no)
+		alert(reser_checkin)
+		alert(reser_checkout)
 		alert(item_name+"/"+quantity+"/"+total_amount);
+		alert(reser_booker)
+		alert(reser_booker_phone)
+		*/
 		if (reser_booker == "") {
 			alert("예약자 이름을 입력해주세요.")
 			$("input[name='reser_booker']").focus();
@@ -211,9 +221,19 @@
 			alert("결제창으로 넘어갑니다.")
 			$.ajax({
 				type:'post',
-				url:'/kakaoPay',
+				url:'/camping/kakaoPay',
 				dataType:'json',
-				data:{"item_name":item_name,"total_amount":total_amount},
+				data:{
+					"camp_id":camp_id,
+					"uid":uid,
+					"style_no":style_no,
+					"reser_checkin":reser_checkin,
+					"reser_checkout":reser_checkout,
+					"reser_booker":reser_booker,
+					"reser_booker_phone":reser_booker_phone,
+					"item_name":item_name,
+					"total_amount":total_amount
+					},
 				success:function(data){
 					localStorage.setItem("tid",data.tid); //세션에 tid 저장
 					var box = data.next_redirect_pc_url;

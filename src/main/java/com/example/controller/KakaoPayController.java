@@ -39,7 +39,7 @@ public class KakaoPayController {
 			param +="&item_name="+item_name;
 			param +="&total_amount="+total_amount;
 			param +="&vat_amount=200";
-			param +="&approval_url=http://localhost:8088/shop/approval";
+			param +="&approval_url=http://localhost:8088/approval";
 			param +="&fail_url=http://localhost:8088";
 			param +="&cancel_url=http://localhost:8088";
 			
@@ -140,7 +140,6 @@ public class KakaoPayController {
 		System.out.println("pay_price: "+ Integer.parseInt(pay_price));
 		System.out.println("quantity: "+ quantity);
 		System.out.println("pay_date: "+ pay_date);
-		
 		
 		Shop_payVO vo = new Shop_payVO();
 		vo.setPay_date(pay_date);

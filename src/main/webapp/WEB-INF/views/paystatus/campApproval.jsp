@@ -19,7 +19,7 @@
 
 		
 	<script>
-	opener.location.href  = '/orderSuccess'; //부모창 url 변경
+	opener.location.href  = '/reservationSuccess'; //부모창 url 변경
 	var pg_token = "${pg_token}";
 	var tid = localStorage.getItem("tid"); //mycart.jsp에서 세션에 저장한 tid 가져오기
 
@@ -27,7 +27,7 @@
 	
 		$.ajax({
 			type:'post',
-			url:'/shop/kakaoPayApproval',
+			url:'/camping/kakaoPayApproval',
 			data:{"pg_token":pg_token, "tid":tid},
 			dataType:'json',
 			success:function(data){
@@ -37,11 +37,20 @@
 				var quantity = data.quantity;
 				var total = data.amount.total;
 				var item_name = data.item_name;
+				var camp_id="${camp_id}";
+				var uid="${uid}";
+				var style_no="${style_no}";
+				var reser_checkin="${reser_checkin}";
+				var reser_checkout="${reser_checkout}";
+				var reser_booker="${reser_booker}";
+				var reser_booker_phone="${reser_booker_phone}";
 				$.ajax({
 					type:'post',
-					url:'/shop/kakaoPaySuccess',
+					url:'/camping/kakaoPaySuccess',
 					data:{"aid":aid,"pay_date":approved_at,"pay_type":payment_method_type,
-						"quantity":quantity,"pay_price":total},
+						"quantity":quantity,"pay_price":total,"camp_id":camp_id,"uid":uid,
+						"style_no":style_no,"reser_checkin":reser_checkin,"reser_checkout":reser_checkout,
+						"reser_booker":reser_booker,"reser_booker_phone":reser_booker_phone},
 					success:function(){
 						alert("결제가 완료되었습니다.")
 						window.close();
