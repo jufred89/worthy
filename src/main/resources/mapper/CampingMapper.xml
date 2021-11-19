@@ -134,8 +134,8 @@
 	</select>
 	<!-- 캠핑장 예약 -->
 	<insert id="campReservationCheckoutInsert">
-		insert into tbl_camp_reserve(camp_id,camp_room_no,reser_status,reser_checkin,reser_checkout,uid)
-		values(#{camp_id},#{camp_room_no},'1',#{reser_checkin},#{reser_checkout},#{uid});
+		insert into tbl_camp_reserve(camp_id,camp_room_no,reser_status,reser_checkin,reser_checkout,uid,reser_man_qty,reser_booker,reser_booker_phone,reser_price,reser_date)
+		values(#{camp_id},#{camp_room_no},'1',#{reser_checkin},#{reser_checkout},#{uid},4,#{reser_booker},#{reser_booker_phone},#{reser_price},#{reser_date});
 	</insert>
 	<!-- 캠핑장 정보 수정 -->
 	<update id="campUpdate">
@@ -150,4 +150,8 @@
 	<delete id="campFacilityDelete">
 		delete from tbl_camp_facility where camp_id=#{camp_id}
 	</delete>
+	<!-- 특정 유저가 예약한 캠핑장 목록 확인 -->
+	<select id="campReservationUser" resultType="com.example.domain.CampingReserVO">
+		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id
+	</select>
 </mapper>

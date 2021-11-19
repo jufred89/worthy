@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <h1>캠핑장을 찾아보세요.</h1>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -43,8 +42,30 @@
 	.cprice-box{
 		font-size: 15px;
 	}
+	#campListHead{
+		margin: 30px;
+	}
+	#campListHead h3{
+		text-align: center;
+	}
+	#campStyleList{
+		width:500px;
+		margin: 0px auto;
+		padding: 10px;
+	}
+	#campFacilityList{
+		width:500px;
+		margin: 10px auto;
+		padding: 20px;
+		font-weight: bold;
+	}
+	#campFacilityList input[type=checkbox]{
+		margin: 5px 5px 5px 5px;
+		width:15px;
+		height:15px;
+	}
 </style>
-<div>
+<div id="campListHead">
 	<c:if test="${camp_addr eq null}">
 	<h3>전국에서 ${reser_checkin }에서 ${reser_checkout }까지 예약 가능한 숙소입니다.</h3>
 	</c:if>
@@ -52,14 +73,17 @@
 	<h3>${camp_addr }에서 ${reser_checkin }에서 ${reser_checkout }까지 예약 가능한 숙소입니다.</h3>
 	</c:if>
 </div>
-<div>
+<div id="campStyleList">
 	<h4>캠핑장 스타일</h4>
+	<hr />
 	<c:forEach items="${styleList}" var="item_style">
-		<input type="radio" name="style_no" value="${item_style.style_no}" />${item_style.style_name}
+		<input type="radio" name="style_no" value="${item_style.style_no}" />
+		<label for="a1"><span>${item_style.style_name}</span></label>
 	</c:forEach>
 </div>
-<div>
+<div id="campFacilityList">
 	<h4>캠핑장 시설</h4>
+	<hr />
 	<c:forEach items="${facilityList}" var="item_facility">
 	<c:if test="${item_facility.facility_no ne 0}">
 	<input onclick="CountChecked(this)" type="checkbox" name="facility_no" value="${item_facility.facility_no}">${item_facility.facility_name}

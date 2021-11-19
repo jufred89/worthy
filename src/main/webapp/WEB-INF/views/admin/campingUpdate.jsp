@@ -50,18 +50,45 @@
 	input[name=style_no]{
 	width:20px;
 	}
+	#files{
+		overflow: hidden;
+		margin: 20px;
+		box-shadow:1px 1px 1px 1px #f2f2f2;
+	}
+	#files .attachBox{
+		float: left;
+		margin-left: auto;
+		margin-right:auto;
+		padding: 10px;
+	}
+	#image{
+		box-shadow:2px 2px 2px 2px #f2f2f2;
+		padding: 10px;
+		margin: 10px;
+	}
+	input[type=radio]{
+		margin: 5px 10px 5px 10px;
+		width:13px;
+		height:13px;
+	}
+	input[type=checkbox]{
+		margin: 5px 10px 5px 10px;
+		width:13px;
+		height:13px;
+	}
 </style>
 <hr />
-	<form name="frm" action="/camping/update" method="post" enctype="multipart/form-data">
-	
-		<img src="/camping/display?file=${cvo.camp_image}" id="image" width=400>
+	<form name="frm" enctype="multipart/form-data">
+		<h4>대표이미지</h4>
+		<img src="/camping/display?file=${cvo.camp_image}" id="image" width=500>
 		<!-- 기존 이미지 -->
 		<input type="hidden" name="camp_image" value="${cvo.camp_image}" style="display:none"/> 
-		
 		<input type="file" name="file" style="display:none;"/>
-		
-		<div>첨부이미지 : <input type="file" name="files"  acceept="image/*" multiple/></div>
-		
+		<hr />
+		<div>
+		<h4>첨부이미지</h4>
+		<input type="file" name="files"  acceept="image/*" multiple/>
+		</div>
 		<div id="files">
 			<c:forEach items="${attList}" var="camp_image">
 			<div class="attachBox">
@@ -70,9 +97,7 @@
 			</div>
 			</c:forEach>
 		</div>
-		
-	<hr/>
-	
+	<hr />
 	<table class="tbl_body1" border="1">
 		<tr>
 			<th class="tbl_head">캠핑장 번호</th>
@@ -113,12 +138,11 @@
 				<c:otherwise>
 					<input type="radio" name="camp_status" value="0"/>&nbsp예약가능
 					<input type="radio" name="camp_status" value="${cvo.camp_status}" checked/>&nbsp예약불가능
-				</c:otherwise> 
+				</c:otherwise>
 			</c:choose> 
 			</td>
 		</tr>
 	</table>
-	
 	<table class="tbl_body2" border="1">
 		<tr>
 			<th class="tbl_head2">캠프 시설</th>
@@ -143,14 +167,13 @@
 			</td>
 		</tr>
 	</table>
-	
 	<table class="tbl_body3" border="1" id="campStyleList">
 		<tr>
 			<th class="tbl_head3" colspan="4">캠프 스타일</th>
 		</tr>
 		<c:forEach items="${styleList}" var="styleItem">
 			<tr>
-				<td class="tbl_data3" colspan="4">${styleItem.style_name} (${styleItem.style_price} 원 / 박)</td>
+				<td class="tbl_data3" colspan="4">${styleItem.style_name} ${styleItem.style_qty}개 (${styleItem.style_price} 원 / 박)</td>
 			</tr>
 		</c:forEach>
 		<tr>
@@ -188,7 +211,49 @@
 		var file=$(this)[0].files[0];
 		$("#image").attr("src",URL.createObjectURL(file));
 	})
-
+	
+	// 첨부파일 삭제
+	$("#files").on('click','.attachBox a',function(e){
+		e.preventDefault();
+		if(!confirm("첨부파일을 삭제하시겠습니까?"))return;
+		var box=$(this).parent();
+		var camp_image=$(this).attr("href");
+		$.ajax({
+			type:'post',
+			url:'/camping/attDelete',
+			data:{camp_image:camp_image},
+			success:function(){
+				alert("삭제되었습니다.");
+				box.remove();
+			}
+		})
+	});
+	
+	// 첨부파일을 추가할 경우
+	$(frm.files).on('change',function(){
+		var camp_id="${cvo.camp_id}";
+		var file=$(this)[0].files[0];
+		if(file==null) return;
+		if(!confirm("파일을 첨부하시겠습니까?")) return;
+		var formData = new FormData();
+		formData.append("file",file);
+		formData.append("camp_id",camp_id);
+		$.ajax({
+			type:"post",
+			url:"/camping/attInsert",
+			data:formData,
+			processData:false,
+			contentType:false,
+			success:function(data){
+				var str='<div class="attachBox">'
+				str+='<img src="/camping/display?file='+data+'" width=250 />'
+				str+='<a href="'+data+'">삭제</a>'
+				str+='</div>'
+				$('#files').append(str);
+			}
+		})
+	});
+	
 	// submit시 유효성 체크
 	$(frm).on("submit",function(e){
 		e.preventDefault();
@@ -208,19 +273,16 @@
 		// 시설 데이터 체크
 		var obj = $("[name=facility_no]");
         var facility_no = new Array(); // 배열 선언
+ 
         $('input:checkbox[name=facility_no]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
         	facility_no.push(this.value);
         });
- 		facility_no.push(100)
- 		facility_no.push(100)
        	
        	// 캠핑 스타일 체크
        	var style_no = new Array(); // 배열 선언
 		$('input:checkbox[name=style_no]:checked').each(function(){ // 체크된 체크박스의 value 값을 가지고 온다.
 			style_no.push(this.value);
 		});
-       	style_no.push(100)
-       	style_no.push(100)
        	
        	// 캠핑 스타일 갯수
        	var style_qty = new Array(); // 배열 선언
@@ -230,8 +292,6 @@
 				style_qty.push(style_val);
 			}
     	});
-       	style_qty.push(100)
-       	style_qty.push(100)
        	
        	// 캠핑 스타일별 가격
        	var style_price = new Array(); // 배열 선언
@@ -241,13 +301,10 @@
 				style_price.push(sprice);
 			}
     	});
-       	style_price.push(100)
-       	style_price.push(100)
 		
 		if(!confirm("상품을 수정하시겠습니까?"))return;
 		frm.action="/camping/update"
 		frm.method="post"
 		frm.submit();
 	});
-
 </script>

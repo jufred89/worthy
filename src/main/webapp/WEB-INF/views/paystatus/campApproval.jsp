@@ -6,30 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>결제 승인</title>
-<style>
-	@font-face {
-    font-family: 'IBMPlexSansKR-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-body{
- font-family: 'IBMPlexSansKR-Regular';
- text-align:center;
- margin-top:130px;
-}
-
-.blackBtn{
-	font-size:85%;
-	padding:8px 26px;
-	background-color:black;
-	color:white;
-	border:none;
-	margin-top:25px;
-}
-
-</style>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 </head>
@@ -43,7 +19,7 @@ body{
 
 		
 	<script>
-	opener.location.href  = '/orderSuccess'; //부모창 url 변경
+	opener.location.href  = '/reservationSuccess'; //부모창 url 변경
 	var pg_token = "${pg_token}";
 	var tid = localStorage.getItem("tid"); //mycart.jsp에서 세션에 저장한 tid 가져오기
 
@@ -51,7 +27,7 @@ body{
 	
 		$.ajax({
 			type:'post',
-			url:'/shop/kakaoPayApproval',
+			url:'/camping/kakaoPayApproval',
 			data:{"pg_token":pg_token, "tid":tid},
 			dataType:'json',
 			success:function(data){
@@ -61,11 +37,20 @@ body{
 				var quantity = data.quantity;
 				var total = data.amount.total;
 				var item_name = data.item_name;
+				var camp_id="${camp_id}";
+				var uid="${uid}";
+				var style_no="${style_no}";
+				var reser_checkin="${reser_checkin}";
+				var reser_checkout="${reser_checkout}";
+				var reser_booker="${reser_booker}";
+				var reser_booker_phone="${reser_booker_phone}";
 				$.ajax({
 					type:'post',
-					url:'/shop/kakaoPaySuccess',
+					url:'/camping/kakaoPaySuccess',
 					data:{"aid":aid,"pay_date":approved_at,"pay_type":payment_method_type,
-						"quantity":quantity,"pay_price":total},
+						"quantity":quantity,"pay_price":total,"camp_id":camp_id,"uid":uid,
+						"style_no":style_no,"reser_checkin":reser_checkin,"reser_checkout":reser_checkout,
+						"reser_booker":reser_booker,"reser_booker_phone":reser_booker_phone},
 					success:function(){
 						alert("결제가 완료되었습니다.")
 						window.close();
