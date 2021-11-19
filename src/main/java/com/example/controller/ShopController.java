@@ -55,7 +55,7 @@ public class ShopController {
 	@ResponseBody
 	@RequestMapping("/display")
 	public byte[] display(String file) throws Exception {
-		FileInputStream in = new FileInputStream(path + "/" + file);
+		FileInputStream in = new FileInputStream(path + "/shop/" + file);
 		// System.out.println(file);
 		byte[] image = IOUtils.toByteArray(in);
 		in.close();
@@ -253,15 +253,49 @@ public class ShopController {
 	
 	@RequestMapping(value="/pay_insert", method=RequestMethod.POST)
 	@ResponseBody
-	public void pay_insert(Shop_payVO pvo){
+	public int pay_insert(Shop_payVO pvo){
+		//System.out.println(pvo);
 		dao.pay_insert(pvo);
+		String pay_uid = pvo.getPay_uid();
+		Shop_payVO pay_vo = dao.payRead(pay_uid);
+		int pay_no = pay_vo.getPay_no();
+		//System.out.println(pay_no);
+		return pay_no;
 	}
 	
 	@RequestMapping(value="/order_insert", method=RequestMethod.POST)
 	@ResponseBody
-	public void pay_insert(Shop_orderVO ovo){
+	public void order_insert(Shop_orderVO ovo){
 		dao.order_insert(ovo);
 	}
+	
+	@RequestMapping(value="/order_prod_update", method=RequestMethod.POST)
+	@ResponseBody
+	public void orderProdUpdate(ShopVO vo){
+		dao.orderProdUpdate(vo);
+	}
+	
+	@RequestMapping(value="/order_cart_update", method=RequestMethod.POST)
+	@ResponseBody
+	public void orderCartUpdate(Shop_cartVO cvo){
+		dao.orderCartUpdate(cvo);
+	}
+	//구매 페이지
+	@RequestMapping("/reservation")
+	public String shop_reservation(Model model, String user_id){
+		model.addAttribute("pageName", "shop/reservation.jsp");
+		String pay_uid = user_id;
+		model.addAttribute("pvo", dao.payRead(pay_uid));
+		return "home";
+	}
+	
+	@RequestMapping(value="/pay_update", method=RequestMethod.POST)
+	@ResponseBody
+	public void pay_update(Shop_payVO pvo){
+		dao.payUpdate(pvo);
+	}
+	
+
 	
 	
 	//카카오페이

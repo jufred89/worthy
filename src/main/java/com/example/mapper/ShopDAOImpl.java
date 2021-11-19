@@ -150,4 +150,24 @@ public class ShopDAOImpl implements ShopDAO{
 	public int adminTotalCount(Criteria cri) {
 		return session.selectOne(namespace + ".admin_totalCount", cri);
 	}
+
+	@Override
+	public void orderProdUpdate(ShopVO vo) {
+		session.update(namespace + ".order_prod_update", vo);
+	}
+
+	@Override
+	public void orderCartUpdate(Shop_cartVO cvo) {
+		session.update(namespace + ".order_cart_update", cvo);
+	}
+
+	@Override
+	public void payUpdate(Shop_payVO pvo) {
+		session.update(namespace + ".pay_update", pvo);
+	}
+
+	@Override
+	public Shop_payVO payRead(String pay_uid) {
+		return session.selectOne(namespace + ".pay_read", pay_uid);
+	}
 }

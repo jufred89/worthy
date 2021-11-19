@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.UserMapper">
- 	<select id="login" resultType="com.example.domain.UserVO">
- 		select * from tbl_user
- 		where uid=#{uid}
- 	</select>
- 	<insert id="join">
-		insert into tbl_user(uid,upass,umail,uname,tel,address)
+	<select id="login" resultType="com.example.domain.UserVO">
+		select * from tbl_user
+		where uid=#{uid}
+	</select>
+	<insert id="join">
+		insert into
+		tbl_user(uid,upass,umail,uname,tel,address)
 		values(#{uid},#{upass},#{umail},#{uname},#{tel},#{address})
 	</insert>
 	<update id="update">
-		update tbl_user set 
+		update tbl_user set
 		upass=#{upass}, umail=#{umail}, uname=#{uname},tel=#{tel}, address=#{address}
-		where uid=#{uid}
+		where
+		uid=#{uid}
 	</update>
+	<update id="adminupdate">
+		update tbl_user set
+		umail=#{umail}, uname=#{uname},tel=#{tel}, address=#{address}
+		where
+		uid=#{uid}
+	</update>
+ 	<select id="list" resultType="com.example.domain.UserVO">
+ 		select uid,uname,umail,tel,address from tbl_user
+ 		<if test="searchType=='uid'">
+			where uid like concat('%',#{keyword},'%')
+			order by uid desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+		<if test="searchType=='uname'">
+			where uname like concat('%',#{keyword},'%')
+			order by uname desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+ 	</select>
+	<select id="read" resultType="com.example.domain.UserVO">
+		select uid, umail, uname, tel, address from tbl_user
+		where uid=#{uid}
+	</select>
 </mapper>

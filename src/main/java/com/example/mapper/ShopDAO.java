@@ -38,16 +38,18 @@ public interface ShopDAO {
 	public void cart_delete(int cart_no);
 	public int cart_price_sum(String cart_uid);
 	
-	//구매
-	public void pay_insert(Shop_payVO pvo);
-	
-	//order
-	public void order_insert(Shop_orderVO ovo);
-	
 	//admin
 	public List<HashMap<String, Object>> adminListJSON(Criteria cri);
 	public void adminQtyUpdate(ShopVO vo);
 	public void adminHideUpdate(ShopVO vo);
 	public int adminTotalCount(Criteria cri);
+	
+	//구매
+	public void pay_insert(Shop_payVO pvo);
+	public void order_insert(Shop_orderVO ovo);
+	public void orderProdUpdate(ShopVO vo);
+	public void orderCartUpdate(Shop_cartVO cvo);
+	public Shop_payVO payRead(String pay_uid);
+	public void payUpdate(Shop_payVO pvo);
 	
 }

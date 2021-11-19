@@ -2,12 +2,18 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<h3>상품 목록</h3>
 <div id="condition">
+	<select id="searchType">
+		<option value="prod_id">상품번호</option>
+		<option value="prod_name">상품명</option>
+	</select>
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
 	<span id="total"></span>
 	<a href="/shop/insert">상품 등록</a>
 </div>
-
+<hr/>
 <table id="tblShop"></table>
 <script id="temp" type="text/x-handlebars-template">
 	<tr>
@@ -27,24 +33,29 @@
 				<button class="change">변경</button>
 			</td>
 			<td>
-				<button class="prod_hide">숨기기/해제</button>
+				<button class="prod_hide"></button>
 				<input type="hidden" class="status" value="{{prod_status}}" />
 			</td>
 		<tr>
 	{{/each}}	
 </script>
-
 <div id="pagination" class="pagination"></div>
 <script src="/resources/pagination.js"></script>
+
 <script>
 	var page=1;
 	getList();
-	status();
+
 	function status(){
-		$("#tblShop .item input").each(function(){
-			alert("확인");
+		$("#tblShop .item .status").each(function(){
 			var prod_status = $(this).val();
-			alert(prod_status);
+			//alert(prod_status);
+			
+			if(prod_status == '1'){
+				$(this).parent().find(".prod_hide").html("해제");	
+			}else{
+				$(this).parent().find(".prod_hide").html("숨김");
+			}
 		});
 	}
 	
@@ -117,11 +128,12 @@
 	function getList(){
 		
 		var keyword = $("#keyword").val();
+		var searchType = $("#searchType").val();
 		
 		$.ajax({
 			type: "get",
 			url: "/admin/shop/list.json",
-			data: {"page" : page, "keyword" : keyword},
+			data: {"page" : page, "keyword" : keyword, "searchType" : searchType},
 			dataType: "json",
 			success: function(data){
 				var temp = Handlebars.compile($("#temp").html());
@@ -129,6 +141,7 @@
 				$("#pagination").html(getPagination(data));
 				
 				$("#total").html("총 " + data.pm.totalCount + "건");
+				status();
 			}
 		});
 	}

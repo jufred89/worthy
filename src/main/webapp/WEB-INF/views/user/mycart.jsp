@@ -11,13 +11,13 @@
 				<th width=400>상품정보</th>
 				<th width=100>수량</th>
 				<th width=150>상품금액</th>
-				<th width=150>배송비</th>
 			</tr>
 			{{#each cart_list}}
 				<tr class="item">
 					<td>
 						<input type="checkbox" class="chk" />
-						<input type="hidden" class="no" value="{{cart_no}}" />
+						<input type="hidden" class="cart_no" value="{{cart_no}}" />
+						<input type="hidden" class="cart_pid" value="{{cart_pid}}" />
 					</td>
 					<td><img src='/shop/display?file={{cart_pimage}}'width="100" height="100"/></td>
 					<td class="title">{{cart_pname}}</td>
@@ -29,7 +29,6 @@
 						</div>
 					</td>
 					<td class="price">{{cart_price}}</td>
-					<td class="shippingfee">3000원</td>
 				</tr>
 			{{/each}}
 			<tr>
@@ -40,7 +39,7 @@
 				</td>
 				<td>
 					<span>배송비</span>
-					<span id="shippingfee_sum"></span>
+					<span id="shippingfee_sum">무료</span>
 				</td>
 				<td >
 					<span>주문가격</span>
@@ -50,7 +49,7 @@
 			</tr>
 			<tr>
 				<td><button id="btnDel">삭제</button></td>
-				<td><button id="payment" >구매하기</button></td>
+				<td><button id="payment">구매하기</button></td>
 				<td><img src="/resources/kakao_payment.png" width=80 onClick="kakaoPay()"/></td>
 			</tr>
 		</script>
@@ -58,9 +57,6 @@
 </div>
 <script>
 	getCart();
-	
-
-	
 
 	//카카오페이
 	function kakaoPay(){
@@ -70,7 +66,7 @@
 		if(!confirm('결제를 진행하시겠습니까?')) return;
 		$.ajax({
 			type:'post',
-			url:'/shop/kakaoPay',
+			url:'/kakaoPay',
 			dataType:'json',
 			data:{"item_name":item_name, "total_amount":total_amount},
 			success:function(data){
@@ -83,41 +79,62 @@
 	}
 
 	//구매하기
-	$("#tblCart").on("click", "#payment", function(){
-		
-		alert("payment insert");
-		
+	$("#tblCart").on("click", "#payment", function(){	
 		var pay_price = $("#price_sum").html();
+		//var shippingfee_sum = $("#shippingfee_sum").html();
+		var order_amount = $("#order_amount").html();
 		var pay_uid = "${uid}";
-		
-		
-		alert(pay_price + " / " + pay_uid);
-		
 		
 		$.ajax({
 			type: "post",
 			url: "/shop/pay_insert",
-			data: {"pay_no" : 1, "pay_price" : pay_price, "pay_type" : '1', 
-				"pay_uid" : pay_uid, "pay_status" : 2, "deli_postno" : '111', "deli_address1" : "인천 어딘가", 
-				"deli_address2" : "101동 101호", "deli_tel" : "010-1111-2222", "deli_name" : "원동민", 
-				"deli_memo" : "안전한 배송 부탁드립니다"},
-			success: function(){
+			data: {"pay_date" : "2021-11-19", "pay_price" : pay_price, "pay_type" : '1',
+				"pay_uid" : pay_uid, "pay_status" : 1},
+			success: function(data){
 				$("#tblCart .item .chk:checked").each(function(){
-					var cart_no = $(this).parent().find(".no").val();
-					//alert(cart_no);
+					
+					var cart_no = $(this).parent().find(".cart_no").val();
+					var order_id = data;
+					
+					//alert(data);
 					
 					$.ajax({
 						type: "post",
 						url: "/shop/order_insert",
-						data: {"order_id" : 1, "cart_no" : cart_no},
+						data: {"order_id" : order_id, "cart_no" : cart_no},
 						success: function(){
 							
 						}
 					});
+					
+					//장바구니 비우기
+					$.ajax({
+						type: "post",
+						url: "/shop/order_cart_update",
+						data: {"cart_no" : cart_no},
+						success: function(){
+							
+						}
+					});
+					
+					var quantity = $(this).parent().parent().find(".quantity").html();
+					var prod_id = $(this).parent().find(".cart_pid").val();
+					
+					//상품 보유 수량 업데이트
+					$.ajax({
+						type: "post",
+						url: "/shop/order_prod_update",
+						data: {"prod_id" : prod_id, "prod_stack_qty" : quantity},
+						success: function(){
+							
+						}
+					});
+					
+					location.href="/shop/reservation?user_id=${uid}&pay_no=" + data;
 				});
-				alert("저장됨");
 			}
 		});
+
 	});
 	
 	//체크박스 선택시 상품 가격 변경
@@ -127,45 +144,42 @@
 		if ($(this).is(":checked")) {
 			$("#tblCart .item .chk:checked").each(function() {
 				var price_sum = $(this).parent().parent().find(".price").html();
-				
+
 				sum += Number(price_sum);
 				$("#price_sum").html(sum);
 
 				//alert(sum);
 				if (sum > 50000) {
-					$("#shippingfee_sum").html("무료");
+					//$("#shippingfee_sum").html("무료");
 					$("#order_amount").html(sum)
 				} else {
-					$("#shippingfee_sum").html(3000);
-					$("#order_amount").html(sum + 3000);
+					//$("#shippingfee_sum").html(3000);
+					$("#order_amount").html(sum);
 				}
 			});
 		} else {
 			$("#tblCart .item .chk").each(function() {
-				var check = $("#tblCart .item .chk").is(":checked");
+				var check = $(this).is(":checked");
+				var price_sum = $(this).parent().parent().find(".price").html();
 				
 				//체크 되지 않은 상품은 0
 				if (check == false) {
-					sum += 0;
-					//alert(sum);
-				}
-
-				$("#tblCart .item .chk:checked").each(function() {
-						var price_sum = $(this).parent().parent().find(".price").html();
-						sum += Number(price_sum);
-				});
+					sum += Number(0);
+				}else{
+					sum += Number(price_sum);				
+				}				
 				
 				$("#price_sum").html(sum);
 				//alert(sum);
 				if (sum > 50000) {
-					$("#shippingfee_sum").html("무료");
+					//$("#shippingfee_sum").html("무료");
 					$("#order_amount").html(sum)
 				} else {
 					if (sum != 0) {
-						$("#shippingfee_sum").html(3000);
-						$("#order_amount").html(sum + 3000);
+						//$("#shippingfee_sum").html(3000);
+						$("#order_amount").html(sum);
 					} else {
-						$("#shippingfee_sum").html(0);
+						//$("#shippingfee_sum").html(0);
 						$("#order_amount").html(0);
 					}
 				}
@@ -187,11 +201,11 @@
 			success : function(data) {
 				$("#price_sum").html(data);
 				if (data > 50000) {
-					$("#shippingfee_sum").html("무료");
+					//$("#shippingfee_sum").html("무료");
 					$("#order_amount").html(data);
 				} else {
-					$("#shippingfee_sum").html(3000);
-					var order_amount = data + 3000;
+					//$("#shippingfee_sum").html(3000);
+					var order_amount = data;
 					$("#order_amount").html(order_amount);
 				}
 			}
@@ -212,18 +226,18 @@
 			});
 			$("#price_sum").html(sum);
 			if (sum > 50000) {
-				$("#shippingfee_sum").html("무료");
+				//$("#shippingfee_sum").html("무료");
 				$("#order_amount").html(sum);
 			} else {
-				$("#shippingfee_sum").html(3000);
-				$("#order_amount").html(sum + 3000);
+				//$("#shippingfee_sum").html(3000);
+				$("#order_amount").html(sum);
 			}
 		} else {
 			$("#tblCart .item .chk").each(function() {
 				$(this).prop("checked", false);
 
 				$("#price_sum").html(0);
-				$("#shippingfee_sum").html(0);
+				//$("#shippingfee_sum").html(0);
 				$("#order_amount").html(0);
 			});
 		}
@@ -256,7 +270,7 @@
 		}
 
 		$("#tblCart .item .chk:checked").each(function() {
-			var cart_no = $(this).parent().find(".no").val();
+			var cart_no = $(this).parent().find(".cart_no").val();
 
 			$.ajax({
 				type : "POST",
@@ -288,10 +302,7 @@
 			$(this).parent().parent().find(".quantity").html(quantity);
 			$(this).parent().parent().parent().find(".price").html(normalprice * quantity);
 			
-			//상품바의 배송비
-			if (normalprice * quantity < 50000) {
-				$(this).parent().parent().parent().find(".shippingfee").html(3000);
-			}
+
 			
 			var checked = $(this).parent().parent().parent().find(".chk").is(":checked");
 			
@@ -300,11 +311,11 @@
 				$("#price_sum").html(price_sum - normalprice);
 
 				if (price_sum - normalprice > 50000) {
-					$("#shippingfee_sum").html("무료");
+					//$("#shippingfee_sum").html("무료");
 					$("#order_amount").html(price_sum - normalprice);
 				} else {
-					$("#shippingfee_sum").html(3000);
-					$("#order_amount").html(price_sum - normalprice + 3000);
+					//$("#shippingfee_sum").html(3000);
+					$("#order_amount").html(price_sum - normalprice);
 				}
 			}
 		}
@@ -332,11 +343,11 @@
 			$("#price_sum").html(price_sum + normalprice);
 
 			if (price_sum + normalprice > 50000) {
-				$("#shippingfee_sum").html("무료");
+				//$("#shippingfee_sum").html("무료");
 				$("#order_amount").html(price_sum + normalprice);
 			} else {
-				$("#shippingfee_sum").html(3000);
-				$("#order_amount").html(price_sum + normalprice + 3000);
+				//$("#shippingfee_sum").html(3000);
+				$("#order_amount").html(price_sum + normalprice);
 			}
 		}
 	});
