@@ -6,7 +6,7 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
 />
 <style>
-body{padding:50px;}
+	body{padding-left:18px;}
 </style>
 <div id="subject">FREE BOARD</div>
 <h5>자유게시판</h5>
@@ -23,40 +23,49 @@ body{padding:50px;}
 	<div id="pageContent">
 		<form name="frm" enctype="multipart/form-data">
 			<div id="condition">
-				<div class="title">카테고리</div>
-				<c:if test="${vo.fb_writer == uid}">
-					<select id="fb_category" name="fb_category">
-						<option value="sell">팝니다</option>
-						<option value="buy">삽니다</option>
-						<option value="greetings">가입인사</option>
-						<option value="talk">캠핑톡</option>
-					 </select>	
-				</c:if>
-				<c:if test="${vo.fb_writer != uid}">
-					<input type="text" value="${vo.fb_category }"/>
-				</c:if>
 					<input type="hidden" name="fb_no" value="${vo.fb_no }"/><br>
-					<div class="title">제목</div><input type="text" name="fb_title" value="${vo.fb_title }"/><br>
-					<div class="title">작성자</div><input type="text" name="fb_writer" value="${vo.fb_writer }" readonly/>	
+					<div id="fb_title">
+						<input type="text" name="fb_title" value="${vo.fb_title }"/>
+					</div>
+					
+					<div class="title">카테고리</div>
+					<c:if test="${vo.fb_writer == uid}">
+						<select id="fb_category" name="fb_category">
+							<option value="sell">팝니다</option>
+							<option value="buy">삽니다</option>
+							<option value="greetings">가입인사</option>
+							<option value="talk">캠핑톡</option>
+						 </select>	
+					</c:if>
+					<c:if test="${vo.fb_writer != uid}">
+						<input type="text" value="${vo.fb_category }"/>
+					</c:if>
+					<div id="writer"><span class="title">작성자 </span> ${vo.fb_writer }</div>
+					
 			</div>
-			<div id="fb_content">
-				<textarea rows="15" cols="120" name="fb_content">${vo.fb_content }</textarea>
-			</div>
-			
-			<div id="form-images">
+			<div id="form-box">
 				<!-- 대표사진 -->
 				<div id="form-image">
-					<div class="title">대표사진</div>
-					<c:if test="${vo.fb_image == null }">
-						<img src="http://placehold.it/200x150"/>
-					</c:if>
-					<c:if test="${vo.fb_image != null }">
-						<img src="/board/display?file=${vo.fb_image }" name="fb_image" id="fb_image" width=200 height=150/>
-					</c:if>
-					<input type="file" name="file" style="display:none;"/>
-					<!-- 이미지를 변경하지 않았을 때 기존 이미지 사용 -->
-					<input type="hidden" name="oldImage" value="${vo.fb_image }"/>	
+						
+						<c:if test="${vo.fb_image == null }">
+							<img src="http://placehold.it/200x150"/>
+						</c:if>
+						<c:if test="${vo.fb_image != null }">
+							<img src="/board/display?file=${vo.fb_image }" name="fb_image" id="fb_image" width=350 height=300/>
+						</c:if>
+						<input type="file" name="file" style="display:none;"/>
+						<!-- 이미지를 변경하지 않았을 때 기존 이미지 사용 -->
+						<input type="hidden" name="oldImage" value="${vo.fb_image }"/>	
 				</div>
+				<div id="fb_info">
+					
+					<div id="fb_content">
+						<textarea rows="14" cols="59" name="fb_content">${vo.fb_content }</textarea>
+					</div>
+				</div>
+			</div>
+			<div id="form-images">
+
 								
 				<!-- 첨부파일 -->
 
