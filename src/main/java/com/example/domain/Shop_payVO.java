@@ -2,7 +2,7 @@ package com.example.domain;
 
 
 public class Shop_payVO {
-	private String pay_no;
+	private int pay_no;
 	private String pay_date;
 	private int pay_price;
 	private String pay_type;
@@ -17,15 +17,15 @@ public class Shop_payVO {
 	
 	@Override
 	public String toString() {
-		return "PayDAO [pay_no=" + pay_no + ", pay_date=" + pay_date + ", pay_price=" + pay_price + ", pay_type="
+		return "Shop_payVO [pay_no=" + pay_no + ", pay_date=" + pay_date + ", pay_price=" + pay_price + ", pay_type="
 				+ pay_type + ", pay_uid=" + pay_uid + ", pay_status=" + pay_status + ", deli_postno=" + deli_postno
 				+ ", deli_address1=" + deli_address1 + ", deli_address2=" + deli_address2 + ", deli_tel=" + deli_tel
 				+ ", deli_name=" + deli_name + ", deli_memo=" + deli_memo + "]";
 	}
-	public String getPay_no() {
+	public int getPay_no() {
 		return pay_no;
 	}
-	public void setPay_no(String pay_no) {
+	public void setPay_no(int pay_no) {
 		this.pay_no = pay_no;
 	}
 	public String getPay_date() {

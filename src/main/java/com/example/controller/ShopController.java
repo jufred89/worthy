@@ -57,7 +57,7 @@ public class ShopController {
 	@ResponseBody
 	@RequestMapping("/display")
 	public byte[] display(String file) throws Exception {
-		FileInputStream in = new FileInputStream(path + "/" + file);
+		FileInputStream in = new FileInputStream(path + "/shop/" + file);
 		// System.out.println(file);
 		byte[] image = IOUtils.toByteArray(in);
 		in.close();
@@ -255,14 +255,164 @@ public class ShopController {
 	
 	@RequestMapping(value="/pay_insert", method=RequestMethod.POST)
 	@ResponseBody
-	public void pay_insert(Shop_payVO pvo){
+	public int pay_insert(Shop_payVO pvo){
+		//System.out.println(pvo);
 		dao.pay_insert(pvo);
+		String pay_uid = pvo.getPay_uid();
+		Shop_payVO pay_vo = dao.payRead(pay_uid);
+		int pay_no = pay_vo.getPay_no();
+		//System.out.println(pay_no);
+		return pay_no;
 	}
 	
 	@RequestMapping(value="/order_insert", method=RequestMethod.POST)
 	@ResponseBody
-	public void pay_insert(Shop_orderVO ovo){
+	public void order_insert(Shop_orderVO ovo){
 		dao.order_insert(ovo);
 	}
 	
+	@RequestMapping(value="/order_prod_update", method=RequestMethod.POST)
+	@ResponseBody
+	public void orderProdUpdate(ShopVO vo){
+		dao.orderProdUpdate(vo);
+	}
+	
+	@RequestMapping(value="/order_cart_update", method=RequestMethod.POST)
+	@ResponseBody
+	public void orderCartUpdate(Shop_cartVO cvo){
+		dao.orderCartUpdate(cvo);
+	}
+	//구매 페이지
+	@RequestMapping("/reservation")
+	public String shop_reservation(Model model, String user_id){
+		model.addAttribute("pageName", "shop/reservation.jsp");
+		String pay_uid = user_id;
+		model.addAttribute("pvo", dao.payRead(pay_uid));
+		return "home";
+	}
+	
+	@RequestMapping(value="/pay_update", method=RequestMethod.POST)
+	@ResponseBody
+	public void pay_update(Shop_payVO pvo){
+		dao.payUpdate(pvo);
+	}
+	
+
+	
+	
+	//카카오페이
+	@RequestMapping(value="/kakaoPay", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPay(String item_name, String total_amount){
+		SSLTrust.sslTrustAllCerts();
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&quantity=1&tax_free_amount=0";
+			param +="&item_name="+item_name;
+			param +="&total_amount="+total_amount;
+			param +="&vat_amount=200";
+			param +="&approval_url=http://localhost:8088/shop/approval";
+			param +="&fail_url=http://localhost:8088";
+			param +="&cancel_url=http://localhost:8088";
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			dataout.writeBytes(param);
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+		
+			//데이터 읽어오기
+			InputStreamReader reader = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return "null";
+	}
+	
+	//결제 승인
+	@RequestMapping(value="/kakaoPayApproval", method=RequestMethod.POST)
+	@ResponseBody
+	public String kakaoPayApproval(String pg_token,String tid, Model model, HttpSession httpSession) { 
+		//String user_id = (String) httpSession.getAttribute("user_id"); 
+		//System.out.println("kakaoPaySuccess pg_token : " + pg_token.substring(9)); 
+		pg_token = pg_token.substring(9);
+		SSLTrust.sslTrustAllCerts();
+		try {
+			URL url = new URL("https://kapi.kakao.com/v1/payment/approve");
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestProperty("Authorization", "KakaoAK 956ed9671910d705fc2f851a38d250e1");
+			conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+			conn.setDoOutput(true);
+			
+			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
+			param +="&tid="+tid;
+			param +="&pg_token="+pg_token;
+			
+			OutputStream out = conn.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(out);
+			dataout.writeBytes(param);
+			dataout.close(); //flush() 자동 호출
+			
+			//통신
+			int rst = conn.getResponseCode(); //확인
+			System.out.println(rst);
+			InputStream in;
+			if(rst==200){ //성공
+				in = conn.getInputStream();
+			}else{ //실패
+				in = conn.getErrorStream();
+			}
+			
+			InputStreamReader reader = new InputStreamReader(in);
+			BufferedReader br = new BufferedReader(reader);
+			String str =  br.readLine();
+			System.out.println(str);
+			return str;
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+
+	
+	@RequestMapping(value = "/approval", method = RequestMethod.GET)
+	public String approval() {	
+		return "/paystatus/approval";
+	}
+	@RequestMapping(value = "/fail", method = RequestMethod.GET)
+	public String fail() {	
+		return "/paystatus/fail";
+	}
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	public String cancel() {	
+		return "/paystatus/cancel";
+	}
+
 }

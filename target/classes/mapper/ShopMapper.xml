@@ -123,26 +123,16 @@
  	</select>
  	
  	
- 	<!-- 주문 -->
- 	<insert id="pay_insert">
- 		insert into tbl_shop_payment(pay_no, pay_date, pay_price, pay_type, pay_uid, pay_status, deli_postno, deli_address1,
- 		deli_address2, deli_tel, deli_name, deli_memo)
- 		values(#{pay_no}, now(), #{pay_price}, #{pay_type}, #{pay_uid}, #{pay_status}, #{deli_postno}, 
- 		#{deli_address1}, #{deli_address2}, #{deli_tel}, #{deli_name}, #{deli_memo})
- 	</insert>
- 	
- 	<insert id="order_insert">
- 		insert into tbl_shop_order(order_id, cart_no)
- 		values(#{order_id}, #{cart_no})
- 	</insert>
- 	
- 	
  	<!-- 관리자 -->
  	<select id="admin_list" resultType="HashMap">
  			select * from tbl_shop_product
- 		<if test="keyword != null">
+ 		<if test="searchType == 'prod_id'">
+ 			where prod_id like concat("%", #{keyword}, "%")
+ 		</if>
+ 		<if test="searchType == 'prod_name'">
  			where prod_name like concat("%", #{keyword}, "%")
  		</if>
+ 		order by prod_id desc
  		limit #{pageStart}, 10
  	</select>
  	
@@ -158,15 +148,44 @@
  	
  	<select id="admin_totalCount" resultType="int">
  		select count(*) from tbl_shop_product
- 		<if test="keyword != null">
+ 		<if test="searchType == 'prod_id'">
+ 			where prod_id like concat("%", #{keyword}, "%")
+ 		</if>
+ 		<if test="searchType == 'prod_name'">
  			where prod_name like concat("%", #{keyword}, "%")
  		</if>
  	</select>
  	
+ 
+	 <!-- 주문 -->
+ 	<insert id="pay_insert">
+ 		insert into tbl_shop_payment(pay_date, pay_price, pay_type, pay_uid, pay_status)
+ 		values(#{pay_date}, #{pay_price}, #{pay_type}, #{pay_uid}, #{pay_status})
+ 	</insert>
  	
- 	<!-- 주문 목록 -->
- 	<select id="myShop_list" resultType="HashMap">
- 		select * from tbl_shop_order o, tbl_shop_payment p
-	where o.order_id = p.pay_no and order_id = #{order_id}
+ 	<insert id="order_insert">
+ 		insert into tbl_shop_order(order_id, cart_no)
+ 		values(#{order_id}, #{cart_no})
+ 	</insert>
+ 	
+ 	<update id="order_prod_update">
+ 		update tbl_shop_product set prod_stack_qty = (prod_stack_qty - #{prod_stack_qty})
+ 		where prod_id = #{prod_id}
+ 	</update>
+ 	
+ 	<update id="order_cart_update">
+ 		update tbl_shop_cart set cart_status = '2'
+ 		where cart_no = #{cart_no}
+ 	</update>
+ 	
+ 	<select id="pay_read" resultType="com.example.domain.Shop_payVO">
+ 		select * from tbl_shop_payment
+ 		where pay_uid = #{pay_uid} and pay_status = 1
  	</select>
+ 	
+ 	<update id="pay_update">
+ 		update tbl_shop_payment set pay_status = #{pay_status}, deli_postno = #{deli_postno}, deli_address1 = #{deli_address1},
+ 		deli_address2 = #{deli_address2}, deli_tel = #{deli_tel}, deli_name = #{deli_name}, deli_memo = #{deli_memo}
+ 		where pay_no = #{pay_no}
+ 	</update>
 </mapper>
