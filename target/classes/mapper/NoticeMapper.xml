@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.NoticeMapper">
- 	<select id="list" resultType="com.example.domain.NoticeVO">
+ 	<select id="list" resultType="hashmap">
  		select * from tbl_information_notice
-<<<<<<< Updated upstream
- 		order by nb_no desc
-=======
 		<if test="searchType == 'all'">
  			where nb_title like concat("%", #{keyword}, "%") || nb_content like concat("%", #{keyword}, "%")
  		</if>
@@ -17,22 +14,29 @@
  		</if>
  		order by nb_no desc
  		limit #{pageStart},#{perPageNum}
->>>>>>> Stashed changes
+		<if test="keyword != null">
+ 			where nb_title like concat("%", #{keyword}, "%") || nb_content like concat("%", #{keyword}, "%")
+ 		</if>
+ 		<if test="searchType == 'desc'">
+ 			order by nb_no desc
+ 		</if>
+ 		<if test="searchType == 'asc'">
+ 			order by nb_no
+ 		</if>
+ 		limit #{pageStart},#{perPageNum}
  	</select>
  	<select id="read" resultType="com.example.domain.NoticeVO">
  		select * from tbl_information_notice
  		where nb_no=#{nb_no}
  	</select>
  	<insert id="insert">
- 		insert into tbl_information_notice(nb_title,nb_content,nb_writer)
- 		values(#{nb_title},#{nb_content},#{nb_writer})
+ 		insert into tbl_information_notice(nb_title,nb_content,nb_image,nb_writer)
+ 		values(#{nb_title},#{nb_content},#{nb_image},#{nb_writer})
  	</insert>
  	<delete id="delete">
  		delete from tbl_information_notice
  		where nb_no=#{nb_no}
  	</delete>
-<<<<<<< Updated upstream
-=======
  	<update id="update">
  		update tbl_information_notice
  		set nb_title=#{nb_title}, nb_content=#{nb_content}, nb_image=#{nb_image}
@@ -106,5 +110,4 @@
  		delete from tbl_information_notice_like 
  		where nb_lk_bno=#{nb_no}
  	</delete>
->>>>>>> Stashed changes
 </mapper>

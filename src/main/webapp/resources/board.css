@@ -1,0 +1,200 @@
+@CHARSET "UTF-8";
+
+
+#subject{
+	font-size:150%; 
+	font-weight:bold;
+	letter-spacing:15px;
+	word-spacing:5px;
+	margin: 50px 0 5px 10px;
+}
+
+#condition{margin-top:30px;}
+#searchType{
+	padding: 7px 12px;
+	border: 1px solid #dadada;
+	border-radius:20px;
+}
+#keyword{
+	width:400px; padding:7px 10px; margin-left:5px;
+	border:none;
+	border-bottom:1px solid #dadada;
+}
+#container{
+	width:900px;
+	margin:0 auto;
+	overflow:hidden;
+	margin-top:20px;
+}
+#container #boardInsert{
+	float:left;
+	width:100px;
+	padding:7px 15px;
+	background-color:black;
+	}
+#boardInsert a, #boardInsert a:visited{
+	font-size:100%;
+	color:white;
+	
+}
+#desc{float:right; margin-top:5px;}
+#desc ul, #desc li{all: unset;}
+#desc ul{list-style: none; margin-right:30px;}
+#desc ul li{display: inline-block; }
+#desc a,#desc a:visited{color:black; text-decoration: none;margin-left:10px;}
+
+#tbl_board{width:900px; margin:20px auto;}
+#tbl_board th,td{
+	text-align:center;
+	border-bottom:1px solid gray;
+	font-size:90%;
+}
+#tbl_board th{border-top:2px solid black; padding:6px;}
+#tbl_board td{padding:20px;}
+#tbl_board td:nth-child(3){text-align:left;}
+#tbl_board td:nth-child(5){font-size:80%;}
+#tbl_board .replycnt{font-weight:bold; margin-left:3px;}
+
+
+
+/* read 페이지 */
+	#readPage{
+		width:1000px;
+		margin: 0 auto;
+		text-align:left;
+		margin-top:60px;
+	}
+
+	#pageLike{
+		float:right;
+		margin-right:50px;
+		margin-top:40px;
+	}
+	#bntLike{
+		cursor:pointer;
+	}
+	#pageContent{
+		margin-left:50px;
+	}
+	#pageContent textarea{border:none;}
+	#readPage #condition{margin-left:30px;}
+	#readPage select{
+		padding: 5px 10px;
+		border: 1px solid #dadada;
+		margin-left:10px;
+	}
+	#readPage .title{
+		display:inline-block;
+		width:50px;
+		font-weight:bold;
+		margin-right:0px;
+		margin-top:20px; 
+	}
+	#fb_title{font-weight:bold;
+		font-size:220%;}
+	#readPage input[type=text]{margin-top:10px;border:none;}
+
+	#writer{width:150px; }
+	#form-box{overflow:hidden; padding-left:20px; border:1px solid #c2c2c3; margin:30px;}
+	#form-image {float:left;}
+	#form-image img{margin-top:20px;}
+	#fb_info{float:left;}
+	#fb_content{margin:20px;}
+	#fb_content textarea{padding:20px;}
+	
+	
+	#form-images{padding:20px; margin:10px 0 20px 0;}
+	
+	#form-attach{margin-top:20px;} 
+	#form-attach .title{width:500px; padding-bottom:15px; }
+	#attachments{
+		overflow:hidden;
+	}
+	.attachBox{float:left; margin-top:20px; margin-left:20px;}
+	.printDel{text-align:center;margin-top:10px;}
+	.printDel a, .printDel a:visited{color:black;}
+	
+	#readBtns{ 
+	text-align:center; 
+	margin-top:100px;
+	}
+	
+	#readBtns input{
+		width:150px;
+		margin-right:5px;	
+		padding:10px 40px;
+		background-color:white;
+		color:black;
+		border:1px solid black;
+	}
+	#readBtns input[type=submit]{
+		background-color:black;
+		color:white;
+	}
+	
+	
+	
+	
+/* 댓글 */
+
+.line{
+	border-bottom:3px solid black;
+	margin: 40px 20px;
+}
+.write{
+	margin-bottom:20px;
+	padding:15px;
+}
+#uid,#btnReplyInsert,#txtReply{
+	margin-left:35px;
+}
+#uid{font-size:120%; margin-bottom:10px;}
+#txtReply{border:1px solid black;}	
+#replyList{margin-left:50px;}
+#btnReplyInsert{
+	width:100px;
+	padding:7px 15px;
+	background-color:black;
+	color:white;
+	border:1px solid black;
+	margin-top:6px;
+}
+.divider{border-bottom:1px solid #c2c2c3;	margin:20px;}
+
+#replies{width:100%; margin:0 auto;}
+.box{
+	background-color: #ecf5fe;
+	padding:10px;
+	margin:15px;
+	width:850px;
+}
+	.rno{
+		font-size:70%;
+		font-weight:bold;
+	}
+	.replyer{
+		font-size:105%;
+		font-weight:bold;
+		color:#0077c0;
+	}
+	
+	.replydate{
+		font-size:80%;
+		color:gray;
+		margin-left:10px;
+	}
+	.reply{
+		margin-top:5px;
+	}
+
+
+/* insert 페이지 */
+	#insertPage{
+		padding-bottom:150px;
+	}
+	#insertPage input[type=text]{margin-top:10px; width:500px;}
+	#insertPage input[type=text]{
+	border:none;
+	border-bottom:1px solid #000;
+	}
+	

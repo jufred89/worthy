@@ -17,7 +17,7 @@
 	<div id="menu">
 		<ul>
 			<li class="menuTitle">회원관리</li>
-			<li><a href='#'>회원목록</a></li>
+			<li><a href='/admin/user/list'>회원목록</a></li>
 		</ul>
 		<ul>
 			<li class="menuTitle">캠핑장관리</li>
@@ -25,7 +25,7 @@
 		</ul>
 		<ul>
 			<li class="menuTitle">상품관리</li>
-			<li><a href='#'>상품목록</a></li>
+			<li><a href='/admin/shop/list'>상품목록</a></li>
 		</ul>
 		<ul>
 			<li class="menuTitle">캠핑장예약관리</li>

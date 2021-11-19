@@ -48,68 +48,72 @@ table.calendar td{
     width: 100px;
 }
 
-.img_icon{
+.img_icon1,.img_icon2{
 display:flex;
 flex-flow:row wrap;
 justify-content:center;
 align-content:center;
 }
-.img_icon img{
+.img_icon1 img,.img_icon2 img{
 width:50px;
 height:50px;
-margin:10px;
+margin:5px;
 }
-.selected{
-border:5px double skyblue;
-}
-.img_icon img:hover{
-border:5px double skyblue;
+.selected,.selected2{
+box-sizing:initial;
+border:2px solid coral;
 }
 
-#myModal3 .modal-body h3{
-border:1px dashed black;
 
-
+#icon_style div,#icon_facil div{
+margin:20px;
 }
+#icon_style div p,#icon_facil div p{
+display:flex;
+
+justify-content:center;
+align-items:center;
+}
+
+
 </style>
 </head>
 <body>
 
 	<div id="header">
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header col-sm-2">
-      
-     
-       <h2>worthy</h2>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header col-sm-2">
+	      
+	     
+	       <h2 id="logo" onClick="location.href='/'">worthy</h2>
       
     </div>
-    <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
+   <%--  <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
     <div class="nav navbar-nav col-sm-4">
-   
-    <div><i class="fa fa-map-marker" aria-hidden="true"></i> <a
-					data-toggle="modal" href="#myModal">어디로 떠날까요?</a></div>
+   <div id="info_search_box" >
+    <div id="search_where"><input class="form-control"  type="text" placeholder="어디로?"> </div>
       
-    <div style="margin:10px;">|</div>
-			<div>
-				<i class="fa fa-calendar-check-o" aria-hidden="true"></i> <a
-					data-toggle="modal" href="#myModal2">언제 떠날까요?</a>
-			</div>
+<div class="input-group input-daterange">
+    <input type="text" id="start" class="form-control"  placeholder="언제부터">
+    <input type="text" id="end" class="form-control"placeholder="언제까지">
+</div>
+    </div>
     </div>
     </c:if>
-    <c:if test="${uid.indexOf('admin')!=-1}">
+ --%>
     <div class="nav navbar-nav col-sm-4">
    
  
     </div>
-    </c:if>
+    
     
  
     <div class="nav navbar-nav navbar-right col-sm-6" id="menus">
-    <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
+  
     <div>
-				<a data-toggle="modal" href="#myModal3">태마검색 </a>
+				<a data-toggle="modal" href="#myModal3">테마검색 </a>
 			</div>
 			<div>
 				<a href="/notice/list">캠핑정보 </a>
@@ -120,27 +124,23 @@ border:1px dashed black;
 			<div>
 				<a href="/board/list">자유게시판</a>
 			</div>
-			<span>|</span>
-			</c:if>
+			
+			
 			  
 			
-     		 <c:if test="${uid eq 'admin'}">
-					<div style="float:right;">
-						<div><a href="/admin">${uid}</a>님 환영합니다!</div>
-						<a href="/user/logout"><span class='glyphicon glyphicon-share-alt'></span>Logout</a>
-					</div>
-			</c:if>
-     		 <c:if test="${uid!=null && uid ne 'admin'}">
+     		 <c:if test="${uid!=null}">
 					<div style="float:right;">
 						<div><a href="/mypage?uid=${uid}">${uid}</a>님 환영합니다!</div>
-						<a href="/user/logout"><span class='glyphicon glyphicon-share-alt'></span>Logout</a>
+						  
+						<a href="/user/logout" id="logout"><span class='glyphicon glyphicon-share-alt'></span>LOGOUT</a>
 					</div>
 				    <!-- <div><a href="/mypage">Mypage</a></div> -->
 			</c:if>
 			<c:if test="${uid==null}">
+				<span>|</span>
 				<div id="login_join_imoticon" >
-					<a href="/user/login" ><span class="glyphicon glyphicon-log-in"></span> Login</a>
-					<a href="/user/join"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+					<a href="/user/login" ><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
+					<a href="/user/join"><span class="glyphicon glyphicon-user"></span>SIGN UP</a>
 				</div>
 			</c:if>
     </div>
@@ -151,9 +151,138 @@ border:1px dashed black;
 
 	
 	</div>
+	<!-- 모달창2시작 -->
+			<div class="modal" id="myModal3">
+				<div class="modal-dialog">
+					<div class="modal-content" style="height: 900px;">
+
+						<!-- Modal Header -->
+						<div class="modal-header">
+							
+							<h1 style="font-weight:20px;color:gray;">테마검색</h1>
+							
+
+						</div>
+
+						<!-- Modal body -->
+						<div class="modal-body" style="">
+						
+						
+							<h3>캠핑스타일</h3>
+							<div style="display:flex;justify-content:space-between;">	
+							<p style="color:coral; " >원하는 캠핑 스타일을 선택 후 검색버튼을 클릭하세요!</p>
+							<p style="color:red;" >*3개까지 선택이 가능합니다.</p>
+							</div>
+							<div class="img_icon1" id="icon_style">
+						    <div>
+							<img src="../resources/kind/글램핑시설.png" alt='1'>
+							<p>글램핑시설</p>
+							</div>
+							<div>
+							<img src="../resources/kind/방갈로.png" alt='1'>
+							<p>방갈로</p>
+							</div>
+							<div>
+							<img src="../resources/kind/오토캠핑.png"alt='1'>
+							<p>오토캠핑</p>
+							</div>
+							<div>
+							<img src="../resources/kind/카라반시설.png" alt='1'>
+					        <p>카라반시설</p>
+					        </div>
+							</div>
+							<hr>
+							<!-- <h3 style="margin-top: 30px;">자연환경</h3>
+							<div class="img_icon">
+							<img src="../resources/nature/강변.png">
+							<img src="../resources/nature/계곡.png">
+							<img src="../resources/nature/공원.png">
+							<img src="../resources/nature/국립공원.png">
+							<img src="../resources/nature/낚시터.png">
+							<img src="../resources/nature/농촌.png">
+							<img src="../resources/nature/도심.png">
+							<img src="../resources/nature/바다.png">
+							<img src="../resources/nature/산.png">
+							<img src="../resources/nature/섬.png">
+							<img src="../resources/nature/유원지.png">
+							<img src="../resources/nature/자연휴야림.png">
+							<img src="../resources/nature/lake.png">
+							</div>
+							<hr> -->
+							<h3>캠핑스타일</h3>
+							<div style="display:flex;justify-content:space-between;">		
+							<p style="color:coral;" >원하는 캠핑 스타일을 선택 후 검색버튼을 클릭하세요!</p>
+							<p style="color:red;" >*7개까지 선택이 가능합니다.</p>
+							</div>
+                        <div class="img_icon2" id="icon_facil">
+                        <div>
+							<img src="../resources/kind_comporable/개수대.png">
+                        <p>개수대</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/동계캠핑.png">
+						 <p>동계캠핑</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/매점.png">
+							 <p>매점</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/반려동물동반.png">
+							 <p>반려동물동반</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/샤워시설.png">
+							<p>샤워시설</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/수세식화장실.png">
+							<p>수세식화장실</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/온수제공.png">
+							<p>온수제공</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/와이파이.png">
+							<p>와이파이</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/잔디광장.png">
+							<p>잔디광장</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/장작판매.png">
+							<p>장작판매</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/재래식화장실.png">
+							<p>재래식화장실</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/전기.png">
+							<p>전기</p>
+							</div>
+							<div>
+							<img src="../resources/kind_comporable/캠핑용품대여.png">
+							<p>캠핑용품대여</p>
+							</div>
+							
+					
+							</div>
+						</div>
+
+						<!-- Modal footer -->
+						<div class="modal-footer">
+                  <button type="button" id="d_start" class="btn-search btn--primary">검색할까요?</button>
+                  </div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 모달창2끝 -->
 	<div id="center">
 		<div id="content">
-		 <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
 		
 			<!-- 모달창1시작 -->
 			<div class="modal" id="myModal">
@@ -382,78 +511,7 @@ border:1px dashed black;
 			</div>
 			<!-- 모달창2끝 -->
 
-			<!-- 모달창2시작 -->
-			<div class="modal" id="myModal3">
-				<div class="modal-dialog">
-					<div class="modal-content" style="height: 900px;">
-
-						<!-- Modal Header -->
-						<div class="modal-header" style="background:lightgray;">
-							
-							<h1>테마검색</h1>
-							<p>원하는 캠핑 스타일을 선택 후 검색버튼을 클릭하세요!</p>
-
-						</div>
-
-						<!-- Modal body -->
-						<div class="modal-body">
-							<h3>캠핑스타일</h3>
-							<div class="img_icon" id="icon_style">
-						
-							<img src="../resources/kind/글램핑시설.png" alt='1'>
-							<img src="../resources/kind/방갈로.png" alt='1'>
-							<img src="../resources/kind/오토캠핑.png"alt='1'>
-							
-							<img src="../resources/kind/카라반시설.png" alt='1'>
-					
-							</div>
-							<hr>
-							<h3 style="margin-top: 30px;">자연환경</h3>
-							<div class="img_icon">
-							<img src="../resources/nature/강변.png">
-							<img src="../resources/nature/계곡.png">
-							<img src="../resources/nature/공원.png">
-							<img src="../resources/nature/국립공원.png">
-							<img src="../resources/nature/낚시터.png">
-							<img src="../resources/nature/농촌.png">
-							<img src="../resources/nature/도심.png">
-							<img src="../resources/nature/바다.png">
-							<img src="../resources/nature/산.png">
-							<img src="../resources/nature/섬.png">
-							<img src="../resources/nature/유원지.png">
-							<img src="../resources/nature/자연휴야림.png">
-							<img src="../resources/nature/lake.png">
-							</div>
-							<hr>
-							<h3 style="margin-top: 30px;">편의시설 및 환경</h3>
-                        <div class="img_icon">
-							<img src="../resources/kind_comporable/개수대.png">
-							<img src="../resources/kind_comporable/동계캠핑.png">
-							<img src="../resources/kind_comporable/매점.png">
-							<img src="../resources/kind_comporable/반려동물동반.png">
-							<img src="../resources/kind_comporable/샤워시설.png">
-							<img src="../resources/kind_comporable/수세식화장실.png">
-							<img src="../resources/kind_comporable/온수제공.png">
-							<img src="../resources/kind_comporable/와이파이.png">
-							<img src="../resources/kind_comporable/잔디광장.png">
-							<img src="../resources/kind_comporable/장작판매.png">
-							<img src="../resources/kind_comporable/재래식화장실.png">
-							<img src="../resources/kind_comporable/전기.png">
-							<img src="../resources/kind_comporable/캠핑용품대여.png">
-							
-					
-							</div>
-						</div>
-
-						<!-- Modal footer -->
-						<div class="modal-footer">
-                  <button type="button" id="d_start" class="btn-search btn--primary">검색할까요?</button>
-                  </div>
-					</div>
-				</div>
-			</div>
-			</c:if> 
-			<!-- 모달창2끝 -->
+			
 
 			<jsp:include page="${pageName}"></jsp:include>
 		</div>
@@ -468,12 +526,13 @@ border:1px dashed black;
 <script>
 
 var end=1;
-var arr=[];
+var arr=new Array(3);
 var num=$('.num').text()
 var uid="${uid}"
-
-$('#icon_style img').each(function(i){
-	arr[i]=$("#icon_style img:nth-child("+(i+1)+")").attr('alt')
+var selectedClass=0;
+var selectedClass2=0;
+$('#icon_style .selectedimg').each(function(i){
+	arr[i]=$(".selectedimg:nth-child("+i+")").attr('alt')
 	
 })
 console.log(arr)
@@ -504,7 +563,7 @@ $("#search_local").on("click","ul li",function(){
  $("div.input-daterange").each(function(){
     var $inputs = $(this).find('input');
    
-    $inputs.datepicker("setDate", new Date());
+   // $inputs.datepicker("setDate", new Date());
     if ($inputs.length >= 2) {
         var $from = $inputs.eq(0);
         var $to   = $inputs.eq(1);
@@ -529,8 +588,32 @@ $('#d_start').on('click',function(){
 	}
 	if(!confirm('이 기간동안 떠나시나요?'))return;
 })
-$('.img_icon').on('click','img',function(){
+$('.img_icon1').on('click','img',function(){
+	
 	$(this).toggleClass('selected')
+	if($(this).hasClass('selected')){
+		selectedClass++;
+	}else{
+		selectedClass--;
+	}
+	if(selectedClass>3){
+		$(this).removeClass('selected')
+		alert('3개까지 선택이 가능하세요!')
+	}
+})
+$('.img_icon2').on('click','img',function(){
+	
+	$(this).toggleClass('selected2')
+	if($(this).hasClass('selected2')){
+		selectedClass2++;
+	}else{
+		selectedClass2--;
+	}
+
+	if(selectedClass2>7){
+		$(this).removeClass('selected2')
+		alert('7개까지 선택이 가능하세요!')
+	}
 })
 $('.navbar-header').on('click','h2',function(){
 	if(uid.indexOf('admin')!=-1){

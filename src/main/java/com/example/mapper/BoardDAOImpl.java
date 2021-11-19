@@ -19,98 +19,102 @@ public class BoardDAOImpl implements BoardDAO{
 	String namespace="com.example.mapper.BoardMapper";
 
 	@Override
-	public List<BoardVO> list(Criteria cri,String desc) {
+	public List<BoardVO> board_list(Criteria cri,String desc) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("cri", cri);
 		map.put("desc", desc);		
-		return session.selectList(namespace+".list",map);
+		return session.selectList(namespace+".board_list",map);
 	}
 
 	@Override
-	public void insert(BoardVO vo) {
-		session.insert(namespace+".insert",vo);
+	public void board_insert(BoardVO vo) {
+		session.insert(namespace+".board_insert",vo);
 	}
 
 	@Override
-	public BoardVO read(int fb_no) {
-		return session.selectOne(namespace+".read",fb_no);
+	public BoardVO board_read(int fb_no) {
+		return session.selectOne(namespace+".board_read",fb_no);
 	}
 
 	@Override
-	public void update(BoardVO vo) {
-		session.update(namespace+".update",vo);
+	public void board_update(BoardVO vo) {
+		session.update(namespace+".board_update",vo);
 	}
 	
 	@Override
-	public void delete(int fb_no) {
-		session.delete(namespace+".delete",fb_no);
+	public void board_delete(int fb_no) {
+		session.delete(namespace+".board_delete",fb_no);
 	}
 	
+	@Override
+	public void board_like_delete(int fb_no) {
+		session.delete(namespace+".board_like_delete",fb_no);
+	}
 
 	@Override
-	public int maxNo() {
-		return session.selectOne(namespace+".maxNo");
+	public int board_maxNo() {
+		return session.selectOne(namespace+".board_maxNo");
 	}
 	
 	@Override
-	public int totalCount(Criteria cri) {
-		return session.selectOne(namespace+".totalCount",cri);
+	public int board_totalCount(Criteria cri) {
+		return session.selectOne(namespace+".board_totalCount",cri);
 	}
 	
 	//---------------------Ã·ºÎÆÄÀÏ---------------------
 	@Override
-	public void insertAttach(String image, int fb_no) {
+	public void board_insertAttach(String image, int fb_no) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("image", image);
 		map.put("fb_no", fb_no);
-		session.insert(namespace+".attachInsert",map);
+		session.insert(namespace+".board_attachInsert",map);
 	}
 
 
 	@Override
-	public List<String> attachList(int fb_no) {
-		return session.selectList(namespace+".attachList",fb_no);
+	public List<String> board_attachList(int fb_no) {
+		return session.selectList(namespace+".board_attachList",fb_no);
 	}
 
 	@Override
-	public void deleteAttach(String image) {
-		session.delete(namespace+".attachDelete",image);
+	public void board_deleteAttach(String image) {
+		session.delete(namespace+".board_attachDelete",image);
 	}
 
 	@Override
-	public void deleteAttachAll(int fb_no) {
-		session.delete(namespace+".attachDeleteAll",fb_no);
+	public void board_deleteAttachAll(int fb_no) {
+		session.delete(namespace+".board_attachDeleteAll",fb_no);
 	}
 
 	@Override
-	public void updateView(int fb_no) {
-		session.update(namespace+".updateView",fb_no);
+	public void board_updateView(int fb_no) {
+		session.update(namespace+".board_updateView",fb_no);
 	}
 
 
 	//----------------------´ñ±Û------------------------
 	
 	@Override
-	public List<BoardReplyVO> replyList(int fb_bno,Criteria cri) {
+	public List<BoardReplyVO> board_replyList(int fb_bno,Criteria cri) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("cri", cri);
 		map.put("fb_bno", fb_bno);
-		return session.selectList(namespace+".replyList",map);
+		return session.selectList(namespace+".board_replyList",map);
 	}
 
 	@Override
-	public void replyInsert(BoardReplyVO vo) {
-		session.insert(namespace+".replyInsert",vo);
+	public void board_replyInsert(BoardReplyVO vo) {
+		session.insert(namespace+".board_replyInsert",vo);
 	}
 
 	@Override
-	public void replyDelete(int fb_rno) {
-		session.delete(namespace+".replyDelete",fb_rno);
+	public void board_replyDelete(int fb_rno) {
+		session.delete(namespace+".board_replyDelete",fb_rno);
 	}
 
 	@Override
-	public int replyCount(int fb_bno) {
-		return session.selectOne(namespace+".replyCount",fb_bno);
+	public int board_replyCount(int fb_bno) {
+		return session.selectOne(namespace+".board_replyCount",fb_bno);
 	}
 
 	
@@ -118,41 +122,43 @@ public class BoardDAOImpl implements BoardDAO{
 
 
 	@Override
-	public int likeIt(String uid, int fb_no) {
+	public int board_likeIt(String uid, int fb_no) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("uid", uid);
 		map.put("fb_no", fb_no);
-		return session.selectOne(namespace+".likeIt",map);
+		return session.selectOne(namespace+".board_likeIt",map);
 	}
 
 	@Override
-	public void likeTableInsert(String uid, int fb_no) {
+	public void board_likeTableInsert(String uid, int fb_no) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("uid", uid);
 		map.put("fb_no", fb_no);
-		session.selectOne(namespace+".likeTableInsert",map);
+		session.selectOne(namespace+".board_likeTableInsert",map);
 	}
 	
 	@Override
-	public int likeCheck(String uid, int fb_no) {
+	public int board_likeCheck(String uid, int fb_no) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("uid", uid);
 		map.put("fb_no", fb_no);
-		return session.selectOne(namespace+".likeCheck",map);
+		return session.selectOne(namespace+".board_likeCheck",map);
 	}
 
 	@Override
-	public void like(int likeCheck, String uid, int fb_no) {
+	public void board_like(int likeCheck, String uid, int fb_no) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("likeCheck", likeCheck);
 		map.put("uid", uid);
 		map.put("fb_no", fb_no);
-		session.update(namespace+".like",map);
+		session.update(namespace+".board_like",map);
 	}
 
 	@Override
-	public void likeUpdate(int fb_no) {
-		session.update(namespace+".likeUpdate",fb_no);
+	public void board_likeUpdate(int fb_no) {
+		session.update(namespace+".board_likeUpdate",fb_no);
 	}
+
+
 
 }

@@ -1,19 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="../resources/board.css" />
 
-<style>
-	#condition{margin-top:30px;}
-	input{width:500px; padding:5px 10px; margin-left:10px;}
-	select{padding:7px;}
-	#desc{float:right; margin-right:50px;}
-	#desc ul, #desc li{all: unset;}
-	#desc ul{list-style: none; margin-right:30px;}
-	#desc ul li{display: inline-block; margin-left:10px;}
-	#tbl_board{width:900px; margin:20px auto;}
-	td{ border:1px solid black; padding:10px 20px;}
-</style>
-<h1>FreeBoard</h1>
-<a href="/board/insert">글 등록</a>
+<div id="subject">FREE BOARD</div>
+<h5>자유게시판</h5>
 
 <div id="condition">
 	<select id="searchType">
@@ -24,33 +14,38 @@
 		<option value="talk">캠핑톡</option>
 	</select>
 	<input type="text" id="keyword" placeholder="검색어 입력"/>
+
 </div>
-<b>검색 수: <span id="total"></span></b>
 
-
-<div style="overflow:hidden;">
+<div id="container">
+	<div id="boardInsert">
+		<a href="/board/insert">글 등록</a>
+	</div>
 	<div id="desc">
 		<a href="fb_no" class="on">최신순</a>
 		<a href="fb_like">인기순</a>
 		<a href="replycnt">댓글순</a>
 	</div>
 </div>
+
+
+
 <table id="tbl_board"></table>
 <script id="temp" type="text/x-handlebars-template">
 	<tr>
-		<th width=50>No.</th>
-		<th>카테고리</th>
-		<th>제목</th>
-		<th>작성자</th>
-		<th>작성일</th>
-		<th width=50>좋아요</th>
-		<th width=50>조회수</th>
+		<th width=60>No.</th>
+		<th width=70>카테고리</th>
+		<th width=400>제목</th>
+		<th width=60>작성자</th>
+		<th width=190>작성일</th>
+		<th width=60>좋아요</th>
+		<th width=60>조회수</th>
 	</tr>
 	{{#each list}}
 	<tr class="rows" onClick="location.href='/board/read?fb_no={{fb_no}}'">
 		<td>{{fb_no}}</td>
 		<td>{{fb_category}}</td>
-		<td>{{fb_title}}({{replycnt}})</td>
+		<td>{{fb_title}}<span class="replycnt">({{replycnt}})</span></td>
 		<td>{{fb_writer}}</td>
 		<td>{{fb_regdate}}</td>
 		<td>{{fb_like}}</td>
@@ -73,7 +68,7 @@
 		
 		$("#desc").find("a").removeClass("on");
 		$(this).addClass("on");
-		$("#desc a").attr("style", "color: #23527c;")
+		$("#desc a").attr("style", "color: black;")
 		$(".on").attr("style", "color: red; font-weight: bold");
 		
 		page=1;

@@ -12,14 +12,14 @@
 </div>
   <div id="formContent">
     <!-- Tabs Titles -->
-<h2>로그인</h2>
+	<h2>로그인</h2>
     <!-- Icon -->
 
     <!-- Login Form -->
     <form action="post" id="login" name="frm">
       <input type="text" id="uid" class="fadeIn second" name="login" placeholder="id">
       <input type="text" id="upass" class="fadeIn third" name="login" placeholder="password">
-      <h4>로그인 상태유지<input type="checkbox" name="chkLogin"/></h4> 
+      <h5><label>로그인 상태유지</label><input type="checkbox" name="chkLogin"/></h5> 
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
 

@@ -1,30 +1,34 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+<link rel="stylesheet" href="../resources/board.css" />
 <style>
 	form{text-align:left; width:900px; margin:0 auto;}
 	.cont{margin:30px;}
 </style>
-<h1>글작성</h1>
+<h2><b>글작성</b></h2>
+
+<div id="insertPage">
 <form name="frm" enctype="multipart/form-data">
-	<!-- 카테고리 -->
-	<div>
-		카테고리
-		<select name="fb_category">
-			<option value="">카테고리 선택</option>
-			<option value="sell">팝니다</option>
-			<option value="buy">삽니다</option>
-			<option value="greetings">가입인사</option>
-			<option value="talk">캠핑톡</option>
-		</select>
-	</div>
-	
+
 	<!-- 제목,내용 -->
 	<div class="cont">
-		<span>글번호</span><input type="text" name="fb_no" value="${fb_no }" /><br>
-		<span>제목</span><input type="text" name="fb_title"/><br>
-		<span>작성자</span><input type="text" name="fb_writer" value="user01"/>	
+			<!-- 카테고리 -->
+		<div id="condition">
+			<div class="title">카테고리</div>
+			<select name="fb_category">
+				<option value="">카테고리 선택</option>
+				<option value="sell">팝니다</option>
+				<option value="buy">삽니다</option>
+				<option value="greetings">가입인사</option>
+				<option value="talk">캠핑톡</option>
+			</select>
+		</div>
+		<div class="title">글번호</div><input type="text" name="fb_no" value="${fb_no }" /><br>
+		<div class="title">제목</div><input type="text" name="fb_title"/><br>
+		<div class="title">작성자</div><input type="text" name="fb_writer" value="${uid }" readonly/>	
 	</div>
+	
 	<div class="cont">
 		<textarea rows="20" cols="120" name="fb_content"></textarea>
 	</div>
@@ -38,14 +42,13 @@
 		<div>첨부이미지: <input type="file" name="files" accept="image/*" multiple/></div>
 		<div id="files"></div>
 	</div>
-	
 	<hr/>
-	<div style="margin-top:20px;">
+	<div id="readBtns">
 		<input type="submit" value="글등록"/>
 		<input type="reset" value="등록취소"/>		
 	</div>
 </form>
-
+</div>
 <script>
 
 	// submit

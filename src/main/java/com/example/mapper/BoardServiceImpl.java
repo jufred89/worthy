@@ -15,34 +15,35 @@ public class BoardServiceImpl implements BoardService{
 	
 	@Transactional
 	@Override
-	public void insert(BoardVO vo) {
-		dao.insert(vo);
+	public void board_insert(BoardVO vo) {
+		dao.board_insert(vo);
 		
 		ArrayList<String> images = vo.getImages();
 		for(String image:images){
-			dao.insertAttach(image, vo.getFb_no());
+			dao.board_insertAttach(image, vo.getFb_no());
 		}
 	}
 
 	@Transactional
 	@Override
-	public void delete(int fb_no) {
-		dao.deleteAttachAll(fb_no);
-		dao.delete(fb_no);
+	public void board_delete(int fb_no) {
+		dao.board_like_delete(fb_no);
+		dao.board_deleteAttachAll(fb_no);
+		dao.board_delete(fb_no);
 	} 
 
 	@Transactional
 	@Override
-	public BoardVO read(int fb_no) {
-		dao.updateView(fb_no);
-		return dao.read(fb_no);
+	public BoardVO board_read(int fb_no) {
+		dao.board_updateView(fb_no);
+		return dao.board_read(fb_no);
 	}
 	
 
 	@Transactional
 	@Override
-	public void like(int likeCheck, String uid, int fb_no) {
-		dao.like(likeCheck, uid, fb_no);
-		dao.likeUpdate(fb_no);
+	public void board_like(int likeCheck, String uid, int fb_no) {
+		dao.board_like(likeCheck, uid, fb_no);
+		dao.board_likeUpdate(fb_no);
 	}
 }

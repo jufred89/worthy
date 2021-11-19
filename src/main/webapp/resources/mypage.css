@@ -1,31 +1,18 @@
 @CHARSET "UTF-8";
-@font-face {
-    font-family: 'IBMPlexSansKR-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'HSGaeulSenggak20';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/HSGaeulSenggak20.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 
-*{
-	 font-family: 'IBMPlexSansKR-Regular';
+body{
+	overflow-y:auto;
 }
-
 #subject{
 	font-size:150%; 
 	font-weight:bold;
 	letter-spacing:15px;
 	word-spacing:5px;
-	margin: 30px 0 5px 10px;
+	margin: 10px 0 5px 10px;
 }
 #intro{
-	font-size:200%;
-	margin:70px 0 40px 0;
+	font-size:160%;
+	margin:40px 0 20px 0;
 }
 #intro #modifyInfo{
 	margin-top:15px;
@@ -68,23 +55,25 @@
 
 #mypage{
 	float:left;
-	width:1000px;
+	width:73%;
+	height:600px;
 	margin:0 auto;
+	margin-left:60px;
 	padding:20px;
+	overflow-y:auto;
 }
 
 
 #sub{
-	padding:30px;
+	padding-left:30px;
+	
 }
 .subheading{
 	text-align:left;
 	font-size:130%;
-	margin:40px;
+	margin:20px;
 }
-#mycamping .subcontent{
-	margin-left:200px;
-}
+
 #mycamping #btnSearch{
 	margin-top:10px;
 	font-size:85%;
@@ -209,3 +198,23 @@
 .quantityBox .minus{padding:3px 10px;}
 .quantityBox .plus{padding:3px 8px;}
 .quantityBox .quantity{display:inline-block;text-align:center; width:25px;}
+
+
+
+
+
+
+/* 결제 성공 페이지 */
+#orderSuccess{
+	margin:50px;
+}
+#orderSuccessBox{text-align:left; font-size:130%;}
+#orderSuccessBox #orderID{font-size:80%;margin-bottom:10px;}
+
+#aid{font-weight:bold;}
+#approved_at{color:gray;}
+#status{color:green; margin-left:10px;}
+#delivery{margin-top:55px;}
+#delivery td, #payinfo td{padding:10px;}
+#delivery .title, #payinfo .title{width:100px;}
+#payinfo{margin-top:20px;}
