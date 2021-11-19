@@ -6,6 +6,30 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>결제 승인</title>
+<style>
+	@font-face {
+    font-family: 'IBMPlexSansKR-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/IBMPlexSansKR-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+ font-family: 'IBMPlexSansKR-Regular';
+ text-align:center;
+ margin-top:130px;
+}
+
+.blackBtn{
+	font-size:85%;
+	padding:8px 26px;
+	background-color:black;
+	color:white;
+	border:none;
+	margin-top:25px;
+}
+
+</style>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 
 </head>
