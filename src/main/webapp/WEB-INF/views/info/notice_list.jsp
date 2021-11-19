@@ -6,26 +6,25 @@
 <script src="../resources/bootstrap-datepicker.js"></script>
 <link rel="stylesheet" href="../resources/bootstrap-datepicker.css">
 <style>
-    #info_nav span{
-    	margin:10px;
-    	font-size:18px;
-    }
-    #info_nav div a{
-    	margin:10px;
-    	font-size:16px;
-    	color:gray; 
-      	text-decoration: none;
-    }
-    #info_nav span a{
-	  	color:gray; 
-      	text-decoration: none;
-    }
+	#info_head{
+		font-size:150%; 
+		font-weight:bold;
+		letter-spacing:15px;
+		word-spacing:5px;
+		margin: 50px 0 5px 10px;
+	}
+	#searchType{
+    	margin-right:10px;
+    	padding: 7px 12px;
+		border: 1px solid #dadada;
+		border-radius:20px;
+	}
     #condition{
     	width:960px;
     	margin:0 auto;
     	padding:5px;
-    	margin-bottom:5px;
     	overflow:hidden;
+    	margin-top:10px;
     }
     #condition input[type=text]{
     	float:left;
@@ -39,7 +38,24 @@
     	padding:5px;
     	border-radius:5px 5px 5px;
     }
-    #total{float:left; margin-left:3px;}
+    #total{ margin-left:3px;}
+    #keyword{
+    	border-top:none;
+    	border-left:none; 
+    	border-right:none;
+    	border-bottom:1px solid #d2d2d2;
+    	width:500px;
+    	height:40px;
+    }
+    #nb_title{
+    	float:left;
+		width:120px;
+		padding:7px 15px;
+		background-color:black;
+		margin:10px;
+		color:white;
+		border:none;
+	}
 </style>
 <style>
 	#tbl {
@@ -56,54 +72,50 @@
 	}
 	
 	.title {
-		background: gray;
-		color: white;
+		font-weight:bold;
 		text-align: center;
+		border-top:2px solid black;
+		height:
 	}
 	
 	.nb_title:hover {
-       
 		color: gray;
 		cursor: pointer;
-		
 	}
 	#info_nav{
-	height:100px;
-	align-content:center;
-	justify-content:center;
-	list-style:none;
-	display:flex;
-	margin-bottom:0;
-
-	
+		display:flex;
+		height:100px;
+		
+		justify-content:center;
+		margin-bottom:0;
 	}
 	#info_nav li{
-	margin:50px;
-	width:100px;
-	height:50px;
-	
-	
+		list-style:none;
+		margin:50px;
+		width:100px;
+		height:50px;
+		text-align:center;
 	}
 	#info_nav li p{
-	justify-content:center;
-	align-items:center;
-	display:flex;
-	color:gray;
-	font-size:20px;
-	width:100px;
-	height:50px;
+		justify-content:center;
+		align-items:center;
+		display:flex;
+		color:gray;
+		font-size:20px;
+		width:100px;
+		height:50px;
 	}
 	#info_nav li p:hover{
-	background:black;
-	color:white;
-   
-	
+		background:black;
+		color:white;
+		cursor:pointer;
 	}
 	#tbl{
-	position:sticky;
+		position:sticky;
 	}
 	#footer{
-	position:static;
+		position:static;
+	}
 	#tbl a{
 		color:black;
 		font-weight:bold;
@@ -135,30 +147,33 @@
 	   background-color: #ddd;
 	}
 </style>
-
+<h1 id="info_head">INFORMATION</h1>
 <ul id="info_nav">
-	<li><p onClick="location.href='/notice/list'">공지사항</p></li>
-	<li><p onClick="location.href='/tip/list'">캠핑팁</p></li>
-	<li><p onClick="location.href='/recipe/list'">레시피</p></li>
+	<li><p onClick="location.href='/notice/list'" style="color:white;background:black;">Notice</p></li>
+	<li><p onClick="location.href='/tip/list'">Tip</p></li>
+	<li><p onClick="location.href='/recipe/list'">Recipe</p></li>
 </ul>
-	<hr style="border:2px dotted black;width:960px;">
-	<h1>공지사항</h1>
-	<c:if test="${uid!=null}">
-		<button onClick="location.href='/notice/insert'" class='nb_title'
-		 style="margin:10px;">공지사항 등록</button>
-	</c:if>
-<div id="condition">
-	<input type="text" id="keyword" placeholder="검색어 입력"> 
-	<span id="total"></span> 
-		<select id="perPageNum">
-			<option value="3">3개씩 보기</option>
-			<option value="6">6개씩 보기</option>
-			<option value="9">9개씩 보기</option>
-		</select>
+	<hr style="border:2px dolid black;width:960px;">
+	<div id="search">
 		<select id="searchType">
-			<option value="desc">내림차순</option>
-			<option value="asc">오름차순</option>
+			<option value="title">제목</option>
+			<option value="content">내용</option>
+			<option value="all">제목+내용</option>
 		</select>
+		<input type="text" id="keyword" placeholder="검색어 입력">
+		<!-- <span id="total"></span> -->
+	</div>
+	
+<div id="condition">
+	<c:if test="${uid!=null}">
+		<button onClick="location.href='/notice/insert'" id='nb_title'>공지사항 등록</button>
+	</c:if>
+	<select id="perPageNum">
+		<option value="5">5개씩 보기</option>
+		<option value="10">10개씩 보기</option>
+		<option value="15">15개씩 보기</option>
+	</select>
+
 </div>
 <table id="tbl"></table>
 <script id="temp" type="text/x-handlebars-template">

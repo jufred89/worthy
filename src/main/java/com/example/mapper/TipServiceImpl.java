@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.domain.RecipeVO;
 import com.example.domain.TipVO;
 
 
@@ -29,5 +28,14 @@ public class TipServiceImpl implements TipService{
 		dao.likeDel(tip_no);
 		dao.att_deleteAll(tip_no);
 		dao.delete(tip_no);
+	}
+	@Override
+	public void update(TipVO vo) {
+		dao.update(vo);
+		ArrayList<String> images = vo.getImages();
+		System.out.println(images);
+		for(String image:images){
+			dao.att_insert(image, vo.getTip_no());
+		}
 	}
 }

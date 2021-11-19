@@ -22,6 +22,7 @@ public interface NoticeDAO {
 	public List<String> att_list(int nb_no);
 	public void att_delete(String image);
 	public void att_deleteAll(int nb_no);
+
 	
 	//좋아요
 	public int likeIt(String uid, int nb_no);

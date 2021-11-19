@@ -3,7 +3,7 @@
 <style>
 	frm.content{margin:15px;}
 	#imageBox{margin:0 auto;width:730px;margin-bottom:15px;}
-	#file{display:none;}
+	frm frm.file{display:none;}
 </style>
 <h1>공지사항 등록</h1>
 <form name="frm" action="/notice/insert" method="POST" enctype="multipart/form-data">
@@ -11,9 +11,7 @@
 	<input type="text" name="nb_title" style="margin-bottom:15px; width:722px;" placeholder="제목을 입력하세요"/><br/>
 	<div id="imageBox">
 		<img name="image" src="http://placehold.it/400x300"/>
-		<div id="file">
-			<input type="file" name="file"/>
-		</div>
+			<input type="file" name="file" style="display:none;"/>
 		<div><input type="file" name="files" accept="image/*" multiple/></div>
     <div id="files"></div>
 	</div>
@@ -44,7 +42,7 @@
 		var str="";
 		$.each(files, function(index, file){
 			str += "<img src='" + URL.createObjectURL(file) + "'";
-			str += "style='width:200px;height:150px;display:inline;margin:15px;' name='nb_ano'/>";
+			str += "style='width:200px;height:150px;display:inline;margin:15px;'/>";
 		});
 		$("#files").append(str);
 	});

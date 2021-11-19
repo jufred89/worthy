@@ -1,7 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.CampingMapper">
+<<<<<<< Updated upstream
 	<!-- 캠핑장 목록 -->
+=======
+	<!-- 유저 메인 페이지 지역, 날짜 조건 캠핑장 목록 -->
+	<select id="campSearchList" resultType="hashmap">
+		SELECT 
+	    *
+	FROM
+	    (SELECT 
+	        c.*, reserve_cnt
+	    FROM
+	        (SELECT 
+	        *
+	    FROM
+	        view_camp_sql
+	    WHERE
+	        camp_addr LIKE concat('%',#{camp_addr},'%')) c
+	    LEFT JOIN (SELECT 
+	        camp_id, COUNT(*) reserve_cnt
+	    FROM
+	        tbl_camp_reserve
+	    WHERE
+	        (reser_checkin BETWEEN #{reser_checkin} AND #{reser_checkout})
+	            OR (reser_checkout BETWEEN #{reser_checkin} AND #{reser_checkout})
+	            OR (reser_checkin <![CDATA[<]]> #{reser_checkin}
+	            AND reser_checkout <![CDATA[<]]> #{reser_checkout})
+	    GROUP BY camp_id) r ON c.camp_id = r.camp_id) tbl
+	<if test="facility_no!=null">
+	WHERE
+	    camp_id IN (SELECT 
+	            camp_id
+	        FROM
+	            view_facility
+	        WHERE
+	            facility_no IN 
+	            <foreach collection="facility_no" item="arr" open="(" close=")" separator=",">
+            		#{arr}
+         		</foreach>
+	        GROUP BY camp_id
+	        HAVING COUNT(*) = #{listSize})
+	        AND camp_id IN (SELECT 
+	            camp_id
+	        FROM
+	            view_style
+	        WHERE
+	            style_no = #{style_no})
+	</if>
+	ORDER BY camp_id desc;
+	</select>
+	<!-- 특정 날짜에 특정 캠핑장에 예약가능한 캠핑장 스타일 목록 -->
+	<select id="campAvailableReser" resultType="hashmap">
+	select c.*,r.* from
+    (select tcs.camp_id,tcs.style_no,tcs.style_qty,tcs.style_price,tsn.style_name from tbl_camp_style as tcs, tbl_style_name as tsn where tcs.camp_id=#{camp_id} and tcs.style_no=tsn.style_no) c
+    left join
+	(select  *,count(camp_room_no) as reser_count
+    from tbl_camp_reserve
+    where camp_id=#{camp_id} and(
+			(reser_checkin between #{reser_checkin} and #{reser_checkout}) 
+         or (reser_checkout between  #{reser_checkin} and #{reser_checkout}) 
+		 or (reser_checkin <![CDATA[<]]> #{reser_checkin} and reser_checkout <![CDATA[>]]> #{reser_checkout}) ) group by camp_room_no) r on c.style_no=right(r.camp_room_no,1) order by c.camp_id desc
+	</select>
+	<!-- 관리자 페이지 캠핑장 목록 -->
+>>>>>>> Stashed changes
  	<select id="campList" resultType="com.example.domain.CampingVO">
  		select * from tbl_camp_list order by camp_id desc limit 0,10
  	</select>

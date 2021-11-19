@@ -20,7 +20,6 @@
 		margin-top:10px;
 		margin:0 auto; 
 		overflow:hidden; 
-		width:530px; 
 		border:1px dashed gray;
 	}
 	#att img{
@@ -33,19 +32,10 @@
 <div id="divRead">
 	<img id="mainImg" src="/notice/display?file=${vo.nb_image}" width=500 height=400/>
 	<div id="att">
-		<c:if test="${att[0]!=null}">
-			<img src="/notice/display?file=${vo.nb_no}/${att[0]}"/>
-		</c:if>
-		<c:if test="${att[1]!=null}">
-			<img src="/notice/display?file=${vo.nb_no}/${att[1]}"/>
-		</c:if>
-		<c:if test="${att[2]!=null}">
-			<img src="/notice/display?file=${vo.nb_no}/${att[2]}"/>
-		</c:if>
-		<c:if test="${att[0]==null}">
-			<style>
-				#att{display:none;}
-			</style>
+		<c:if test="${att!=null}">
+			<c:forEach items="${att}" var="list">
+					<img src="/notice/display?file=/${vo.nb_no}/${list}" width=150 height=100/>
+			</c:forEach>		
 		</c:if>
 	</div>
 	<div id="notice">
@@ -56,7 +46,7 @@
 		<button id="list" onClick="location.href='/notice/list'">목록</button>
 		<div id="upDel">
 			<button id="update" onClick="location.href='/notice/update?nb_no=${vo.nb_no}'">수정</button>
-			<input type="button" id="btnDelete" onClick="location.href='/notice/list'" value="삭제">
+			<input type="button" id="btnDelete" value="삭제">
 		</div>
 		<c:if test="${uid!=null}">
 			<c:if test="${likeCheck==0}">
@@ -95,9 +85,10 @@
 			data:{"nb_no":nb_no,"image":image},
 			success:function(){
 				alert("삭제완료!");
+				location.reload();
 			}
-		})
-		location.reload();
+		})		
+		location.href="/notice/list";
 	});
 	
 	//좋아요 버튼 클릭한 경우

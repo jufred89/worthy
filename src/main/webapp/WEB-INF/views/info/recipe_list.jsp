@@ -100,14 +100,14 @@ td {
 	position: static;
 }
 </style>
+<h1>Information</h1>
 <ul id="info_nav">
-	<li><p onClick="location.href='/notice/list'">공지사항</p></li>
-	<li><p onClick="location.href='/tip/list'">캠핑팁</p></li>
-	<li><p onClick="location.href='/recipe/list'">레시피</p></li>
+	<li><p onClick="location.href='/notice/list'">Notice</p></li>
+	<li><p onClick="location.href='/tip/list'">Tip</p></li>
+	<li><p onClick="location.href='/recipe/list'" style="color:white;background:black;">Recipe</p></li>
 </ul>
 <hr style="border: 2px dotted black; width: 960px;">
 
-<h1>레시피</h1>
 <c:if test="${uid!=null}">
 	<button onClick="location.href='/recipe/insert'" 
 	style="margin:10px;">레시피 등록</button>

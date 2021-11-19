@@ -16,7 +16,6 @@ public class NoticeDAOImpl implements NoticeDAO {
 	SqlSession session;
 	String namespace="com.example.mapper.NoticeMapper";
 	
-
 	@Override
 	public List<HashMap<String, Object>> list(Criteria cri) {
 		return session.selectList(namespace + ".list", cri);
@@ -125,5 +124,4 @@ public class NoticeDAOImpl implements NoticeDAO {
 	public void att_deleteAll(int nb_no) {
 		session.delete(namespace+".att_deleteAll",nb_no);
 	}
-
 }

@@ -20,7 +20,6 @@
 		margin-top:10px;
 		margin:0 auto; 
 		overflow:hidden; 
-		width:530px; 
 		border:1px dashed gray;
 	}
 	#att img{
@@ -33,19 +32,10 @@
 <div id="divRead">
 	<img id="mainImg" src="/tip/display?file=${vo.tip_image}" width=500 height=400/>
 	<div id="att">
-		<c:if test="${att[0]!=null}">
-			<img src="/tip/display?file=${vo.tip_no}/${att[0]}"/>
-		</c:if>
-		<c:if test="${att[1]!=null}">
-			<img src="/tip/display?file=${vo.tip_no}/${att[1]}"/>
-		</c:if>
-		<c:if test="${att[2]!=null}">
-			<img src="/tip/display?file=${vo.tip_no}/${att[2]}"/>
-		</c:if>
-		<c:if test="${att[0]==null}">
-			<style>
-				#att{display:none;}
-			</style>
+		<c:if test="${att!=null}">
+			<c:forEach items="${att}" var="list">
+					<img src="/tip/display?file=/${vo.tip_no}/${list}" width=150 height=100/>
+			</c:forEach>		
 		</c:if>
 	</div>
 	<div id="tip">
@@ -56,7 +46,7 @@
 		<button id="list" onClick="location.href='/tip/list'">목록</button>
 		<div id="upDel">
 			<button id="update" onClick="location.href='/tip/update?tip_no=${vo.tip_no}'">수정</button>
-			<input type="button" id="btnDelete" onClick="location.href='/tip/list'" value="삭제">
+			<input type="button" id="btnDelete" value="삭제">
 		</div>
 		<c:if test="${uid!=null}">
 			<c:if test="${likeCheck==0}">

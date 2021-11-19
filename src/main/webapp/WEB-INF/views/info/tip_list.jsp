@@ -144,14 +144,14 @@
    	position:static;
    }
 </style>
+<h1>Information</h1>
 <ul id="info_nav">
-	<li><p onClick="location.href='/notice/list'">공지사항</p></li>
-	<li><p onClick="location.href='/tip/list'">캠핑팁</p></li>
-	<li><p onClick="location.href='/recipe/list'">레시피</p></li>
+	<li><p onClick="location.href='/notice/list'">Notice</p></li>
+	<li><p onClick="location.href='/tip/list'" style="color:white;background:black;">Tip</p></li>
+	<li><p onClick="location.href='/recipe/list'">Recipe</p></li>
 </ul>
 <hr style="border:2px dotted black;width:960px;">
 
-<h1>팁</h1>
 <c:if test="${uid!=null}">
 	<button onClick="location.href='/tip/insert'"
 	style="margin:10px;">팁 등록</button>
