@@ -27,4 +27,9 @@ public class CampingAttachDAOImpl implements CampingAttachDAO {
 		return session.selectList(namespace+".campAttachList", camp_id);
 	}
 
+	@Override
+	public void delete(String camp_image) {
+		session.delete(namespace+".campAttachDelete",camp_image);
+	}
+
 }

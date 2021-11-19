@@ -3,29 +3,29 @@
 <h1>회원정보</h1>
 <form name="frm" action="/user/update" method="post" >
 <hr />
-	<table class="tbl_body1" border="1">
+	<table class="tbl_body1" border="1" width="780px" hieght="550px">
 		<tr>
 			<th class="tbl_head">아이디</th>
-			<td class="tbl_data"><input type="text" name="uid" value="${vo.uid}" readonly/></td>
+			<td colspan="3"class="tbl_data"><input type="text" name="uid" value="${vo.uid}" readonly size="80px" /></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">이메일</th>
-			<td class="tbl_data"><input type="text" name="umail" value="${vo.umail}"/></td>
+			<td colspan="3" class="tbl_data"><input type="text" name="umail" value="${vo.umail}" size="80px"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">전화번호</th>
-			<td class="tbl_data"><input type="text" name="tel" value="${vo.tel}"/></td>
+			<td colspan="3" class="tbl_data"><input type="text" name="tel" value="${vo.tel}" size="80px"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">주소</th>
-			<td class="tbl_data"><input type="text" id ="road" name="address" value="${vo.address}"/></td>
+			<td class="tbl_data"><input type="text" id ="road" name="address" value="${vo.address}"size="46px"/></td>
 			<td><input type="button" onclick="search()" value="주소검색"></td>
 			<span id="guide" style="color:#999;display:none"></span>
 			<td class="tbl_data"><input type="text" id ="detail" name="detail" value="${vo.detail}"/></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">이름</th>
-			<td class="tbl_data"><input type="text" name="uname" value="${vo.uname}"/></td>
+			<td colspan="3" class="tbl_data"><input type="text" name="uname" value="${vo.uname}" size="80px"/></td>
 		</tr>
 
 	</table>

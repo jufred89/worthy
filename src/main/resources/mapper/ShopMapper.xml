@@ -121,8 +121,7 @@
  		select sum(cart_price) from tbl_shop_cart
  		where cart_uid = #{cart_uid} and cart_status = 1
  	</select>
- 	
- 	
+  
  	<!-- 관리자 -->
  	<select id="admin_list" resultType="HashMap">
  			select * from tbl_shop_product

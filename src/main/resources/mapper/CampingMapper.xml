@@ -5,7 +5,7 @@
 	<select id="campSearchList" resultType="hashmap">
 		SELECT 
 	    *
-	FROM
+		FROM
 	    (SELECT 
 	        c.*, reserve_cnt
 	    FROM
@@ -97,7 +97,7 @@
  	</select>
  	<!-- 특정 캠핑장 시설 정보 읽어오기 -->
  	<select id="campFacilityRead" resultType="com.example.domain.CampingVO">
-		select camp_id,facility_name from tbl_camp_facility as cf, tbl_facility_name as fn
+		select camp_id,cf.facility_no,facility_name from tbl_camp_facility as cf, tbl_facility_name as fn
 		where cf.facility_no = fn.facility_no and camp_id=#{camp_id};
  	</select>
  	<!-- 캠핑장 등록시 camp_id 최대값 읽어오기 -->
@@ -106,8 +106,8 @@
  	</select>
  	<!-- 캠팡정 둥록 -->
  	<insert id="campInsert">
- 		insert into tbl_camp_list(camp_id,camp_name,camp_maker,camp_addr,camp_tel,camp_detail,camp_memo,camp_price,camp_image)
- 		values(#{camp_id},#{camp_name},#{camp_maker},#{camp_addr},#{camp_tel},#{camp_detail},#{camp_memo},#{camp_price},#{camp_image})
+ 		insert into tbl_camp_list(camp_id,camp_name,camp_maker,camp_addr,camp_tel,camp_detail,camp_memo,camp_image,camp_status)
+ 		values(#{camp_id},#{camp_name},#{camp_maker},#{camp_addr},#{camp_tel},#{camp_detail},#{camp_memo},#{camp_image},default)
  	</insert>
  	<!-- 특정 캠핑장 시설목록 등록 -->
  	<insert id="campFacilityInsert">
@@ -137,4 +137,17 @@
 		insert into tbl_camp_reserve(camp_id,camp_room_no,reser_status,reser_checkin,reser_checkout,uid)
 		values(#{camp_id},#{camp_room_no},'1',#{reser_checkin},#{reser_checkout},#{uid});
 	</insert>
+	<!-- 캠핑장 정보 수정 -->
+	<update id="campUpdate">
+		update tbl_camp_list set camp_name=#{camp_name},camp_maker=#{camp_maker},camp_addr=#{camp_addr},camp_status=#{camp_status},camp_tel=#{camp_tel},camp_memo=#{camp_memo},camp_detail=#{camp_detail},camp_image=#{camp_image}
+		where camp_id=#{camp_id}
+	</update>
+	<!-- 특정 캠핑장 기존 스타일 삭제 -->
+	<delete id="campStyleDelete">
+		delete from tbl_camp_style where camp_id=#{camp_id}
+	</delete>
+	<!-- 특정 캠핑장 기존 시설목록 삭제 -->
+	<delete id="campFacilityDelete">
+		delete from tbl_camp_facility where camp_id=#{camp_id}
+	</delete>
 </mapper>

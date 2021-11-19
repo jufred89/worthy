@@ -34,6 +34,7 @@ public class Shop_payVO {
 	public void setPay_date(String pay_date) {
 		this.pay_date = pay_date;
 	}
+	
 	public int getPay_price() {
 		return pay_price;
 	}
