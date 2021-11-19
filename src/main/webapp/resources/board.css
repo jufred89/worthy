@@ -1,5 +1,6 @@
 @CHARSET "UTF-8";
 
+
 #subject{
 	font-size:150%; 
 	font-weight:bold;
@@ -67,6 +68,7 @@
 	#pageLike{
 		float:right;
 		margin-right:50px;
+		margin-top:40px;
 	}
 	#bntLike{
 		cursor:pointer;
@@ -74,28 +76,35 @@
 	#pageContent{
 		margin-left:50px;
 	}
-	#pageContent textarea{border:1px solid #c2c2c3;}
-	#readPage #condition{}
+	#pageContent textarea{border:none;}
+	#readPage #condition{margin-left:30px;}
 	#readPage select{
-		padding: 7px 12px;
+		padding: 5px 10px;
 		border: 1px solid #dadada;
+		margin-left:10px;
 	}
-	.title{
+	#readPage .title{
 		display:inline-block;
-		width:100px;
+		width:50px;
 		font-weight:bold;
-		margin-right:30px;
-		margin-top:20px;
+		margin-right:0px;
+		margin-top:20px; 
 	}
-	#readPage input[type=text]{margin-top:10px; width:500px;}
-	#readPage input[type=text]{
-	border:none;
-	border-bottom:1px solid #000;
-	}
-	#fb_content{margin-top:40px;}
+	#fb_title{font-weight:bold;
+		font-size:220%;}
+	#readPage input[type=text]{margin-top:10px;border:none;}
+
+	#writer{width:150px; }
+	#form-box{overflow:hidden; padding-left:20px; border:1px solid #c2c2c3; margin:30px;}
+	#form-image {float:left;}
+	#form-image img{margin-top:20px;}
+	#fb_info{float:left;}
+	#fb_content{margin:20px;}
 	#fb_content textarea{padding:20px;}
 	
+	
 	#form-images{padding:20px; margin:10px 0 20px 0;}
+	
 	#form-attach{margin-top:20px;} 
 	#form-attach .title{width:500px; padding-bottom:15px; }
 	#attachments{
@@ -179,4 +188,13 @@
 	}
 
 
-
+/* insert 페이지 */
+	#insertPage{
+		padding-bottom:150px;
+	}
+	#insertPage input[type=text]{margin-top:10px; width:500px;}
+	#insertPage input[type=text]{
+	border:none;
+	border-bottom:1px solid #000;
+	}
+	
