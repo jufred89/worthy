@@ -99,6 +99,7 @@ public class InfoController {
 		}
 		
 		List<MultipartFile> files = multi.getFiles("files");
+		System.out.println(files);
 		ArrayList<String> images = new ArrayList<>();
 		
 		//첨부파일 폴더 만들기
@@ -115,8 +116,8 @@ public class InfoController {
 			}
 		}
 		vo.setImages(images);
-		
-		//이미지 저장
+		System.out.println(vo.toString());
+		//대표이미지 저장
 		if(image.equals(System.currentTimeMillis()+"_")){//이미지를 none.jpg로 바꿈
 			vo.setNb_image("none.jpg");
 			ndao.insert(vo);
@@ -182,6 +183,7 @@ public class InfoController {
 	
 	@RequestMapping(value = "/notice/update", method = RequestMethod.GET)
 	public String noticeUpdate(int nb_no, Model model){
+		model.addAttribute("att", ndao.att_list(nb_no));
 		model.addAttribute("vo",ndao.read(nb_no));
 		model.addAttribute("pageName", "info/notice_update.jsp");
 		return "home";
@@ -189,19 +191,47 @@ public class InfoController {
 	
 	//공지사항 수정
 	@RequestMapping(value = "/notice/update", method = RequestMethod.POST)
-	public void noticeUpdatePost(NoticeVO vo, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
-		System.out.println(vo.toString());
+	public String noticeUpdatePost(NoticeVO vo, String oldImage, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
 		MultipartFile file = multi.getFile("file");
-		//이미지 저장
-		String image = System.currentTimeMillis()+"_" + file.getOriginalFilename();
-		if(image.equals(System.currentTimeMillis()+"_")){//이미지를 none.jpg로 바꿈
-			vo.setNb_image("none.jpg");
-			ndao.update(vo);
-		}else{
-			file.transferTo(new File(path + "/" + image));
+		String nb_no = Integer.toString(vo.getNb_no());
+		if(!file.isEmpty()){ //대표이미지가 바뀌는 경우
+			//기존 대표이미지 삭제
+			new File(path+"/notice/"+oldImage).delete();
+
+			//대표이미지 파일 업로드
+			String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+			file.transferTo(new File(path + "/notice/" + image));
 			vo.setNb_image(image);
+			
+			ndao.update(vo);
+		}else{ //대표이미지가 바뀌지 않는경우
+			vo.setNb_image(oldImage);
 			ndao.update(vo);
 		}
+		//첨부 이미지 파일 업로드
+		List<MultipartFile> files = multi.getFiles("files"); //files name을 가진 태그의 값을 가져옴			
+		ArrayList<String> images = new ArrayList<>(); //vo.getImages()에 넣을 배열
+		
+		for(MultipartFile attFile : files) {
+			if(!attFile.isEmpty()){
+				String attImage = System.currentTimeMillis()+"_"+attFile.getOriginalFilename();
+				images.add(attImage);
+				
+				attFile.transferTo(new File(path+"/notice/"+vo.getNb_no()+"/"+attImage));
+				ndao.att_insert(attImage, vo.getNb_no());
+			}
+		}
+		vo.setImages(images);
+		//System.out.println(vo.toString());
+		return "redirect:/notice/read?nb_no=" + nb_no;
+	}
+	
+	//공지사항 첨부이미지 삭제
+	@RequestMapping(value="/notice/attDel",method=RequestMethod.POST)
+	public void notice_attDelete(String image, int nb_no) throws Exception{
+		new File(path+"/notice/"+nb_no+"/"+image).delete();
+		//System.out.println(image + " + " + nb_no);
+		ndao.att_delete(image);
 	}
 	
 	//팁 목록
@@ -334,16 +364,55 @@ public class InfoController {
 
 	@RequestMapping(value = "/tip/update", method = RequestMethod.GET)
 	public String tipUpdate(int tip_no, Model model){
+		model.addAttribute("att", tdao.att_list(tip_no));
 		model.addAttribute("vo",tdao.read(tip_no));
 		model.addAttribute("pageName", "info/tip_update.jsp");
 		return "home";
 	}
 	
 	//팁 수정
-	@RequestMapping(value = "/tip/update", method = RequestMethod.POST)
-	public void tipUpdatePost(TipVO vo){
-		System.out.println(vo.toString());
-		tdao.update(vo);
+		@RequestMapping(value = "/tip/update", method = RequestMethod.POST)
+		public String tipUpdatePost(TipVO vo, String oldImage, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
+			MultipartFile file = multi.getFile("file");
+			String tip_no = Integer.toString(vo.getTip_no());
+			if(!file.isEmpty()){ //대표이미지가 바뀌는 경우
+				//기존 대표이미지 삭제
+				new File(path+"/tip/"+oldImage).delete();
+
+				//대표이미지 파일 업로드
+				String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+				file.transferTo(new File(path + "/tip/" + image));
+				vo.setTip_image(image);
+				
+				tdao.update(vo);
+			}else{ //대표이미지가 바뀌지 않는경우
+				vo.setTip_image(oldImage);
+				tdao.update(vo);
+			}
+			//첨부 이미지 파일 업로드
+			List<MultipartFile> files = multi.getFiles("files");			
+			ArrayList<String> images = new ArrayList<>();
+			
+			for(MultipartFile attFile : files) {
+				if(!attFile.isEmpty()){
+					String attImage = System.currentTimeMillis()+"_"+attFile.getOriginalFilename();
+					images.add(attImage);
+					
+					attFile.transferTo(new File(path+"/tip/"+vo.getTip_no()+"/"+attImage));
+					tdao.att_insert(attImage, vo.getTip_no());
+				}
+			}
+			vo.setImages(images);
+			System.out.println(vo.toString());
+			return "redirect:/tip/read?tip_no=" + tip_no;
+		}
+		
+	//팁 첨부이미지 삭제
+	@RequestMapping(value="/tip/attDel",method=RequestMethod.POST)
+	public void tip_attDelete(String image, int tip_no) throws Exception{
+		new File(path+"/tip/"+tip_no+"/"+image).delete();
+		//System.out.println(image + " + " + nb_no);
+		tdao.att_delete(image);
 	}
 	
 	//레시피
@@ -476,6 +545,7 @@ public class InfoController {
 	
 	@RequestMapping(value = "/recipe/update", method = RequestMethod.GET)
 	public String recipeUpdate(int fi_no, Model model){
+		model.addAttribute("att", rdao.att_list(fi_no));
 		model.addAttribute("vo",rdao.read(fi_no));
 		model.addAttribute("pageName", "info/recipe_update.jsp");
 		return "home";
@@ -483,9 +553,47 @@ public class InfoController {
 	
 	//레시피 수정
 	@RequestMapping(value = "/recipe/update", method = RequestMethod.POST)
-	public void recipeUpdatePost(RecipeVO vo){
+	public String recipeUpdatePost(RecipeVO vo, String oldImage, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
+		MultipartFile file = multi.getFile("file");
+		String fi_no = Integer.toString(vo.getFi_no());
+		if(!file.isEmpty()){ //대표이미지가 바뀌는 경우
+			//기존 대표이미지 삭제
+			new File(path+"/recipe/"+oldImage).delete();
+
+			//대표이미지 파일 업로드
+			String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
+			file.transferTo(new File(path + "/recipe/" + image));
+			vo.setFi_image(image);
+			
+			rdao.update(vo);
+		}else{ //대표이미지가 바뀌지 않는경우
+			vo.setFi_image(oldImage);
+			rdao.update(vo);
+		}
+		//첨부 이미지 파일 업로드
+		List<MultipartFile> files = multi.getFiles("files");			
+		ArrayList<String> images = new ArrayList<>();
+		
+		for(MultipartFile attFile : files) {
+			if(!attFile.isEmpty()){
+				String attImage = System.currentTimeMillis()+"_"+attFile.getOriginalFilename();
+				images.add(attImage);
+				
+				attFile.transferTo(new File(path+"/recipe/"+vo.getFi_no()+"/"+attImage));
+				rdao.att_insert(attImage, vo.getFi_no());
+			}
+		}
+		vo.setImages(images);
 		System.out.println(vo.toString());
-		rdao.update(vo);
+		return "redirect:/recipe/read?fi_no=" + fi_no;
+	}
+
+	//레시피 첨부이미지 삭제
+	@RequestMapping(value="/recipe/attDel",method=RequestMethod.POST)
+	public void recipe_attDelete(String image, int fi_no) throws Exception{
+		new File(path+"/recipe/"+fi_no+"/"+image).delete();
+		//System.out.println(image + " + " + nb_no);
+		rdao.att_delete(image);
 	}
 	
 	//공지사항 이미지 파일 보기

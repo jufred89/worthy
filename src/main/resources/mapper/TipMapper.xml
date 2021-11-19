@@ -28,7 +28,7 @@
  	</delete>
  	<update id="update">
  		update tbl_information_tip
- 		set tip_title=#{tip_title}, tip_content=#{tip_content}
+ 		set tip_title=#{tip_title}, tip_content=#{tip_content}, tip_image=#{tip_image}
  		where tip_no=#{tip_no}
  	</update>
  	<select id="totalCount" resultType="int">

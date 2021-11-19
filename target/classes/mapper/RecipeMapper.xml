@@ -28,7 +28,7 @@
  	</delete>
  	<update id="update">
  		update tbl_information_food
- 		set fi_title=#{fi_title}, fi_content=#{fi_content}
+ 		set fi_title=#{fi_title}, fi_content=#{fi_content}, fi_image=#{fi_image}
  		where fi_no=#{fi_no}
  	</update>
  	<select id="totalCount" resultType="int">

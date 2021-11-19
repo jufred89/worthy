@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.NoticeVO;
 
@@ -13,6 +14,7 @@ public class NoticeServiceImpl implements NoticeService{
 	@Autowired
 	NoticeDAO dao;
 
+	@Transactional
 	@Override
 	public void insert(NoticeVO vo) {
 		dao.insert(vo);
@@ -22,7 +24,7 @@ public class NoticeServiceImpl implements NoticeService{
 			dao.att_insert(image, vo.getNb_no());
 		}
 	}
-
+	@Transactional
 	@Override
 	public void delete(int nb_no) {
 		dao.likeDel(nb_no);

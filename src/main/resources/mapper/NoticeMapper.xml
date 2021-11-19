@@ -3,15 +3,16 @@
 <mapper namespace="com.example.mapper.NoticeMapper">
  	<select id="list" resultType="hashmap">
  		select * from tbl_information_notice
-		<if test="keyword != null">
+		<if test="searchType == 'all'">
  			where nb_title like concat("%", #{keyword}, "%") || nb_content like concat("%", #{keyword}, "%")
  		</if>
- 		<if test="searchType == 'desc'">
- 			order by nb_no desc
+ 		<if test="searchType == 'title'">
+ 			where nb_title like concat("%", #{keyword}, "%") 
  		</if>
- 		<if test="searchType == 'asc'">
- 			order by nb_no
+ 		<if test="searchType == 'content'">
+ 			where nb_content like concat("%", #{keyword}, "%") 
  		</if>
+ 		order by nb_no desc
  		limit #{pageStart},#{perPageNum}
  	</select>
  	<select id="read" resultType="com.example.domain.NoticeVO">
