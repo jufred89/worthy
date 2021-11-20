@@ -56,7 +56,7 @@ z-index: 99;
 
 #background_image {
 	position: relative;
-	background-image: url("../resources/back.jpg");
+	background-image: url("../resources/back4.jpg");
 	/* background:black; */
 	background-size: cover;
 	 background-position: center center;
@@ -217,10 +217,8 @@ display:block;
 		<h1>어디로 떠날까요?</h1>
 		<div id="search_box">
 			<div class="input-group input-daterange where" style="margin-right: 5px;">
-				<input type="text" name="camp_addr" placeholder="어디로?" value="dahee"  id="where" class="where">
+				<input type="text" name="camp_addr" placeholder="어디로?" autocomplete=off id="where" class="where">
 				<div id='pop' class='pop'>
-
-
 					<ul>
 						<li>서울</li>
 						<li>제주</li>
@@ -248,9 +246,9 @@ display:block;
 			</div>
 
 			<div class="input-group input-daterange" id="time">
-				<input type="text" id="start" class="form-control"
+				<input type="text" id="start" class="form-control" autocomplete=off
 					name="reser_checkin" placeholder="언제부터?" value=""> <input
-					type="text" id="end" class="form-control" name="reser_checkout"
+					type="text" id="end" class="form-control" name="reser_checkout" autocomplete=off
 					placeholder="언제까지?"> 
 
 			</div>
@@ -267,7 +265,7 @@ display:block;
 				<script id="temp" type="text/x-handlebars-template">
             {{#each .}}
                <div class="item" style="padding:0;">
-                <a href="/read?pcode={{camp_id}}">  <img src="/display?fileName={{camp_image}}" style="width:250px;height:250px;"/></a>
+                <a href="/camping/read?camp_is={{camp_id}}">  <img src="/display?fileName={{camp_image}}" style="width:250px;height:250px;"/></a>
                </div>
 
             {{/each}}

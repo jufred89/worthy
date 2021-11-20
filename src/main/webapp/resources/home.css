@@ -213,6 +213,7 @@ hr{
 	position:fixed;
 bottom:0;
 	background:black;
+	padding:20px;
 }
 #footer2 p{
    color:white;

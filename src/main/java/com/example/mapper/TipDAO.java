@@ -30,4 +30,5 @@ public interface TipDAO {
 	public void like(int likeCheck, String uid, int tip_no);
 	public void likeUpdate(int tip_no);
 	public void likeDel(int tip_no);
+	public List<TipVO>  mainPage_tip_list();
 }
