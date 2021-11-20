@@ -16,11 +16,12 @@ public interface RecipeDAO {
 	
 	public void updateView(int fi_no);
 	
-	//좋아요
+	//醫뗭븘�슂
 	public int likeIt(String uid, int fi_no);
 	public void likeInsert(String uid, int fi_no);
 	public int likeCheck(String uid, int fi_no);
 	public void like(int likeCheck, String uid, int fi_no);
 	public void likeUpdate(int fi_no);
 	public void likeDel(int fi_no);
+	public List<HashMap<String, Object>> mainPage_food_list();
 }
