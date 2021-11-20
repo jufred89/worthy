@@ -101,4 +101,9 @@
 		insert into tbl_camp_reserve(camp_id,camp_room_no,reser_status,reser_checkin,reser_checkout,uid)
 		values(#{camp_id},#{camp_room_no},'1',#{reser_checkin},#{reser_checkout},#{uid});
 	</insert>
+	<select id="campSlide" resultType="hashmap">
+select * from tbl_camp_list
+order by camp_id desc
+
+</select>
 </mapper>
