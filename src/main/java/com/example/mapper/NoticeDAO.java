@@ -16,12 +16,13 @@ public interface NoticeDAO {
 	
 	public void updateView(int nb_no);
 	
-	//좋아요
+	//醫뗭븘�슂
 	public int likeIt(String uid, int nb_no);
 	public void likeInsert(String uid, int nb_no);
 	public int likeCheck(String uid, int nb_no);
 	public void like(int likeCheck, String uid, int nb_no);
 	public void likeUpdate(int nb_no);
 	public void likeDel(int nb_no);
+	public List<HashMap<String, Object>> mainPage_notice_list();
 }
 
