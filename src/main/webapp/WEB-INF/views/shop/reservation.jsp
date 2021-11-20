@@ -77,6 +77,10 @@
 <h1>예약하기</h1>
 <hr />
 <div id="reservation_box">
+	<h3>주문 상품</h3>
+	<div style="text-align:left; margin:20px 0 50px 35px;">
+		<span id="item_name">${item_name}</span><span id="quantity"> 포함 총 ${quantity}개의 상품</span>
+	</div>
 	<h3>배송지 정보</h3>
 	<hr />
 	<div id="user_reservation_info">
@@ -209,7 +213,22 @@
 				"deli_address2" : deli_address2, "deli_tel" : deli_tel, "deli_name" : deli_name, 
 				"deli_memo" : deli_memo},
 			success: function(){
+				var item_name = "${item_name}";
+				var quantity = "${quantity}";
 				
+				if(!confirm('결제를 진행하시겠습니까?')) return;
+				$.ajax({
+					type:'post',
+					url:'/shop/kakaoPay',
+					dataType:'json',
+					data:{"item_name":item_name,"quantity":quantity, "total_amount":pay_price, "pay_no":pay_no},
+					success:function(data){
+						localStorage.setItem("tid",data.tid); //세션에 tid 저장
+						var box = data.next_redirect_pc_url;
+						window.open(box,'kakaoPay','width=500,height=600,top=80,left=1100');
+						
+					}
+				});
 			}
 		});
 	}

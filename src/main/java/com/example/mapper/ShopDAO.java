@@ -21,18 +21,18 @@ public interface ShopDAO {
 	public void prod_delete(String prod_id);
 	public List<HashMap<String, Object>> prod_slide();
 	
-	//�긽�꽭 �씠誘몄�
+	//占쎄맒占쎄쉭 占쎌뵠沃섎챷占�
 	public AttachVO attach(String shop_pid);
 	public void att_insert(AttachVO avo);
 	public void att_update(AttachVO avo);
 	
-	//�뙎湲�
+	//占쎈솊疫뀐옙
 	public List<HashMap<String, Object>> pre_list(Criteria cri, String prod_rid);
 	public void pre_insert(Shop_previewVO pvo);
 	public int pre_totalCount(String prod_rid);
 	public void pre_delete(int prod_rno);
 	
-	//�옣諛붽뎄�땲
+	//占쎌삢獄쏅떽�럡占쎈빍
 	public void cart_insert(Shop_cartVO cvo);
 	public List<HashMap<String, Object>> cart_list(String cart_uid);
 	public void cart_delete(int cart_no);
@@ -44,12 +44,14 @@ public interface ShopDAO {
 	public void adminHideUpdate(ShopVO vo);
 	public int adminTotalCount(Criteria cri);
 	
-	//구매
+	//援щℓ
 	public void pay_insert(Shop_payVO pvo);
 	public void order_insert(Shop_orderVO ovo);
 	public void orderProdUpdate(ShopVO vo);
 	public void orderCartUpdate(Shop_cartVO cvo);
 	public Shop_payVO payRead(String pay_uid);
 	public void payUpdate(Shop_payVO pvo);
+	public void pay_success(Shop_payVO pvo);
+	public Shop_payVO pay_Allread(int pay_no);
 	
 }

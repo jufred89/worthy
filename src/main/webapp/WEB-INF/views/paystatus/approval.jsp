@@ -55,31 +55,18 @@ body{
 			data:{"pg_token":pg_token, "tid":tid},
 			dataType:'json',
 			success:function(data){
-				var aid = data.aid;
 				var approved_at = data.approved_at;
 				var payment_method_type = data.payment_method_type;
-				var quantity = data.quantity;
-				var total = data.amount.total;
-				var item_name = data.item_name;
 				$.ajax({
 					type:'post',
 					url:'/shop/kakaoPaySuccess',
-					data:{"aid":aid,"pay_date":approved_at,"pay_type":payment_method_type,
-						"quantity":quantity,"pay_price":total},
+					data:{"pay_date":approved_at,"pay_type":payment_method_type},
 					success:function(){
-						alert("결제가 완료되었습니다.")
-						window.close();
+
 					}
 				});
-				
-				window.opener.$("#aid").html(aid);
-				window.opener.$("#approved_at").html(approved_at);
-				window.opener.$("#payment_method_type").html(payment_method_type);
-				window.opener.$("#total").html(total);
-				window.opener.$("#quantity").html(quantity);
-				window.opener.$("#item_name").html(item_name);
-				
-				self.close();
+
+				self.close(); //팝업창 닫기
 	
 			}
 		});

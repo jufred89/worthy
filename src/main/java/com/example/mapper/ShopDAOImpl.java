@@ -125,10 +125,7 @@ public class ShopDAOImpl implements ShopDAO{
 	public void pay_insert(Shop_payVO pvo) {
 		session.insert(namespace + ".pay_insert", pvo);
 	}
-	@Override
-	public void pay_update(Shop_payVO pvo) {
-		session.update(namespace+".pay_update",pvo);
-	}
+
 	
 	@Override
 	public void order_insert(Shop_orderVO ovo) {
@@ -175,4 +172,14 @@ public class ShopDAOImpl implements ShopDAO{
 		return session.selectOne(namespace + ".pay_read", pay_uid);
 	}
 
+	@Override
+	public void pay_success(Shop_payVO pvo) {
+		session.update(namespace+".pay_success",pvo);
+	}
+	@Override
+	public Shop_payVO pay_Allread(int pay_no) {
+		return session.selectOne(namespace+".pay_Allread",pay_no);
+	}
+
+	
 }
