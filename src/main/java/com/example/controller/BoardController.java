@@ -38,7 +38,7 @@ public class BoardController {
 	@Resource(name="uploadPath")
 	private String path;
 
-	//�씠誘몄��뙆�씪 異쒕젰
+	//占쎌뵠沃섎챷占쏙옙�솁占쎌뵬 �빊�뮆�젾
 	@ResponseBody
 	@RequestMapping("/display")
 	public byte[] display(String file)throws Exception{
@@ -50,15 +50,15 @@ public class BoardController {
  
 	
 	
-	//----------------------------寃뚯떆�뙋---------------------------
-	//�옄�쑀寃뚯떆�뙋 紐⑸줉 �럹�씠吏� �씠�룞
+	//----------------------------野껊슣�뻻占쎈솇---------------------------
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 筌뤴뫖以� 占쎈읂占쎌뵠筌욑옙 占쎌뵠占쎈짗
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String boardList(Model model) {
 		model.addAttribute("pageName","board/list.jsp");
 		return "home";
 	}
 	
-	//�옄�쑀寃뚯떆�뙋 紐⑸줉 JSON �뜲�씠�꽣 媛��졇�삤湲�
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 筌뤴뫖以� JSON 占쎈쑓占쎌뵠占쎄숲 揶쏉옙占쎌죬占쎌궎疫뀐옙
 	@RequestMapping(value = "/list.json", method = RequestMethod.GET)
 	@ResponseBody
 	public HashMap<String, Object> boardListJSON(Criteria cri,String desc) {
@@ -72,9 +72,13 @@ public class BoardController {
 		map.put("list", dao.board_list(cri,desc));
 		return map;
 	}
+	 @RequestMapping("/board_list.json")
+	 @ResponseBody
+	 public List<BoardVO> best(){
+		 return dao.mainPage_board_list();
+	 }
 	
-	
-	//�옄�쑀寃뚯떆�뙋 湲��벑濡� �럹�씠吏� �씠�룞
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 疫뀐옙占쎈쾻嚥∽옙 占쎈읂占쎌뵠筌욑옙 占쎌뵠占쎈짗
 	@RequestMapping(value = "/insert", method = RequestMethod.GET)
 	public String boardInsert(Model model) {
 		int maxNo = dao.board_maxNo();
@@ -84,28 +88,28 @@ public class BoardController {
 		return "home";
 	}
 	
-	//게시판 글 등록
+	//寃뚯떆�뙋 湲� �벑濡�
 	@RequestMapping(value="/insert" ,method=RequestMethod.POST)
 	public String insertPost(BoardVO vo, MultipartHttpServletRequest multi) throws Exception{
-		MultipartFile file = multi.getFile("file"); //form�뿉�꽌 input type="file"�뿉 以� name�쑝濡� 媛��졇�삤湲�
+		MultipartFile file = multi.getFile("file"); //form占쎈퓠占쎄퐣 input type="file"占쎈퓠 餓ο옙 name占쎌몵嚥∽옙 揶쏉옙占쎌죬占쎌궎疫뀐옙
 		String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
 		vo.setFb_image(image);
 		
-		//���몴 �뙆�씪 �뾽濡쒕뱶
+		//占쏙옙占쎈ご 占쎈솁占쎌뵬 占쎈씜嚥≪뮆諭�
 		File imagefolder = new File(path+"/board/");
 		if(!imagefolder.exists()){
 			imagefolder.mkdir();
 		}
 		file.transferTo(new File(path+"/board/"+image));
 				
-		//�뜲�씠�꽣�엯�젰
+		//占쎈쑓占쎌뵠占쎄숲占쎌뿯占쎌젾
 		//dao.insert(vo);
 		
-		//泥⑤��뙆�씪 �뿬�윭媛� �뾽濡쒕뱶
+		//筌ｂ뫀占쏙옙�솁占쎌뵬 占쎈연占쎌쑎揶쏉옙 占쎈씜嚥≪뮆諭�
 		List<MultipartFile> files = multi.getFiles("files");
 		ArrayList<String> images = new ArrayList<>();
 		
-		//첨부파일 폴더 만들기
+		//泥⑤��뙆�씪 �뤃�뜑 留뚮뱾湲�
 		File folder = new File(path+"/board/"+vo.getFb_no());
 		if(!folder.exists()){
 			folder.mkdir();
@@ -128,26 +132,26 @@ public class BoardController {
 	}
 	
 	
-	//�옄�쑀寃뚯떆�뙋 湲��씫湲�
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 疫뀐옙占쎌뵭疫뀐옙
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public String boardRead(Model model, int fb_no, HttpSession session) {
 		model.addAttribute("pageName","board/read.jsp");
 		model.addAttribute("vo",service.board_read(fb_no));
-		//泥⑤��뙆�씪 由ъ뒪�듃
+		//筌ｂ뫀占쏙옙�솁占쎌뵬 �뵳�딅뮞占쎈뱜
 		model.addAttribute("attList",dao.board_attachList(fb_no));
 		
 		
 		String uid = (String)session.getAttribute("uid");
-		int check = dao.board_likeIt(uid, fb_no); //寃뚯떆湲��뿉 �뱾�뼱媛꾩쟻�엳�뒗吏� �솗�씤
+		int check = dao.board_likeIt(uid, fb_no); //野껊슣�뻻疫뀐옙占쎈퓠 占쎈굶占쎈선揶쏄쑴�읅占쎌뿳占쎈뮉筌욑옙 占쎌넇占쎌뵥
 		if(check==0){
-			dao.board_likeTableInsert(uid, fb_no); //醫뗭븘�슂 �뀒�씠釉붿뿉 醫뗭븘�슂0 �긽�깭濡� �엯�젰
+			dao.board_likeTableInsert(uid, fb_no); //�넫�뿭釉섓옙�뒄 占쎈�믭옙�뵠�뇡遺용퓠 �넫�뿭釉섓옙�뒄0 占쎄맒占쎄묶嚥∽옙 占쎌뿯占쎌젾
 		}
-		model.addAttribute("likeCheck",dao.board_likeCheck(uid, fb_no)); //醫뗭븘�슂 �긽�깭媛�吏�怨� 媛�湲�
+		model.addAttribute("likeCheck",dao.board_likeCheck(uid, fb_no)); //�넫�뿭釉섓옙�뒄 占쎄맒占쎄묶揶쏉옙筌욑옙�⑨옙 揶쏉옙疫뀐옙
 		
 		return "home";
 	}
 	
-	//게시글 수정
+	//寃뚯떆湲� �닔�젙
 	@RequestMapping(value="/update",method=RequestMethod.POST)
 	public String update(BoardVO vo, String oldImage, MultipartHttpServletRequest multi) throws Exception{
 		MultipartFile file = multi.getFile("file");
@@ -165,7 +169,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	//게시글 삭제
+	//寃뚯떆湲� �궘�젣
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	public String deletePost(int fb_no,String formImage){
 		System.out.println(formImage);
@@ -173,39 +177,39 @@ public class BoardController {
 		thumbnail.delete();
 		
 		
-		//첨부파일 삭제
+		//泥⑤��뙆�씪 �궘�젣
 		File folder = new File(path+"/board/"+fb_no);
 		File[] files = folder.listFiles();
 
            for(File file : files){
                file.delete(); 
            }
-		//폴더 자체를 삭제
+		//�뤃�뜑 �옄泥대�� �궘�젣
 		new File(path+"/board/"+fb_no).delete();
 		
-		//게시글, 첨부파일, 좋아요 테이블에서 삭제
+		//寃뚯떆湲�, 泥⑤��뙆�씪, 醫뗭븘�슂 �뀒�씠釉붿뿉�꽌 �궘�젣
 		service.board_delete(fb_no);
 		return "redirect:list";
 	}
 	
 	
-	//----------------------------泥⑤��뙆�씪---------------------------
-	//첨부파일 등록
+	//----------------------------筌ｂ뫀占쏙옙�솁占쎌뵬---------------------------
+	//泥⑤��뙆�씪 �벑濡�
 	@RequestMapping(value="/attInsert",method=RequestMethod.POST)
 	@ResponseBody
 	public String attInsert(int fb_no, MultipartFile file) throws Exception{
-		//泥⑤��뙆�씪 �뾽濡쒕뱶
+		//筌ｂ뫀占쏙옙�솁占쎌뵬 占쎈씜嚥≪뮆諭�
 		File attPath = new File(path+"/"+fb_no);
 		if(!attPath.exists()) attPath.mkdir();
 		String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
 		file.transferTo(new File(path+"/board/"+fb_no +"/"+image));
 
-		//泥⑤��뜲�씠�꽣 �엯�젰
+		//筌ｂ뫀占쏙옙�쑓占쎌뵠占쎄숲 占쎌뿯占쎌젾
 		dao.board_insertAttach(image, fb_no);
 		return image;
 	}
 	
-	//�옄�쑀寃뚯떆�뙋 泥⑤��뙆�씪 �궘�젣
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 筌ｂ뫀占쏙옙�솁占쎌뵬 占쎄텣占쎌젫
 	@RequestMapping(value="/attDelete",method=RequestMethod.POST)
 	@ResponseBody
 	public void attDelete(String image, int fb_no) throws Exception{
@@ -215,8 +219,8 @@ public class BoardController {
 	
 	
 	
-	//----------------------------�뙎湲�---------------------------
-	//�옄�쑀寃뚯떆�뙋 �뙎湲� 由ъ뒪�듃 遺덈윭�삤湲�
+	//----------------------------占쎈솊疫뀐옙---------------------------
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 占쎈솊疫뀐옙 �뵳�딅뮞占쎈뱜 �겫�뜄�쑎占쎌궎疫뀐옙
 	@RequestMapping("/reply.json")
 	@ResponseBody
 	public HashMap<String, Object> replyList(int fb_bno,Criteria cri){
@@ -234,14 +238,14 @@ public class BoardController {
 	}
 
 	
-	//�옄�쑀寃뚯떆�뙋 �뙎湲� 異붽� 
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 占쎈솊疫뀐옙 �빊遺쏙옙 
 	@RequestMapping(value="/replyInsert",method=RequestMethod.POST)
 	@ResponseBody
 	public void replyInsert(BoardReplyVO vo){
 		dao.board_replyInsert(vo);
 	}
 	
-	//�옄�쑀寃뚯떆�뙋 �뙎湲� �궘�젣
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 占쎈솊疫뀐옙 占쎄텣占쎌젫
 	@RequestMapping(value="/replyDelete",method=RequestMethod.POST)
 	@ResponseBody
 	public void replyDelete(int fb_rno){
@@ -249,8 +253,8 @@ public class BoardController {
 	}
 	
 
-	//----------------------------醫뗭븘�슂---------------------------
-	//�옄�쑀寃뚯떆�뙋 醫뗭븘�슂 湲곕뒫
+	//----------------------------�넫�뿭釉섓옙�뒄---------------------------
+	//占쎌쁽占쎌�野껊슣�뻻占쎈솇 �넫�뿭釉섓옙�뒄 疫꿸퀡�뮟
 	@RequestMapping(value="/like",method=RequestMethod.POST)
 	@ResponseBody
 	public void like(int likeCheck, String uid, int fb_no){
