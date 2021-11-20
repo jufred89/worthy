@@ -255,8 +255,11 @@ public class ShopController {
 	
 	@RequestMapping(value="/pay_insert", method=RequestMethod.POST)
 	@ResponseBody
-	public int pay_insert(Shop_payVO pvo){
+	public int pay_insert(Shop_payVO pvo, int quantity, String item_name, HttpSession session){
 		//System.out.println(pvo);
+		//세션에 상품명, 수량 저장
+		session.setAttribute("quantity", quantity);
+		session.setAttribute("item_name", item_name);
 		dao.pay_insert(pvo);
 		String pay_uid = pvo.getPay_uid();
 		Shop_payVO pay_vo = dao.payRead(pay_uid);
@@ -300,8 +303,9 @@ public class ShopController {
 	//카카오페이
 	@RequestMapping(value="/kakaoPay", method=RequestMethod.POST)
 	@ResponseBody
-	public String kakaoPay(String item_name, String total_amount ,HttpSession session){
+	public String kakaoPay(String item_name, int quantity, String total_amount ,int pay_no,HttpSession session){
 		SSLTrust.sslTrustAllCerts();
+		session.setAttribute("pay_no", pay_no);
 		try {
 			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -310,7 +314,8 @@ public class ShopController {
 			conn.setDoOutput(true);
 			
 			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id";
-			param +="&quantity=1&tax_free_amount=0";
+			param +="&quantity="+quantity;
+			param +="&tax_free_amount=0";
 			param +="&item_name="+item_name;
 			param +="&total_amount="+total_amount;
 			param +="&vat_amount=200";
@@ -403,30 +408,31 @@ public class ShopController {
 	//결제 완료
 	@RequestMapping(value="/kakaoPaySuccess", method=RequestMethod.POST)
 	@ResponseBody
-	public void kakaoPayApproval(String aid, String pay_date, String pay_type,
-		String quantity, String pay_price, HttpSession session) { 
-		String item_name = (String)session.getAttribute("item_name");
-		System.out.println("item_name: "+ item_name);
-		System.out.println("aid: "+ aid);
+	public void kakaoPayApproval(String pay_date, String pay_type,HttpSession session) { 
+
 		StringBuilder st_pay_date = new StringBuilder(pay_date);
 		st_pay_date.setCharAt(10, ' '); //10번째 문자 T대신 공백으로 대체
 		pay_date = st_pay_date.toString();
-		
+		 
+		pay_type = pay_type.substring(0,1);
 		System.out.println("pay_type: "+ pay_type);
-		System.out.println("pay_price: "+ Integer.parseInt(pay_price));
-		System.out.println("quantity: "+ quantity);
 		System.out.println("pay_date: "+ pay_date);
-		
-		
+	
+		int pay_no = (int) session.getAttribute("pay_no"); //세션에서 불러오기
 		Shop_payVO vo = new Shop_payVO();
+		vo.setPay_no(pay_no);
 		vo.setPay_date(pay_date);
 		vo.setPay_type(pay_type);
-		//String pay_no = (String)session.getAttribute("pay_no");//세션에서 가져오기
-		//vo.setPay_no(pay_no); 
-		//dao.pay_update(vo); //tbl_shop_payment update
-		
-		//return dao.pay_read(pay_no);
+		dao.pay_success(vo);//tbl_shop_payment update
+
 	}
+	
+	@RequestMapping("/pay.json")
+	@ResponseBody
+	public Shop_payVO payJSON(int pay_no) {
+		return dao.pay_Allread(pay_no);
+	} 
+	
 	
 	@RequestMapping(value = "/approval", method = RequestMethod.GET)
 	public String approval() {	

@@ -187,4 +187,12 @@
  		deli_address2 = #{deli_address2}, deli_tel = #{deli_tel}, deli_name = #{deli_name}, deli_memo = #{deli_memo}
  		where pay_no = #{pay_no}
  	</update>
+ 	 <update id="pay_success">
+ 		update tbl_shop_payment set pay_date = #{pay_date}, pay_type=#{pay_type}
+ 		where pay_no = #{pay_no}
+ 	</update>
+ 	 <select id="pay_Allread" resultType="com.example.domain.Shop_payVO">
+ 		select * from tbl_shop_payment
+ 		where pay_no = #{pay_no}
+ 	 </select>
 </mapper>

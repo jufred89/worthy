@@ -86,11 +86,21 @@
 		var order_amount = $("#order_amount").html();
 		var pay_uid = "${uid}";
 		
+		//구매상품 총 개수
+		var quantity = 0;
+		var chked = $(".chk:checked").each(function(){
+			 quantity += parseInt($(this).parent().parent().find('.quantityBox .quantity').html()); 
+		});
+		
+		//체크된 상품중 가장 첫번째 상품명
+		var item_name =  $(".chk:checked").parent().parent().find('.title').html();
+		//if(!confirm("item_name: "+item_name+" 포함 "+quantity+"건")) return;
+		
 		$.ajax({
 			type: "post",
 			url: "/shop/pay_insert",
 			data: {"pay_date" : "2021-11-19", "pay_price" : pay_price, "pay_type" : '1',
-				"pay_uid" : pay_uid, "pay_status" : 1},
+				"pay_uid" : pay_uid, "pay_status" : 1, "quantity":quantity, "item_name":item_name},
 			success: function(data){
 				$("#tblCart .item .chk:checked").each(function(){
 					
