@@ -48,7 +48,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 	}
 	
 	
-	//좋아요
+	//醫뗭븘�슂
 	@Override
 	public int likeIt(String uid, int nb_no) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -92,10 +92,16 @@ public class NoticeDAOImpl implements NoticeDAO {
 		session.delete(namespace + ".likeDel", nb_no);
 	}
 	
-	//조회수
+	//議고쉶�닔
 	@Override
 	public void updateView(int nb_no) {
 		session.update(namespace + ".updateView", nb_no);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> mainPage_notice_list() {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+".mainPage_notice_list");
 	}
 	
 
