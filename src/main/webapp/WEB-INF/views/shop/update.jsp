@@ -25,9 +25,9 @@
 		<input type="text" name="prod_detail" value="${vo.prod_detail}" />
 	</div>
 	<div>
-		<input type="text" name="prod_cap" placeholder="상품 중량" />
-		<input type="text" name="prod_mfd" placeholder="제조일자" />
-		<input type="text" name="prod_exp" placeholder="유통기한" />
+		<input type="text" name="prod_cap" value="${vo.prod_cap}" placeholder="상품 중량" />
+		<input type="text" name="prod_mfd" value="${vo.prod_mfd}" placeholder="제조일자" />
+		<input type="text" name="prod_exp" value="${vo.prod_exp}" placeholder="유통기한" />
 	</div>
 	<div>
 		<img src="/shop/display?file=${avo.shop_ano}" id="photo" />

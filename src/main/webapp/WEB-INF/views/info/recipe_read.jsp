@@ -11,26 +11,42 @@
 	#recipe{
 		display:inline-block;
 	}
-	#list{
+	#update, #list, #btnLike, #likeCnt, #btnDelete{
 		float:right;
 		margin:15px;
 	}
-	#update, #btnLike, #likeCnt, #btnDelete{
-		float:right;
-		margin:15px;
+	#mainImg{margin:15px;}
+	#att {
+		margin-top:10px;
+		margin:0 auto; 
+		overflow:hidden; 
+		border:1px dashed gray;
+	}
+	#att img{
+		margin:10px;
+		width:150px;
+		height:100px;
 	}
 </style>
 <h1>레시피 읽기</h1>
 <div id="divRead">
+	<img id="mainImg" src="/recipe/display?file=${vo.fi_image}" width=500 height=400/>
+	<div id="att">
+		<c:if test="${att!=null}">
+			<c:forEach items="${att}" var="list">
+					<img src="/recipe/display?file=/${vo.fi_no}/${list}" width=150 height=100/>
+			</c:forEach>		
+		</c:if>
+	</div>
 	<div id="recipe">
-		<img src="/info/display?file=${vo.fi_image}" width=500 height=400/><h3>${vo.fi_no} : ${vo.fi_title}</h3>
+		<h3>${vo.fi_no} : ${vo.fi_title}</h3>
 		<div>${fn:replace(vo.fi_content, replaceChar, "<br/>")}</div>
 	</div>
 	<div>
 		<button id="list" onClick="location.href='/recipe/list'">목록</button>
 		<div id="upDel">
 			<button id="update" onClick="location.href='/recipe/update?fi_no=${vo.fi_no}'">수정</button>
-			<input type="button" id="btnDelete" value="삭제">
+			<input type="button" id="btnDelete" onClick="location.href='/recipe/list'" value="삭제">
 		</div>
 		<c:if test="${uid!=null}">
 			<c:if test="${likeCheck==0}">

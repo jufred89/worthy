@@ -100,18 +100,18 @@ td {
 	position: static;
 }
 </style>
+<h1>Information</h1>
 <ul id="info_nav">
-	<li><p onClick="location.href='/notice/list'">공지사항</p></li>
-	<li><p onClick="location.href='/tip/list'">캠핑팁</p></li>
-	<li><p onClick="location.href='/recipe/list'">레시피</p></li>
+	<li><p onClick="location.href='/notice/list'">Notice</p></li>
+	<li><p onClick="location.href='/tip/list'">Tip</p></li>
+	<li><p onClick="location.href='/recipe/list'" style="color:white;background:black;">Recipe</p></li>
 </ul>
 <hr style="border: 2px dotted black; width: 960px;">
 
-	<h1>레시피</h1>
-	<c:if test="${uid!=null}">
-<button onClick="location.href='/recipe/insert" class='receipe_title'
-	style="margin: 10px;">레시피 등록</button>
-    	</c:if>
+<c:if test="${uid!=null}">
+	<button onClick="location.href='/recipe/insert'" 
+	style="margin:10px;">레시피 등록</button>
+</c:if>
 
 <div id="condition">
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
@@ -141,7 +141,7 @@ td {
 	{{#each list}}
 		<tr class="row">
 			<td class="fi_no">{{fi_no}}</td>
-			<td><img src="/info/display?file={{fi_image}}" width=150 height=120 class="fi_image"/></td>
+			<td><img src="/recipe/display?file={{fi_image}}" width=150 height=120 class="fi_image"/></td>
 			<td class="fi_title" onClick="location.href='/recipe/read?fi_no={{fi_no}}'">{{fi_title}}</td>
 			<td>{{fi_writer}}</td>
 			<td class="fi_regdate">{{dateConv fi_regdate}}</td>
@@ -164,7 +164,7 @@ td {
         var hour = ("0" +(dateObj.getHours())).slice(-2);
         var min = ("0" +(dateObj.getMinutes())).slice(-2);
         var sec = ("0" +(dateObj.getSeconds())).slice(-2);
-        fi_regdate = year + "-" + month + "-" + date;// + " " + hour + ":" + min + ":" + sec 
+        fi_regdate = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec 
         return fi_regdate;    
 	});
 </script>
@@ -221,6 +221,4 @@ td {
 		page=1;
 		getRecipeList();
 	});
-	
-	
 </script>

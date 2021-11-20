@@ -62,17 +62,14 @@
     *{margin:0;padding:0;}
     ul,li{list-style:none;}
     .slide{height:300px;overflow:hidden;} 
-    .slide ul{width:calc(35% * 7);display:flex;animation:slide 15s infinite;} /* slide를 8초동안 진행하며 무한반복 함 */
+    .slide ul{width:calc(35% * 7);display:flex;animation:slide 13s infinite;} /* slide를 8초동안 진행하며 무한반복 함 */
     .slide li{width:calc(72% / 7);height:300px;}
     @keyframes slide {
       0% {margin-left:0;} /* 0 ~ 10  : 정지 */
-      30% {margin-left:0;} /* 10 ~ 25 : 변이 */
-      40% {margin-left:-100%;} /* 25 ~ 35 : 정지 */
+      20% {margin-left:0;} /* 10 ~ 25 : 변이 */
+      50% {margin-left:-100%;} /* 25 ~ 35 : 정지 */
       70% {margin-left:-100%;} /* 35 ~ 50 : 변이 */
       100% {margin-left:0%;}
-    }
-    .slide_info{
-    	line-height: em;
     }
   </style>
 
@@ -119,7 +116,8 @@
 					<div>
 					<img src="/shop/display?file={{prod_image}}" width="230" onClick="location.href='/shop/read?prod_id={{prod_id}}'" />
 					</div>
-					<div class="slide_info">{{prod_name}}</div>
+					<div>{{prod_name}}</div>
+					<div>{{prod_normalprice}}</div>
 				</li>
 		{{/each}}
 	</script>
@@ -218,7 +216,11 @@
 
 <!-- 리뷰 등록 이동 예정 -->
 <div id="scroll_review">
-	<span>리뷰</span><span id="total"></span>
+	<span>리뷰</span>(<span id="total"></span>)
+	<span class="star-rating">
+		<span id="avg_star" style="float: left;"></span>
+	</span>
+	<span id="avg_num"></span>
 	<hr/>
 	<div>
 		<div id="prod_rstar">
@@ -241,6 +243,7 @@
 						<span class="star-rating">
 							<span style="width: {{prod_rstar}}%; float: left;"></span>
 						</span>
+						<input type="hidden" class="hidden_star" value="{{prod_rstar}}" />
 					</div>
 					<div class="del" onClick=" del()">삭제</div>
 					<div>{{prod_r_regdate_f}}</div>
@@ -271,6 +274,22 @@
 	getPreview();
 	getSlide();
 	
+	//별점 평균
+	function average(){
+		var star_sum = 0;
+		var total = $("#total").html();
+		//alert(total);
+		$("#preview .item .hidden_star").each(function(){
+			var star = $(this).val();
+			
+			star_sum += Number(star);
+		});
+		var avg_sum = star_sum/total;
+		//alert(avg_sum);
+		$("#avg_star").css("width", avg_sum + "%");
+		$("#avg_num").html((avg_sum/20).toFixed(1) + "점");
+	}
+	
 	//장바구니 담기
 	$("#cart").on("click", function(){
 		var cart_pid = "${vo.prod_id}";
@@ -281,13 +300,13 @@
 		var cart_pimage = "${vo.prod_image}";
 		var cart_pname = "${vo.prod_name}";
 		
-		//alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
+		alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
 		
 		$.ajax({
 			type: "post",
 			url: "/shop/cart_insert",
 			data: {"cart_pid" : cart_pid, "cart_uid" : cart_uid, "cart_pqty" : cart_pqty,
-				"cart_price" : cart_price, "cart_pimage" : cart_pimage, "cart_pname" : cart_pname},
+				"cart_price" : cart_price, "cart_pimage" : cart_pimage, "cart_pname" : cart_pname, "cart_status" : 1},
 			success: function(){
 				if(!confirm("장바구니로 이동")) return;
 				location.href="/mycart";
@@ -409,8 +428,8 @@
 				$("#preview").html(temp(data));
 				$("#pagination").html(getPagination(data));
 				
-				$("#total").html("(" + data.pm.totalCount + ")");
-				
+				$("#total").html(data.pm.totalCount);
+				average();
 			}
 		});
 	}

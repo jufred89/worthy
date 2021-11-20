@@ -8,23 +8,38 @@
 		width:960px;
 		margin:0 auto;
 	}
-	#recipe{
+	#tip{
 		display:inline-block;
 	}
-	#list{
+	#update, #list, #btnLike, #likeCnt, #btnDelete{
 		float:right;
 		margin:15px;
 	}
-	#update, #btnLike, #likeCnt, #btnDelete{
-		float:right;
-		margin:15px;
-	}	
+	#mainImg{margin:15px;}
+	#att {
+		margin-top:10px;
+		margin:0 auto; 
+		overflow:hidden; 
+		border:1px dashed gray;
+	}
+	#att img{
+		margin:10px;
+		width:150px;
+		height:100px;
+	}
 </style>
 <h1>팁 읽기</h1>
 <div id="divRead">
+	<img id="mainImg" src="/tip/display?file=${vo.tip_image}" width=500 height=400/>
+	<div id="att">
+		<c:if test="${att!=null}">
+			<c:forEach items="${att}" var="list">
+					<img src="/tip/display?file=/${vo.tip_no}/${list}" width=150 height=100/>
+			</c:forEach>		
+		</c:if>
+	</div>
 	<div id="tip">
-		<img src="/info/display?file=${vo.tip_image}" width=500 height=400/><h3>${vo.tip_no} : ${vo.tip_title}</h3>
-		<span id="regdate">${vo.tip_regdate}</span>
+		<h3>${vo.tip_no} : ${vo.tip_title}</h3>
 		<div>${fn:replace(vo.tip_content, replaceChar, "<br/>")}</div>
 	</div>
 	<div>

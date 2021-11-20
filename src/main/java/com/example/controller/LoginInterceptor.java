@@ -18,15 +18,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 			String query = request.getQueryString() == null? "":"?"+request.getQueryString();
 			request.getSession().setAttribute("dest", path+query);
 			
-			//alertÃ¢ + ·Î±×ÀÎ ÆäÀÌÁö ÀÌµ¿
+			//alert ì°½ + ë¡œê·¸ì¸ í˜ì´ì§€ ì´ë™
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.println("<script>alert('¸ÕÀú ·Î±×ÀÎ ÇØÁÖ¼¼¿ä!'); "
+			out.println("<script>alert('ë¨¼ì € ë¡œê·¸ì¸ í•´ì£¼ì„¸ìš”.'); "
 					+ "location.href='/login'</script>");
 			out.flush();
-
 		}
-
 		return super.preHandle(request, response, handler);
 	}
 	

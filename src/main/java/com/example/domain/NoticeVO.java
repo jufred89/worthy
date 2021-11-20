@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,18 +11,26 @@ public class NoticeVO {
 	private String nb_content;
 	private String nb_writer;
 	private String nb_image;
+	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
 	private Date nb_regdate;
 	private int nb_like;
 	private int nb_viewcnt;
-	
+	private ArrayList<String> images;
 	
 	
 	@Override
 	public String toString() {
 		return "NoticeVO [nb_no=" + nb_no + ", nb_title=" + nb_title + ", nb_content=" + nb_content + ", nb_writer="
 				+ nb_writer + ", nb_image=" + nb_image + ", nb_regdate=" + nb_regdate + ", nb_like=" + nb_like
-				+ ", nb_viewcnt=" + nb_viewcnt + "]";
+				+ ", nb_viewcnt=" + nb_viewcnt + ", images=" + images + "]";
+	}
+	
+	public ArrayList<String> getImages() {
+		return images;
+	}
+	public void setImages(ArrayList<String> nb_images) {
+		this.images = nb_images;
 	}
 	public int getNb_viewcnt() {
 		return nb_viewcnt;

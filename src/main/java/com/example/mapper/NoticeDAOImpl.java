@@ -16,7 +16,6 @@ public class NoticeDAOImpl implements NoticeDAO {
 	SqlSession session;
 	String namespace="com.example.mapper.NoticeMapper";
 	
-
 	@Override
 	public List<HashMap<String, Object>> list(Criteria cri) {
 		return session.selectList(namespace + ".list", cri);
@@ -45,6 +44,10 @@ public class NoticeDAOImpl implements NoticeDAO {
 	@Override
 	public int totalCount(Criteria cri) {
 		return session.selectOne(namespace + ".totalCount", cri);
+	}
+	@Override
+	public int maxNo() {
+		return session.selectOne(namespace + ".maxNo");
 	}
 	
 	
@@ -104,5 +107,27 @@ public class NoticeDAOImpl implements NoticeDAO {
 		return session.selectList(namespace+".mainPage_notice_list");
 	}
 	
+	//첨부파일
+	@Override
+	public void att_insert(String image, int nb_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("image", image);
+		map.put("nb_no", nb_no);
+		session.insert(namespace + ".att_insert", map);
+	}
+	
+	@Override
+	public List<String> att_list(int nb_no) {
+		return session.selectList(namespace + ".att_list", nb_no);
+	}
 
+	@Override
+	public void att_delete(String image) {
+		session.delete(namespace+".att_delete",image);
+	}
+
+	@Override
+	public void att_deleteAll(int nb_no) {
+		session.delete(namespace+".att_deleteAll",nb_no);
+	}
 }

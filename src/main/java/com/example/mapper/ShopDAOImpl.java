@@ -125,10 +125,54 @@ public class ShopDAOImpl implements ShopDAO{
 	public void pay_insert(Shop_payVO pvo) {
 		session.insert(namespace + ".pay_insert", pvo);
 	}
-
+	@Override
+	public void pay_update(Shop_payVO pvo) {
+		session.update(namespace+".pay_update",pvo);
+	}
+	
 	@Override
 	public void order_insert(Shop_orderVO ovo) {
 		session.insert(namespace + ".order_insert", ovo);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> adminListJSON(Criteria cri) {
+		return session.selectList(namespace + ".admin_list", cri);
+	}
+
+	@Override
+	public void adminQtyUpdate(ShopVO vo) {
+		session.update(namespace + ".admin_qty_update", vo);
+	}
+
+	@Override
+	public void adminHideUpdate(ShopVO vo) {
+		session.update(namespace + ".admin_hide_update", vo);
+	}
+
+	@Override
+	public int adminTotalCount(Criteria cri) {
+		return session.selectOne(namespace + ".admin_totalCount", cri);
+	}
+
+	@Override
+	public void orderProdUpdate(ShopVO vo) {
+		session.update(namespace + ".order_prod_update", vo);
+	}
+
+	@Override
+	public void orderCartUpdate(Shop_cartVO cvo) {
+		session.update(namespace + ".order_cart_update", cvo);
+	}
+
+	@Override
+	public void payUpdate(Shop_payVO pvo) {
+		session.update(namespace + ".pay_update", pvo);
+	}
+
+	@Override
+	public Shop_payVO payRead(String pay_uid) {
+		return session.selectOne(namespace + ".pay_read", pay_uid);
 	}
 
 }

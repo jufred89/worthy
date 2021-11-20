@@ -13,10 +13,18 @@ public interface NoticeDAO {
 	public void delete(int nb_no);
 	public void update(NoticeVO vo);
 	public int totalCount(Criteria cri);
+	public int maxNo();
 	
 	public void updateView(int nb_no);
 	
-	//醫뗭븘�슂
+	//첨부파일
+	public void att_insert(String image, int nb_no);
+	public List<String> att_list(int nb_no);
+	public void att_delete(String image);
+	public void att_deleteAll(int nb_no);
+
+	
+	//좋아요
 	public int likeIt(String uid, int nb_no);
 	public void likeInsert(String uid, int nb_no);
 	public int likeCheck(String uid, int nb_no);

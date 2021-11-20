@@ -9,4 +9,8 @@
 		select camp_image from tbl_camp_attach
 		where camp_id=#{camp_id}
 	</select>
+	<delete id="campAttachDelete">
+		delete from tbl_camp_attach
+		where camp_image=#{camp_image}
+	</delete>
 </mapper>

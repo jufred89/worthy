@@ -45,6 +45,10 @@ public class RecipeDAOImpl implements RecipeDAO {
 	public int totalCount(Criteria cri) {
 		return session.selectOne(namespace + ".totalCount", cri);
 	}
+	@Override
+	public int maxNo() {
+		return session.selectOne(namespace + ".maxNo");
+	}
 
 	
 	//醫뗭븘�슂
@@ -85,16 +89,41 @@ public class RecipeDAOImpl implements RecipeDAO {
 	public void likeUpdate(int fi_no) {
 		session.update(namespace + ".likeUpdate", fi_no);
 	}
+
+	@Override
+	public void likeDel(int fi_no) {
+		session.delete(namespace + ".likeDel", fi_no);
+	}
 	
 	//議고쉶�닔
 	@Override
 	public void updateView(int fi_no) {
 		session.update(namespace + ".updateView", fi_no);
 	}
+	
+
+	//첨부파일
+	@Override
+	public void att_insert(String image, int fi_no) {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("image", image);
+		map.put("fi_no", fi_no);
+		session.insert(namespace + ".att_insert", map);
+	}
 
 	@Override
-	public void likeDel(int fi_no) {
-		session.delete(namespace + ".likeDel", fi_no);
+	public List<String> att_list(int fi_no) {
+		return session.selectList(namespace + ".att_list", fi_no);
+	}
+
+	@Override
+	public void att_delete(String image) {
+		session.delete(namespace+".att_delete",image);		
+	}
+
+	@Override
+	public void att_deleteAll(int fi_no) {
+		session.delete(namespace+".att_deleteAll",fi_no);
 	}
 
 	@Override

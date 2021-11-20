@@ -33,7 +33,7 @@
  	</delete>
  	<update id="update">
  		update tbl_information_food
- 		set fi_title=#{fi_title}, fi_content=#{fi_content}
+ 		set fi_title=#{fi_title}, fi_content=#{fi_content}, fi_image=#{fi_image}
  		where fi_no=#{fi_no}
  	</update>
  	<select id="totalCount" resultType="int">
@@ -42,12 +42,34 @@
  			where fi_title like concat("%", #{keyword}, "%") || fi_content like concat("%", #{keyword}, "%")
  		</if>
  	</select>
+ 	<select id="maxNo" resultType="int">
+ 		SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'tbl_information_food'
+ 		AND table_schema = 'team1db'
+ 	</select>
  	
  	<update id="updateView">
  		update tbl_information_food
  		set fi_viewcnt=fi_viewcnt+1
  		where fi_no=#{fi_no}
  	</update>
+ 	
+ 	 <!-- 첨부파일 -->
+ 	<select id="att_list" resultType="string">
+ 		select fi_ano from tbl_information_food_attach
+ 		where fi_bno=#{fi_no}
+ 	</select>
+ 	<insert id="att_insert">
+ 		insert into tbl_information_food_attach(fi_ano, fi_bno)
+ 		values(#{image}, #{fi_no})
+ 	</insert>
+ 	<delete id="att_delete">
+ 		delete from tbl_information_food_attach
+ 		where fi_ano=#{image}
+ 	</delete>
+ 	<delete id="att_deleteAll">
+		delete from tbl_information_food_attach
+		where fi_bno=#{fi_no}
+	</delete>
  	
  	<!-- 좋아요 업데이트 -->
  	<select id="likeIt" resultType="int">
