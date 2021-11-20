@@ -17,11 +17,16 @@
 *{
 	 font-family: 'IBMPlexSansKR-Regular';
 }
-
+#container{
+	
+	min-height:100%;
+   position:relative;
+   padding-bottom:100px;/* footer height */
+}
 
 #header {
-	z-index:2;
-	height:80px;
+	z-index:11;
+	height:120px;
 	position:sticky;
 	background:white;
 	overflow:hidden;
@@ -42,7 +47,10 @@
 	
 }
 #center{
-position:sticky;
+position:scroll;
+overflow: hidden;
+
+
 
 }
 #content {
@@ -89,6 +97,8 @@ text-align:center;
 
 .modal-body {
 	position: relative;
+	border:1px solid lightgray;
+	margin:10px;
 }
 .modal-footer{
 	display:flex;
@@ -105,9 +115,13 @@ hr{
 
 
 /* 테마 검색 */
+#myModal3{
+	z-index: 6;
+	
+}
 #myModal3 h1,h3,p{
 	text-align:left;
-	margin-left:30px;
+
 	font-weight:bold;
 }
 #myModal3 h1{
@@ -116,7 +130,7 @@ hr{
 #myModal3 p{
 	font-size:90%;
 	color:gray;
-	margin-top:20px;
+
 }
 #myModal3 h3{
 	font-size:155%;
@@ -189,4 +203,21 @@ hr{
 	text-align:center !important;
 	font-size:16px;
 	margin-top:10px;
+}
+#footer2{
+	width:100%;
+	height:40px;
+		 display: flex;
+    align-content: center;
+    justify-content:space-between;
+	position:fixed;
+bottom:0;
+	background:black;
+}
+#footer2 p{
+   color:white;
+	 align-items: center;
+    justify-content:center;
+	display:flex;
+	font-size:16px;
 }

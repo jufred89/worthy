@@ -51,7 +51,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 	}
 
 	
-	//좋아요
+	//醫뗭븘�슂
 	@Override
 	public int likeIt(String uid, int fi_no) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -95,7 +95,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 		session.delete(namespace + ".likeDel", fi_no);
 	}
 	
-	//조회수
+	//議고쉶�닔
 	@Override
 	public void updateView(int fi_no) {
 		session.update(namespace + ".updateView", fi_no);
@@ -124,5 +124,11 @@ public class RecipeDAOImpl implements RecipeDAO {
 	@Override
 	public void att_deleteAll(int fi_no) {
 		session.delete(namespace+".att_deleteAll",fi_no);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> mainPage_food_list() {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+".mainPage_food_list");
 	}
 }

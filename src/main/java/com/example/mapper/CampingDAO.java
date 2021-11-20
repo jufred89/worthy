@@ -23,6 +23,7 @@ public interface CampingDAO {
 	public int campTotcount(Criteria cri);
 	public List<HashMap<String, Object>> campSearchList(String camp_addr,String reser_checkin,String reser_checkout,String style_no, List<String> facility_no, int listSize);
 	public List<HashMap<String, Object>> campAvailableReser(String camp_id,String reser_checkin,String reser_checkout);
+	public List<HashMap<String,Object>> campSlide();
 	public void campReservationCheckoutInsert(CampingReserVO crvo);
 	public void campUpdate(CampingVO vo);
 	public void campStyleDelete(String camp_id);

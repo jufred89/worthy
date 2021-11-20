@@ -137,6 +137,10 @@
 		insert into tbl_camp_reserve(camp_id,camp_room_no,reser_status,reser_checkin,reser_checkout,uid,reser_man_qty,reser_booker,reser_booker_phone,reser_price,reser_date)
 		values(#{camp_id},#{camp_room_no},'1',#{reser_checkin},#{reser_checkout},#{uid},4,#{reser_booker},#{reser_booker_phone},#{reser_price},#{reser_date});
 	</insert>
+	<select id="campSlide" resultType="hashmap">
+select * from tbl_camp_list
+order by camp_id desc
+</select>
 	<!-- 캠핑장 정보 수정 -->
 	<update id="campUpdate">
 		update tbl_camp_list set camp_name=#{camp_name},camp_maker=#{camp_maker},camp_addr=#{camp_addr},camp_status=#{camp_status},camp_tel=#{camp_tel},camp_memo=#{camp_memo},camp_detail=#{camp_detail},camp_image=#{camp_image}

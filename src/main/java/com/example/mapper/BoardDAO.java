@@ -40,4 +40,5 @@ public interface BoardDAO {
 	public int board_likeCheck(String uid, int fb_no);
 	public void board_like(int likeCheck, String uid, int fb_no);
 	public void board_likeUpdate(int fb_no); 
+	public List<BoardVO> mainPage_board_list();
 }

@@ -31,5 +31,6 @@ public interface NoticeDAO {
 	public void like(int likeCheck, String uid, int nb_no);
 	public void likeUpdate(int nb_no);
 	public void likeDel(int nb_no);
+	public List<HashMap<String, Object>> mainPage_notice_list();
 }
 

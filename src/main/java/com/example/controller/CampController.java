@@ -64,6 +64,12 @@ public class CampController {
 		model.addAttribute("pageName", "camping/list.jsp");
 		return "home";
 	}
+    
+	 @RequestMapping("/campSlide.json")
+	 @ResponseBody
+	 public List<HashMap<String,Object>> best(){
+		 return cdao.campSlide();
+	 }
 
 	// 캠핑장 목록 json으로 가지고 오기
 	@ResponseBody
@@ -99,7 +105,6 @@ public class CampController {
 		model.addAttribute("pageName", "camping/read.jsp");
 		return "home";
 	}
-
 	// 캠핑장 insert 작업
 	@RequestMapping(value = "/camping/insert", method = RequestMethod.POST)
 	public String campInsert(CampingVO vo, MultipartHttpServletRequest multi,

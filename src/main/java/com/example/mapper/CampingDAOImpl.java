@@ -130,4 +130,10 @@ public class CampingDAOImpl implements CampingDAO {
 	public List<CampingReserVO> campReservationUser(String uid) {
 		return session.selectList(namespace+".campReservationUser", uid);
 	}
+
+	@Override
+	public List<HashMap<String, Object>> campSlide() {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+".campSlide");
+	}
 }

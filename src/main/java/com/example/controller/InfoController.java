@@ -75,7 +75,13 @@ public class InfoController {
 		map.put("pm", pm);
 		return map;
 	};
-	
+	//이다희 작업부 메인으로 목록 
+  	@RequestMapping(value="/notice/notice_list.json", method = RequestMethod.GET)
+	@ResponseBody
+	public List<HashMap<String, Object>> mainNoticeJSON(){
+		return ndao.mainPage_notice_list();
+	};
+  
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.GET)
 	public String noticeInsert(Model model) {
 		int nb_no = ndao.maxNo();
@@ -257,6 +263,12 @@ public class InfoController {
 		map.put("pm", pm);
 		return map;
 	};
+  //이다희 팁 메인으로
+  	@RequestMapping(value="/tip_list.json", method = RequestMethod.GET)
+	@ResponseBody
+	public List<TipVO> tipAboutJSON(){
+		return tdao.mainPage_tip_list();
+	};
 	
 	@RequestMapping(value = "/tip/insert", method = RequestMethod.GET)
 	public String tipInsert(Model model) {
@@ -437,7 +449,13 @@ public class InfoController {
 		map.put("pm", pm);
 		return map;
 	}
-
+  // 이다희 푸드 리스트 메인
+  		@RequestMapping(value="/food_list.json", method = RequestMethod.GET)
+		@ResponseBody
+		public List<HashMap<String, Object>> reciepeAboutJSON(){
+			return rdao.mainPage_food_list();
+		};
+  
 	@RequestMapping("/recipe/insert")
 	public String recipeInsert(Model model){
 		int fi_no = rdao.maxNo();
@@ -623,5 +641,5 @@ public class InfoController {
 		byte[] image=IOUtils.toByteArray(in);
 		in.close();
 		return image;
-	}	
+	}
 }
