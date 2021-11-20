@@ -5,7 +5,11 @@
 <head>
 <title>워디 : 캠핑 어디까지 가봤어?</title>
 
+
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+
 
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
@@ -23,6 +27,9 @@
 <script src="../resources/bootstrap-datepicker.js"></script>
 <link rel="stylesheet" href="../resources/bootstrap-datepicker.css">
 <style type="text/css">
+body{
+position: relative;
+}
 .cal_top{
 margin-top:20px;
     text-align: center;
@@ -152,7 +159,7 @@ align-items:center;
 	
 	</div>
 	<!-- 모달창2시작 -->
-			<div class="modal" id="myModal3">
+			<div class="modal" id="myModal3" style="z-index: 99">
 				<div class="modal-dialog">
 					<div class="modal-content" style="height: 900px;">
 
@@ -171,7 +178,7 @@ align-items:center;
 							<h3>캠핑스타일</h3>
 							<div style="display:flex;justify-content:space-between;">	
 							<p style="color:coral; " >원하는 캠핑 스타일을 선택 후 검색버튼을 클릭하세요!</p>
-							<p style="color:red;" >*3개까지 선택이 가능합니다.</p>
+							<p style="color:red;" >*1개까지 선택이 가능합니다.</p>
 							</div>
 							<div class="img_icon1" id="icon_style">
 						    <div>
@@ -179,15 +186,15 @@ align-items:center;
 							<p>글램핑시설</p>
 							</div>
 							<div>
-							<img src="../resources/kind/방갈로.png" alt='1'>
+							<img src="../resources/kind/방갈로.png" alt='2'>
 							<p>방갈로</p>
 							</div>
 							<div>
-							<img src="../resources/kind/오토캠핑.png"alt='1'>
+							<img src="../resources/kind/오토캠핑.png"alt='3'>
 							<p>오토캠핑</p>
 							</div>
 							<div>
-							<img src="../resources/kind/카라반시설.png" alt='1'>
+							<img src="../resources/kind/카라반시설.png" alt='4'>
 					        <p>카라반시설</p>
 					        </div>
 							</div>
@@ -212,59 +219,59 @@ align-items:center;
 							<h3>캠핑스타일</h3>
 							<div style="display:flex;justify-content:space-between;">		
 							<p style="color:coral;" >원하는 캠핑 스타일을 선택 후 검색버튼을 클릭하세요!</p>
-							<p style="color:red;" >*7개까지 선택이 가능합니다.</p>
+							<p style="color:red;" >*5개까지 선택이 가능합니다.</p>
 							</div>
                         <div class="img_icon2" id="icon_facil">
                         <div>
-							<img src="../resources/kind_comporable/개수대.png">
+							<img src="../resources/kind_comporable/개수대.png" alt="15">
                         <p>개수대</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/동계캠핑.png">
+							<img src="../resources/kind_comporable/동계캠핑.png" alt="15">
 						 <p>동계캠핑</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/매점.png">
+							<img src="../resources/kind_comporable/매점.png" alt="11">
 							 <p>매점</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/반려동물동반.png">
+							<img src="../resources/kind_comporable/반려동물동반.png" alt="15">
 							 <p>반려동물동반</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/샤워시설.png">
+							<img src="../resources/kind_comporable/샤워시설.png" alt="14">
 							<p>샤워시설</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/수세식화장실.png">
+							<img src="../resources/kind_comporable/수세식화장실.png" alt="13">
 							<p>수세식화장실</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/온수제공.png">
+							<img src="../resources/kind_comporable/온수제공.png" alt="4">
 							<p>온수제공</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/와이파이.png">
+							<img src="../resources/kind_comporable/와이파이.png" alt="2">
 							<p>와이파이</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/잔디광장.png">
+							<img src="../resources/kind_comporable/잔디광장.png" alt="8">
 							<p>잔디광장</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/장작판매.png">
+							<img src="../resources/kind_comporable/장작판매.png" alt="3">
 							<p>장작판매</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/재래식화장실.png">
+							<img src="../resources/kind_comporable/재래식화장실.png" alt="13">
 							<p>재래식화장실</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/전기.png">
+							<img src="../resources/kind_comporable/전기.png" alt="1">
 							<p>전기</p>
 							</div>
 							<div>
-							<img src="../resources/kind_comporable/캠핑용품대여.png">
+							<img src="../resources/kind_comporable/캠핑용품대여.png" alt="15">
 							<p>캠핑용품대여</p>
 							</div>
 							
@@ -517,25 +524,36 @@ align-items:center;
 		</div>
 	</div>
 	
-	<div id="footer">
-	
-	<p>Created by worthy. © 2021</p>
-	</div>
-	
+      <c:if test="${pageName == 'about.jsp'}">
+            <div id="footer">
+   
+   <p>Created by worthy. © 2021</p>
+   </div>
+      </c:if>
+      <c:if test="${pageName != 'about.jsp'}">
+	       <div id="footer2">
+   <p style="font-size: 20px;">worthy</p>
+   <p>Created by worthy. © 2021</p>
+   </div>
+   </c:if>
 </body>
 <script>
 
 var end=1;
-var arr=new Array(3);
+var arr=new Array(5);
 var num=$('.num').text()
 var uid="${uid}"
 var selectedClass=0;
 var selectedClass2=0;
-$('#icon_style .selectedimg').each(function(i){
-	arr[i]=$(".selectedimg:nth-child("+i+")").attr('alt')
-	
+
+
+function selectedSearch(){
+$('#icon_facil .selected2').each(function(i){
+	arr[i]=$(this).attr('alt')
+	console.log(arr)
 })
-console.log(arr)
+}
+
 $('#start').on('click',function(){
 	end=0;
 	
@@ -596,9 +614,10 @@ $('.img_icon1').on('click','img',function(){
 	}else{
 		selectedClass--;
 	}
-	if(selectedClass>3){
+	if(selectedClass>1){
 		$(this).removeClass('selected')
-		alert('3개까지 선택이 가능하세요!')
+		alert('1개까지 선택이 가능하세요!')
+	
 	}
 })
 $('.img_icon2').on('click','img',function(){
@@ -610,9 +629,10 @@ $('.img_icon2').on('click','img',function(){
 		selectedClass2--;
 	}
 
-	if(selectedClass2>7){
+	if(selectedClass2>5){
 		$(this).removeClass('selected2')
-		alert('7개까지 선택이 가능하세요!')
+		alert('5개까지 선택이 가능하세요!')
+			selectedSearch()
 	}
 })
 $('.navbar-header').on('click','h2',function(){
