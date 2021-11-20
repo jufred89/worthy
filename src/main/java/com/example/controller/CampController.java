@@ -42,7 +42,7 @@ public class CampController {
 	@Resource(name = "uploadPath")
 	private String path;
 	
-	//캠핑장 홈이랑 연결
+	//罹좏븨�옣 �솃�씠�옉 �뿰寃�
 	@RequestMapping(value = "/camping/list", method = RequestMethod.GET)
 	public String campList(Model model,String camp_addr,String reser_checkin,String reser_checkout) {
 		model.addAttribute("camp_addr",camp_addr);
@@ -51,29 +51,34 @@ public class CampController {
 		model.addAttribute("pageName", "camping/list.jsp");
 		return "home";
 	}
+	 @RequestMapping("/campSlide.json")
+	 @ResponseBody
+	 public List<HashMap<String,Object>> best(){
+		 return cdao.campSlide();
+	 }
 	
-	//캠핑장 목록 json으로 가지고 오기
+	//罹좏븨�옣 紐⑸줉 json�쑝濡� 媛�吏�怨� �삤湲�
 	@ResponseBody
 	@RequestMapping(value = "/camping/list.json", method = RequestMethod.GET)
 	public List<CampingVO> list(Criteria cri) {
 		return cdao.campList(cri);
 	}
 	
-	//캠핑장 시설목록 json으로 가지고 오기
+	//罹좏븨�옣 �떆�꽕紐⑸줉 json�쑝濡� 媛�吏�怨� �삤湲�
 	@ResponseBody
 	@RequestMapping(value = "/camping/campFacilitylist.json", method = RequestMethod.GET)
 	public List<CampingFacilityVO> campFacilityList() {
 		return cdao.campFacilityList();
 	}
 	
-	//캠핑장 스타일목록 json으로 가지고 오기
+	//罹좏븨�옣 �뒪���씪紐⑸줉 json�쑝濡� 媛�吏�怨� �삤湲�
 	@ResponseBody
 	@RequestMapping(value = "/camping/campStylelist.json", method = RequestMethod.GET)
 	public List<CampingStyleVO> campStyleList() {
 		return cdao.campStyleList();
 	}
 	
-	// 특정 캠핑장 상세 페이지
+	// �듅�젙 罹좏븨�옣 �긽�꽭 �럹�씠吏�
 	@RequestMapping(value = "/camping/read", method = RequestMethod.GET)
 	public String campRead(Model model, String camp_id, String reser_checkin, String reser_checkout) {
 		model.addAttribute("reser_checkin", reser_checkin);
@@ -86,55 +91,55 @@ public class CampController {
 		model.addAttribute("pageName", "camping/read.jsp");
 		return "home";
 	}
-	// 캠핑장 insert 작업
+	// 罹좏븨�옣 insert �옉�뾽
 	@RequestMapping(value = "/camping/insert", method = RequestMethod.POST)
 	public String campInsert(CampingVO vo, MultipartHttpServletRequest multi, 
 			@RequestParam(value="facility_no") List<String> facility_no,
 			@RequestParam(value="style_no") List<String> style_no,
 			@RequestParam(value="style_qty") List<Integer> style_qty,
 			@RequestParam(value="style_price") List<Integer> style_price) throws Exception {
-		// 이미지 복사
-		MultipartFile file = multi.getFile("file"); // 업로드한 파일 지정
-		// 파일 이름 유니크하게
+		// �씠誘몄� 蹂듭궗
+		MultipartFile file = multi.getFile("file"); // �뾽濡쒕뱶�븳 �뙆�씪 吏��젙
+		// �뙆�씪 �씠由� �쑀�땲�겕�븯寃�
 		String image = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 		vo.setCamp_image(image);
-		// 파일 업로드 하기
+		// �뙆�씪 �뾽濡쒕뱶 �븯湲�
 		file.transferTo(new File(path + "/camping/" + image));
 		
 		// new
-		// 첨부 파일 업로드 하기
+		// 泥⑤� �뙆�씪 �뾽濡쒕뱶 �븯湲�
 		List<MultipartFile> files = multi.getFiles("files");
 		ArrayList<String> images=new ArrayList<String>();
 		for(MultipartFile attFile:files){
 			if(!attFile.isEmpty()){
 				String attImage=System.currentTimeMillis()+"_"+attFile.getOriginalFilename();
 				images.add(vo.getCamp_id()+"/"+attImage); // new
-				// 새폴더 생성
+				// �깉�뤃�뜑 �깮�꽦
 				File folder = new File(path+"/camping/"+vo.getCamp_id());
 				if(!folder.exists()){
 					folder.mkdir();
 				}
-				// 해당 폴더 업로드
+				// �빐�떦 �뤃�뜑 �뾽濡쒕뱶
 				attFile.transferTo(new File(path+"/camping/"+vo.getCamp_id()+"/"+attImage));
 			}
 		}
 		vo.setImages(images);
 		cservice.insert(vo);
 		
-		// 시설 목록 배열에 담아서 값 넘기기
+		// �떆�꽕 紐⑸줉 諛곗뿴�뿉 �떞�븘�꽌 媛� �꽆湲곌린
 		for(String fno:facility_no){
 			String camp_id=vo.getCamp_id();
 			cdao.campFacilityInsert(camp_id, fno);
 		}
 
-		// style_qty null 값 제거
+		// style_qty null 媛� �젣嫄�
 		while (style_qty.remove(null)) {
 		}
-		// style_price null 값 제거
+		// style_price null 媛� �젣嫄�
 		while (style_price.remove(null)) {
 		}
 		
-		// 스타일 목록에 값 넘기기
+		// �뒪���씪 紐⑸줉�뿉 媛� �꽆湲곌린
 		for (int i = 0; i < style_no.size(); i++) {
 			String camp_id=vo.getCamp_id();
 			String sno=style_no.get(i);
@@ -145,7 +150,7 @@ public class CampController {
 		return "redirect:/camping/list";
 	}
 	
-	// 이미지파일 출력
+	// �씠誘몄��뙆�씪 異쒕젰
 	@ResponseBody
 	@RequestMapping("/camping/display")
 	public byte[] display(String file) throws Exception {
@@ -162,7 +167,7 @@ public class CampController {
 		return cdao.campSearchList(camp_addr,reser_checkin,reser_checkout);
 	}
 	
-	// 예약페이지 연결
+	// �삁�빟�럹�씠吏� �뿰寃�
 	@RequestMapping(value = "/camping/checkout", method = RequestMethod.GET)
 	public String campReservationCheckout(Model model,String camp_id, String reser_checkin, String reser_checkout, String style_no) {
 		model.addAttribute("camp_id",camp_id);
