@@ -14,6 +14,11 @@
  		</if>
  		limit #{pageStart},#{perPageNum}
  	</select>
+ 	<select id="mainPage_notice_list" resultType="hashmap">
+ 		select * from tbl_information_notice
+		order by nb_no desc
+ 		limit 0, 10
+ 	</select>
  	<select id="read" resultType="com.example.domain.NoticeVO">
  		select * from tbl_information_notice
  		where nb_no=#{nb_no}
