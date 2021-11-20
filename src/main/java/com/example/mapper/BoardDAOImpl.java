@@ -159,6 +159,12 @@ public class BoardDAOImpl implements BoardDAO{
 		session.update(namespace+".board_likeUpdate",fb_no);
 	}
 
+	@Override
+	public List<BoardVO> mainPage_board_list() {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+".mainPage_board_list");
+	}
+
 
 
 }
