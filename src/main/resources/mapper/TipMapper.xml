@@ -14,6 +14,12 @@
  		</if>
  		limit #{pageStart},#{perPageNum}
  	</select>
+ 	<select id="mainPage_tip_list" resultType="com.example.domain.TipVO">
+ 		select* from tbl_information_tip
+ 		order by tip_no desc
+ 		limit 0, 10
+ 		
+ 	</select>
  	<select id="read" resultType="com.example.domain.TipVO">
  		select * from tbl_information_tip
  		where tip_no=#{tip_no}
@@ -99,4 +105,5 @@
  		delete from tbl_information_tip_like 
  		where tip_lk_bno=#{tip_no}
  	</delete>
+ 	
 </mapper>
