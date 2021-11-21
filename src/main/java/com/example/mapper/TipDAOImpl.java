@@ -95,8 +95,6 @@ public class TipDAOImpl implements TipDAO {
 		session.delete(namespace + ".likeDel", tip_no);
 	}
 
-	
-
 	@Override
 	public void att_insert(String image, int tip_no) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -118,5 +116,10 @@ public class TipDAOImpl implements TipDAO {
 	@Override
 	public void att_deleteAll(int tip_no) {
 		session.delete(namespace+".att_deleteAll",tip_no);
+	}
+	
+	@Override
+	public List<TipVO> mainPage_tip_list() {
+		return session.selectList(namespace+".mainPage_tip_list");
 	}
 }

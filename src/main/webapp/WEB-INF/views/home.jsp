@@ -94,7 +94,7 @@ align-items:center;
 	    <div class="navbar-header col-sm-2">
 	      
 	     
-	       <h2 id="logo" onClick="location.href='/'">worthy</h2>
+	       <img src="/resources/worthycamping_logo_sample2.png" id="logo" onClick="location.href='/'" width=150></img>
       
     </div>
    <%--  <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
@@ -313,7 +313,7 @@ align-items:center;
 						<div class="modal-body" style="height: 400px;">
 						<div id="search_local">
 							<input type="text" id="local" style="border: 1px solid gray;"
-								placeholder="원하는 지역을 검색해보세요!" value="dahee">
+								placeholder="원하는 지역을 검색해보세요!">
 								
 								
 							<hr>
@@ -526,7 +526,7 @@ align-items:center;
 	
       <c:if test="${pageName == 'about.jsp'}">
             <div id="footer">
-   
+   <img src="/resources/worthycamping_logo_sample3.png" width=100/>
    <p>Created by worthy. © 2021</p>
    </div>
       </c:if>
