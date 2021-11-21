@@ -1,12 +1,12 @@
 @CHARSET "UTF-8";
 
-
+body{height:580px;}
 #subject{
 	font-size:150%; 
 	font-weight:bold;
 	letter-spacing:15px;
 	word-spacing:5px;
-	margin: 50px 0 5px 10px;
+	margin: 0px 0 5px 10px;
 }
 
 #condition{margin-top:30px;}
@@ -22,9 +22,12 @@
 }
 #container{
 	width:900px;
+	height:500px;
 	margin:0 auto;
+	
 	overflow:hidden;
 	margin-top:20px;
+	
 }
 #container #boardInsert{
 	float:left;
@@ -43,7 +46,7 @@
 #desc ul li{display: inline-block; }
 #desc a,#desc a:visited{color:black; text-decoration: none;margin-left:10px;}
 
-#tbl_board{width:900px; margin:20px auto;}
+#tbl_board{width:850px; margin:20px auto;}
 #tbl_board th,td{
 	text-align:center;
 	border-bottom:1px solid gray;
@@ -83,7 +86,7 @@
 		border: 1px solid #dadada;
 		margin-left:10px;
 	}
-	#readPage .title{
+	.title{
 		display:inline-block;
 		width:50px;
 		font-weight:bold;
