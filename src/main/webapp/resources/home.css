@@ -58,7 +58,7 @@ overflow: hidden;
 z-index:-1;
 	margin:0 auto;
 text-align:center;
-	padding-bottom:50px;
+
 }
 #header div {
 	font-size:14px;
@@ -193,7 +193,7 @@ hr{
 	height:50px;
 		 display: flex;
     align-items: center;
-    justify-content:center;
+    justify-content:space-between;
 	position:fixed;
 	bottom:0px;
 	overflow:hidden;

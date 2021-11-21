@@ -169,7 +169,7 @@ color:blue;
 #pre-next-image{
 width:100%;
 
-z-index: 20;
+z-index: 10;
 position:absolute;
 top:50%; 
 transform: translate(0%, -50%);
