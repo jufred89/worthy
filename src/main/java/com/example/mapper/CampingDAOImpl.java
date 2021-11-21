@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.CampingFacilityVO;
 import com.example.domain.CampingReserVO;
+import com.example.domain.CampingReviewVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
@@ -133,7 +134,24 @@ public class CampingDAOImpl implements CampingDAO {
 
 	@Override
 	public List<HashMap<String, Object>> campSlide() {
-		// TODO Auto-generated method stub
 		return session.selectList(namespace+".campSlide");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> campReviewList(Criteria cri, String camp_id) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("camp_id", camp_id);
+		map.put("cri", cri);
+		return session.selectList(namespace+".campReviewList", map);
+	}
+
+	@Override
+	public void campReviewInsert(CampingReviewVO cvo) {
+		session.insert(namespace+".campReviewInsert", cvo);
+	}
+
+	@Override
+	public int campReviewTotalCount(String camp_id) {
+		return session.selectOne(namespace+".campReviewTotalCount", camp_id);
 	}
 }

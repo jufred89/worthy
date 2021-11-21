@@ -158,4 +158,19 @@ order by camp_id desc
 	<select id="campReservationUser" resultType="com.example.domain.CampingReserVO">
 		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id
 	</select>
+	<!-- 캠핑장 리뷰 -->
+	 <select id="campReviewList" resultType="HashMap">
+ 		select *, date_format(camp_reviewdate, '%Y-%m-%d') camp_reviewdate_f from tbl_camp_review
+ 		where camp_id = #{camp_id}
+ 		order by camp_rno desc
+ 		limit #{cri.pageStart}, #{cri.perPageNum}
+ 	</select>
+ 	<insert id="campReviewInsert">
+ 		insert into tbl_camp_review(camp_ruid, camp_rstar, camp_review, camp_id)
+		values(#{camp_ruid}, #{camp_rstar}, #{camp_review}, #{camp_id})
+ 	</insert>
+ 	<select id="campReviewTotalCount" resultType="int">
+ 		select count(*) from tbl_camp_review
+ 		where camp_id = #{camp_id}
+ 	</select>
 </mapper>

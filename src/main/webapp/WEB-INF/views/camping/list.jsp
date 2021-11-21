@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<h1>캠핑장을 찾아보세요.</h1>
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
@@ -8,13 +8,21 @@
 <script src="../resources/bootstrap-datepicker.js"></script>
 <script src="../resources/home.css"></script>
 <style>
+#campListBackGround{
+	background-image: url("../resources/back5.jpg");
+	background-size: cover;
+	background-position: center center;
+	padding-top: 30px;
+}
+
 #campList {
 	width: 1600px;
 	margin: 0px auto;
 	overflow: hidden;
-	position:absolute;
+	position: absolute;
 	left: 50%;
 	transform: translate(-50%);
+	padding-bottom: 30px;
 }
 
 .camp_box {
@@ -64,9 +72,10 @@
 }
 
 /* 캠핑 스타일, 시설  시작*/
-#campStyleFacilityparent{
+#campStyleFacilityparent {
 	position: relative;
 }
+
 #campStyleList {
 	width: 500px;
 	margin: 0px auto;
@@ -157,89 +166,86 @@
 }
 /* 지역 선택 CSS 끝*/
 </style>
-<div id="campListHead">
-<!-- 
-	<c:if test="${camp_addr eq null}">
-	<h3>전국에서 ${reser_checkin }에서 ${reser_checkout }까지 예약 가능한 숙소입니다.</h3>
-	</c:if>
-	<c:if test="${camp_addr ne null}">
-	<h3>${camp_addr }에서 ${reser_checkin }에서 ${reser_checkout }까지 예약 가능한 숙소입니다.</h3>
-	</c:if>
-	<c:if test="${reser_checkin eq null && reser_checkout eq null}">
-	<h3>원하시는 숙소를 검색해보세요.</h3>
-	</c:if>
- -->
-	<c:choose>
-		<c:when test="${camp_addr eq '' && reser_checkin ne '' && reser_checkout ne ''}">
-			<h3>전국에서 ${reser_checkin }에서 ${reser_checkout }까지 예약 가능한 숙소입니다.</h3>
-		</c:when>
-		<c:when test="${camp_addr ne '' && reser_checkin ne '' && reser_checkout ne ''}">
-			<h3>${camp_addr }에서 ${reser_checkin }에서 ${reser_checkout }까지 예약 가능한 숙소입니다.</h3>
-		</c:when>
-		<c:when test="${camp_addr eq '' && reser_checkin eq '' && reser_checkout eq ''}">
-			<h3>어디로 언제 여행을 떠나실까요?</h3>			
-		</c:when>
-	</c:choose>
-</div>
-<div id="search_box">
-	<div class="input-group input-daterange where"
-		style="margin-right: 5px;">
-		<input type="text" name="camp_addr" placeholder="어디로?"
-			autocomplete=off id="where" value="${camp_addr}" class="where">
-		<div id='pop' class='pop'>
-			<ul>
-				<li>서울</li>
-				<li>제주</li>
-				<li>강원</li>
-				<li>부산</li>
-				<li>경기</li>
-				<li>충북</li>
-				<li>충남</li>
-				<li>세종</li>
-				<li>경상</li>
-				<li>광주</li>
-				<li>전북</li>
-				<li>전남</li>
-				<li>경북</li>
-				<li>경남</li>
-				<li>인천</li>
-				<li>대전</li>
-				<li>대구</li>
-				<li>울산</li>
-				<li></li>
-				<li></li>
-			</ul>
+<div id="campListBackGround">
+	<h1>캠핑장을 찾아보세요.</h1>
+	<div id="campListHead">
+		<c:choose>
+			<c:when
+				test="${camp_addr != '' && reser_checkin != '' && reser_checkout != ''}">
+				<h3>${camp_addr}에서 ${reser_checkin}부터 ${reser_checkout}까지 예약
+					가능한 숙소입니다.</h3>
+			</c:when>
+			<c:when
+				test="${camp_addr eq '' && reser_checkin ne '' && reser_checkout ne ''}">
+				<h3>전국에서 ${reser_checkin}부터 ${reser_checkout}까지 예약 가능한 숙소입니다.</h3>
+			</c:when>
+			<c:when
+				test="${camp_addr eq '' && reser_checkin eq '' && reser_checkout eq ''}">
+				<h3>어디로 언제 여행을 떠나실까요?</h3>
+			</c:when>
+		</c:choose>
+	</div>
+	<div id="search_box">
+		<div class="input-group input-daterange where"
+			style="margin-right: 5px;">
+			<input type="text" name="camp_addr" placeholder="어디로?"
+				autocomplete=off id="where" value="${camp_addr}" class="where">
+			<div id='pop' class='pop'>
+				<ul>
+					<li>서울</li>
+					<li>제주</li>
+					<li>강원</li>
+					<li>부산</li>
+					<li>경기</li>
+					<li>충북</li>
+					<li>충남</li>
+					<li>세종</li>
+					<li>경상</li>
+					<li>광주</li>
+					<li>전북</li>
+					<li>전남</li>
+					<li>경북</li>
+					<li>경남</li>
+					<li>인천</li>
+					<li>대전</li>
+					<li>대구</li>
+					<li>울산</li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
+		<div class="input-group input-daterange" id="time">
+			<input type="text" id="start" class="form-control" autocomplete=off
+				name="reser_checkin" placeholder="언제부터?" value="${reser_checkin}"
+				style="margin-right: 5px;"><input type="text" id="end"
+				class="form-control" name="reser_checkout" autocomplete=off
+				value="${reser_checkout}" placeholder="언제까지?">
 		</div>
 	</div>
-	<div class="input-group input-daterange" id="time">
-		<input type="text" id="start" class="form-control" autocomplete=off
-			name="reser_checkin" placeholder="언제부터?" value="${reser_checkin}" style="margin-right: 5px;"><input
-			type="text" id="end" class="form-control" name="reser_checkout"
-			autocomplete=off value="${reser_checkout}" placeholder="언제까지?">
-	</div>
-</div>
-<div id="campStyleFacilityparent">
-	<div id="campStyleList">
-		<h4>캠핑장 스타일</h4>
-		<hr />
-		<c:forEach items="${styleList}" var="item_style">
-			<input type="radio" name="style_no" value="${item_style.style_no}" />
-			<label for="a1"><span>${item_style.style_name}</span></label>
-		</c:forEach>
-	</div>
-	<div id="campFacilityList">
-		<h4>캠핑장 시설</h4>
-		<hr />
-		<c:forEach items="${facilityList}" var="item_facility">
-			<c:if test="${item_facility.facility_no ne 0}">
-				<input onclick="CountChecked(this)" type="checkbox"
-					name="facility_no" value="${item_facility.facility_no}">${item_facility.facility_name}
+	<div id="campStyleFacilityparent">
+		<div id="campStyleList">
+			<h4>캠핑장 스타일</h4>
+			<hr />
+			<c:forEach items="${styleList}" var="item_style">
+				<input type="radio" name="style_no" value="${item_style.style_no}" />
+				<label for="a1"><span>${item_style.style_name}</span></label>
+			</c:forEach>
+		</div>
+		<div id="campFacilityList">
+			<h4>캠핑장 시설</h4>
+			<hr />
+			<c:forEach items="${facilityList}" var="item_facility">
+				<c:if test="${item_facility.facility_no ne 0}">
+					<input onclick="CountChecked(this)" type="checkbox"
+						name="facility_no" value="${item_facility.facility_no}">${item_facility.facility_name}
 	</c:if>
-		</c:forEach>
+			</c:forEach>
+		</div>
 	</div>
+	<button id="detail_search">상세 검색하기</button>
+	<hr />
 </div>
-<button id="detail_search">상세 검색하기</button>
-<hr />
 <div id="campList"></div>
 <script id="temp" type="text/x-handlebars-template">
 		{{#each .}}
@@ -261,14 +267,14 @@
 
 	// 상세 검색하기 버튼 클릭시 조건 검색 리스트 가지고 오기
 	$("#detail_search").on("click", function() {
-		if(camp_addr==null){
-			var camp_addr=$('input[name="camp_addr"]').val();
+		if (camp_addr == null) {
+			var camp_addr = $('input[name="camp_addr"]').val();
 		}
-		if(reser_checkin==null){
-			var reser_checkin=$('input[name="reser_checkin"]').val();
+		if (reser_checkin == null) {
+			var reser_checkin = $('input[name="reser_checkin"]').val();
 		}
-		if(reser_checkout==null){
-			var reser_checkout=$('input[name="reser_checkout"]').val();
+		if (reser_checkout == null) {
+			var reser_checkout = $('input[name="reser_checkout"]').val();
 		}
 		// 캠핑장 스타일 선택
 		var style_no = $('input:radio[name="style_no"]:checked').val();
@@ -289,34 +295,36 @@
 		alert(reser_checkin)
 		alert(reser_checkout)
 		getList();
+		$("#campListHead h3").html(
+				camp_addr + "에서 " + reser_checkin + "부터 " + reser_checkout
+						+ "까지 예약 가능한 숙소입니다.");
 	})
 	// 캠핑장 목록 가지고 오기
 	function getList() {
-			var camp_addr=$('input[name="camp_addr"]').val();
-			var reser_checkin=$('input[name="reser_checkin"]').val();
-			var reser_checkout=$('input[name="reser_checkout"]').val();
-			var style_no = $('input:radio[name="style_no"]:checked').val();
-			var facility_no = []; // 배열 선언
-			$('input:checkbox[name=facility_no]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-				facility_no.push(this.value);
-			});
-			$("#campListHead h3").html(camp_addr+"에서 "+reser_checkin+"부터 "+reser_checkout+"까지 예약 가능한 숙소입니다.");
-			$.ajax({
-				type : 'get',
-				url : '/camping/searchlist.json',
-				dataType : 'json',
-				data : {
-					camp_addr : camp_addr,
-					reser_checkin : reser_checkin,
-					reser_checkout : reser_checkout,
-					style_no : style_no,
-					facility_no : facility_no
-				},
-				success : function(data) {
-					var temp = Handlebars.compile($('#temp').html());
-					$('#campList').html(temp(data));
-				}
-			})
+		var camp_addr = $('input[name="camp_addr"]').val();
+		var reser_checkin = $('input[name="reser_checkin"]').val();
+		var reser_checkout = $('input[name="reser_checkout"]').val();
+		var style_no = $('input:radio[name="style_no"]:checked').val();
+		var facility_no = []; // 배열 선언
+		$('input:checkbox[name=facility_no]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+			facility_no.push(this.value);
+		});
+		$.ajax({
+			type : 'get',
+			url : '/camping/searchlist.json',
+			dataType : 'json',
+			data : {
+				camp_addr : camp_addr,
+				reser_checkin : reser_checkin,
+				reser_checkout : reser_checkout,
+				style_no : style_no,
+				facility_no : facility_no
+			},
+			success : function(data) {
+				var temp = Handlebars.compile($('#temp').html());
+				$('#campList').html(temp(data));
+			}
+		})
 	}
 	// 예약가능한 갯수와 예약된 갯수 연산 레지스터헬퍼
 	Handlebars.registerHelper("nulltozero", function(camp_tqty, reserve_cnt) {

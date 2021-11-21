@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.example.domain.CampingFacilityVO;
 import com.example.domain.CampingReserVO;
+import com.example.domain.CampingReviewVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
+import com.example.domain.Shop_previewVO;
 
 public interface CampingDAO {
 	public List<CampingVO> campList(Criteria cri);
@@ -29,4 +31,7 @@ public interface CampingDAO {
 	public void campStyleDelete(String camp_id);
 	public void campFacilityDelete(String camp_id);
 	public List<CampingReserVO> campReservationUser(String uid);
+	public List<HashMap<String, Object>> campReviewList(Criteria cri, String camp_id);
+	public void campReviewInsert(CampingReviewVO cvo);
+	public int campReviewTotalCount(String camp_id);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.domain.CampingReserVO;
 import com.example.domain.ChatVO;
 import com.example.domain.UserVO;
 import com.example.mapper.CampingDAO;
@@ -38,7 +39,7 @@ public class MyPageController {
 		
 		// 현재 날짜 구하기 (시스템 시계, 시스템 타임존)
 		LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
-
+		
 		session.setAttribute("uname", uname);
 		model.addAttribute("campReserList", campDAO.campReservationUser(uid));
 		model.addAttribute("now", now);
