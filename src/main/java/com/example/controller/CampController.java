@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.example.domain.CampingFacilityVO;
 import com.example.domain.CampingReserVO;
+import com.example.domain.CampingReviewVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
@@ -472,5 +473,9 @@ public class CampController {
 	public String campReservationSuccess() {	
 		return "/mypage/mycamping";
 	}
-	
+	@RequestMapping(value = "/camping/campReviewInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public void campReviewInsert(CampingReviewVO cvo) {
+		cdao.campReviewInsert(cvo);
+	}
 }
