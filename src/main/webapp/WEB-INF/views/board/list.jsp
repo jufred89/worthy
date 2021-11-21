@@ -18,15 +18,16 @@
 </div>
 
 <div id="container">
-	<div id="boardInsert">
-		<a href="/board/insert">글 등록</a>
+	<div style=" overflow:hidden; margin-bottom:30px;">
+		<div id="boardInsert">
+			<a href="/board/insert">글 등록</a>
+		</div>
+		<div id="desc">
+			<a href="fb_no" class="on">최신순</a>
+			<a href="fb_like">인기순</a>
+			<a href="replycnt">댓글순</a>
+		</div>
 	</div>
-	<div id="desc">
-		<a href="fb_no" class="on">최신순</a>
-		<a href="fb_like">인기순</a>
-		<a href="replycnt">댓글순</a>
-	</div>
-</div>
 
 
 
@@ -53,6 +54,7 @@
 	</tr>
 	{{/each}}
 </script>
+</div>
 <div style="text-align:center">
 	<div id="pagination" class="pagination"></div>
 </div>

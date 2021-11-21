@@ -1,0 +1,85 @@
+@CHARSET "UTF-8";
+
+#subject{
+	font-size:150%; 
+	font-weight:bold;
+	letter-spacing:15px;
+	word-spacing:5px;
+	margin-left:50px;
+}
+h5{margin-left:30px;}
+#info_nav{
+	width:400px;
+	margin:0 auto;
+	margin-top:30px;
+	}
+#info_nav li {
+	width:80px;
+	background: none;
+	color: #222;
+	display: inline-block;
+	cursor: pointer;
+	padding: 0px 10px;
+	margin-right:10px;
+}
+#info_nav #selected{border-bottom:2px solid black;}
+#info_nav #selected p{font-weight:bold;}
+#info_nav li p{font-size:110%;text-align:center;font-weight:normal;}
+#condition{margin-top:10px;}
+#perPageNum, #searchType{
+	padding:5px;
+	border: 1px solid #dadada;
+}
+#keyword{
+	width:400px; padding:7px 10px; margin-left:5px;
+	border:none;
+	border-bottom:1px solid #dadada;
+}
+#total{display:inline-block; width:100px;}
+#container{
+	width:1000px;
+	margin:0 auto;
+	overflow:hidden;
+	margin-top:20px;
+	
+}
+#newInsert{
+	border:none;
+	float:left;
+	width:120px;
+	padding:10px 15px;
+	background-color:black;
+	font-size:100%;
+	color:white;
+	}
+#boardInsert a, #boardInsert a:visited{
+
+	
+}
+#sort{float:right; margin-top:5px;}
+
+#tbl{width:1000px; margin:10px auto;}
+#tbl th,td{
+	text-align:center;
+	border-bottom:1px solid gray;
+	font-size:88%;
+}
+#tbl th{border-top:2px solid black; padding:6px;}
+#tbl td{padding:20px;}
+#tbl td:nth-child(3){text-align:left;}
+#tbl td:nth-child(5){font-size:80%;}
+
+
+
+
+
+/* insert 페이지 */
+	#insertPage{
+		padding-bottom:150px;
+	}
+	#insertPage input[type=text]{margin-top:10px; width:500px;}
+	#insertPage input[type=text]{
+	border:none;
+	border-bottom:1px solid #000;
+	}
+	

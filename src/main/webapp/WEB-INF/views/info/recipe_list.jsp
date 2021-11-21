@@ -1,142 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
-<style>
-    #info_nav span{
-    	margin:10px;
-    	font-size:18px;
-    }
-    #info_nav div a{
-    	margin:10px;
-    	font-size:16px;
-    	color:gray; 
-      	text-decoration: none;
-    }
-    #info_nav span a{
-	  	color:gray; 
-      	text-decoration: none;
-    }
-    #condition{
-    	width:960px;
-    	margin:0 auto;
-    	padding:5px;
-    	margin-bottom:5px;
-    	overflow:hidden;
-    }
-    #condition input[type=text]{
-    	float:left;
-    	size:20px;
-    }
-    #condition select{
-    	float:right;
-    	margin-botton:10px;
-    	margin-left:15px;
-    	width:150px;
-    	padding:5px;
-    	border-radius:5px 5px 5px;
-    }
-    #total{float:left; margin-left:3px;}
-</style>
-<style>
-#info_nav {
-	height: 100px;
-	align-content: center;
-	justify-content: center;
-	list-style: none;
-	display: flex;
-	margin-bottom: 0;
-}
-
-#info_nav li {
-	margin: 50px;
-	width: 100px;
-	height: 50px;
-}
-
-#info_nav li p {
-	justify-content: center;
-	align-items: center;
-	display: flex;
-	color: gray;
-	font-size: 20px;
-	width: 100px;
-	height: 50px;
-}
-
-#info_nav li p:hover {
-	background: black;
-	color: white;
-}
-
-table {
-	border-collapse: collapse;
-	margin-top: 10px;
-	text-align: center;
-	width: 960px;
-	margin: 0 auto;
-}
-
-td {
-	border-bottom: 1px solid black;
-	padding: 10px 0px;
-}
-
-.title {
-	background: gray;
-	color: white;
-	text-align: center;
-}
-
-.fi_title:hover {
-	color: gray;
-	cursor: pointer;
-}
-
-#tbl {
-	position: sticky;
-}
-
-#footer {
-	position: static;
-}
-</style>
-<h1>Information</h1>
+<link rel="stylesheet" href="../resources/info.css" />
+<div style="width:400px;
+	margin:0 auto; text-align:center;">
+	<div id="subject">INFORMATION</div>
+	<h5>캠핑정보</h5>
+</div>
 <ul id="info_nav">
 	<li><p onClick="location.href='/notice/list'">Notice</p></li>
 	<li><p onClick="location.href='/tip/list'">Tip</p></li>
-	<li><p onClick="location.href='/recipe/list'" style="color:white;background:black;">Recipe</p></li>
+	<li id="selected"><p onClick="location.href='/recipe/list'">Recipe</p></li>
 </ul>
-<hr style="border: 2px dotted black; width: 960px;">
 
-<c:if test="${uid!=null}">
-	<button onClick="location.href='/recipe/insert'" 
-	style="margin:10px;">레시피 등록</button>
-</c:if>
-
+<div id="container">
 <div id="condition">
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
 	<span id="total"></span> 
-		<select id="perPageNum">
-			<option value="3">3개씩 보기</option>
-			<option value="6">6개씩 보기</option>
-			<option value="9">9개씩 보기</option>
-		</select>
-		<select id="searchType">
-			<option value="desc">내림차순</option>
-			<option value="asc">오름차순</option>
-		</select>
+	<div style="overflow:hidden; margin-top:30px">
+		<c:if test="${uid!=null}">
+			<button onClick="location.href='/recipe/insert'"
+			id="newInsert">레시피 등록</button>
+		</c:if>
+		<div id="sort">
+			<select id="perPageNum">
+				<option value="3">3개씩 보기</option>
+				<option value="6">6개씩 보기</option>
+				<option value="9">9개씩 보기</option>
+			</select>
+			<select id="searchType">
+				<option value="desc">내림차순</option>
+				<option value="asc">오름차순</option>
+			</select>
+		</div>
+	</div>
 </div>
 <table id="tbl"></table>
 <script id="temp" type="text/x-handlebars-template">
 		<tr class="title">
-			<td></td>
-			<td width=80>번호</td>
-			<td width=160>이미지</td>
-			<td width=400>제목</td>
-			<td width=110>작성자</td>
-			<td width=100>작성일시</td>
-			<td width=80>좋아요</td>
-			<td width=80>조회수</td>
+			<th></th>
+			<th width=80>번호</th>
+			<th width=160>이미지</th>
+			<th width=300>제목</th>
+			<th width=110>작성자</th>
+			<th width=200>작성일시</th>
+			<th width=80>좋아요</th>
+			<th width=80>조회수</th>
 		</tr>
 	{{#each list}}
 		<tr class="row">
@@ -170,6 +79,7 @@ td {
 </script>
 <div id="pagination" class="pagination"></div>
 <script src="/resources/pagination.js"></script>
+</div>
 <script>
 	var page = 1;	
 	getRecipeList();
