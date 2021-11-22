@@ -20,10 +20,57 @@
 	.star_color{
 		color: red;
 	}
+	#prod_dis{
+	flex-flow:row wrap;
+	display:flex;
+	justify-content:center;
+	align-content:center;
+	}
+	#prod_dis table tr td:nth-child(1){
+	border:1px solid gray;
+	padding:10px;
+	width:400px;
+	}
+	#prod_dis table tr td:nth-child(2){
+	border:1px solid gray;
+	padding:10px;
+	width:700px;
+	}
+	#prod_count{
+	text-align:center;
+	line-height: normal;
+	width:100px;
+	}
 </style>
 
 <!-- 별점 리뷰 등록 / 이동예정 -->
 <style>
+#prod_header{
+margin-bottom:20px;
+display:flex;
+justify-content:center;
+align-content:center;
+}
+#prod_info{
+margin-left:60px;
+display:flex;
+
+flex-flow:row wrap;
+}
+#prod_info p,#prod_info div{
+width:100%;
+font-size:25px;
+
+}
+#howmany{
+text-align:left;
+margin-bottom: 10px;
+}
+#prod_btn{
+text-align:left;
+margin-bottom: 10px;
+
+}
 	#prod_rstar{
 	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
 	    border: 0; /* 필드셋 테두리 제거 */
@@ -53,11 +100,17 @@
 	#prod_rstar input[type=radio]:checked ~ label{
     	text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
 	}
+	#dis_table{
+	display:flex;
+justify-content:center;
+align-content:center;
+margin:10px;
+	}
 </style>
  <style>
  	.slide{
  		width: 1000px;
- 		margin: 0 auto;
+ 		margin:0 auto;
  	}
     *{margin:0;padding:0;}
     ul,li{list-style:none;}
@@ -74,28 +127,29 @@
   </style>
 
 <a href="/shop/update?prod_id=${vo.prod_id}">수정 버튼은 관리자페이지로 옮길 예정</a>
-<h1>상품 정보 페이지</h1>
+<div id="prod_read" style="margin:0 auto;width:1400px;">
 
 <!-- 상단 썸네일 / 설명 -->
-<div>
-	<img src="/shop/display?file=${vo.prod_image}" />
-	<div>
+<h1 style="margin-bottom:50px;">상품 정보 페이지</h1>
+<div id="prod_header">
+	<img src="/shop/display?file=${vo.prod_image}" width=450 height=450/>
+	<div id="prod_info">
 		<h3>${vo.prod_name }</h3>
-		<p>${vo.prod_normalprice }</p>
+		<p>${vo.prod_normalprice }￦</p>
 		<p>무료배송</p>
 		<p>판매자: </p>
-		<p>안내사항: 판매자가 현금거래를 요구하면 거부하시고 즉시 사기 거래 신고센터에 신고하시기 바랍니다.</p>
+		<p style=""><i class="fa fa-star" aria-hidden="true"></i>판매자가 현금거래를 요구하면 거부하시고 즉시 사기 거래 신고센터에 신고하시기 바랍니다.</p>
 		
 		<c:if test="${vo.prod_stack_qty == 0 }">
 			<div>품절</div>
 		</c:if>
 		<c:if test="${vo.prod_stack_qty >= 1 }">
-			<div>
+			<div id="howmany">
 				<button id="minus">-</button>
 				<input type="text" id="prod_count" value="1" />
 				<button id="plus">+</button>
 			</div>
-			<div>
+			<div id="prod_btn">
 				<button id="cart">장바구니</button>
 				<button>구매하기</button>
 			</div>
@@ -104,16 +158,17 @@
 </div>
 
 <!-- 슬라이드 -->
-<div>
+<div style="margin-top:80px;">
 	<div class="slide">
-		<ul>
+		<ul width=1000>
 			
 		</ul>
 	</div>
 	<script id="temp_slide" type="text/x-handlebars-template">
+
 		{{#each slide}}
 				<li>
-					<div>
+					<div style="width:230">
 					<img src="/shop/display?file={{prod_image}}" width="230" onClick="location.href='/shop/read?prod_id={{prod_id}}'" />
 					</div>
 					<div>{{prod_name}}</div>
@@ -124,10 +179,10 @@
 </div>
 
 <!-- 메뉴 -->
-<div>
+<!-- <div>
 	<div onclick="scrollMove('info')">상세정보</div>
 	<div onclick="scrollMove('review')">리뷰</div>
-</div>
+</div> -->
 
 <script>
 	function scrollMove(num){
@@ -136,7 +191,7 @@
 	}
 </script>
 
-<!-- 상세 설명 -->
+<%-- <!-- 상세 설명 -->
 <div>
 	<table>
 		<tr>
@@ -153,15 +208,17 @@
 		</tr>
 		
 	</table>
-</div>
+</div> --%>
 
 <!-- 상품 상세 이미지 -->
-<div id="scroll_info">
+<%-- <div id="scroll_info">
 	<img src="/shop/display?file=${avo.shop_ano}" />
-</div>
-
-<div>
-	<table>
+</div> --%>
+<hr>
+<div id="prod_dis" >
+<h2>상품상세설명</h2>
+<div id="dis_table" style="width:100%;">
+	<table >
 		<tr>
 			<td>원산지</td>
 			<td>상품상세참조</td>
@@ -211,56 +268,29 @@
 			<td>상품상세참조</td>
 		</tr>
 	</table>
-	<p>해당 인증 정보는 판매자가 등록한 것으로 등록 정보에 대한 일체의 책임은 판매자에게 있습니다.</p>
+	</div>
+	<p>*해당 인증 정보는 판매자가 등록한 것으로 등록 정보에 대한 일체의 책임은 판매자에게 있습니다.</p>
 </div>
-
+<hr>
 <!-- 리뷰 등록 이동 예정 -->
-<div id="scroll_review">
-	<span>리뷰</span>(<span id="total"></span>)
-	<span class="star-rating">
-		<span id="avg_star" style="float: left;"></span>
-	</span>
-	<span id="avg_num"></span>
-	<hr/>
-	<div>
-		<div id="prod_rstar">
-			<input type="radio" value="5" id="rate1" name="rating" class="rating" /><label for="rate1">⭐</label>
-			<input type="radio" value="4" id="rate2" name="rating" class="rating" /><label for="rate2">⭐</label>
-			<input type="radio" value="3" id="rate3" name="rating" class="rating" /><label for="rate3">⭐</label>
-			<input type="radio" value="2" id="rate4" name="rating" class="rating" /><label for="rate4">⭐</label>
-			<input type="radio" value="1" id="rate5" name="rating" class="rating" /><label for="rate5">⭐</label>
-		</div>
-		<textarea rows="2" cols="30" id="pre_review" placeholder="내용을 입력해주세요" ></textarea>
-		<input type="button" id="pre_insert" value="리뷰 등록"/>
-	</div>
-	<div>
-		<div id="preview"></div>
-		<script id="temp" type="text/x-handlebars-template">
-			{{#each list}}
-				<div class="item">
-					<div>{{prod_ruid}}</div>
-					<div>
-						<span class="star-rating">
-							<span style="width: {{prod_rstar}}%; float: left;"></span>
-						</span>
-						<input type="hidden" class="hidden_star" value="{{prod_rstar}}" />
-					</div>
-					<div class="del" onClick=" del()">삭제</div>
-					<div>{{prod_r_regdate_f}}</div>
-					<div>{{prod_review}}</div>
-					<input type="hidden" class="prod_rno" value="{{prod_rno}}" />
-				</div>
-			{{/each}}
-		</script>
-		<div id="pagination" class="pagination"></div>
-		<script src="/resources/pagination.js"></script>
-	</div>
-</div>
+<h2>상품 리뷰</h2>
+<div id="prod_review" style="height:300px;"></div>
+<script id="temp_review" type="text/x-handlebars-template">
 
+		{{#each slide}}
+				<li>
+					<div style="width:230">
+					<img src="/shop/display?file={{prod_image}}" width="230" onClick="location.href='/shop/read?prod_id={{prod_id}}'" />
+					</div>
+					<div>{{prod_name}}</div>
+					<div>{{prod_normalprice}}</div>
+				</li>
+		{{/each}}
+	</script>
 <div>
 	<button id="upBtn">위로</button>
 </div>
-
+</div>
 <script>
 	$("#upBtn").on("click", function(){
 		$("html, body").scrollTop(0);
@@ -273,7 +303,21 @@
 	var page = 1;
 	getPreview();
 	getSlide();
-	
+	//리뷰리스트
+	function pre_list(){
+		$.ajax({
+			type : "get",
+			url : "/pre_list.json",
+			dataType : "json",
+			data:{"page":page,"prod_rid":prod_rid, "perPageNum":perPageNum},
+			success : function(data) {
+				$("#pagination").html(getPagination(data));
+				$("#total").html("<h5>검색건: " + data.pm.totalCount + "건</h5>");
+				var temp = Handlebars.compile($("#temp").html());
+				$("#tbl").html(temp(data));
+			}
+		});
+	}
 	//별점 평균
 	function average(){
 		var star_sum = 0;
