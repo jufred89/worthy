@@ -195,4 +195,8 @@
        select * from tbl_shop_payment
        where pay_no = #{pay_no}
      </select>
+     <update id="order_cancel">
+     	update tbl_shop_payment set pay_status = 0
+     	where pay_no = #{pay_no}
+     </update>
 </mapper>

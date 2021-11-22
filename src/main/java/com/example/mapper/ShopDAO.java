@@ -53,5 +53,5 @@ public interface ShopDAO {
 	public void payUpdate(Shop_payVO pvo);
 	public void pay_success(Shop_payVO pvo);
 	public Shop_payVO pay_Allread(int pay_no);
-	
+	public void order_cancel(int pay_no);
 }

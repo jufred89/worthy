@@ -3,26 +3,15 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
    src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-
-<style>
-#shop {
-
-display: grid;
-   grid-template-columns: repeat(4, 1fr);
-   
-}
-
-#item{
-margin:60px;
-/* float:left;
-   margin:5px;
-   height:500px; */
-}
-</style>
+<link rel="stylesheet" href="../resources/shop.css" />
 <a href="/shop/insert">상품등록 버튼은 관리자페이지로 옮길 예정</a>
 
-<h1>캠핑상점</h1>
-
+<div style="width:400px;
+	margin:0 auto; text-align:center;">
+	<div id="subject">CAMPING SHOP</div>
+	<h5>캠핑정보</h5>
+</div>
+<div id="container">	
 <div id="condition">
    <input type="text" id="keyword" placeholder="검색어 입력"> 
    <span id="total"></span> 
@@ -40,17 +29,17 @@ margin:60px;
    {{#each list}}
       <div id="item" onClick="location.href='/shop/read?prod_id={{prod_id}}'">
          <img src="/shop/display?file={{prod_image}}" width="350" height="350"/>
-         <div>
-            <p>{{prod_name}}</p>
-            <p class="saleprice">{{prod_saleprice}}</p>
-            <p>{{prod_normalprice_f}}</p>
-            <p>{{prod_detail}}</p>
+         <div class="item_info">
+            <p class="prod_name">{{prod_name}}</p>
+            <p class="prod_saleprice">{{prod_saleprice}}원</p>
+            <p class="prod_normalprice">{{prod_normalprice_f}}원</p>
+            <p class="prod_detail">{{prod_detail}}</p>
          </div>
       </div>
    {{/each}}
 
 </script>
-
+</div>
 <script>
 
    getList();

@@ -433,6 +433,12 @@ public class ShopController {
 		return dao.pay_Allread(pay_no);
 	} 
 	
+	//주문 취소
+	@RequestMapping(value="/orderCancel", method=RequestMethod.POST)
+	@ResponseBody
+	public void orderCancel(int pay_no) { 
+		dao.order_cancel(pay_no);
+	}
 	
 	@RequestMapping(value = "/approval", method = RequestMethod.GET)
 	public String approval() {	
