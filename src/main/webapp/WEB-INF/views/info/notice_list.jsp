@@ -30,7 +30,7 @@
 			<!-- <span id="total"></span> -->
 		</div>
 		<div style="overflow:hidden; margin-top:30px">
-			<c:if test="${uid!=null}">
+			<c:if test="${uid.indexOf('admin')!=-1 && uid!=null}">
 				<button onClick="location.href='/notice/insert'" id='newInsert'>공지사항 등록</button>
 			</c:if>
 			<div id="sort">
