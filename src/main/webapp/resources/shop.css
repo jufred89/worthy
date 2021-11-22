@@ -1,0 +1,63 @@
+@CHARSET "UTF-8";
+body{width: 1600px; margin: 0 auto;}
+#subject{
+	font-size:150%; 
+	font-weight:bold;
+	letter-spacing:15px;
+	word-spacing:5px;
+	margin-left:50px;
+}
+h5{margin-left:30px;}
+
+#condition{margin-top:10px;}
+#searchType{
+	padding:5px;
+	border: 1px solid #dadada;
+}
+#keyword{
+	width:400px; padding:7px 10px; margin-left:5px;
+	border:none;
+	border-bottom:1px solid #dadada;
+}
+#total{display:inline-block; width:100px;}
+#container{
+	width:100%;
+	margin:0 auto;
+	overflow:hidden;
+	margin-top:40px;
+	
+}
+
+#shop {
+
+display: grid;
+   grid-template-columns: repeat(4, 1fr);
+   
+}
+#item{
+margin:50px 20px;
+/* float:left;
+   margin:5px;
+   height:500px; */
+}
+
+.item_info{
+	padding:10px;
+	
+}
+.item_info .prod_name{font-size:125%; font-weight:bold;}
+.item_info .prod_saleprice{font-size:105%;font-weight:bold; color:tomato;}
+.item_info .prod_normalprice{font-size:100%;text-decoration:line-through; color:#c2c2c3;font-weight:normal;}
+.item_info .prod_detail{color:gray;font-weight:normal;}
+
+
+/* insert 페이지 */
+	#insertPage{
+		padding-bottom:150px;
+	}
+	#insertPage input[type=text]{margin-top:10px; width:500px;}
+	#insertPage input[type=text]{
+	border:none;
+	border-bottom:1px solid #000;
+	}
+	

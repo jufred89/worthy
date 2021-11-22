@@ -65,12 +65,22 @@
 	line-height: 160%
 }
 
-#campingReadBox2 {
+#campingStyleRead {
 	margin: 0px auto;
 	padding: 20px;
 }
 
-#campingReadBox2 h2 {
+#campingFacilityRead {
+	padding: 20px;
+	height:300px;
+}
+
+#campingStyleRead h2 {
+	text-align: left;
+	font-weight: bold;
+}
+
+#campingFacilityRead h2 {
 	text-align: left;
 	font-weight: bold;
 }
@@ -83,7 +93,7 @@
 	border: 1px solid rgb(230, 230, 230);
 	float: right;
 	width: 30%;
-	height: 70%;
+	height: 80%;
 	padding: 20px;
 	border-radius: 30px;
 	background: rgb(242, 242, 242);
@@ -95,7 +105,6 @@
 	text-align: left;
 	display: block;
 }
-
 #reserve_box h4 {
 	font-size: 30px;
 	font-weight: none;
@@ -136,8 +145,70 @@
 	font-weight: bold;
 	padding: 20px;
 }
+#pageLike{
+	text-align: right;
+	margin-right: 30px;
+	cursor: pointer;
+}
+#campingReviews{
+	overflow: hidden;
+}
+#campingReviews h2{
+	text-align: left;
+	font-weight: bold;
+	padding: 20px;
+}
+.campingReviewer{
+	float: left;
+	width: 33%;
+	height: 150px;
+	padding: 10px;
+	overflow: hidden;
+	background: rgb(242, 242, 242);
+}
+.campingReviewerImage{
+	float: left;
+	margin: 10px;
+}
+.campingReviewerImage img{
+	border-radius:35px;
+	border: 3px solid black;
+}
+.campingReviewTop{
+	float: left;
+	text-align: left;
+	padding: 5px;
+}
+.campingReviewBottom{
+	clear: left;
+	text-align: left;
+	padding: 5px;
+}
+.camp_ruid{
+	font-size: 20px;
+	margin: 10px;
+}
+.main_common{
+	padding:8px;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border: 1px solid gray;
+    border-radius:5px;
+    margin: 2px;
+    float: left;
+}
+.main_common2{
+}
+#facilityList{
+	width: 1000px;
+    background: yellow;
+}
+#styleList{
+	width: 1000px;
+}
 </style>
-<h1>캠핑장 정보</h1>
+<h1 style="color: #ff0000; font-weight: bold;">캠핑장 정보</h1>
 <hr />
 <!-- 캠핑장 정보 부분 -->
 <div id="campBody">
@@ -145,6 +216,15 @@
 		<div>
 			<h1>${cvo.camp_name}</h1>
 			<h3 id="from_addr">${cvo.camp_addr}</h3>
+			<div id="pageLike">
+				<c:if test="${likeCheck==0 }">
+					<img src="/resources/heart.png" title="좋아요" width=45 id="bntLike" />
+				</c:if>
+				<c:if test="${likeCheck!=0 }">
+					<img src="/resources/heart_colored.png" title="좋아요취소" width=45
+						id="bntLike" />
+				</c:if>
+			</div>
 		</div>
 		<div id="campMainImage">
 			<img class="image-thumbnail"
@@ -202,28 +282,147 @@
 		</div>
 		<div id="campInformationBox2">
 			<!-- 캠핑장 스타일 목록 -->
-			<div id="campingReadBox2">
+			<div id="campingStyleRead">
 				<h2>캠핑장 스타일</h2>
 				<div id="styleList">
 					<c:forEach items="${styleList}" var="svo">
-						<div>
+					<c:if test="${svo.style_name=='카라반'}">
+						<div class="main_common2">
+							<img src="/resources/kind/글램핑시설.png" width=70px/>
 							<h4>${svo.style_name}|${svo.style_qty}개|${svo.style_price}원</h4>
 						</div>
+					</c:if>
+					<c:if test="${svo.style_name=='일반야영장'}">
+						<div class="main_common2">
+							<img src="/resources/kind/일반야영장.png" width=70px/>
+							<h4>${svo.style_name}|${svo.style_qty}개|${svo.style_price}원</h4>
+						</div>
+					</c:if>
+					<c:if test="${svo.style_name=='자동차야영장'}">
+						<div class="main_common2">
+							<img src="/resources/kind/오토캠핑.png" width=70px/>
+							<h4>${svo.style_name}|${svo.style_qty}개|${svo.style_price}원</h4>
+						</div>
+					</c:if>
 					</c:forEach>
 				</div>
 			</div>
 			<!-- 시설 목록 부분 -->
-			<div id="campingReadBox2">
+			<div id="campingFacilityRead">
 				<h2>캠핑장 시설</h2>
 				<div id="facilityList">
 					<c:forEach items="${facilityList}" var="fvo">
-						<div>
+					<c:if test="${fvo.facility_name=='전기'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/전기.png" width=50px/>
 							<h4>${fvo.facility_name}</h4>
 						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='운동시설'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/운동시설.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='마트'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/마트.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='편의점'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/편의점.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='화장실'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/화장실.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='샤워시설'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/샤워시설.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='개수대'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/개수대.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='무선인터넷'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/무선인터넷.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='장작판매'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/장작판매.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='온수'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/온수.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='트렘폴린'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/트렘폴린.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='물놀이장'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/물놀이장.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='놀이터'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/놀이터.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='산책로'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/산책로.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
+					<c:if test="${fvo.facility_name=='운동장'}">
+						<div class="main_common">
+							<img src="/resources/kind_comporable/운동장.png" width=50px/>
+							<h4>${fvo.facility_name}</h4>
+						</div>
+					</c:if>
 					</c:forEach>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div id="campingReviews">
+		<h2>캠핑장 리뷰</h2>
+		<c:forEach items="${campReviewList}" var="crlvo">
+		<div class="campingReviewer">
+			<div class="campingReviewerImage">
+				<img src="/resources/person.png" width=70 height=70 />
+			</div>
+			<div class="campingReviewTop">
+				<div class="camp_ruid">${crlvo.camp_ruid}</div>
+				<div class="camp_reviewdate">${crlvo.camp_reviewdate_f}</div>
+			</div>
+			<div class="campingReviewBottom">
+				<div>${crlvo.camp_review}</div>
+			</div>
+		</div>
+		</c:forEach>
 	</div>
 	<!-- 주소 기반 지도 -->
 	<div id="mapBox">
@@ -265,6 +464,26 @@
 				+ style_no + "&style_price=" + style_price + "&reser_checkin="
 				+ reser_checkin + "&reser_checkout=" + reser_checkout
 	}
+</script>
+<!-- 캠핑 졸아요 버튼 클릭시 -->
+<script>
+//좋아요 버튼 클릭한 경우
+$('#pageLike').on('click',function(){
+	var likeCheck = "${likeCheck}";
+	alert(uid)
+	alert(camp_id)
+	alert(reser_checkin)
+	alert(reser_checkout)
+	alert(likeCheck)
+	$.ajax({
+		type:'post',
+		url:'/camping/like',
+		data:{"likeCheck":likeCheck,"uid":uid,"camp_id":camp_id},
+		success: function(){
+			location.href="/camping/read?camp_id="+camp_id+"&reser_checkin="+reser_checkin+"&reser_checkout="+reser_checkout;
+		}
+	});
+});
 </script>
 <!-- 주소로 좌표값 가져오기 T맵 좌표값이 달라서 주소로 다음지도로 좌표값 불러오기 -->
 <!-- 다음 지도 API .js -->

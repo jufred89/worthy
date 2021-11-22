@@ -37,6 +37,7 @@
       <interceptor>
          <mapping path="/board/list"></mapping>
          <mapping path="/camping/checkout"></mapping>
+         <mapping path="/camping/read"></mapping>
           <beans:ref bean="LoginInterceptor"/>
       </interceptor>
    </interceptors>

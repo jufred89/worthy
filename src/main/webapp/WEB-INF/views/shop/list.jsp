@@ -3,7 +3,6 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
    src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-
 <style>
 #subject{
 	font-size:150%; 
@@ -81,7 +80,7 @@ margin-top:50px;
    {{/each}}
 
 </script>
-
+</div>
 <script>
 
    getList();

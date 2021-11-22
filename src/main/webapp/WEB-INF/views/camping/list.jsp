@@ -64,7 +64,7 @@
 }
 
 #campListHead {
-   margin: 30px;
+	margin: 10px;
 }
 
 #campListHead h3 {
@@ -259,91 +259,99 @@
       {{/each}}
 </script>
 <script>
-   var camp_addr = '${camp_addr}';
-   var reser_checkin = '${reser_checkin}';
-   var reser_checkout = '${reser_checkout}';
-   var style_no = $('input:radio[name="style_no"]:checked').val();
-   getList();
+	var camp_addr = '${camp_addr}';
+	var reser_checkin = '${reser_checkin}';
+	var reser_checkout = '${reser_checkout}';
+	var style_no = $('input:radio[name="style_no"]:checked').val();
+	getList();
 
-   // 상세 검색하기 버튼 클릭시 조건 검색 리스트 가지고 오기
-   $("#detail_search").on("click", function() {
-      if (camp_addr == null) {
-         var camp_addr = $('input[name="camp_addr"]').val();
-      }
-      if (reser_checkin == null) {
-         var reser_checkin = $('input[name="reser_checkin"]').val();
-      }
-      if (reser_checkout == null) {
-         var reser_checkout = $('input[name="reser_checkout"]').val();
-      }
-      // 캠핑장 스타일 선택
-      var style_no = $('input:radio[name="style_no"]:checked').val();
-      // 시설 데이터
-      var facility_no = []; // 배열 선언
-      $('input:checkbox[name=facility_no]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-         facility_no.push(this.value);
-      });
-      if (style_no == null) {
-         alert("캠핑 스타일을 선택해주세요.")
-         return;
-      }
-      if (facility_no.length === 0) {
-         alert("캠핑 시설란을 확인해주세요.");
-         return;
-      }
-      alert(camp_addr)
-      alert(reser_checkin)
-      alert(reser_checkout)
-      getList();
-      $("#campListHead h3").html(
-            camp_addr + "에서 " + reser_checkin + "부터 " + reser_checkout
-                  + "까지 예약 가능한 숙소입니다.");
-   })
-   // 캠핑장 목록 가지고 오기
-   function getList() {
-      var camp_addr = $('input[name="camp_addr"]').val();
-      var reser_checkin = $('input[name="reser_checkin"]').val();
-      var reser_checkout = $('input[name="reser_checkout"]').val();
-      var style_no = $('input:radio[name="style_no"]:checked').val();
-      var facility_no = []; // 배열 선언
-      $('input:checkbox[name=facility_no]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
-         facility_no.push(this.value);
-      });
-      $.ajax({
-         type : 'get',
-         url : '/camping/searchlist.json',
-         dataType : 'json',
-         data : {
-            camp_addr : camp_addr,
-            reser_checkin : reser_checkin,
-            reser_checkout : reser_checkout,
-            style_no : style_no,
-            facility_no : facility_no
-         },
-         success : function(data) {
-            var temp = Handlebars.compile($('#temp').html());
-            $('#campList').html(temp(data));
-         }
-      })
-   }
-   // 예약가능한 갯수와 예약된 갯수 연산 레지스터헬퍼
-   Handlebars.registerHelper("nulltozero", function(camp_tqty, reserve_cnt) {
-      if (reserve_cnt == null) {
-         return camp_tqty
-      } else {
-         return camp_tqty - reserve_cnt
-      }
-   });
-   // 캠핑 아이디 및 원하는 예약 날짜 가지고 리드 페이지로 가지고 가기
-   $("#campList").on(
-         "click",
-         ".camp_box",
-         function() {
-            var camp_id = $(this).attr("camp_id");
-            location.href = "/camping/read?camp_id=" + camp_id
-                  + "&reser_checkin=" + reser_checkin
-                  + "&reser_checkout=" + reser_checkout
-         })
+	// 상세 검색하기 버튼 클릭시 조건 검색 리스트 가지고 오기
+	$("#detail_search").on("click", function() {
+		if (camp_addr == null) {
+			var camp_addr = $('input[name="camp_addr"]').val();
+		}
+		if (reser_checkin == null) {
+			var reser_checkin = $('input[name="reser_checkin"]').val();
+		}
+		if (reser_checkout == null) {
+			var reser_checkout = $('input[name="reser_checkout"]').val();
+		}
+		// 캠핑장 스타일 선택
+		var style_no = $('input:radio[name="style_no"]:checked').val();
+		// 시설 데이터
+		var facility_no = []; // 배열 선언
+		$('input:checkbox[name=facility_no]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+			facility_no.push(this.value);
+		});
+		if (style_no == null) {
+			alert("캠핑 스타일을 선택해주세요.")
+			return;
+		}
+		if (facility_no.length === 0) {
+			alert("캠핑 시설란을 확인해주세요.");
+			return;
+		}
+		getList();
+		$("#campListHead h3").html(
+				camp_addr + "에서 " + reser_checkin + "부터 " + reser_checkout
+						+ "까지 예약 가능한 숙소입니다.");
+	})
+	// 캠핑장 목록 가지고 오기
+	function getList() {
+		var camp_addr = $('input[name="camp_addr"]').val();
+		var reser_checkin = $('input[name="reser_checkin"]').val();
+		var reser_checkout = $('input[name="reser_checkout"]').val();
+		var style_no = $('input:radio[name="style_no"]:checked').val();
+		var facility_no = []; // 배열 선언
+		$('input:checkbox[name=facility_no]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+			facility_no.push(this.value);
+		});
+		$.ajax({
+			type : 'get',
+			url : '/camping/searchlist.json',
+			dataType : 'json',
+			data : {
+				camp_addr : camp_addr,
+				reser_checkin : reser_checkin,
+				reser_checkout : reser_checkout,
+				style_no : style_no,
+				facility_no : facility_no
+			},
+			success : function(data) {
+				var temp = Handlebars.compile($('#temp').html());
+				$('#campList').html(temp(data));
+			}
+		})
+	}
+	// 예약가능한 갯수와 예약된 갯수 연산 레지스터헬퍼
+	Handlebars.registerHelper("nulltozero", function(camp_tqty, reserve_cnt) {
+		if (reserve_cnt == null) {
+			return camp_tqty
+		} else {
+			return camp_tqty - reserve_cnt
+		}
+	});
+	// 캠핑 아이디 및 원하는 예약 날짜 가지고 리드 페이지로 가지고 가기
+	$("#campList").on(
+			"click",
+			".camp_box",
+			function() {
+				var camp_id = $(this).attr("camp_id");
+				var camp_addr = $('input[name="camp_addr"]').val();
+				var reser_checkin = $('input[name="reser_checkin"]').val();
+				var reser_checkout = $('input[name="reser_checkout"]').val();
+				if(reser_checkin==""){
+					alert("체크인 날짜를 선택해주세요.")
+					return;
+				}
+				if(reser_checkout==""){
+					alert("체크아웃 날짜를 선택해주세요.")
+					return;
+				}
+				location.href = "/camping/read?camp_id=" + camp_id
+						+ "&reser_checkin=" + reser_checkin
+						+ "&reser_checkout=" + reser_checkout
+			})
 </script>
 <!-- 체크박스 갯수 제한 -->
 <script type="text/javascript">

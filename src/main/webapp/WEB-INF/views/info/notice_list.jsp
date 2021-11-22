@@ -46,10 +46,10 @@
 	<script id="temp" type="text/x-handlebars-template">
 		<tr class="title">
 			<th></th>
-			<th width=80>번호</th>
-			<th width=160>이미지</th>
-			<th width=300>제목</th>
-			<th width=110>작성자</th>
+			<th width=50>번호</th>
+			<th width=150>이미지</th>
+			<th width=540>제목</th>
+			<th width=100>작성자</th>
 			<th width=200>작성일시</th>
 			<th width=80>좋아요</th>
 			<th width=80>조회수</th>
