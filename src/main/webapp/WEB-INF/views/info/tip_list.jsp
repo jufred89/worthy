@@ -23,7 +23,7 @@
 			<div id="total"></div> 
 		</div>
 		<div style="overflow:hidden; margin-top:30px;">
-			<c:if test="${uid!=null}">
+	<c:if test="${uid.indexOf('admin')!=-1 && uid!=null}">
 				<button onClick="location.href='/tip/insert'"
 				id="newInsert">팁 등록</button>
 			</c:if>
