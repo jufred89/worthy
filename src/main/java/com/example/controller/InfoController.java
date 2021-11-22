@@ -52,14 +52,14 @@ public class InfoController {
 	@Resource(name="uploadPath")
 	private String path;
 	
-	//怨듭��궗�빆
+	//공지사항
 	@RequestMapping(value = "/notice/list", method = RequestMethod.GET)
 	public String noticeList(Model model) {
 		model.addAttribute("pageName", "info/notice_list.jsp");
 		return "home";
 	}
 	
-	//怨듭��궗�빆 JSON
+	//공지사항 JSON
 	@RequestMapping(value="/notice/list.json", method = RequestMethod.GET)
 	@ResponseBody
 	public HashMap<String, Object> noticeJSON(Criteria cri){
@@ -75,7 +75,7 @@ public class InfoController {
 		map.put("pm", pm);
 		return map;
 	};
-	//�씠�떎�씗 �옉�뾽遺� 硫붿씤�쑝濡� 紐⑸줉 
+	//이다희 작업부 메인으로 목록 
   	@RequestMapping(value="/notice/notice_list.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<HashMap<String, Object>> mainNoticeJSON(){
@@ -90,7 +90,7 @@ public class InfoController {
 		return "home";
 	}
 	
-	//怨듭��궗�빆 �엯�젰
+	//공지사항 입력
 	@RequestMapping(value = "/notice/insert", method = RequestMethod.POST)
 	public String noticeInsertPost(NoticeVO vo,MultipartHttpServletRequest multi, HttpSession session) throws IllegalStateException, IOException{
 		String uid = (String)session.getAttribute("uid");
@@ -108,7 +108,7 @@ public class InfoController {
 		System.out.println(files);
 		ArrayList<String> images = new ArrayList<>();
 		
-		//泥⑤��뙆�씪 �뤃�뜑 留뚮뱾湲�
+		//첨부파일 폴더 만들기
 		File folder = new File(path+"/notice/"+vo.getNb_no());
 		if(!folder.exists()){
 			folder.mkdir();
@@ -123,8 +123,8 @@ public class InfoController {
 		}
 		vo.setImages(images);
 		System.out.println(vo.toString());
-		//���몴�씠誘몄� ���옣
-		if(image.equals(System.currentTimeMillis()+"_")){//�씠誘몄�瑜� none.jpg濡� 諛붽퓞
+		//대표이미지 저장
+		if(image.equals(System.currentTimeMillis()+"_")){//이미지를 none.jpg로 바꿈
 			vo.setNb_image("none.jpg");
 			ndao.insert(vo);
 			return "redirect:/notice/list";
@@ -136,28 +136,28 @@ public class InfoController {
 		}
 	}
 
-	//怨듭��궗�빆 �궘�젣
+	//공지사항 삭제
 	@RequestMapping(value = "/notice/delete", method = RequestMethod.POST)
 	public void noticeDelete(int nb_no, String image){
 		nservice.delete(nb_no);
 		if(image.equals("none.jpg")){
 			return;
 		}
-		//���몴�씠誘몄��궘�젣
+		//대표이미지삭제
 		new File(path +"/notice/"+image).delete();
 		
-		//�빐�떦 寃뚯떆湲� 泥⑤��뙆�씪�씠 �떞湲� �뤃�뜑 �궘�젣
+		//해당 게시글 첨부파일이 담긴 폴더 삭제
 		File delFolder = new File(path+"/notice/"+nb_no);
 		File[] files = delFolder.listFiles();
-		//1.�빐�떦 �뤃�뜑�쓽 �븯�쐞�뙆�씪 �궘�젣
+		//1.해당 폴더의 하위파일 삭제
         for(File file : files){
             file.delete();
         }
-        //2.�빐�떦�뤃�뜑 �궘�젣
+        //2.해당폴더 삭제
       	delFolder.delete();
 	}
 	
-	//怨듭��궗�빆 �씫湲�
+	//공지사항 읽기
 	@RequestMapping(value = "/notice/read", method = RequestMethod.GET)
 	public String noticeRead(int nb_no, Model model, HttpSession session) {
 		model.addAttribute("att", ndao.att_list(nb_no));
@@ -167,19 +167,19 @@ public class InfoController {
 		ndao.updateView(nb_no);
 		
 		String uid = (String)session.getAttribute("uid");
-		if(uid!=null){ //濡쒓렇�씤�쓣 �뻽�쓣寃쎌슦
-			int check = ndao.likeIt(uid, nb_no); //寃뚯떆湲��뿉 �뱾�뼱媛꾩쟻�엳�뒗吏� �솗�씤
+		if(uid!=null){ //로그인을 했을경우
+			int check = ndao.likeIt(uid, nb_no); //게시글에 들어간적있는지 확인
 			if(check==0){
-				ndao.likeInsert(uid, nb_no); //醫뗭븘�슂 �뀒�씠釉붿뿉 醫뗭븘�슂0 �긽�깭濡� �엯�젰
+				ndao.likeInsert(uid, nb_no); //좋아요 테이블에 좋아요0 상태로 입력
 			}
-			model.addAttribute("likeCheck",ndao.likeCheck(uid, nb_no)); //醫뗭븘�슂 �긽�깭媛�吏�怨� 媛�湲�
-		}else if(uid==null){//濡쒓렇�씤�쓣 �븞�븳寃쎌슦
+			model.addAttribute("likeCheck",ndao.likeCheck(uid, nb_no)); //좋아요 상태가지고 가기
+		}else if(uid==null){//로그인을 안한경우
 			return "home";
 		}
 		return "home";
 	}
 	
-	//怨듭��궗�빆 醫뗭븘�슂
+	//공지사항 좋아요
 	@RequestMapping(value="/notice/like", method=RequestMethod.POST)
 	@ResponseBody
 	public void noticeLike(int likeCheck, String uid, int nb_no){
@@ -195,28 +195,28 @@ public class InfoController {
 		return "home";
 	}
 	
-	//怨듭��궗�빆 �닔�젙
+	//공지사항 수정
 	@RequestMapping(value = "/notice/update", method = RequestMethod.POST)
 	public String noticeUpdatePost(NoticeVO vo, String oldImage, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
 		MultipartFile file = multi.getFile("file");
 		String nb_no = Integer.toString(vo.getNb_no());
-		if(!file.isEmpty()){ //���몴�씠誘몄�媛� 諛붾�뚮뒗 寃쎌슦
-			//湲곗〈 ���몴�씠誘몄� �궘�젣
+		if(!file.isEmpty()){ //대표이미지가 바뀌는 경우
+			//기존 대표이미지 삭제
 			new File(path+"/notice/"+oldImage).delete();
 
-			//���몴�씠誘몄� �뙆�씪 �뾽濡쒕뱶
+			//대표이미지 파일 업로드
 			String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
 			file.transferTo(new File(path + "/notice/" + image));
 			vo.setNb_image(image);
 			
 			ndao.update(vo);
-		}else{ //���몴�씠誘몄�媛� 諛붾�뚯� �븡�뒗寃쎌슦
+		}else{ //대표이미지가 바뀌지 않는경우
 			vo.setNb_image(oldImage);
 			ndao.update(vo);
 		}
-		//泥⑤� �씠誘몄� �뙆�씪 �뾽濡쒕뱶
-		List<MultipartFile> files = multi.getFiles("files"); //files name�쓣 媛�吏� �깭洹몄쓽 媛믪쓣 媛��졇�샂			
-		ArrayList<String> images = new ArrayList<>(); //vo.getImages()�뿉 �꽔�쓣 諛곗뿴
+		//첨부 이미지 파일 업로드
+		List<MultipartFile> files = multi.getFiles("files"); //files name을 가진 태그의 값을 가져옴			
+		ArrayList<String> images = new ArrayList<>(); //vo.getImages()에 넣을 배열
 		
 		for(MultipartFile attFile : files) {
 			if(!attFile.isEmpty()){
@@ -232,7 +232,7 @@ public class InfoController {
 		return "redirect:/notice/read?nb_no=" + nb_no;
 	}
 	
-	//怨듭��궗�빆 泥⑤��씠誘몄� �궘�젣
+	//공지사항 첨부이미지 삭제
 	@RequestMapping(value="/notice/attDel",method=RequestMethod.POST)
 	public void notice_attDelete(String image, int nb_no) throws Exception{
 		new File(path+"/notice/"+nb_no+"/"+image).delete();
@@ -240,14 +240,14 @@ public class InfoController {
 		ndao.att_delete(image);
 	}
 	
-	//�똻 紐⑸줉
+	//팁 목록
 	@RequestMapping(value = "/tip/list", method = RequestMethod.GET)
 	public String tipList(Model model) {
 		model.addAttribute("pageName", "info/tip_list.jsp");
 		return "home";
 	}
 	
-	//�똻 JSON
+	//팁 JSON
 	@RequestMapping(value="/tip/list.json", method = RequestMethod.GET)
 	@ResponseBody
 	public HashMap<String, Object> tipJSON(Criteria cri){
@@ -263,7 +263,12 @@ public class InfoController {
 		map.put("pm", pm);
 		return map;
 	};
-
+  //이다희 팁 메인으로
+  	@RequestMapping(value="/tip_list.json", method = RequestMethod.GET)
+	@ResponseBody
+	public List<TipVO> tipAboutJSON(){
+		return tdao.mainPage_tip_list();
+	};
 	
 	@RequestMapping(value = "/tip/insert", method = RequestMethod.GET)
 	public String tipInsert(Model model) {
@@ -273,7 +278,7 @@ public class InfoController {
 		return "home";
 	}
 	
-	//�똻 �엯�젰
+	//팁 입력
 	@RequestMapping(value = "/tip/insert", method = RequestMethod.POST)
 	public String tipInsertPost(TipVO vo,MultipartHttpServletRequest multi,HttpSession session) throws IllegalStateException, IOException{
 		String uid = (String)session.getAttribute("uid");
@@ -289,7 +294,7 @@ public class InfoController {
 		List<MultipartFile> files = multi.getFiles("files");
 		ArrayList<String> images = new ArrayList<>();
 		
-		//泥⑤��뙆�씪 �뤃�뜑 留뚮뱾湲�
+		//첨부파일 폴더 만들기
 		File folder = new File(path+"/tip/"+vo.getTip_no());
 		if(!folder.exists()){
 			folder.mkdir();
@@ -304,8 +309,8 @@ public class InfoController {
 		}
 		vo.setImages(images);
 		
-		//�씠誘몄� ���옣
-		if(image.equals(System.currentTimeMillis()+"_")){//�씠誘몄�瑜� none.jpg濡� 諛붽퓞
+		//이미지 저장
+		if(image.equals(System.currentTimeMillis()+"_")){//이미지를 none.jpg로 바꿈
 			vo.setTip_image("none.jpg");
 			tdao.insert(vo);
 			return "redirect:/tip/list";
@@ -317,7 +322,7 @@ public class InfoController {
 		}
 	}
 	
-	//�똻 �씫湲�
+	//팁 읽기
 	@RequestMapping(value = "/tip/read", method = RequestMethod.GET)
 	public String tipRead(int tip_no, Model model, HttpSession session) {
 		model.addAttribute("att", tdao.att_list(tip_no));
@@ -328,19 +333,19 @@ public class InfoController {
 		
 		String uid = (String)session.getAttribute("uid");
 		
-		if(uid!=null){ //濡쒓렇�씤�쓣 �뻽�쓣寃쎌슦
-			int check = tdao.likeIt(uid, tip_no); //寃뚯떆湲��뿉 �뱾�뼱媛꾩쟻�엳�뒗吏� �솗�씤
+		if(uid!=null){ //로그인을 했을경우
+			int check = tdao.likeIt(uid, tip_no); //게시글에 들어간적있는지 확인
 			if(check==0){
-				tdao.likeInsert(uid, tip_no); //醫뗭븘�슂 �뀒�씠釉붿뿉 醫뗭븘�슂0 �긽�깭濡� �엯�젰
+				tdao.likeInsert(uid, tip_no); //좋아요 테이블에 좋아요0 상태로 입력
 			}
-			model.addAttribute("likeCheck",tdao.likeCheck(uid, tip_no)); //醫뗭븘�슂 �긽�깭媛�吏�怨� 媛�湲�
-		}else if(uid==null){//濡쒓렇�씤�쓣 �븞�븳寃쎌슦
+			model.addAttribute("likeCheck",tdao.likeCheck(uid, tip_no)); //좋아요 상태가지고 가기
+		}else if(uid==null){//로그인을 안한경우
 			return "home";
 		}
 		return "home";
 	}
 	
-	//�똻 醫뗭븘�슂
+	//팁 좋아요
 	@RequestMapping(value="/tip/like", method=RequestMethod.POST)
 	@ResponseBody
 	public void tipLike(int likeCheck, String uid, int tip_no){
@@ -348,24 +353,24 @@ public class InfoController {
 		tdao.likeUpdate(tip_no);
 	}
 	
-	//�똻 �궘�젣
+	//팁 삭제
 	@RequestMapping(value = "/tip/delete", method = RequestMethod.POST)
 	public void tipDelete(int tip_no, String image){
 		tservice.delete(tip_no);
 		if(image.equals("none.jpg")){
 			return;
 		}
-		//���몴�씠誘몄��궘�젣
+		//대표이미지삭제
 		new File(path +"/tip/"+image).delete();
 		
-		//�빐�떦 寃뚯떆湲� 泥⑤��뙆�씪�씠 �떞湲� �뤃�뜑 �궘�젣
+		//해당 게시글 첨부파일이 담긴 폴더 삭제
 		File delFolder = new File(path+"/tip/"+tip_no);
 		File[] files = delFolder.listFiles();
-		//1.�빐�떦 �뤃�뜑�쓽 �븯�쐞�뙆�씪 �궘�젣
+		//1.해당 폴더의 하위파일 삭제
         for(File file : files){
             file.delete();
         }
-        //2.�빐�떦�뤃�뜑 �궘�젣
+        //2.해당폴더 삭제
       	delFolder.delete();
 	}
 
@@ -377,26 +382,26 @@ public class InfoController {
 		return "home";
 	}
 	
-	//�똻 �닔�젙
+	//팁 수정
 		@RequestMapping(value = "/tip/update", method = RequestMethod.POST)
 		public String tipUpdatePost(TipVO vo, String oldImage, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
 			MultipartFile file = multi.getFile("file");
 			String tip_no = Integer.toString(vo.getTip_no());
-			if(!file.isEmpty()){ //���몴�씠誘몄�媛� 諛붾�뚮뒗 寃쎌슦
-				//湲곗〈 ���몴�씠誘몄� �궘�젣
+			if(!file.isEmpty()){ //대표이미지가 바뀌는 경우
+				//기존 대표이미지 삭제
 				new File(path+"/tip/"+oldImage).delete();
 
-				//���몴�씠誘몄� �뙆�씪 �뾽濡쒕뱶
+				//대표이미지 파일 업로드
 				String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
 				file.transferTo(new File(path + "/tip/" + image));
 				vo.setTip_image(image);
 				
 				tdao.update(vo);
-			}else{ //���몴�씠誘몄�媛� 諛붾�뚯� �븡�뒗寃쎌슦
+			}else{ //대표이미지가 바뀌지 않는경우
 				vo.setTip_image(oldImage);
 				tdao.update(vo);
 			}
-			//泥⑤� �씠誘몄� �뙆�씪 �뾽濡쒕뱶
+			//첨부 이미지 파일 업로드
 			List<MultipartFile> files = multi.getFiles("files");			
 			ArrayList<String> images = new ArrayList<>();
 			
@@ -414,7 +419,7 @@ public class InfoController {
 			return "redirect:/tip/read?tip_no=" + tip_no;
 		}
 		
-	//�똻 泥⑤��씠誘몄� �궘�젣
+	//팁 첨부이미지 삭제
 	@RequestMapping(value="/tip/attDel",method=RequestMethod.POST)
 	public void tip_attDelete(String image, int tip_no) throws Exception{
 		new File(path+"/tip/"+tip_no+"/"+image).delete();
@@ -422,14 +427,14 @@ public class InfoController {
 		tdao.att_delete(image);
 	}
 	
-	//�젅�떆�뵾
+	//레시피
 	@RequestMapping(value = "/recipe/list", method = RequestMethod.GET)
 	public String recipeList(Model model) {
 		model.addAttribute("pageName", "info/recipe_list.jsp");
 		return "home";
 	}
 	
-	//�젅�떆�뵾 JSON
+	//레시피 JSON
 	@RequestMapping(value="/recipe/list.json", method = RequestMethod.GET)
 	@ResponseBody
 	public HashMap<String,Object> recipeJSON(Criteria cri){
@@ -444,7 +449,7 @@ public class InfoController {
 		map.put("pm", pm);
 		return map;
 	}
-  // �씠�떎�씗 �뫖�뱶 由ъ뒪�듃 硫붿씤
+  // 이다희 푸드 리스트 메인
   		@RequestMapping(value="/food_list.json", method = RequestMethod.GET)
 		@ResponseBody
 		public List<HashMap<String, Object>> reciepeAboutJSON(){
@@ -460,7 +465,7 @@ public class InfoController {
 	}
 	
 	
-	//�젅�떆�뵾 �엯�젰
+	//레시피 입력
 	@RequestMapping(value = "/recipe/insert", method = RequestMethod.POST)
 	public String recipeInsertPost(RecipeVO vo, MultipartHttpServletRequest multi, HttpSession session) throws IllegalStateException, IOException{
 		String uid = (String)session.getAttribute("uid");
@@ -476,7 +481,7 @@ public class InfoController {
 		List<MultipartFile> files = multi.getFiles("files");
 		ArrayList<String> images = new ArrayList<>();
 		
-		//泥⑤��뙆�씪 �뤃�뜑 留뚮뱾湲�
+		//첨부파일 폴더 만들기
 		File folder = new File(path+"/recipe/"+vo.getFi_no());
 		if(!folder.exists()){
 			folder.mkdir();
@@ -491,8 +496,8 @@ public class InfoController {
 		}
 		vo.setImages(images);
 		
-		//�씠誘몄� ���옣
-		if(image.equals(System.currentTimeMillis()+"_")){//�씠誘몄�瑜� none.jpg濡� 諛붽퓞
+		//이미지 저장
+		if(image.equals(System.currentTimeMillis()+"_")){//이미지를 none.jpg로 바꿈
 			vo.setFi_image("none.jpg");
 			rdao.insert(vo);
 			return "redirect:/recipe/list";
@@ -504,7 +509,7 @@ public class InfoController {
 		}
 	}
 	
-	//�젅�떆�뵾 �씫湲�
+	//레시피 읽기
 	@RequestMapping(value = "/recipe/read", method = RequestMethod.GET)
 	public String recipeRead(int fi_no, Model model, HttpSession session) {
 		model.addAttribute("att", rdao.att_list(fi_no));
@@ -514,19 +519,19 @@ public class InfoController {
 		rdao.updateView(fi_no);
 		
 		String uid = (String)session.getAttribute("uid");
-		if(uid!=null){ //濡쒓렇�씤�쓣 �뻽�쓣寃쎌슦
-			int check = rdao.likeIt(uid, fi_no); //寃뚯떆湲��뿉 �뱾�뼱媛꾩쟻�엳�뒗吏� �솗�씤
+		if(uid!=null){ //로그인을 했을경우
+			int check = rdao.likeIt(uid, fi_no); //게시글에 들어간적있는지 확인
 			if(check==0){
-				rdao.likeInsert(uid, fi_no); //醫뗭븘�슂 �뀒�씠釉붿뿉 醫뗭븘�슂0 �긽�깭濡� �엯�젰
+				rdao.likeInsert(uid, fi_no); //좋아요 테이블에 좋아요0 상태로 입력
 			}
-			model.addAttribute("likeCheck",rdao.likeCheck(uid, fi_no)); //醫뗭븘�슂 �긽�깭媛�吏�怨� 媛�湲�
-		}else if(uid==null){//濡쒓렇�씤�쓣 �븞�븳寃쎌슦
+			model.addAttribute("likeCheck",rdao.likeCheck(uid, fi_no)); //좋아요 상태가지고 가기
+		}else if(uid==null){//로그인을 안한경우
 			return "home";
 		}
 		return "home";
 	}
 	
-	//�젅�떆�뵾 醫뗭븘�슂
+	//레시피 좋아요
 	@RequestMapping(value="/recipe/like", method=RequestMethod.POST)
 	@ResponseBody
 	public void recipeLike(int likeCheck, String uid, int fi_no){
@@ -534,7 +539,7 @@ public class InfoController {
 		rdao.likeUpdate(fi_no);
 	}
 
-	//�젅�떆�뵾 �궘�젣
+	//레시피 삭제
 	@RequestMapping(value = "/recipe/delete", method = RequestMethod.POST)
 	public void recipeDelete(int fi_no, String image){
 		rservice.delete(fi_no);
@@ -542,17 +547,17 @@ public class InfoController {
 		if(image.equals("none.jpg")){
 			return;
 		}
-		//���몴�씠誘몄��궘�젣
+		//대표이미지삭제
 		new File(path +"/recipe/"+image).delete();
 		
-		//�빐�떦 寃뚯떆湲� 泥⑤��뙆�씪�씠 �떞湲� �뤃�뜑 �궘�젣
+		//해당 게시글 첨부파일이 담긴 폴더 삭제
 		File delFolder = new File(path+"/recipe/"+fi_no);
 		File[] files = delFolder.listFiles();
-		//1.�빐�떦 �뤃�뜑�쓽 �븯�쐞�뙆�씪 �궘�젣
+		//1.해당 폴더의 하위파일 삭제
         for(File file : files){
             file.delete();
         }
-        //2.�빐�떦�뤃�뜑 �궘�젣
+        //2.해당폴더 삭제
       	delFolder.delete();
 	}
 	
@@ -564,26 +569,26 @@ public class InfoController {
 		return "home";
 	}
 	
-	//�젅�떆�뵾 �닔�젙
+	//레시피 수정
 	@RequestMapping(value = "/recipe/update", method = RequestMethod.POST)
 	public String recipeUpdatePost(RecipeVO vo, String oldImage, MultipartHttpServletRequest multi) throws IllegalStateException, IOException{
 		MultipartFile file = multi.getFile("file");
 		String fi_no = Integer.toString(vo.getFi_no());
-		if(!file.isEmpty()){ //���몴�씠誘몄�媛� 諛붾�뚮뒗 寃쎌슦
-			//湲곗〈 ���몴�씠誘몄� �궘�젣
+		if(!file.isEmpty()){ //대표이미지가 바뀌는 경우
+			//기존 대표이미지 삭제
 			new File(path+"/recipe/"+oldImage).delete();
 
-			//���몴�씠誘몄� �뙆�씪 �뾽濡쒕뱶
+			//대표이미지 파일 업로드
 			String image = System.currentTimeMillis()+"_"+file.getOriginalFilename();
 			file.transferTo(new File(path + "/recipe/" + image));
 			vo.setFi_image(image);
 			
 			rdao.update(vo);
-		}else{ //���몴�씠誘몄�媛� 諛붾�뚯� �븡�뒗寃쎌슦
+		}else{ //대표이미지가 바뀌지 않는경우
 			vo.setFi_image(oldImage);
 			rdao.update(vo);
 		}
-		//泥⑤� �씠誘몄� �뙆�씪 �뾽濡쒕뱶
+		//첨부 이미지 파일 업로드
 		List<MultipartFile> files = multi.getFiles("files");			
 		ArrayList<String> images = new ArrayList<>();
 		
@@ -601,7 +606,7 @@ public class InfoController {
 		return "redirect:/recipe/read?fi_no=" + fi_no;
 	}
 
-	//�젅�떆�뵾 泥⑤��씠誘몄� �궘�젣
+	//레시피 첨부이미지 삭제
 	@RequestMapping(value="/recipe/attDel",method=RequestMethod.POST)
 	public void recipe_attDelete(String image, int fi_no) throws Exception{
 		new File(path+"/recipe/"+fi_no+"/"+image).delete();
@@ -609,7 +614,7 @@ public class InfoController {
 		rdao.att_delete(image);
 	}
 	
-	//怨듭��궗�빆 �씠誘몄� �뙆�씪 蹂닿린
+	//공지사항 이미지 파일 보기
 	@ResponseBody
 	@RequestMapping("/notice/display")
 	public byte[] noticeDisplay(String file)throws Exception{
@@ -619,7 +624,7 @@ public class InfoController {
 		return image;
 	}
 		
-	//�똻 �씠誘몄� �뙆�씪 蹂닿린
+	//팁 이미지 파일 보기
 	@ResponseBody
 	@RequestMapping("/tip/display")
 	public byte[] tipDisplay(String file)throws Exception{
@@ -628,7 +633,7 @@ public class InfoController {
 		in.close();
 		return image;
 	}
-	//�젅�떆�뵾 �씠誘몄� �뙆�씪 蹂닿린
+	//레시피 이미지 파일 보기
 	@ResponseBody
 	@RequestMapping("/recipe/display")
 	public byte[] display(String file)throws Exception{
