@@ -3,32 +3,14 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% pageContext.setAttribute("replaceChar", "\n"); %>
-<style>
-	#divRead{
-		width:960px;
-		margin:0 auto;
-	}
-	#tip{
-		display:inline-block;
-	}
-	#update, #list, #btnLike, #likeCnt, #btnDelete{
-		float:right;
-		margin:15px;
-	}
-	#mainImg{margin:15px;}
-	#att {
-		margin-top:10px;
-		margin:0 auto; 
-		overflow:hidden; 
-		border:1px dashed gray;
-	}
-	#att img{
-		margin:10px;
-		width:150px;
-		height:100px;
-	}
-</style>
-<h1>팁 읽기</h1>
+<link rel="stylesheet" href="../resources/info.css" />
+
+<div style="width:400px;
+	margin:0 auto; text-align:center;">
+	<div id="subject">INFORMATION</div>
+	<h5>캠핑팁</h5>
+</div>
+
 <div id="divRead">
 	<img id="mainImg" src="/tip/display?file=${vo.tip_image}" width=500 height=400/>
 	<div id="att">
@@ -38,25 +20,35 @@
 			</c:forEach>		
 		</c:if>
 	</div>
+	<div class="divider"></div>
 	<div id="tip">
-		<h3>${vo.tip_no} : ${vo.tip_title}</h3>
-		<div>${fn:replace(vo.tip_content, replaceChar, "<br/>")}</div>
+		<div style="overflow:hidden; margin-bottom:30px;">
+			<div id="tip_logo">TIP</div>
+		</div>
+		<div id="nb_title">${vo.tip_no} : ${vo.tip_title}</div>
+		<div id="nb_content">${fn:replace(vo.tip_content, replaceChar, "<br/>")}</div>
 	</div>
 	<div>
-		<button id="list" onClick="location.href='/tip/list'">목록</button>
-		<div id="upDel">
-			<button id="update" onClick="location.href='/tip/update?tip_no=${vo.tip_no}'">수정</button>
-			<input type="button" id="btnDelete" value="삭제">
+		<div>
+			<h5>캠핑정보가 도움이 되셨다면 좋아요를 눌러주세요!</h5>
+			<c:if test="${uid!=null}">
+				<c:if test="${likeCheck==0}">
+					<img src="/resources/heart.png" title="좋아요" width=35 id="likey"/>
+				</c:if>
+				<c:if test="${likeCheck!=0}">
+					<img src="/resources/heart_colored.png" title="좋아요취소" width=35 id="likey"/>
+				</c:if>
+			</c:if>
+			<h4 id="likeCnt">좋아요 : ${vo.tip_like}</h4>
 		</div>
-		<c:if test="${uid!=null}">
-			<c:if test="${likeCheck==0}">
-				<input type="button" id="btnLike" value="좋아요"/>
-			</c:if>
-			<c:if test="${likeCheck!=0}">
-				<input type="button" id="btnLike" value="좋아요취소"/>
-			</c:if>
-		</c:if>
-		<h4 id="likeCnt">좋아요 : ${vo.tip_like}</h4>
+		
+		<div>
+			<div id="tipUpDel">
+				<button id="update" class="blackBtn" onClick="location.href='/tip/update?tip_no=${vo.tip_no}'">수정</button>
+				<input type="button" id="btnDelete" class="whiteBtn" value="삭제">
+			</div>
+			<button id="list" class="whiteBtn" onClick="location.href='/tip/list'">목록</button>
+		</div>
 	</div>
 </div>
 <script>
@@ -78,9 +70,9 @@
 	var tip_no = ${vo.tip_no};
 	
 	//해당 글을 작성한 유저만 수정&삭제 가능
-	$("#upDel").html(function(){
+	$("#tipUpDel").html(function(){
 		if("${vo.tip_writer}"!=uid){
-			$("#upDel").css('display','none');
+			$("#tipUpDel").css('display','none');
 		}
 	});
 
@@ -100,9 +92,9 @@
 		})
 		location.href="/tip/list";
 	});
-	
+
 	//좋아요 버튼 클릭한 경우
-	$('#btnLike').on('click',function(){
+	$('#likey').on('click',function(){
 		$.ajax({
 			type:'post',
 			url:'/tip/like',
