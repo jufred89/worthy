@@ -187,5 +187,10 @@ public class ShopDAOImpl implements ShopDAO{
 		return session.selectOne(namespace+".pay_Allread",pay_no);
 	}
 
+	@Override
+	public void order_cancel(int pay_no) {
+		session.update(namespace+".order_cancel",pay_no);
+	}
+
 	
 }
