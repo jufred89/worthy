@@ -413,7 +413,8 @@ ul.tabs li.current {
 			},
 			success : function() {
 				alert("등록되었습니다");
-				$("#my_modal").modal("hide");
+		        bg.remove();
+		        modal.style.display = 'none';
 			}
 		});
 	});
