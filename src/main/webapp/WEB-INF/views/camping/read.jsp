@@ -136,8 +136,51 @@
 	font-weight: bold;
 	padding: 20px;
 }
+#pageLike{
+	text-align: right;
+	margin-right: 30px;
+	cursor: pointer;
+}
+#campingReviews{
+	overflow: hidden;
+}
+#campingReviews h2{
+	text-align: left;
+	font-weight: bold;
+	padding: 20px;
+}
+.campingReviewer{
+	float: left;
+	width: 33%;
+	height: 150px;
+	padding: 10px;
+	overflow: hidden;
+	background: rgb(242, 242, 242);
+}
+.campingReviewerImage{
+	float: left;
+	margin: 10px;
+}
+.campingReviewerImage img{
+	border-radius:35px;
+	border: 3px solid black;
+}
+.campingReviewTop{
+	float: left;
+	text-align: left;
+	padding: 5px;
+}
+.campingReviewBottom{
+	clear: left;
+	text-align: left;
+	padding: 5px;
+}
+.camp_ruid{
+	font-size: 20px;
+	margin: 10px;
+}
 </style>
-<h1>캠핑장 정보</h1>
+<h1 style="color: #ff0000; font-weight: bold;">캠핑장 정보</h1>
 <hr />
 <!-- 캠핑장 정보 부분 -->
 <div id="campBody">
@@ -145,6 +188,15 @@
 		<div>
 			<h1>${cvo.camp_name}</h1>
 			<h3 id="from_addr">${cvo.camp_addr}</h3>
+			<div id="pageLike">
+				<c:if test="${likeCheck==0 }">
+					<img src="/resources/heart.png" title="좋아요" width=45 id="bntLike" />
+				</c:if>
+				<c:if test="${likeCheck!=0 }">
+					<img src="/resources/heart_colored.png" title="좋아요취소" width=45
+						id="bntLike" />
+				</c:if>
+			</div>
 		</div>
 		<div id="campMainImage">
 			<img class="image-thumbnail"
@@ -225,6 +277,23 @@
 			</div>
 		</div>
 	</div>
+	<div id="campingReviews">
+		<h2>캠핑장 리뷰</h2>
+		<c:forEach items="${campReviewList}" var="crlvo">
+		<div class="campingReviewer">
+			<div class="campingReviewerImage">
+				<img src="/resources/person.png" width=70 height=70 />
+			</div>
+			<div class="campingReviewTop">
+				<div class="camp_ruid">${crlvo.camp_ruid}</div>
+				<div class="camp_reviewdate">${crlvo.camp_reviewdate_f}</div>
+			</div>
+			<div class="campingReviewBottom">
+				<div>${crlvo.camp_review}</div>
+			</div>
+		</div>
+		</c:forEach>
+	</div>
 	<!-- 주소 기반 지도 -->
 	<div id="mapBox">
 		<h2>캠핑장 위치</h2>
@@ -265,6 +334,26 @@
 				+ style_no + "&style_price=" + style_price + "&reser_checkin="
 				+ reser_checkin + "&reser_checkout=" + reser_checkout
 	}
+</script>
+<!-- 캠핑 졸아요 버튼 클릭시 -->
+<script>
+//좋아요 버튼 클릭한 경우
+$('#pageLike').on('click',function(){
+	var likeCheck = "${likeCheck}";
+	alert(uid)
+	alert(camp_id)
+	alert(reser_checkin)
+	alert(reser_checkout)
+	alert(likeCheck)
+	$.ajax({
+		type:'post',
+		url:'/camping/like',
+		data:{"likeCheck":likeCheck,"uid":uid,"camp_id":camp_id},
+		success: function(){
+			location.href="/camping/read?camp_id="+camp_id+"&reser_checkin="+reser_checkin+"&reser_checkout="+reser_checkout;
+		}
+	});
+});
 </script>
 <!-- 주소로 좌표값 가져오기 T맵 좌표값이 달라서 주소로 다음지도로 좌표값 불러오기 -->
 <!-- 다음 지도 API .js -->

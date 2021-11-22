@@ -64,7 +64,7 @@
 }
 
 #campListHead {
-	margin: 30px;
+	margin: 10px;
 }
 
 #campListHead h3 {
@@ -291,9 +291,6 @@
 			alert("캠핑 시설란을 확인해주세요.");
 			return;
 		}
-		alert(camp_addr)
-		alert(reser_checkin)
-		alert(reser_checkout)
 		getList();
 		$("#campListHead h3").html(
 				camp_addr + "에서 " + reser_checkin + "부터 " + reser_checkout
@@ -340,6 +337,17 @@
 			".camp_box",
 			function() {
 				var camp_id = $(this).attr("camp_id");
+				var camp_addr = $('input[name="camp_addr"]').val();
+				var reser_checkin = $('input[name="reser_checkin"]').val();
+				var reser_checkout = $('input[name="reser_checkout"]').val();
+				if(reser_checkin==""){
+					alert("체크인 날짜를 선택해주세요.")
+					return;
+				}
+				if(reser_checkout==""){
+					alert("체크아웃 날짜를 선택해주세요.")
+					return;
+				}
 				location.href = "/camping/read?camp_id=" + camp_id
 						+ "&reser_checkin=" + reser_checkin
 						+ "&reser_checkout=" + reser_checkout
