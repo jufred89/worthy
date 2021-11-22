@@ -1,12 +1,15 @@
 @CHARSET "UTF-8";
 
-
+.first{
+	
+	margin-bottom:40px;
+}
 
 /* STRUCTURE */
 
 .wrapper {
 	position:fixed;
-	
+	margin-top:100px;
   display: flex;
   align-items: center;
   flex-direction: column; 
@@ -28,7 +31,7 @@
   padding: 0px;
  box-shadow: none;
   text-align: center;
-  top:150px;
+  top:300px;
 }
 
 #formFooter {
