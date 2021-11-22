@@ -137,7 +137,7 @@ align-items:center;
 			
      		 <c:if test="${uid!=null}">
 					<div style="float:right;">
-						<div><a href="/mypage?uid=${uid}">${uid}</a>님 환영합니다!</div>
+						<a style="" href="/mypage?uid=${uid}">${uid}</a><span style="display:inline-block;margin-right:10px;">님 환영합니다! </span>
 						  
 						<a href="/user/logout" id="logout"><span class='glyphicon glyphicon-share-alt'></span>LOGOUT</a>
 					</div>

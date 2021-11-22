@@ -18,7 +18,7 @@
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
 	<span id="total"></span> 
 	<div style="overflow:hidden; margin-top:30px">
-		<c:if test="${uid!=null}">
+	<c:if test="${uid.indexOf('admin')!=-1 && uid!=null}">
 			<button onClick="location.href='/recipe/insert'"
 			id="newInsert">레시피 등록</button>
 		</c:if>
