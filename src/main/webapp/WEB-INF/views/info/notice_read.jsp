@@ -4,9 +4,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <% pageContext.setAttribute("replaceChar", "\n"); %>
 <link rel="stylesheet" href="../resources/info_read.css" />
+<div style="width:960px;margin:0 auto; text-align:center;">
+		<div style="overflow:hidden; margin-bottom:10px;">
+			<div id="notice_logo">NOTICE</div>
+		</div>
+</div>
 <div id="divRead">
 	<div id="readHeader">
 		<h3 id="title">${vo.nb_no} . ${vo.nb_title}</h3>
+		
+
 		<span id="readInfo">
 			<span id="writer">${vo.nb_writer}</span> &nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;
 			<span id="regdate">${vo.nb_regdate}</span> &nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;
@@ -15,16 +22,17 @@
 		</span>
 	</div>
 	<c:if test="${vo.nb_image!='none.jpg'}">
-		<img id="mainImg" src="/notice/display?file=${vo.nb_image}"/>
+		<img id="mainImg" src="/notice/display?file=${vo.nb_image}" width=500 height=400/>
 	</c:if>
 	<div id="att">
 		<c:if test="${att!=null}">
 			<c:forEach items="${att}" var="list">
-					<img src="/notice/display?file=/${vo.nb_no}/${list}"/>
+					<img src="/notice/display?file=/${vo.nb_no}/${list}"width=150 height=100/>
 			</c:forEach>
 		</c:if>
 	</div>
 		<div id="infoContent">
+
 			${fn:replace(vo.nb_content, replaceChar, "<br/>")}
 		</div>
 	<div>

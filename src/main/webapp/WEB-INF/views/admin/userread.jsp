@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<h1>회원정보</h1>
+<div id="sub">
+	<div class="subheading">회원 정보</div>
 <form name="frm" action="/user/update" method="post" >
-<hr />
-	<table class="tbl_body1" border="1" width="780px" hieght="550px">
+	<table id="tbl_body1">
 		<tr>
 			<th class="tbl_head">아이디</th>
 			<td colspan="3"class="tbl_data"><input type="text" name="uid" value="${vo.uid}" readonly size="80px" /></td>
@@ -29,9 +29,10 @@
 		</tr>
 
 	</table>
-	<input type="submit" value="회원정보수정"/>
-	<input type="reset" value="수정 취소"/>
+	<input type="submit" class="blackBtn" value="회원정보수정"/>
+	<input type="reset" class="whiteBtn" value="수정 취소"/>
 </form>
+</div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.

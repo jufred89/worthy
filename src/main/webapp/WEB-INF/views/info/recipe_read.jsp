@@ -4,6 +4,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% pageContext.setAttribute("replaceChar", "\n"); %>
 <link rel="stylesheet" href="../resources/info_read.css" />
+<div style="width:960px;margin:0 auto; text-align:center;">
+		<div style="overflow:hidden; margin-bottom:10px;">
+			<div id="notice_logo">RECIPE</div>
+		</div>
+</div>
 <div id="divRead">
 	<div id="readHeader">
 		<h3 id="title">${vo.fi_no} . ${vo.fi_title}</h3>

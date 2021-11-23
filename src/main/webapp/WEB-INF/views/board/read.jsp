@@ -68,14 +68,14 @@
 
 								
 				<!-- 첨부파일 -->
-
-				<div id="form-attach">
-					<div class="title">첨부이미지</div>
-					<c:if test="${vo.fb_writer == uid}">
-						<input type="file" name="attFile" accept="image/*"/>
-					</c:if>
-					<div id="attachments">
-						<c:if test="${attList!=null}">
+				<c:if test="${attList!=null}">
+					<div id="form-attach">
+						<div class="title">첨부이미지</div>
+						<c:if test="${vo.fb_writer == uid}">
+							<input type="file" name="attFile" accept="image/*"/>
+						</c:if>
+						<div id="attachments">
+						
 							<!-- 첨부파일 리스트 출력 -->
 							<c:forEach items="${attList }" var="attach">
 								<div class="attachBox">
@@ -87,9 +87,10 @@
 									</div>
 								</div>
 							</c:forEach>		
-						</c:if>	
+						
+						</div>
 					</div>
-				</div>
+				</c:if>	
 			</div>
 			<!---------------------- 수정, 삭제, 취소 버튼 ------------------->
 				<div id="readBtns">
