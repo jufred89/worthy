@@ -19,6 +19,7 @@
 
 #campingReadBox1 h1 {
 	font-weight: bold;
+	text-align: left;
 }
 
 #campMainImage {
