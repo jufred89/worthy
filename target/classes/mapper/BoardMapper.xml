@@ -19,6 +19,11 @@
 		</if>
  		limit #{cri.pageStart},#{cri.perPageNum}
  	</select>
+ 	<select id="mainPage_board_list" resultType="com.example.domain.BoardVO">
+ 		select * from tbl_board
+ 		order by fb_no desc
+ 		limit 0, 10
+ 	</select>
  	<insert id="board_insert">
  		insert into tbl_board(fb_no,fb_title,fb_content,fb_writer,fb_image,fb_category)
 		values(#{fb_no},#{fb_title},#{fb_content},#{fb_writer},#{fb_image},#{fb_category})

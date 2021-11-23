@@ -18,6 +18,7 @@ import com.example.domain.ChatVO;
 import com.example.domain.UserVO;
 import com.example.mapper.CampingDAO;
 import com.example.mapper.ChatDAO;
+import com.example.mapper.ShopDAO;
 import com.example.mapper.UserDAO;
 
 @Controller
@@ -31,6 +32,9 @@ public class MyPageController {
 	
 	@Autowired
 	CampingDAO campDAO;
+	
+	@Autowired
+	ShopDAO sdao;
 
 	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
 	public String mypage(Model model, HttpSession session) {
@@ -145,7 +149,12 @@ public class MyPageController {
 	}
 
 	@RequestMapping(value = "/myshop", method = RequestMethod.GET)
-	public String myshop(Model model) {
+	public String myshop(Model model, HttpSession session) {
+		String uid = (String) session.getAttribute("uid");
+		String uname = udao.login(uid).getUname();
+		
+		model.addAttribute("uname", uname);
+		model.addAttribute("shop_list", sdao.myshopList(uid));
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName", "myshop.jsp");
 		return "home";

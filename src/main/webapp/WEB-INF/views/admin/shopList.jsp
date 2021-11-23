@@ -89,6 +89,10 @@
 	//-버튼
 	$("#tblShop").on("click", ".minus", function(){
 		var qty = $(this).parent().find(".prod_qty").html();
+		if(qty == 0){
+			alert("0 이하로 내릴 수 없습니다");
+			return;
+		}
 		qty--;
 		$(this).parent().find(".prod_qty").html(qty);
 	});

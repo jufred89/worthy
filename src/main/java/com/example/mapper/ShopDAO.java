@@ -21,22 +21,23 @@ public interface ShopDAO {
 	public void prod_delete(String prod_id);
 	public List<HashMap<String, Object>> prod_slide();
 	
-	//占쎄맒占쎄쉭 占쎌뵠沃섎챷占�
+	//attach
 	public AttachVO attach(String shop_pid);
 	public void att_insert(AttachVO avo);
 	public void att_update(AttachVO avo);
 	
-	//占쎈솊疫뀐옙
+	//preview
 	public List<HashMap<String, Object>> pre_list(Criteria cri, String prod_rid);
 	public void pre_insert(Shop_previewVO pvo);
 	public int pre_totalCount(String prod_rid);
 	public void pre_delete(int prod_rno);
 	
-	//占쎌삢獄쏅떽�럡占쎈빍
+	//cart
 	public void cart_insert(Shop_cartVO cvo);
 	public List<HashMap<String, Object>> cart_list(String cart_uid);
 	public void cart_delete(int cart_no);
 	public int cart_price_sum(String cart_uid);
+	public int prodQty(String prod_id);
 	
 	//admin
 	public List<HashMap<String, Object>> adminListJSON(Criteria cri);
@@ -44,14 +45,18 @@ public interface ShopDAO {
 	public void adminHideUpdate(ShopVO vo);
 	public int adminTotalCount(Criteria cri);
 	
-	//援щℓ
+	//payment
 	public void pay_insert(Shop_payVO pvo);
 	public void order_insert(Shop_orderVO ovo);
 	public void orderProdUpdate(ShopVO vo);
 	public void orderCartUpdate(Shop_cartVO cvo);
-	public Shop_payVO payRead(String pay_uid);
+	public Shop_payVO payRead(int pay_no);
 	public void payUpdate(Shop_payVO pvo);
 	public void pay_success(Shop_payVO pvo);
 	public Shop_payVO pay_Allread(int pay_no);
+	public int user_maxNo(String pay_uid);
 	
+	//myshop
+	public List<HashMap<String, Object>> myshopList(String cart_uid);
+	public void myshopUpdate(Shop_orderVO ovo);
 }

@@ -126,13 +126,6 @@ public class ShopDAOImpl implements ShopDAO{
 		session.insert(namespace + ".pay_insert", pvo);
 	}
 
-	/*
-	@Override
-	public void pay_update(Shop_payVO pvo) {
-		session.update(namespace+".pay_update",pvo);
-	}
-	*/
-
 	@Override
 	public void order_insert(Shop_orderVO ovo) {
 		session.insert(namespace + ".order_insert", ovo);
@@ -174,8 +167,8 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 	@Override
-	public Shop_payVO payRead(String pay_uid) {
-		return session.selectOne(namespace + ".pay_read", pay_uid);
+	public Shop_payVO payRead(int pay_no) {
+		return session.selectOne(namespace + ".pay_read", pay_no);
 	}
 
 	@Override
@@ -185,6 +178,26 @@ public class ShopDAOImpl implements ShopDAO{
 	@Override
 	public Shop_payVO pay_Allread(int pay_no) {
 		return session.selectOne(namespace+".pay_Allread",pay_no);
+	}
+
+	@Override
+	public int user_maxNo(String pay_uid) {
+		return session.selectOne(namespace + ".user_maxNo", pay_uid);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> myshopList(String cart_uid) {
+		return session.selectList(namespace + ".myshop_list", cart_uid);
+	}
+
+	@Override
+	public int prodQty(String prod_id) {
+		return session.selectOne(namespace + ".prod_qty", prod_id);
+	}
+
+	@Override
+	public void myshopUpdate(Shop_orderVO ovo) {
+		session.update(namespace + ".myshop_update", ovo);
 	}
 
 	

@@ -99,7 +99,7 @@
 		$.ajax({
 			type: "post",
 			url: "/shop/pay_insert",
-			data: {"pay_date" : "2021-11-19", "pay_price" : pay_price, "pay_type" : '1',
+			data: {"pay_date" : "2021.11.22", "pay_price" : pay_price, "pay_type" : '1',
 				"pay_uid" : pay_uid, "pay_status" : 1, "quantity":quantity, "item_name":item_name},
 			success: function(data){
 				$("#tblCart .item .chk:checked").each(function(){
@@ -350,7 +350,8 @@
 
 		var checked = $(this).parent().parent().parent().find(".chk").is(":checked");
 		
-		if (checked) {var price_sum = Number($("#price_sum").html());
+		if (checked) {
+			var price_sum = Number($("#price_sum").html());
 			$("#price_sum").html(price_sum + normalprice);
 
 			if (price_sum + normalprice > 50000) {
