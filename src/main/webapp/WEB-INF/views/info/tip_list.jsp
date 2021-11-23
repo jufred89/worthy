@@ -18,9 +18,15 @@
 
 <div id="container">
 	<div id="condition">
-		<div>
-			<input type="text" id="keyword" placeholder="검색어 입력"/> 
-			<div id="total"></div> 
+		<div id="search">
+			<select id="searchType">
+				<option value="title">제목</option>
+				<option value="content">내용</option>
+				<option value="all">제목+내용</option>
+			</select>
+			<!-- <span id="total"></span> -->
+			<input type="text" id="keyword" placeholder="검색어 입력">
+			<span id="total"></span>  
 		</div>
 		<div style="overflow:hidden; margin-top:30px;">
 	<c:if test="${uid.indexOf('admin')!=-1 && uid!=null}">
@@ -29,13 +35,9 @@
 			</c:if>
 			<div id="sort">
 				<select id="perPageNum">
-					<option value="3">3개씩 보기</option>
-					<option value="6">6개씩 보기</option>
-					<option value="9">9개씩 보기</option>
-				</select>
-				<select id="searchType">
-					<option value="desc">내림차순</option>
-					<option value="asc">오름차순</option>
+					<option value="5">5개씩 보기</option>
+					<option value="10">10개씩 보기</option>
+					<option value="15">15개씩 보기</option>
 				</select>
 			</div>
 		</div>
