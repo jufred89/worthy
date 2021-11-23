@@ -1,18 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<style>
-	table,td{padding:7px;border:1px solid gray; border-collapse:collapase;}
-</style>
-<h1>채팅목록</h1>
 
-<div style="width:700px; margin:0 auto;">
-	<table id="chatBox"></table>
-</div>
+<div id="sub">
+	<div class="subheading">채팅 목록</div>
 
-<script id="temp" type="text/x-handlebars-template">
+	<div style="width:1000px; margin:0 auto;">
+		<table id="chatBox"></table>
+	</div>
+	
+	<script id="temp" type="text/x-handlebars-template">
 	<tr>
 		<th width=100>회원 아이디</th>
-		<th width=400>최근 메시지</th>
+		<th width=600>최근 메시지</th>
 		<th>시간</th>
 	</tr>
 	{{#each .}}
@@ -22,7 +21,8 @@
 		<td>{{chat_regdate}}</td>
 	</tr>
 	{{/each}}
-</script>
+	</script>
+</div>
 <script>
 
 	getList();
