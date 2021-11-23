@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mapper.CampingMapper">
-
-	<!-- 캠핑장 목록 -->
 	<!-- 유저 메인 페이지 지역, 날짜 조건 캠핑장 목록 -->
 	<select id="campSearchList" resultType="hashmap">
 		SELECT 
 	    *
-	FROM
+		FROM
 	    (SELECT 
 	        c.*, reserve_cnt
 	    FROM
@@ -99,7 +97,7 @@
  	</select>
  	<!-- 특정 캠핑장 시설 정보 읽어오기 -->
  	<select id="campFacilityRead" resultType="com.example.domain.CampingVO">
-		select camp_id,facility_name from tbl_camp_facility as cf, tbl_facility_name as fn
+		select camp_id,cf.facility_no,facility_name from tbl_camp_facility as cf, tbl_facility_name as fn
 		where cf.facility_no = fn.facility_no and camp_id=#{camp_id};
  	</select>
  	<!-- 캠핑장 등록시 camp_id 최대값 읽어오기 -->
@@ -108,8 +106,8 @@
  	</select>
  	<!-- 캠팡정 둥록 -->
  	<insert id="campInsert">
- 		insert into tbl_camp_list(camp_id,camp_name,camp_maker,camp_addr,camp_tel,camp_detail,camp_memo,camp_price,camp_image)
- 		values(#{camp_id},#{camp_name},#{camp_maker},#{camp_addr},#{camp_tel},#{camp_detail},#{camp_memo},#{camp_price},#{camp_image})
+ 		insert into tbl_camp_list(camp_id,camp_name,camp_maker,camp_addr,camp_tel,camp_detail,camp_memo,camp_image,camp_status)
+ 		values(#{camp_id},#{camp_name},#{camp_maker},#{camp_addr},#{camp_tel},#{camp_detail},#{camp_memo},#{camp_image},default)
  	</insert>
  	<!-- 특정 캠핑장 시설목록 등록 -->
  	<insert id="campFacilityInsert">
@@ -136,7 +134,43 @@
 	</select>
 	<!-- 캠핑장 예약 -->
 	<insert id="campReservationCheckoutInsert">
-		insert into tbl_camp_reserve(camp_id,camp_room_no,reser_status,reser_checkin,reser_checkout,uid)
-		values(#{camp_id},#{camp_room_no},'1',#{reser_checkin},#{reser_checkout},#{uid});
+		insert into tbl_camp_reserve(camp_id,camp_room_no,reser_status,reser_checkin,reser_checkout,uid,reser_man_qty,reser_booker,reser_booker_phone,reser_price,reser_date)
+		values(#{camp_id},#{camp_room_no},'1',#{reser_checkin},#{reser_checkout},#{uid},4,#{reser_booker},#{reser_booker_phone},#{reser_price},#{reser_date});
 	</insert>
+	<select id="campSlide" resultType="hashmap">
+select * from tbl_camp_list
+order by camp_id desc
+</select>
+	<!-- 캠핑장 정보 수정 -->
+	<update id="campUpdate">
+		update tbl_camp_list set camp_name=#{camp_name},camp_maker=#{camp_maker},camp_addr=#{camp_addr},camp_status=#{camp_status},camp_tel=#{camp_tel},camp_memo=#{camp_memo},camp_detail=#{camp_detail},camp_image=#{camp_image}
+		where camp_id=#{camp_id}
+	</update>
+	<!-- 특정 캠핑장 기존 스타일 삭제 -->
+	<delete id="campStyleDelete">
+		delete from tbl_camp_style where camp_id=#{camp_id}
+	</delete>
+	<!-- 특정 캠핑장 기존 시설목록 삭제 -->
+	<delete id="campFacilityDelete">
+		delete from tbl_camp_facility where camp_id=#{camp_id}
+	</delete>
+	<!-- 특정 유저가 예약한 캠핑장 목록 확인 -->
+	<select id="campReservationUser" resultType="com.example.domain.CampingReserVO">
+		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id
+	</select>
+	<!-- 캠핑장 리뷰 -->
+	 <select id="campReviewList" resultType="HashMap">
+ 		select *, date_format(camp_reviewdate, '%Y-%m-%d') camp_reviewdate_f from tbl_camp_review
+ 		where camp_id = #{camp_id}
+ 		order by camp_rno desc
+ 		limit #{cri.pageStart}, #{cri.perPageNum}
+ 	</select>
+ 	<insert id="campReviewInsert">
+ 		insert into tbl_camp_review(camp_ruid, camp_rstar, camp_review, camp_id)
+		values(#{camp_ruid}, #{camp_rstar}, #{camp_review}, #{camp_id})
+ 	</insert>
+ 	<select id="campReviewTotalCount" resultType="int">
+ 		select count(*) from tbl_camp_review
+ 		where camp_id = #{camp_id}
+ 	</select>
 </mapper>

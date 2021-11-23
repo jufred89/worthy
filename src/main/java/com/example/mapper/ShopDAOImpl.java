@@ -16,13 +16,13 @@ import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 
 @Repository
-public class ShopDAOImpl implements ShopDAO{
+public class ShopDAOImpl implements ShopDAO {
 
 	@Autowired
 	SqlSession session;
-	
-	String namespace="com.example.mapper.ShopMapper";
-	
+
+	String namespace = "com.example.mapper.ShopMapper";
+
 	@Override
 	public List<HashMap<String, Object>> prod_list(Criteria cri) {
 		return session.selectList(namespace + ".prod_list", cri);
@@ -100,7 +100,7 @@ public class ShopDAOImpl implements ShopDAO{
 	public List<HashMap<String, Object>> prod_slide() {
 		return session.selectList(namespace + ".prod_slide");
 	}
-	
+
 	@Override
 	public void cart_insert(Shop_cartVO cvo) {
 		session.insert(namespace + ".cart_insert", cvo);
@@ -125,13 +125,6 @@ public class ShopDAOImpl implements ShopDAO{
 	public void pay_insert(Shop_payVO pvo) {
 		session.insert(namespace + ".pay_insert", pvo);
 	}
-
-	/*
-	@Override
-	public void pay_update(Shop_payVO pvo) {
-		session.update(namespace+".pay_update",pvo);
-	}
-	*/
 
 	@Override
 	public void order_insert(Shop_orderVO ovo) {
@@ -174,23 +167,44 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 	@Override
-	public Shop_payVO payRead(String pay_uid) {
-		return session.selectOne(namespace + ".pay_read", pay_uid);
+	public Shop_payVO payRead(int pay_no) {
+		return session.selectOne(namespace + ".pay_read", pay_no);
 	}
 
 	@Override
 	public void pay_success(Shop_payVO pvo) {
-		session.update(namespace+".pay_success",pvo);
+		session.update(namespace + ".pay_success", pvo);
 	}
+
 	@Override
 	public Shop_payVO pay_Allread(int pay_no) {
-		return session.selectOne(namespace+".pay_Allread",pay_no);
+		return session.selectOne(namespace + ".pay_Allread", pay_no);
+	}
+
+	@Override
+	public int user_maxNo(String pay_uid) {
+		return session.selectOne(namespace + ".user_maxNo", pay_uid);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> myshopList(String cart_uid) {
+		return session.selectList(namespace + ".myshop_list", cart_uid);
+	}
+
+	@Override
+	public int prodQty(String prod_id) {
+		return session.selectOne(namespace + ".prod_qty", prod_id);
+	}
+
+	@Override
+	public void myshopUpdate(Shop_orderVO ovo) {
+		session.update(namespace + ".myshop_update", ovo);
 	}
 
 	@Override
 	public void order_cancel(int pay_no) {
-		session.update(namespace+".order_cancel",pay_no);
+		session.update(namespace + ".order_cancel", pay_no);
+
 	}
 
-	
 }

@@ -42,6 +42,7 @@ import com.example.domain.Shop_cartVO;
 import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 import com.example.mapper.ShopDAO;
+import com.example.mapper.UserDAO;
 
 @Controller
 @RequestMapping("/shop")
@@ -49,6 +50,9 @@ public class ShopController {
 
 	@Autowired
 	ShopDAO dao;
+	
+	@Autowired
+	UserDAO udao;
 
 	@Resource(name = "uploadPath")
 	private String path;
@@ -96,7 +100,7 @@ public class ShopController {
 
 		map.put("list", dao.prod_list(cri));
 		map.put("cri", cri);
-
+		
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
 		pm.setTotalCount(dao.totalCount(cri));
@@ -253,6 +257,12 @@ public class ShopController {
 		return dao.cart_price_sum(cart_uid);
 	}
 	
+	@RequestMapping("/stack")
+	@ResponseBody
+	public int prodQty(String prod_id){
+		return dao.prodQty(prod_id);
+	}
+	
 	@RequestMapping(value="/pay_insert", method=RequestMethod.POST)
 	@ResponseBody
 	public int pay_insert(Shop_payVO pvo, int quantity, String item_name, HttpSession session){
@@ -262,9 +272,7 @@ public class ShopController {
 		session.setAttribute("item_name", item_name);
 		dao.pay_insert(pvo);
 		String pay_uid = pvo.getPay_uid();
-		Shop_payVO pay_vo = dao.payRead(pay_uid);
-		int pay_no = pay_vo.getPay_no();
-		//System.out.println(pay_no);
+		int pay_no = dao.user_maxNo(pay_uid);
 		return pay_no;
 	}
 	
@@ -287,10 +295,11 @@ public class ShopController {
 	}
 	//구매 페이지
 	@RequestMapping("/reservation")
-	public String shop_reservation(Model model, String user_id){
+	public String shop_reservation(Model model, String user_id, int pay_no){
 		model.addAttribute("pageName", "shop/reservation.jsp");
 		String pay_uid = user_id;
-		model.addAttribute("pvo", dao.payRead(pay_uid));
+		model.addAttribute("pvo", dao.payRead(pay_no));
+		model.addAttribute("uservo", udao.login(pay_uid));
 		return "home";
 	}
 	
@@ -298,6 +307,12 @@ public class ShopController {
 	@ResponseBody
 	public void pay_update(Shop_payVO pvo){
 		dao.payUpdate(pvo);
+	}
+	
+	@RequestMapping("/status_update")
+	@ResponseBody
+	public void myshopUpdate(Shop_orderVO ovo){
+		dao.myshopUpdate(ovo);
 	}
 	
 	//카카오페이

@@ -42,71 +42,6 @@
 	width:100px;
 	}
 </style>
-
-<!-- 별점 리뷰 등록 / 이동예정 -->
-<style>
-#prod_header{
-margin-bottom:20px;
-display:flex;
-justify-content:center;
-align-content:center;
-}
-#prod_info{
-margin-left:60px;
-display:flex;
-
-flex-flow:row wrap;
-}
-#prod_info p,#prod_info div{
-width:100%;
-font-size:25px;
-
-}
-#howmany{
-text-align:left;
-margin-bottom: 10px;
-}
-#prod_btn{
-text-align:left;
-margin-bottom: 10px;
-
-}
-	#prod_rstar{
-	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
-	    border: 0; /* 필드셋 테두리 제거 */
-	}
-	#prod_rstar input[type=radio]{
-	    display: none; /* 라디오박스 감춤 */
-	}
-	#prod_rstar label{
-	    font-size: 3em; /* 이모지 크기 */
-	    color: transparent; /* 기존 이모지 컬러 제거 */
-	    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
-	}
-	#prod_rstar label:hover{
-  	  text-shadow: 0 0 0 DeepPink; /* 마우스 호버 */
-	}
-	#prod_rstar label:hover ~ label{
- 	   text-shadow: 0 0 0 DeepPink; /* 마우스 호버 뒤에오는 이모지들 */
-	}
-	#prod_rstar{
-	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
-	    direction: rtl; /* 이모지 순서 반전 */
-	    border: 0; /* 필드셋 테두리 제거 */
-	}
-	#prod_rstar{
-    	text-align: left;
-	}
-	#prod_rstar input[type=radio]:checked ~ label{
-    	text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
-	}
-	#dis_table{
-	display:flex;
-justify-content:center;
-align-content:center;
-margin:10px;
-	}
-</style>
  <style>
  	.slide{
  		width: 1000px;
@@ -344,7 +279,7 @@ margin:10px;
 		var cart_pimage = "${vo.prod_image}";
 		var cart_pname = "${vo.prod_name}";
 		
-		alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
+		//alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
 		
 		$.ajax({
 			type: "post",
@@ -422,43 +357,6 @@ margin:10px;
 			}
 		});
 	}
-	
-
-	//댓글 등록
-	$("#pre_insert").on("click", function(){
-		
-		var prod_review = $("#pre_review").val();
-		var prod_rstar = $(".rating:checked").val() * 20;
-		var prod_ruid = "${uid}";
-		
-		//alert(prod_review);
-		//alert(prod_rstar);
-
-		if(prod_review == ""){
-			alert("내용을 입력해주세요");
-			$("#pre_review").focus();
-			return;
-		}
-		
-		if(prod_rstar == NaN){
-			alert("별점을 선택해주세요");
-			return;
-		}
-		
-		if(!confirm("댓글을 등록하시겠습니까")) return;
-		
-		$.ajax({
-			type: "post",
-			url: "/shop/pre_insert",
-			data: {"prod_ruid" : prod_ruid, "prod_rstar" : prod_rstar, "prod_review" : prod_review, "prod_rid" : prod_rid},
-			success: function(){
-				alert("등록되었습니다");
-				$("#pre_review").val("");
-				getPreview();
-			}
-		});
-		
-	});
 	
 	//댓글 목록
 	function getPreview(){

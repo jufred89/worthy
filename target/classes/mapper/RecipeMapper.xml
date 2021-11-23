@@ -14,6 +14,11 @@
  		</if>
 		limit #{pageStart},#{perPageNum}
  	</select>
+ 	<select id="mainPage_food_list" resultType="hashmap">
+		select * from tbl_information_food
+		order by fi_no desc
+		limit 0, 10
+ 	</select>
  	<select id="read" resultType="com.example.domain.RecipeVO">
 		select * from tbl_information_food
 		where fi_no=#{fi_no}

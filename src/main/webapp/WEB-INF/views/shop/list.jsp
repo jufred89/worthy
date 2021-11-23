@@ -72,9 +72,8 @@ margin-top:50px;
          <img src="/shop/display?file={{prod_image}}" width="350" height="350"/>
          <div style="padding-left:25px">
             <p>{{prod_name}}</p>
-            <p class="saleprice">{{prod_saleprice}}</p>
+			 <p>{{prod_detail}}</p>
             <p>{{prod_normalprice_f}}</p>
-            <p>{{prod_detail}}</p>
          </div>
       </div>
    {{/each}}
@@ -82,15 +81,11 @@ margin-top:50px;
 </script>
 </div>
 <script>
-
    getList();
    
    //정렬 순서
    $("#searchType").on("change", function(e){
       e.preventDefault();
-      
-      
-      
       getList();
    });
 
@@ -112,8 +107,8 @@ margin-top:50px;
    function getList() {
       
       var keyword = $("#keyword").val();
+      var searchType = $("#searchType").val();
       var orderby = $("#orderby").val();
-      var searchType=$("#searchType").val();
    console.log(searchType)
 
       $.ajax({

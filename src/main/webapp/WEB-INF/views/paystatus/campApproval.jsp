@@ -19,7 +19,8 @@
 
 		
 	<script>
-	opener.location.href  = '/mypage'; //부모창 url 변경
+	var uid="${uid}";
+	opener.location.href  = '/mypage?uid='+uid; //부모창 url 변경
 	var pg_token = "${pg_token}";
 	var tid = localStorage.getItem("tid"); //mycart.jsp에서 세션에 저장한 tid 가져오기
 	
@@ -52,6 +53,7 @@
 					success:function(){
 						alert("결제가 완료되었습니다.")
 						window.close();
+						opener.location.href  = '/mypage?uid='+uid; //부모창 url 변경
 					}
 				});
 				

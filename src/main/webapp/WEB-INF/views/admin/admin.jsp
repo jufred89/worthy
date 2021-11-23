@@ -18,6 +18,7 @@
 		<ul>
 			<li class="menuTitle">회원관리</li>
 			<li><a href='/admin/user/list'>회원목록</a></li>
+			<li><a href='/adminChat'>1:1채팅목록</a></li>
 		</ul>
 		<ul>
 			<li class="menuTitle">캠핑장관리</li>
