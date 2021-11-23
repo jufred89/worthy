@@ -45,4 +45,7 @@ public interface CampingDAO {
 	public int campLikeTableCheck(String uid, String camp_id);
 	public void campLikeTableUpdate(int likeCheck,String uid, String camp_id);
 	public List<HashMap<String, Object>> campLikeUserCheck(String uid);
+	public HashMap<String, Object> campCancelData(int reser_no);
+	// 캠핑 예약 취소
+	public void campCancelRequest(int reser_no);
 }

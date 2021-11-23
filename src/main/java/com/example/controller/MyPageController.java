@@ -63,6 +63,21 @@ public class MyPageController {
 		model.addAttribute("myPageName", "mycampingLike.jsp");
 		return "home";
 	}
+	
+	// 캠핑 취소 페이지 연결
+	@RequestMapping(value = "/mycampingCancel", method = RequestMethod.GET)
+	public String mycampingCancel(Model model, int reser_no) {
+		model.addAttribute("campData", campDAO.campCancelData(reser_no));
+		model.addAttribute("pageName", "user/mypage.jsp");
+		model.addAttribute("myPageName", "mycampingCancel.jsp");
+		return "home";
+	}
+	
+	@RequestMapping(value="/mycampingCancelRequest", method=RequestMethod.POST)
+	@ResponseBody
+	public void mycampingCancelRequest(int reser_no){
+		campDAO.campCancelRequest(reser_no);
+	}
 
 	// ----------------------ȸ�� ���� ����---------------------------
 	// ȸ������ ������ �̵�
