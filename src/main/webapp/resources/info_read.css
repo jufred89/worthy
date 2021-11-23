@@ -1,0 +1,70 @@
+/* @CHARSET "UTF-8"; */
+	#divRead{
+		width:960px;
+		margin:0 auto;
+		margin-bottom:150px;
+		border-bottom:1px solid gray;
+		overflow:hidden;
+	}
+	#update, #btnDelete{
+		float:right;
+		margin:15px;
+		border:none;
+		width:120px;
+		padding:10px 15px;
+		background-color:black;
+		font-size:100%;
+		color:white;
+	}
+	#list{
+		float:right;
+		margin:15px;
+		width:120px;
+		height:40px;
+		padding:10px 15px;
+		background-color:white;
+		font-size:100%;
+ 		color:black; 
+		border:1px solid black;
+	}
+	#btnLike{
+		float:right;
+		border-radius:10px;
+		padding:10px;
+		margin-top:15px;
+	}
+	#mainImg{max-width:95%;height:auto;}
+	#att {
+		padding:10px;
+		margin:0 auto; 
+		overflow:hidden;
+	}
+	#att img{
+		margin:5px;
+		width:150px;
+		height:100px;
+		border:1px solid gray;
+	}
+	#readHeader{
+		border-top:2px solid black;
+		border-bottom:1px solid gray;
+		padding-bottom:12px;
+		overflow:hidden;
+		margin-bottom:20px;
+	}
+	#readInfo{
+		float:right;
+		color:gray;
+		margin-right:10px;
+	}
+	#title{
+		margin-left:10px;
+		font-size:150%; 
+	}
+	#infoContent{
+		font-size:110%;
+		margin-top:15px;
+		margin-left:30px;
+		margin-bottom:20px;
+		text-align:left;
+	}

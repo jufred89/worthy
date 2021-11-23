@@ -192,6 +192,7 @@ ul.tabs li.current {
 	padding: 10px;
 	overflow: hidden;
 	box-shadow: 3px 3px 3px 3px gray;
+	margin-bottom: 40px;
 }
 
 .subcontent .campReservMain {
@@ -257,10 +258,10 @@ ul.tabs li.current {
 	<div id="tab-1" class="tab-content current">
 		<div class="reservedBox">
 			<c:if test="${campReserNextList.size()!=0}">
+						<div class="subheading"><h3 style="font-weight: bold;">예정된 예약</h3></div>
 			<c:forEach items="${campReserNextList}" var="crvo">
 				<c:choose>
 					<c:when test="${crvo.reser_checkin!=null}">
-						<div class="subheading">예정된 예약</div>
 						<div class="subcontent">
 							<div class="campReservImage">
 								<img src="/camping/display?file=${crvo.camp_image}" />
@@ -287,6 +288,7 @@ ul.tabs li.current {
 								</div>
 							</div>
 							<div id="campDetail">
+								<div id="reser_no" style="display: none">${crpvo.reser_no}</div>
 								<button class="mycampingButton">캠핑 일정 취소하기</button>
 								<button class="mycampingButton"
 									onClick="location.href='/camping/read?camp_id=${crvo.camp_id}'">워디 둘러보기</button>
@@ -308,10 +310,10 @@ ul.tabs li.current {
 	<div id="tab-2" class="tab-content">
 		<div class="reservedBox">
 			<c:if test="${campReserPrevList.size()!=0}">
+			<div class="subheading"><h3 style="font-weight: bold;">이전 예약</h3></div>
 			<c:forEach items="${campReserPrevList}" var="crpvo">
 				<c:choose>
 					<c:when test="${crpvo.reser_checkin!=null}">
-						<div class="subheading">이전 예약</div>
 						<div class="subcontent">
 							<div class="campReservImage">
 								<img src="/camping/display?file=${crpvo.camp_image}" />
@@ -337,7 +339,6 @@ ul.tabs li.current {
 									<h3>${crpvo.reser_price}원</h3>
 								</div>
 								<div id="campDetail">
-									<div id="reser_no" style="display: none">${crpvo.reser_no}</div>
 									<div id="camp_id" style="display: none">${crpvo.camp_id}</div>
 									<button class="mycampingButton" id="popup_open_btn">캠핑장 리뷰 작성하기</button>
 								</div>
@@ -358,12 +359,13 @@ ul.tabs li.current {
 	</div>
 	<div id="tab-3" class="tab-content">
 		<c:if test="${campReserCancelList.size()!=0}">
+		<div class="subheading"><h3 style="font-weight: bold;">취소됨</h3></div>
 		<c:forEach items="${campReserCancelList}" var="crcvo">
 			<c:choose>
 				<c:when test="${crcvo.reser_checkin!=null}">
-					<div class="subheading">취소됨</div>
 					<div class="subcontent">
 						<div class="campReservImage">
+							a
 							<img src="/camping/display?file=${crcvo.camp_image}" />
 						</div>
 						<div class="campReservMain">
@@ -401,7 +403,7 @@ ul.tabs li.current {
 		</c:if>
 	</div>
 </div>
-<!-- 모달창 부분 시작 -->
+<!-- 캠핑장 리뷰 모달창 부분 시작 -->
 <div id="my_modal">
 	<h2>캠핑장 리뷰 작성하기</h2>
 	<div id="scroll_review">
@@ -423,9 +425,9 @@ ul.tabs li.current {
 			<input type="button" id="campReviewInsert" value="리뷰 등록" />
 		</div>
 	</div>
-	<a class="modal_close_btn">닫기</a>
+	<a id="modal_close_btn" class="modal_close_btn">닫기</a>
 </div>
-<!-- 모달창 부분 끝 -->
+<!-- 캠핑장 모달창 부분 끝 -->
 <script>
 	$(document).ready(function() {
 		$('ul.tabs li').click(function() {
@@ -437,7 +439,6 @@ ul.tabs li.current {
 			$(this).addClass('current');
 			$("#" + tab_id).addClass('current');
 		})
-
 	})
 </script>
 <!-- 캠핑장 별점리뷰 스크립트 -->
@@ -472,10 +473,7 @@ ul.tabs li.current {
 			},
 			success : function() {
 				alert("등록되었습니다");
-				if(data==1){
-					bg.remove();
-					modal.style.display = 'none';
-				}
+				$("#modal_close_btn").get(0).click();
 			}
 		});
 	});
