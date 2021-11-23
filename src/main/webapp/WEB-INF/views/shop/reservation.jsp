@@ -82,6 +82,11 @@
 		<span id="item_name">${item_name}</span><span id="quantity"> 포함 총 ${quantity}개의 상품</span>
 	</div>
 	<h3>배송지 정보</h3>
+	<input type="radio" id="user_deli" name="shipping" onClick="deli_input()"/>
+	<label for="user_deli" ><span>기본 배송지</span></label>
+	<input type="radio" id="user_deli2" name="shipping" onClick="deli_input2()" checked/>
+	<label for="new_deli2" ><span>신규입력</span></label>
+	
 	<hr />
 	<div id="user_reservation_info">
 		<div>
@@ -175,6 +180,22 @@
 	        }
 	    }).open();
 	});
+	
+	function deli_input(){
+			var uname = "${uservo.uname}";
+			var tel = "${uservo.tel}";
+			var address1 = "${uservo.address}";
+			
+			$("#deli_name").val(uname);
+			$("#deli_tel").val(tel);
+			$("#deli_address1").val(address1);
+	}
+	
+	function deli_input2(){	
+		$("#deli_name").val("");
+		$("#deli_tel").val("");
+		$("#deli_address1").val("");
+}
 	
 	// 전화번호 하이픈 처리
 	$('#deli_tel').keyup(function(event) {
