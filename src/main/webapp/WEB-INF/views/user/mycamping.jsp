@@ -96,105 +96,25 @@ keyframes slide { 0% {
 20%
 {
 margin-left
-
-
-
-
-
-
-
-
-
-
 :
-
-
-
-
-
-
-
-
-
-
 0;
 } /* 10 ~ 25 : 변이 */
 50%
 {
 margin-left
-
-
-
-
-
-
-
-
-
-
 :
-
-
-
-
-
-
-
-
-
-
 -100%;
 } /* 25 ~ 35 : 정지 */
 70%
 {
 margin-left
-
-
-
-
-
-
-
-
-
-
 :
-
-
-
-
-
-
-
-
-
-
 -100%;
 } /* 35 ~ 50 : 변이 */
 100%
 {
 margin-left
-
-
-
-
-
-
-
-
-
-
 :
-
-
-
-
-
-
-
-
-
-
 0%;
 }
 }
@@ -297,6 +217,7 @@ ul.tabs li.current {
 
 .campReservMain {
 	margin-left: 20px;
+	width: 430px;
 }
 
 .campReservMain div {
@@ -307,30 +228,38 @@ ul.tabs li.current {
 	margin-top: 50px;
 }
 
-.campDetail {
+#campDetail {
 	float: right;
-}
-
-.campCancel {
-	float: right;
+	margin-right: 10px;
 }
 
 .reservedBox {
 	background: white;
 }
+.mycampingButton{
+	background: black;
+	color: white;
+	border: none;
+	padding: 10px 30px 10px 30px;
+	border-radius:10px;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+}
 </style>
 <div class="container">
-	<h1>여행</h1>
+	<h1 style="font-weight: bold;">여행</h1>
 	<ul class="tabs">
 		<li class="tab-link current" data-tab="tab-1">예정된 예약</li>
 		<li class="tab-link" data-tab="tab-2">이전 예약</li>
 		<li class="tab-link" data-tab="tab-3">취소됨</li>
 	</ul>
 	<div id="tab-1" class="tab-content current">
-		<div class="reservedBox" style="position: relative; z-index: 2;">
-			<c:forEach items="${campReserList}" var="crvo">
+		<div class="reservedBox">
+			<c:if test="${campReserNextList.size()!=0}">
+			<c:forEach items="${campReserNextList}" var="crvo">
 				<c:choose>
-					<c:when test="${crvo.reser_checkin >= now}">
+					<c:when test="${crvo.reser_checkin!=null}">
 						<div class="subheading">예정된 예약</div>
 						<div class="subcontent">
 							<div class="campReservImage">
@@ -357,109 +286,119 @@ ul.tabs li.current {
 									<h3>${crvo.reser_price}원</h3>
 								</div>
 							</div>
-							<div class="campCancel">
-								<button>캠핑 일정 취소하기</button>
-							</div>
-							<div class="campDetail">
-								<button
-									onClick="location.href='/camping/read?camp_id=${crvo.camp_id}'">캠핑장
-									자세히 보기</button>
+							<div id="campDetail">
+								<button class="mycampingButton">캠핑 일정 취소하기</button>
+								<button class="mycampingButton"
+									onClick="location.href='/camping/read?camp_id=${crvo.camp_id}'">워디 둘러보기</button>
 							</div>
 						</div>
 					</c:when>
 				</c:choose>
 			</c:forEach>
-		</div>
-		<div style="position: relative; left:-100px; top:-100px; z-index: 1;">
-			<img src='/resources/img-mypage.png' width=400px />
-			<div>
-				다가올 예약이 없습니다. 새로운 캠핑장을 찾아 떠나보세요!
+			</c:if>
+			<c:if test="${campReserNextList.size()==0}">
+				<h3>다시 여행을 떠나실 준비가 되면 워디가 도와드리겠습니다. </h3>
+				<img src='/resources/mycampingbackground.png' width=1150px />
 				<div>
-					<button id="btnSearch">FIND CAMPING</button>
+					<button class="mycampingButton" onclick="location.href='/camping/list?camp_addr=&reser_checkin=&reser_checkout='">워디 둘러보기</button>
 				</div>
-			</div>
+			</c:if>
 		</div>
 	</div>
 	<div id="tab-2" class="tab-content">
-		<div class="reservedBox" style="position: relative; z-index: 2;">
-			<c:forEach items="${campReserList}" var="crvo">
+		<div class="reservedBox">
+			<c:if test="${campReserPrevList.size()!=0}">
+			<c:forEach items="${campReserPrevList}" var="crpvo">
 				<c:choose>
-					<c:when test="${crvo.reser_checkin < now}">
+					<c:when test="${crpvo.reser_checkin!=null}">
 						<div class="subheading">이전 예약</div>
 						<div class="subcontent">
 							<div class="campReservImage">
-								<img src="/camping/display?file=${crvo.camp_image}" />
+								<img src="/camping/display?file=${crpvo.camp_image}" />
 							</div>
 							<div class="campReservMain">
 								<div>
-									<h3>${crvo.camp_name}/${crvo.camp_room_no}</h3>
+									<h3>${crpvo.camp_name}/${crpvo.camp_room_no}</h3>
 								</div>
 								<div>
 									<h4 style="font-weight: bold;">캠핑장 위치</h4>
-									<h4>${crvo.camp_addr}</h4>
+									<h4>${crpvo.camp_addr}</h4>
 								</div>
 								<div>
 									<h4 style="font-weight: bold;">체크인</h4>
-									<h4>${crvo.reser_checkin}오후2시</h4>
+									<h4>${crpvo.reser_checkin} 오후2시</h4>
 								</div>
 								<div>
 									<h4 style="font-weight: bold;">체크아웃</h4>
-									<h4>${crvo.reser_checkout}오전11시</h4>
+									<h4>${crpvo.reser_checkout} 오전11시</h4>
 								</div>
 								<div class="price">
 									<h4 style="font-weight: bold;">결제금액</h4>
-									<h3>${crvo.reser_price}원</h3>
+									<h3>${crpvo.reser_price}원</h3>
 								</div>
 								<div id="campDetail">
-									<div id="reser_no" style="display: none">${crvo.reser_no}</div>
-									<div id="camp_id" style="display: none">${crvo.camp_id}</div>
-									<button id="popup_open_btn">캠핑장 리뷰 작성하기</button>
+									<div id="reser_no" style="display: none">${crpvo.reser_no}</div>
+									<div id="camp_id" style="display: none">${crpvo.camp_id}</div>
+									<button class="mycampingButton" id="popup_open_btn">캠핑장 리뷰 작성하기</button>
 								</div>
 							</div>
 						</div>
 					</c:when>
 				</c:choose>
 			</c:forEach>
+			</c:if>
+			<c:if test="${campReserPrevList.size()==0}">
+					<h3>과거 여행이 없습니다. 하지만 여행을 취소하시면 여기에서 확인하실 수 있습니다.</h3>
+				<img src='/resources/mycampingbackground.png' width=1150px />
+				<div>
+					<button class="mycampingButton" onclick="location.href='/camping/list?camp_addr=&reser_checkin=&reser_checkout='">FIND CAMPING</button>
+				</div>
+			</c:if>
 		</div>
-		<div style="position: relative; z-index: 1;">없습니다.</div>
 	</div>
 	<div id="tab-3" class="tab-content">
-		<c:forEach items="${campReserList}" var="crvo">
+		<c:if test="${campReserCancelList.size()!=0}">
+		<c:forEach items="${campReserCancelList}" var="crcvo">
 			<c:choose>
-				<c:when test="${crvo.reser_checkin > now}">
+				<c:when test="${crcvo.reser_checkin!=null}">
 					<div class="subheading">취소됨</div>
 					<div class="subcontent">
 						<div class="campReservImage">
-							<img src="/camping/display?file=${crvo.camp_image}" />
+							<img src="/camping/display?file=${crcvo.camp_image}" />
 						</div>
 						<div class="campReservMain">
 							<div>
-								<h3>${crvo.camp_name}/${crvo.camp_room_no}</h3>
+								<h3>${crcvo.camp_name}/${crcvo.camp_room_no}</h3>
 							</div>
 							<div>
 								<h4 style="font-weight: bold;">캠핑장 위치</h4>
-								<h4>${crvo.camp_addr}</h4>
+								<h4>${crcvo.camp_addr}</h4>
 							</div>
 							<div>
 								<h4 style="font-weight: bold;">체크인</h4>
-								<h4>${crvo.reser_checkin}오후2시</h4>
+								<h4>${crcvo.reser_checkin}오후2시</h4>
 							</div>
 							<div>
 								<h4 style="font-weight: bold;">체크아웃</h4>
-								<h4>${crvo.reser_checkout}오전11시</h4>
+								<h4>${crcvo.reser_checkout}오전11시</h4>
 							</div>
 							<div class="price">
-								<h4 style="font-weight: bold;">결제금액</h4>
-								<h3>${crvo.reser_price}원</h3>
+								<h4 style="font-weight: bold;">환불금액</h4>
+								<h3>${crcvo.reser_price}원</h3>
 							</div>
 						</div>
 					</div>
 				</c:when>
-				<c:when test="${crvo.reser_checkout==null}">
-						없습니다.
-				</c:when>
 			</c:choose>
 		</c:forEach>
+		</c:if>
+		<c:if test="${campReserCancelList.size()==0}">
+				<h3>취소된 예약이 없습니다. 하지만 여행을 취소하시면 여기에서 확인하실 수 있습니다.</h3>
+			<img src='/resources/mycampingbackground.png' width=1150px />
+			<div>
+				<button class="mycampingButton" onclick="location.href='/camping/list?camp_addr=&reser_checkin=&reser_checkout='">워디 둘러보기</button>
+			</div>
+		</c:if>
 	</div>
 </div>
 <!-- 모달창 부분 시작 -->

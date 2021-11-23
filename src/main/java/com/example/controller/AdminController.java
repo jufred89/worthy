@@ -134,6 +134,12 @@ public class AdminController {
 		model.addAttribute("adminPageName", "userread.jsp");
 		return "redirect:/admin/user/list";
 	}
+	@RequestMapping(value = "/adminChat", method = RequestMethod.GET)
+	public String adminChat(Model model) {
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "adminChat.jsp");
+		return "home";
+	}
 	//----------------------------------------회원 관련 끝-----------------------------------------------------------
 	
 	//----------------------------------------상품 관련 시작-----------------------------------------------------------

@@ -32,7 +32,9 @@ public interface CampingDAO {
 	public void campStyleDelete(String camp_id);
 	public void campFacilityDelete(String camp_id);
 	// 특정 유저가 예약한 내역 DAO
-	public List<CampingReserVO> campReservationUser(String uid);
+	public List<CampingReserVO> campReservationUserNext(String uid);
+	public List<CampingReserVO> campReservationUserPrev(String uid);
+	public List<CampingReserVO> campReservationUserCancel(String uid,String reser_status);
 	// 캠핑장 리뷰 관련 DAO
 	public List<HashMap<String, Object>> campReviewList(String camp_id);
 	public void campReviewInsert(CampingReviewVO cvo);
@@ -42,4 +44,5 @@ public interface CampingDAO {
 	public void campLikeTableInsert(String uid,String camp_id);
 	public int campLikeTableCheck(String uid, String camp_id);
 	public void campLikeTableUpdate(int likeCheck,String uid, String camp_id);
+	public List<HashMap<String, Object>> campLikeUserCheck(String uid);
 }

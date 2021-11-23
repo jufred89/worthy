@@ -128,8 +128,8 @@ public class CampingDAOImpl implements CampingDAO {
 	}
 
 	@Override
-	public List<CampingReserVO> campReservationUser(String uid) {
-		return session.selectList(namespace+".campReservationUser", uid);
+	public List<CampingReserVO> campReservationUserNext(String uid) {
+		return session.selectList(namespace+".campReservationUserNext", uid);
 	}
 
 	@Override
@@ -183,5 +183,23 @@ public class CampingDAOImpl implements CampingDAO {
 		map.put("camp_id", camp_id);
 		map.put("uid", uid);
 		return session.selectOne(namespace+".campLikeIt", map);
+	}
+
+	@Override
+	public List<CampingReserVO> campReservationUserPrev(String uid) {
+		return session.selectList(namespace+".campReservationUserPrev", uid);
+	}
+
+	@Override
+	public List<CampingReserVO> campReservationUserCancel(String uid, String reser_status) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("uid", uid);
+		map.put("reser_status", reser_status);
+		return session.selectList(namespace+".campReservationUserCancel", map);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> campLikeUserCheck(String uid) {
+		return session.selectList(namespace+".campLikeUserCheck", uid);
 	}
 }

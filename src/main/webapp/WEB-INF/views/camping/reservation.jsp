@@ -74,7 +74,7 @@
 	appearance: none;
 }
 </style>
-<h1>예약하기</h1>
+<h1 style="color: #ff0000; font-weight: bold;">예약하기</h1>
 <hr />
 <div id="reservation_box">
 	<h3>예약자 정보</h3>
@@ -138,7 +138,7 @@
 			<h4>${reser_checkout}</h4>
 		</div>
 		<hr />
-		<h4>총 결제금액</h4>
+		<h4>총 결제금액(₩)</h4>
 		<div id="totalPrice">
 			<h4></h4>
 		</div>
