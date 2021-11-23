@@ -489,8 +489,9 @@ public class CampController {
 
 	@RequestMapping(value = "/camping/campReviewInsert", method = RequestMethod.POST)
 	@ResponseBody
-	public void campReviewInsert(CampingReviewVO cvo) {
+	public String campReviewInsert(CampingReviewVO cvo) {
 		cdao.campReviewInsert(cvo);
+		return "1";
 	}
 
 	// 캠핑장 좋아요 버튼

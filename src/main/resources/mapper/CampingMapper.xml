@@ -156,11 +156,11 @@ order by camp_id desc limit 0,10
 	</delete>
 	<!-- 특정 유저가 예약한 캠핑장 목록 확인 및 예정된 예약 -->
 	<select id="campReservationUserNext" resultType="com.example.domain.CampingReserVO">
-		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id and reser_checkin<![CDATA[>=]]>now() order by reser_no desc;
+		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id and reser_checkin<![CDATA[>=]]>curdate() order by reser_no desc;
 	</select>
 	<!-- 특정 유저가 예약한 캠핑장 목록 확인 -->
 	<select id="campReservationUserPrev" resultType="com.example.domain.CampingReserVO">
-		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id and reser_checkin<![CDATA[<]]>now() order by reser_no desc;
+		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id and reser_checkin<![CDATA[<]]>curdate() order by reser_no desc;
 	</select>
 	<!-- 특정 유저가 예약한 캠핑장 목록 확인 -->
 	<select id="campReservationUserCancel" resultType="com.example.domain.CampingReserVO">
