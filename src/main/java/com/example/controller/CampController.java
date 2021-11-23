@@ -35,7 +35,6 @@ import com.example.domain.CampingReviewVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
-import com.example.domain.Shop_payVO;
 import com.example.mapper.CampingAttachDAO;
 import com.example.mapper.CampingDAO;
 import com.example.service.CampingService;
@@ -489,9 +488,8 @@ public class CampController {
 
 	@RequestMapping(value = "/camping/campReviewInsert", method = RequestMethod.POST)
 	@ResponseBody
-	public String campReviewInsert(CampingReviewVO cvo) {
+	public void campReviewInsert(CampingReviewVO cvo) {
 		cdao.campReviewInsert(cvo);
-		return "1";
 	}
 
 	// 캠핑장 좋아요 버튼

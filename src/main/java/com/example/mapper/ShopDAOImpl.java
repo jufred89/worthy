@@ -16,13 +16,13 @@ import com.example.domain.Shop_orderVO;
 import com.example.domain.Shop_previewVO;
 
 @Repository
-public class ShopDAOImpl implements ShopDAO{
+public class ShopDAOImpl implements ShopDAO {
 
 	@Autowired
 	SqlSession session;
-	
-	String namespace="com.example.mapper.ShopMapper";
-	
+
+	String namespace = "com.example.mapper.ShopMapper";
+
 	@Override
 	public List<HashMap<String, Object>> prod_list(Criteria cri) {
 		return session.selectList(namespace + ".prod_list", cri);
@@ -100,7 +100,7 @@ public class ShopDAOImpl implements ShopDAO{
 	public List<HashMap<String, Object>> prod_slide() {
 		return session.selectList(namespace + ".prod_slide");
 	}
-	
+
 	@Override
 	public void cart_insert(Shop_cartVO cvo) {
 		session.insert(namespace + ".cart_insert", cvo);
@@ -173,11 +173,12 @@ public class ShopDAOImpl implements ShopDAO{
 
 	@Override
 	public void pay_success(Shop_payVO pvo) {
-		session.update(namespace+".pay_success",pvo);
+		session.update(namespace + ".pay_success", pvo);
 	}
+
 	@Override
 	public Shop_payVO pay_Allread(int pay_no) {
-		return session.selectOne(namespace+".pay_Allread",pay_no);
+		return session.selectOne(namespace + ".pay_Allread", pay_no);
 	}
 
 	@Override
@@ -198,12 +199,12 @@ public class ShopDAOImpl implements ShopDAO{
 	@Override
 	public void myshopUpdate(Shop_orderVO ovo) {
 		session.update(namespace + ".myshop_update", ovo);
+	}
 
-  @Override
+	@Override
 	public void order_cancel(int pay_no) {
-		session.update(namespace+".order_cancel",pay_no);
+		session.update(namespace + ".order_cancel", pay_no);
 
 	}
 
-	
 }
