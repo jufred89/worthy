@@ -27,7 +27,7 @@
 				<option value="all">제목+내용</option>
 			</select>
 			<input type="text" id="keyword" placeholder="검색어 입력">
-			<!-- <span id="total"></span> -->
+			<span id="total"></span>
 		</div>
 		<div style="overflow:hidden; margin-top:30px">
 			<c:if test="${uid!=null}">
