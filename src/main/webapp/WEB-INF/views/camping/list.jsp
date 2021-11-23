@@ -7,188 +7,17 @@
 <script src="/resources/pagination.js"></script>
 <script src="../resources/bootstrap-datepicker.js"></script>
 <script src="../resources/home.css"></script>
-<style>
-#campListBackGround{
-   background-image: url("../resources/back5.jpg");
-   background-size: cover;
-   background-position: center center;
-   padding-top: 30px;
-}
-
-#campList {
-   width: 1600px;
-   margin: 0px auto;
-   overflow: hidden;
-   position: absolute;
-   left: 50%;
-   transform: translate(-50%);
-   padding-bottom: 30px;
-}
-
-.camp_box {
-   height: 450px;
-   width: 400px;
-   float: left;
-   margin-bottom: 10px;
-}
-
-.camp_box:hover {
-   cursor: pointer;
-}
-
-.image-box {
-   width: 350px;
-   height: 350px;
-   overflow: hidden;
-   margin: 0 auto;
-   border-radius: 25px;
-}
-
-.image-thumbnail {
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-}
-
-.cname-box {
-   font-size: 20px;
-   font-weight: bold;
-}
-
-.caddr-box {
-   font-size: 15px;
-}
-
-.cprice-box {
-   font-size: 15px;
-}
-
-#campListHead {
-	margin: 10px;
-}
-
-#campListHead h3 {
-   text-align: center;
-}
-
-/* 캠핑 스타일, 시설  시작*/
-#campStyleFacilityparent {
-   position: relative;
-}
-
-#campStyleList {
-   width: 500px;
-   margin: 0px auto;
-   padding: 10px;
-   absolute:
-}
-
-#campFacilityList {
-   width: 500px;
-   margin: 10px auto;
-   padding: 20px;
-   font-weight: bold;
-}
-
-#campFacilityList input[type=checkbox] {
-   margin: 5px 5px 5px 5px;
-   width: 15px;
-   height: 15px;
-}
-
-#search_box {
-   width: 1200px;
-   margin: 0px auto;
-   padding: 10px;
-   display: flex;
-   justify-content: center;
-   align-content: center;
-}
-
-#search_box input[type='text'] {
-   width: 250px;
-   height: 50px;
-   box-sizing: border-box;
-   border: 1px solid black;
-   border-radius: 10px;
-   padding: 20px;
-   font-weight: bold;
-}
-/* 캠핑 스타일, 시설  끝*/
-
-/* 지역 선택 CSS 시작 */
-#pop {
-   display: none;
-   position: absolute;
-   background: black;
-   border-radius: .4em;
-   width: 250px;
-   height: 270px;
-   color: white;
-   margin-top: 20px;
-   z-index: 120;
-}
-
-#pop:after {
-   content: '';
-   position: absolute;
-   top: 0;
-   left: 50%;
-   width: 0;
-   height: 0;
-   border: 20px solid transparent;
-   border-bottom-color: black;
-   border-top: 0;
-   margin-left: -20px;
-   margin-top: -20px;
-}
-
-#pop ul {
-   flex-flow: wrap;
-   list-style: none;
-   display: flex;
-   justify-content: center;
-   align-content: center;
-   padding: 10px;
-}
-
-#pop ul li {
-   width: 50px;
-   height: 50px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-}
-
-#pop ul li:hover {
-   background: white;
-   color: black;
-}
-/* 지역 선택 CSS 끝*/
-</style>
+<link rel="stylesheet" href="../resources/camping.css" />
+<div style="width:400px;
+	margin:0 auto; text-align:center;">
+	<div id="subject">Find CAMPSITE</div>
+	<h5>캠핑장을 찾아보세요.</h5>
+</div>
 <div id="campListBackGround">
-   <h1>캠핑장을 찾아보세요.</h1>
-   <div id="campListHead">
-      <c:choose>
-         <c:when
-            test="${camp_addr != '' && reser_checkin != '' && reser_checkout != ''}">
-            <h3>${camp_addr}에서 ${reser_checkin}부터 ${reser_checkout}까지 예약
-               가능한 숙소입니다.</h3>
-         </c:when>
-         <c:when
-            test="${camp_addr eq '' && reser_checkin ne '' && reser_checkout ne ''}">
-            <h3>전국에서 ${reser_checkin}부터 ${reser_checkout}까지 예약 가능한 숙소입니다.</h3>
-         </c:when>
-         <c:when
-            test="${camp_addr eq '' && reser_checkin eq '' && reser_checkout eq ''}">
-            <h3>어디로 언제 여행을 떠나실까요?</h3>
-         </c:when>
-      </c:choose>
-   </div>
+
    <div id="search_box">
-      <div class="input-group input-daterange where"
-         style="margin-right: 5px;">
-         <input type="text" name="camp_addr" placeholder="어디로?"
+      <div class="input-group input-daterange where" style="margin-right: 5px;">
+         <span class="title">지역</span><input type="text" name="camp_addr" placeholder="어디로?"
             autocomplete=off id="where" value="${camp_addr}" class="where">
          <div id='pop' class='pop'>
             <ul>
@@ -215,7 +44,9 @@
             </ul>
          </div>
       </div>
+     
       <div class="input-group input-daterange" id="time">
+      	 <span class="title">체크인/체크아웃</span>
          <input type="text" id="start" class="form-control" autocomplete=off
             name="reser_checkin" placeholder="언제부터?" value="${reser_checkin}"
             style="margin-right: 5px;"><input type="text" id="end"
@@ -225,27 +56,44 @@
    </div>
    <div id="campStyleFacilityparent">
       <div id="campStyleList">
-         <h4>캠핑장 스타일</h4>
-         <hr />
+         <span class="title">캠핑장 스타일</span>
          <c:forEach items="${styleList}" var="item_style">
             <input type="radio" name="style_no" value="${item_style.style_no}" />
             <label for="a1"><span>${item_style.style_name}</span></label>
          </c:forEach>
       </div>
       <div id="campFacilityList">
-         <h4>캠핑장 시설</h4>
-         <hr />
-         <c:forEach items="${facilityList}" var="item_facility">
-            <c:if test="${item_facility.facility_no ne 0}">
-               <input onclick="CountChecked(this)" type="checkbox"
-                  name="facility_no" value="${item_facility.facility_no}">${item_facility.facility_name}
-   </c:if>
-         </c:forEach>
+         <div class="title">캠핑장 시설</div>
+         <div id="facilities">
+	         <c:forEach items="${facilityList}" var="item_facility">
+	            <c:if test="${item_facility.facility_no ne 0}">
+	               <input onclick="CountChecked(this)" type="checkbox"
+	                  name="facility_no" value="${item_facility.facility_no}">${item_facility.facility_name}
+	  			 </c:if>
+	         </c:forEach>
+         </div>
       </div>
    </div>
-   <button id="detail_search">상세 검색하기</button>
-   <hr />
+   <button id="detail_search" class="blackBtn">상세 검색하기</button>
+   <div class="divider"></div>
 </div>
+   <div id="campListHead">
+      <c:choose>
+         <c:when
+            test="${camp_addr != '' && reser_checkin != '' && reser_checkout != ''}">
+            <h3><b>${camp_addr}</b>에서 <b>${reser_checkin}</b>부터 <b>${reser_checkout}</b>까지 예약
+               가능한 숙소입니다.</h3>
+         </c:when>
+         <c:when
+            test="${camp_addr eq '' && reser_checkin ne '' && reser_checkout ne ''}">
+            <h3>전국에서 <b>${reser_checkin}</b>부터 <b>${reser_checkout}</b>까지 예약 가능한 숙소입니다.</h3>
+         </c:when>
+         <c:when
+            test="${camp_addr eq '' && reser_checkin eq '' && reser_checkout eq ''}">
+            <h3>어디로 언제 여행을 떠나실까요?</h3>
+         </c:when>
+      </c:choose>
+   </div>
 <div id="campList"></div>
 <script id="temp" type="text/x-handlebars-template">
       {{#each .}}
@@ -264,7 +112,6 @@
 	var reser_checkout = '${reser_checkout}';
 	var style_no = $('input:radio[name="style_no"]:checked').val();
 	getList();
-
 	// 상세 검색하기 버튼 클릭시 조건 검색 리스트 가지고 오기
 	$("#detail_search").on("click", function() {
 		if (camp_addr == null) {
@@ -357,14 +204,12 @@
 <script type="text/javascript">
    var maxCount = 5; // 카운트 최대값은 2
    var count = 0; // 카운트, 0으로 초기화 설정
-
    function CountChecked(field) { // field객체를 인자로 하는 CountChecked 함수 정의
       if (field.checked) { // 만약 field의 속성이 checked 라면(사용자가 클릭해서 체크상태가 된다면)
          count += 1; // count 1 증가
       } else { // 아니라면 (field의 속성이 checked가 아니라면)
          count -= 1; // count 1 감소
       }
-
       if (count > maxCount) { // 만약 count 값이 maxCount 값보다 큰 경우라면
          alert("최대 5개까지만 선택가능합니다!"); // alert 창을 띄움
          field.checked = false; // (마지막 onclick한)field 객체의 checked를 false(checked가 아닌 상태)로 만든다.
@@ -394,7 +239,6 @@
 <script type="text/javascript">
    $("div.input-daterange").each(function() {
       var $inputs = $(this).find('input');
-
       // $inputs.datepicker("setDate", new Date());
       if ($inputs.length >= 2) {
          var $from = $inputs.eq(0);
@@ -409,7 +253,6 @@
          });
       }
    })
-
    var today = null;
    var year = null;
    var month = null;
@@ -417,9 +260,7 @@
    var lastDay = null;
    var $tdDay = null;
    var $tdSche = null;
-
    var startValue = $('#start').val()
-
    $(document).ready(function() {
       drawCalendar();
       initDate();
@@ -433,7 +274,6 @@
       ClickDay();
       //start value값이 change
       $('#start').on('change', function() {
-
          var startValue = $('#start').val()
          var arr = startValue.split("-");
          var startMonth = $('#cal_top_month').text()
@@ -443,13 +283,10 @@
          }
       })
    });
-
    //color
    function dateColor() {
       var startValue = $('#start').val()
-
    }
-
    //calendar 그리기
    function drawCalendar() {
       var setTableHTML = "";
@@ -468,7 +305,6 @@
       setTableHTML += '</table>';
       $("#cal_tab").html(setTableHTML);
    }
-
    //날짜 초기화
    function initDate() {
       $tdDay = $("td div.cal-day")
@@ -480,10 +316,8 @@
       firstDay = new Date(year, month - 1, 1);
       lastDay = new Date(year, month, 0);
    }
-
    //calendar 날짜표시
    function drawDays() {
-
       $("#cal_top_year").text(year);
       $("#cal_top_month").text(month);
       for (var i = firstDay.getDay(); i < firstDay.getDay()
@@ -497,7 +331,6 @@
          $tdDay.eq(i).css("color", "blue");
       }
    }
-
    //calendar 월 이동
    function movePrevMonth() {
       month--;
@@ -510,7 +343,6 @@
       }
       getNewInfo();
    }
-
    function moveNextMonth() {
       month++;
       if (month > 12) {
@@ -522,7 +354,6 @@
       }
       getNewInfo();
    }
-
    function getNewInfo() {
       for (var i = 0; i < 42; i++) {
          $tdDay.eq(i).text("");
