@@ -351,7 +351,7 @@ ul.tabs li.current {
 					<h3>과거 여행이 없습니다. 하지만 여행을 취소하시면 여기에서 확인하실 수 있습니다.</h3>
 				<img src='/resources/mycampingbackground.png' width=1150px />
 				<div>
-					<button class="mycampingButton" onclick="location.href='/camping/list?camp_addr=&reser_checkin=&reser_checkout='">FIND CAMPING</button>
+					<button class="mycampingButton" onclick="location.href='/camping/list?camp_addr=&reser_checkin=&reser_checkout='">워디 둘러보기</button>
 				</div>
 			</c:if>
 		</div>
@@ -428,7 +428,6 @@ ul.tabs li.current {
 <!-- 모달창 부분 끝 -->
 <script>
 	$(document).ready(function() {
-
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -473,8 +472,10 @@ ul.tabs li.current {
 			},
 			success : function() {
 				alert("등록되었습니다");
-				bg.remove();
-				modal.style.display = 'none';
+				if(data==1){
+					bg.remove();
+					modal.style.display = 'none';
+				}
 			}
 		});
 	});
