@@ -128,8 +128,8 @@ public class CampingDAOImpl implements CampingDAO {
 	}
 
 	@Override
-	public List<CampingReserVO> campReservationUser(String uid) {
-		return session.selectList(namespace+".campReservationUser", uid);
+	public List<CampingReserVO> campReservationUserNext(String uid) {
+		return session.selectList(namespace+".campReservationUserNext", uid);
 	}
 
 	@Override
@@ -138,11 +138,8 @@ public class CampingDAOImpl implements CampingDAO {
 	}
 
 	@Override
-	public List<HashMap<String, Object>> campReviewList(Criteria cri, String camp_id) {
-		HashMap<String, Object> map = new HashMap<String,Object>();
-		map.put("camp_id", camp_id);
-		map.put("cri", cri);
-		return session.selectList(namespace+".campReviewList", map);
+	public List<HashMap<String, Object>> campReviewList(String camp_id) {
+		return session.selectList(namespace+".campReviewList", camp_id);
 	}
 
 	@Override
@@ -153,5 +150,56 @@ public class CampingDAOImpl implements CampingDAO {
 	@Override
 	public int campReviewTotalCount(String camp_id) {
 		return session.selectOne(namespace+".campReviewTotalCount", camp_id);
+	}
+
+	@Override
+	public void campLikeTableInsert(String uid, String camp_id) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("camp_id", camp_id);
+		map.put("uid", uid);
+		session.insert(namespace+".campLikeTableInsert",map);
+	}
+
+	@Override
+	public int campLikeTableCheck(String uid, String camp_id) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("camp_id", camp_id);
+		map.put("uid", uid);
+		return session.selectOne(namespace+".campLikeTableCheck", map);
+	}
+
+	@Override
+	public void campLikeTableUpdate(int likeCheck, String uid, String camp_id) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("likeCheck", likeCheck);
+		map.put("camp_id", camp_id);
+		map.put("uid", uid);
+		session.update(namespace+".campLikeTableUpdate", map);
+	}
+
+	@Override
+	public int campLikeIt(String uid, String camp_id) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("camp_id", camp_id);
+		map.put("uid", uid);
+		return session.selectOne(namespace+".campLikeIt", map);
+	}
+
+	@Override
+	public List<CampingReserVO> campReservationUserPrev(String uid) {
+		return session.selectList(namespace+".campReservationUserPrev", uid);
+	}
+
+	@Override
+	public List<CampingReserVO> campReservationUserCancel(String uid, String reser_status) {
+		HashMap<String, Object> map = new HashMap<String,Object>();
+		map.put("uid", uid);
+		map.put("reser_status", reser_status);
+		return session.selectList(namespace+".campReservationUserCancel", map);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> campLikeUserCheck(String uid) {
+		return session.selectList(namespace+".campLikeUserCheck", uid);
 	}
 }

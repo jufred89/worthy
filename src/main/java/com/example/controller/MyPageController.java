@@ -45,7 +45,9 @@ public class MyPageController {
 		LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
 		
 		session.setAttribute("uname", uname);
-		model.addAttribute("campReserList", campDAO.campReservationUser(uid));
+		model.addAttribute("campReserNextList", campDAO.campReservationUserNext(uid));
+		model.addAttribute("campReserPrevList", campDAO.campReservationUserPrev(uid));
+		model.addAttribute("campReserCancelList", campDAO.campReservationUserCancel(uid,"0"));
 		model.addAttribute("now", now);
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName", "mycamping.jsp");
@@ -54,7 +56,9 @@ public class MyPageController {
 
 	// ����ķ���� ������ �̵�
 	@RequestMapping(value = "/mycampingLike", method = RequestMethod.GET)
-	public String mycampingLike(Model model) {
+	public String mycampingLike(Model model, HttpSession session) {
+		String uid = (String) session.getAttribute("uid");
+		model.addAttribute("campLikeList", campDAO.campLikeUserCheck(uid));
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName", "mycampingLike.jsp");
 		return "home";
@@ -131,7 +135,7 @@ public class MyPageController {
 	public void delete(int chat_no) {
 		cdao.delete(chat_no);
 	}
-
+	/*
 	// ------------------------������ ä��-----------------------------
 	// ������ ä�ø�� ������ �̵�
 	@RequestMapping(value = "/adminChat", method = RequestMethod.GET)
@@ -140,7 +144,7 @@ public class MyPageController {
 		model.addAttribute("myPageName", "adminChat.jsp");
 		return "home";
 	}
-
+	*/
 	// ä���� �� ���� ��������
 	@RequestMapping(value = "/chatList.json", method = RequestMethod.GET)
 	@ResponseBody

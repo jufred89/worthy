@@ -198,6 +198,11 @@ public class ShopDAOImpl implements ShopDAO{
 	@Override
 	public void myshopUpdate(Shop_orderVO ovo) {
 		session.update(namespace + ".myshop_update", ovo);
+
+  @Override
+	public void order_cancel(int pay_no) {
+		session.update(namespace+".order_cancel",pay_no);
+
 	}
 
 	

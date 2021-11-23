@@ -3,32 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% pageContext.setAttribute("replaceChar", "\n"); %>
-<style>
-	#divRead{
-		width:960px;
-		margin:0 auto;
-	}
-	#recipe{
-		display:inline-block;
-	}
-	#update, #list, #btnLike, #likeCnt, #btnDelete{
-		float:right;
-		margin:15px;
-	}
-	#mainImg{margin:15px;}
-	#att {
-		margin-top:10px;
-		margin:0 auto; 
-		overflow:hidden; 
-		border:1px dashed gray;
-	}
-	#att img{
-		margin:10px;
-		width:150px;
-		height:100px;
-	}
-</style>
-<h1>레시피 읽기</h1>
+<link rel="stylesheet" href="../resources/info.css" />
+
+<div style="width:400px;
+	margin:0 auto; text-align:center;">
+	<div id="subject">INFORMATION</div>
+	<h5>캠핑팁</h5>
+</div>
 <div id="divRead">
 	<img id="mainImg" src="/recipe/display?file=${vo.fi_image}" width=500 height=400/>
 	<div id="att">
@@ -39,24 +20,35 @@
 		</c:if>
 	</div>
 	<div id="recipe">
-		<h3>${vo.fi_no} : ${vo.fi_title}</h3>
-		<div>${fn:replace(vo.fi_content, replaceChar, "<br/>")}</div>
+		<div style="overflow:hidden; margin-bottom:30px;">
+			<div id="recipe_logo">RECIPE</div>
+		</div>
+		<div id="nb_title">${vo.fi_title}</div>
+		<div id="nb_content">${fn:replace(vo.fi_content, replaceChar, "<br/>")}</div>
 	</div>
 	<div>
-		<button id="list" onClick="location.href='/recipe/list'">목록</button>
-		<div id="upDel">
-			<button id="update" onClick="location.href='/recipe/update?fi_no=${vo.fi_no}'">수정</button>
-			<input type="button" id="btnDelete" onClick="location.href='/recipe/list'" value="삭제">
+		
+
+		<div>
+			<h5>캠핑정보가 도움이 되셨다면 좋아요를 눌러주세요!</h5>
+			<c:if test="${uid!=null}">
+				<c:if test="${likeCheck==0}">
+					<img src="/resources/heart.png" title="좋아요" width=35 id="recipeLike"/>
+				</c:if>
+				<c:if test="${likeCheck!=0}">
+					<img src="/resources/heart_colored.png" title="좋아요취소" width=35 id="recipeLike"/>
+				</c:if>
+			</c:if>
+			<h4 id="likeCnt">좋아요 : ${vo.fi_like}</h4>
 		</div>
-		<c:if test="${uid!=null}">
-			<c:if test="${likeCheck==0}">
-				<input type="button" id="btnLike" value="좋아요"/>
-			</c:if>
-			<c:if test="${likeCheck!=0}">
-				<input type="button" id="btnLike" value="좋아요취소"/>
-			</c:if>
-		</c:if>
-		<h4 id="likeCnt">좋아요 : ${vo.fi_like}</h4>
+		
+		<div>
+			<div id="upDel">
+				<button id="update" class="blackBtn" onClick="location.href='/recipe/update?fi_no=${vo.fi_no}'">수정</button>
+				<input type="button" class="whiteBtn" id="btnDelete" onClick="location.href='/recipe/list'" value="삭제">
+			</div>
+			<button id="list" class="whiteBtn" onClick="location.href='/recipe/list'">목록</button>
+		</div>
 	</div>
 </div>
 <script>
@@ -89,7 +81,7 @@
 	});
 	
 	//좋아요 버튼 클릭한 경우
-	$('#btnLike').on('click',function(){
+	$('#recipeLike').on('click',function(){
 		$.ajax({
 			type:'post',
 			url:'/recipe/like',

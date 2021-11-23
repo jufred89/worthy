@@ -59,4 +59,5 @@ public interface ShopDAO {
 	//myshop
 	public List<HashMap<String, Object>> myshopList(String cart_uid);
 	public void myshopUpdate(Shop_orderVO ovo);
+	public void order_cancel(int pay_no);
 }

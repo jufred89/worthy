@@ -142,14 +142,12 @@ ul.tabs li.current{
 							</div>
 						</div>
 						<div class="orderBtn">
+              <button class="whiteBtn" id="orderCancel">주문취소</button>
 						</div>
 					</div>
 				</div>
 			</c:when>
 			</c:choose>
-			<c:if test="${shop.pay_status eq null}">
-				<p>준비중인 상품이 없습니다.</p>
-			</c:if>
 		</c:forEach>
 	</div>
 	<div id="tab-2" class="tab-content">
@@ -250,7 +248,6 @@ ul.tabs li.current{
 								<input type="hidden" class="hidden_rid" value="${shop.cart_pid }" />
 							</div>
 						</div>
-					</div>
 				</div>
 			</c:when>
 			</c:choose>
@@ -433,4 +430,18 @@ $('#tab-4').on('click', ".blackBtn", function() {
     // 모달창 띄우기
     modal('my_modal');
 });
+</script>
+<script>
+	$('#orderCancel').on('click',function(){
+		if(!confirm('주문을 취소하시겠습니까?')) return;
+		
+		$.ajax({
+			type:'post',
+			url: '/shop/orderCancel',
+			data:{"pay_no":115},
+			success:function(){
+				alert('주문이 취소되었습니다.');
+			}
+		})
+	});
 </script>
