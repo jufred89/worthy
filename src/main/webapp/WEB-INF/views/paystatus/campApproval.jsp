@@ -19,11 +19,9 @@
 
 		
 	<script>
-	opener.location.href  = '/reservationSuccess'; //부모창 url 변경
+	opener.location.href  = '/mypage'; //부모창 url 변경
 	var pg_token = "${pg_token}";
 	var tid = localStorage.getItem("tid"); //mycart.jsp에서 세션에 저장한 tid 가져오기
-
-	
 	
 		$.ajax({
 			type:'post',
@@ -68,7 +66,6 @@
 	
 			}
 		});
-	
 </script>
 </body>
 

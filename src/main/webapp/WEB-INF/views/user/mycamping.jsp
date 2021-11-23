@@ -6,17 +6,20 @@
 .star-rating {
 	width: 51px;
 }
+
 .star-rating, .star-rating span {
 	display: inline-block;
 	height: 10px;
 	overflow: hidden;
 	background: url(/resources/star.png) no-repeat;
 }
+
 .star-rating span {
 	background-position: left bottom;
 	line-height: 0;
 	vertical-align: top;
 }
+
 .star_color {
 	color: red;
 }
@@ -47,10 +50,12 @@
 	border: 0; /* 필드셋 테두리 제거 */
 	text-align: left;
 }
+
 #camp_rstar input[type=radio]:checked ~ label {
 	text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
 }
-#camp_rbox textarea{
+
+#camp_rbox textarea {
 	padding: 10px;
 }
 </style>
@@ -113,38 +118,40 @@ margin-left
 0%;
 }
 }
-#campReviewInsert{
+#campReviewInsert {
 	width: 200px;
-	background: rgb(255,20,147);
+	background: rgb(255, 20, 147);
 	color: white;
 	font-size: 15px;
 	margin-top: 10px;
 	padding: 10px;
 	border-radius: 10px;
-	border:none;
+	border: none;
 }
 </style>
 <!-- 모달창 스타일 -->
 <style>
-    #my_modal {
-        display: none;
-        width: 700px;
-        height:450px;
-        padding: 20px 60px;
-        background-color: #fefefe;
-        border: 1px solid #888;
-        border-radius: 20px;
-    }
-    #my_modal .modal_close_btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
+#my_modal {
+	display: none;
+	width: 700px;
+	height: 450px;
+	padding: 20px 60px;
+	background-color: #fefefe;
+	border: 1px solid #888;
+	border-radius: 20px;
+}
+
+#my_modal .modal_close_btn {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
 </style>
 <style>
 .container {
 	width: 100%;
 	text-align: left;
+	margin-bottom: 50px;
 }
 
 .container h1 {
@@ -194,9 +201,10 @@ ul.tabs li.current {
 .subcontent .campReservImage {
 	float: left;
 }
-.campReservImage{
-	width:350px;
-	height:350px;
+
+.campReservImage {
+	width: 350px;
+	height: 350px;
 }
 
 .campReservImage img {
@@ -206,139 +214,191 @@ ul.tabs li.current {
 	object-fit: cover;
 	border-radius: 25px;
 }
-.campReservMain{
+
+.campReservMain {
 	margin-left: 20px;
+	width: 430px;
 }
-.campReservMain div{
+
+.campReservMain div {
 	margin: 15px 0px 15px 0px;
 }
-.price{
+
+.price {
 	margin-top: 50px;
 }
-.campDetail{
-	float:right;
+
+#campDetail {
+	float: right;
+	margin-right: 10px;
+}
+
+.reservedBox {
+	background: white;
+}
+.mycampingButton{
+	background: black;
+	color: white;
+	border: none;
+	padding: 10px 30px 10px 30px;
+	border-radius:10px;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
 }
 </style>
 <div class="container">
-	<h1>여행</h1>
+	<h1 style="font-weight: bold;">여행</h1>
 	<ul class="tabs">
 		<li class="tab-link current" data-tab="tab-1">예정된 예약</li>
 		<li class="tab-link" data-tab="tab-2">이전 예약</li>
 		<li class="tab-link" data-tab="tab-3">취소됨</li>
 	</ul>
 	<div id="tab-1" class="tab-content current">
-		<c:forEach items="${campReserList}" var="crvo">
-			<c:choose>
-				<c:when test="${crvo.reser_checkin >= now}">
-					<div class="subheading">예정된 예약</div>
-					<div class="subcontent">
-						<div class="campReservImage">
-							<img src="/camping/display?file=${crvo.camp_image}"/>
-						</div>
-						<div class="campReservMain">
-							<div>
-								<h3>${crvo.camp_name}/${crvo.camp_room_no}</h3>
+		<div class="reservedBox">
+			<c:if test="${campReserNextList.size()!=0}">
+			<c:forEach items="${campReserNextList}" var="crvo">
+				<c:choose>
+					<c:when test="${crvo.reser_checkin!=null}">
+						<div class="subheading">예정된 예약</div>
+						<div class="subcontent">
+							<div class="campReservImage">
+								<img src="/camping/display?file=${crvo.camp_image}" />
 							</div>
-							<div>
-								<h4 style="font-weight: bold;">캠핑장 위치</h4>
-								<h4>${crvo.camp_addr}</h4>
-							</div>
-							<div>
-								<h4 style="font-weight: bold;">체크인</h4>
-								<h4>${crvo.reser_checkin} 오후 2시</h4>
-							</div>
-							<div>
-								<h4 style="font-weight: bold;">체크아웃</h4>
-								<h4>${crvo.reser_checkout} 오전 11시</h4>
-							</div>
-							<div class="price">
-								<h4 style="font-weight: bold;">결제금액</h4>
-								<h3>${crvo.reser_price}원</h3>
+							<div class="campReservMain">
+								<div>
+									<h3>${crvo.camp_name}/${crvo.camp_room_no}</h3>
+								</div>
+								<div>
+									<h4 style="font-weight: bold;">캠핑장 위치</h4>
+									<h4>${crvo.camp_addr}</h4>
+								</div>
+								<div>
+									<h4 style="font-weight: bold;">체크인</h4>
+									<h4>${crvo.reser_checkin}오후2시</h4>
+								</div>
+								<div>
+									<h4 style="font-weight: bold;">체크아웃</h4>
+									<h4>${crvo.reser_checkout}오전11시</h4>
+								</div>
+								<div class="price">
+									<h4 style="font-weight: bold;">결제금액</h4>
+									<h3>${crvo.reser_price}원</h3>
+								</div>
 							</div>
 							<div id="campDetail">
-								<button onClick="location.href='/camping/read?camp_id=${crvo.camp_id}'">캠핑장 자세히 보기</button>
+								<button class="mycampingButton">캠핑 일정 취소하기</button>
+								<button class="mycampingButton"
+									onClick="location.href='/camping/read?camp_id=${crvo.camp_id}'">워디 둘러보기</button>
 							</div>
 						</div>
-					</div>
-					<hr />
-				</c:when>
-			</c:choose>
-		</c:forEach>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+			</c:if>
+			<c:if test="${campReserNextList.size()==0}">
+				<h3>다시 여행을 떠나실 준비가 되면 워디가 도와드리겠습니다. </h3>
+				<img src='/resources/mycampingbackground.png' width=1150px />
+				<div>
+					<button class="mycampingButton" onclick="location.href='/camping/list?camp_addr=&reser_checkin=&reser_checkout='">워디 둘러보기</button>
+				</div>
+			</c:if>
+		</div>
 	</div>
 	<div id="tab-2" class="tab-content">
-		<c:forEach items="${campReserList}" var="crvo">
-			<c:choose>
-				<c:when test="${crvo.reser_checkin <= now}">
-					<div class="subheading">이전 예약</div>
-					<div class="subcontent">
-						<div class="campReservImage">
-							<img src="/camping/display?file=${crvo.camp_image}"/>
+		<div class="reservedBox">
+			<c:if test="${campReserPrevList.size()!=0}">
+			<c:forEach items="${campReserPrevList}" var="crpvo">
+				<c:choose>
+					<c:when test="${crpvo.reser_checkin!=null}">
+						<div class="subheading">이전 예약</div>
+						<div class="subcontent">
+							<div class="campReservImage">
+								<img src="/camping/display?file=${crpvo.camp_image}" />
+							</div>
+							<div class="campReservMain">
+								<div>
+									<h3>${crpvo.camp_name}/${crpvo.camp_room_no}</h3>
+								</div>
+								<div>
+									<h4 style="font-weight: bold;">캠핑장 위치</h4>
+									<h4>${crpvo.camp_addr}</h4>
+								</div>
+								<div>
+									<h4 style="font-weight: bold;">체크인</h4>
+									<h4>${crpvo.reser_checkin} 오후2시</h4>
+								</div>
+								<div>
+									<h4 style="font-weight: bold;">체크아웃</h4>
+									<h4>${crpvo.reser_checkout} 오전11시</h4>
+								</div>
+								<div class="price">
+									<h4 style="font-weight: bold;">결제금액</h4>
+									<h3>${crpvo.reser_price}원</h3>
+								</div>
+								<div id="campDetail">
+									<div id="reser_no" style="display: none">${crpvo.reser_no}</div>
+									<div id="camp_id" style="display: none">${crpvo.camp_id}</div>
+									<button class="mycampingButton" id="popup_open_btn">캠핑장 리뷰 작성하기</button>
+								</div>
+							</div>
 						</div>
-						<div class="campReservMain">
-							<div>
-								<h3>${crvo.camp_name}/${crvo.camp_room_no}</h3>
-							</div>
-							<div>
-								<h4 style="font-weight: bold;">캠핑장 위치</h4>
-								<h4>${crvo.camp_addr}</h4>
-							</div>
-							<div>
-								<h4 style="font-weight: bold;">체크인</h4>
-								<h4>${crvo.reser_checkin} 오후 2시</h4>
-							</div>
-							<div>
-								<h4 style="font-weight: bold;">체크아웃</h4>
-								<h4>${crvo.reser_checkout} 오전 11시</h4>
-							</div>
-							<div class="price">
-								<h4 style="font-weight: bold;">결제금액</h4>
-								<h3>${crvo.reser_price}원</h3>
-							</div>
-							<div id="campDetail">
-								<div id="reser_no" style="display:none">${crvo.reser_no}</div>
-								<div id="camp_id" style="display:none">${crvo.camp_id}</div>
-								<button id="popup_open_btn">캠핑장 리뷰 작성하기</button>
-							</div>
-						</div>
-					</div>
-				</c:when>
-			</c:choose>
-		</c:forEach>
+					</c:when>
+				</c:choose>
+			</c:forEach>
+			</c:if>
+			<c:if test="${campReserPrevList.size()==0}">
+					<h3>과거 여행이 없습니다. 하지만 여행을 취소하시면 여기에서 확인하실 수 있습니다.</h3>
+				<img src='/resources/mycampingbackground.png' width=1150px />
+				<div>
+					<button class="mycampingButton" onclick="location.href='/camping/list?camp_addr=&reser_checkin=&reser_checkout='">워디 둘러보기</button>
+				</div>
+			</c:if>
+		</div>
 	</div>
 	<div id="tab-3" class="tab-content">
-		<c:forEach items="${campReserList}" var="crvo">
+		<c:if test="${campReserCancelList.size()!=0}">
+		<c:forEach items="${campReserCancelList}" var="crcvo">
 			<c:choose>
-				<c:when test="${crvo.reser_checkin > now}">
+				<c:when test="${crcvo.reser_checkin!=null}">
 					<div class="subheading">취소됨</div>
 					<div class="subcontent">
 						<div class="campReservImage">
-							<img src="/camping/display?file=${crvo.camp_image}"/>
+							<img src="/camping/display?file=${crcvo.camp_image}" />
 						</div>
 						<div class="campReservMain">
 							<div>
-								<h3>${crvo.camp_name}/${crvo.camp_room_no}</h3>
+								<h3>${crcvo.camp_name}/${crcvo.camp_room_no}</h3>
 							</div>
 							<div>
 								<h4 style="font-weight: bold;">캠핑장 위치</h4>
-								<h4>${crvo.camp_addr}</h4>
+								<h4>${crcvo.camp_addr}</h4>
 							</div>
 							<div>
 								<h4 style="font-weight: bold;">체크인</h4>
-								<h4>${crvo.reser_checkin} 오후 2시</h4>
+								<h4>${crcvo.reser_checkin}오후2시</h4>
 							</div>
 							<div>
 								<h4 style="font-weight: bold;">체크아웃</h4>
-								<h4>${crvo.reser_checkout} 오전 11시</h4>
+								<h4>${crcvo.reser_checkout}오전11시</h4>
 							</div>
 							<div class="price">
-								<h4 style="font-weight: bold;">결제금액</h4>
-								<h3>${crvo.reser_price}원</h3>
+								<h4 style="font-weight: bold;">환불금액</h4>
+								<h3>${crcvo.reser_price}원</h3>
 							</div>
 						</div>
 					</div>
 				</c:when>
 			</c:choose>
 		</c:forEach>
+		</c:if>
+		<c:if test="${campReserCancelList.size()==0}">
+				<h3>취소된 예약이 없습니다. 하지만 여행을 취소하시면 여기에서 확인하실 수 있습니다.</h3>
+			<img src='/resources/mycampingbackground.png' width=1150px />
+			<div>
+				<button class="mycampingButton" onclick="location.href='/camping/list?camp_addr=&reser_checkin=&reser_checkout='">워디 둘러보기</button>
+			</div>
+		</c:if>
 	</div>
 </div>
 <!-- 모달창 부분 시작 -->
@@ -357,8 +417,8 @@ ul.tabs li.current {
 					name="rating" class="rating" /><label for="rate5">⭐</label>
 			</div>
 			<div id="camp_rbox">
-			<textarea rows="10" cols="40" id="camp_review"
-				placeholder="내용을 입력해주세요"></textarea>
+				<textarea rows="10" cols="40" id="camp_review"
+					placeholder="내용을 입력해주세요"></textarea>
 			</div>
 			<input type="button" id="campReviewInsert" value="리뷰 등록" />
 		</div>
@@ -368,7 +428,6 @@ ul.tabs li.current {
 <!-- 모달창 부분 끝 -->
 <script>
 	$(document).ready(function() {
-
 		$('ul.tabs li').click(function() {
 			var tab_id = $(this).attr('data-tab');
 
@@ -388,8 +447,8 @@ ul.tabs li.current {
 		var camp_review = $("#camp_review").val();
 		var camp_rstar = $(".rating:checked").val() * 20;
 		var camp_ruid = "${uid}";
-		var reser_no=$("#reser_no").html();
-		var camp_id=$("#camp_id").html();
+		var reser_no = $("#reser_no").html();
+		var camp_id = $("#camp_id").html();
 		if (camp_review == "") {
 			alert("내용을 입력해주세요");
 			$("#camp_review").focus();
@@ -413,63 +472,70 @@ ul.tabs li.current {
 			},
 			success : function() {
 				alert("등록되었습니다");
-				$("#my_modal").modal("hide");
+				if(data==1){
+					bg.remove();
+					modal.style.display = 'none';
+				}
 			}
 		});
 	});
 </script>
 <!-- 리뷰 모달창 -->
 <script>
-function modal(id) {
-    var zIndex = 9999;
-    var modal = document.getElementById(id);
+	function modal(id) {
+		var zIndex = 9999;
+		var modal = document.getElementById(id);
 
-    // 모달 div 뒤에 희끄무레한 레이어
-    var bg = document.createElement('div');
-    bg.setStyle({
-        position: 'fixed',
-        zIndex: zIndex,
-        left: '0px',
-        top: '0px',
-        width: '100%',
-        height: '100%',
-        overflow: 'auto',
-        // 레이어 색갈은 여기서 바꾸면 됨
-        backgroundColor: 'rgba(0,0,0,0.4)'
-    });
-    document.body.append(bg);
+		// 모달 div 뒤에 희끄무레한 레이어
+		var bg = document.createElement('div');
+		bg.setStyle({
+			position : 'fixed',
+			zIndex : zIndex,
+			left : '0px',
+			top : '0px',
+			width : '100%',
+			height : '100%',
+			overflow : 'auto',
+			// 레이어 색갈은 여기서 바꾸면 됨
+			backgroundColor : 'rgba(0,0,0,0.4)'
+		});
+		document.body.append(bg);
 
-    // 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
-    modal.querySelector('.modal_close_btn').addEventListener('click', function() {
-        bg.remove();
-        modal.style.display = 'none';
-    });
+		// 닫기 버튼 처리, 시꺼먼 레이어와 모달 div 지우기
+		modal.querySelector('.modal_close_btn').addEventListener('click',
+				function() {
+					bg.remove();
+					modal.style.display = 'none';
+				});
 
-    modal.setStyle({
-        position: 'fixed',
-        display: 'block',
-        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+		modal
+				.setStyle({
+					position : 'fixed',
+					display : 'block',
+					boxShadow : '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
 
-        // 시꺼먼 레이어 보다 한칸 위에 보이기
-        zIndex: zIndex + 1,
+					// 시꺼먼 레이어 보다 한칸 위에 보이기
+					zIndex : zIndex + 1,
 
-        // div center 정렬
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        msTransform: 'translate(-50%, -50%)',
-        webkitTransform: 'translate(-50%, -50%)'
-    });
-}
+					// div center 정렬
+					top : '50%',
+					left : '50%',
+					transform : 'translate(-50%, -50%)',
+					msTransform : 'translate(-50%, -50%)',
+					webkitTransform : 'translate(-50%, -50%)'
+				});
+	}
 
-// Element 에 style 한번에 오브젝트로 설정하는 함수 추가
-Element.prototype.setStyle = function(styles) {
-    for (var k in styles) this.style[k] = styles[k];
-    return this;
-};
+	// Element 에 style 한번에 오브젝트로 설정하는 함수 추가
+	Element.prototype.setStyle = function(styles) {
+		for ( var k in styles)
+			this.style[k] = styles[k];
+		return this;
+	};
 
-document.getElementById('popup_open_btn').addEventListener('click', function() {
-    // 모달창 띄우기
-    modal('my_modal');
-});
+	document.getElementById('popup_open_btn').addEventListener('click',
+			function() {
+				// 모달창 띄우기
+				modal('my_modal');
+			});
 </script>

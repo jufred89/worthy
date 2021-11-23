@@ -121,6 +121,12 @@
        select sum(cart_price) from tbl_shop_cart
        where cart_uid = #{cart_uid} and cart_status = 1
     </select>
+    
+    <select id="prod_qty" resultType="int">
+    	select prod_id, prod_stack_qty from tbl_shop_product
+		where prod_id = #{prod_id}
+    </select>
+    
   
     <!-- 관리자 -->
     <select id="admin_list" resultType="HashMap">
@@ -179,7 +185,12 @@
     
     <select id="pay_read" resultType="com.example.domain.Shop_payVO">
        select * from tbl_shop_payment
-       where pay_uid = #{pay_uid} and pay_status = 1
+       where pay_no = #{pay_no} and pay_status = 1
+    </select>
+    
+    <select id="user_maxNo" resultType="int">
+   		select max(pay_no) from tbl_shop_payment
+		where pay_uid = #{pay_uid}
     </select>
     
     <update id="pay_update">
@@ -187,12 +198,31 @@
        deli_address2 = #{deli_address2}, deli_tel = #{deli_tel}, deli_name = #{deli_name}, deli_memo = #{deli_memo}
        where pay_no = #{pay_no}
     </update>
+    
      <update id="pay_success">
        update tbl_shop_payment set pay_date = #{pay_date}, pay_type=#{pay_type}
        where pay_no = #{pay_no}
     </update>
+    
      <select id="pay_Allread" resultType="com.example.domain.Shop_payVO">
        select * from tbl_shop_payment
        where pay_no = #{pay_no}
      </select>
+
+     <!-- 주문 목록 -->
+     <select id="myshop_list" resultType="HashMap">
+     	select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
+		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid}
+     </select>
+     
+     <update id="myshop_update">
+     	update view_pay_order set pay_status = 5
+		where order_id = #{order_id} and cart_no = #{cart_no}
+     </update>
+  
+     <update id="order_cancel">
+     	update tbl_shop_payment set pay_status = 0
+     	where pay_no = #{pay_no}
+     </update>
+
 </mapper>
