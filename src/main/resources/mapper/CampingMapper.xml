@@ -208,4 +208,14 @@ order by camp_id desc limit 0,10
 	<select id="campLikeUserCheck" resultType="hashmap">
 		select * from tbl_camp_like as cLike, tbl_camp_list as cList where cLike.camp_lk_cid=cList.camp_id and camp_lk_uid=#{uid} and camp_lk_check=1 order by camp_lk_no desc;
 	</select>
+	<!-- 캠핑장 취소하기 위한 숙소 예약 번호 기반 리스트 가지고 오기 -->
+	<select id="campCancelData" resultType="HashMap">
+		select tcr.reser_no,tcr.camp_id,tcr.reser_checkin,tcr.reser_checkout,tcr.uid,tcr.reser_price,tcl.camp_name,tcl.camp_addr,tcl.camp_image
+		from tbl_camp_reserve as tcr, tbl_camp_list as tcl
+		where tcr.camp_id=tcl.camp_id and reser_no=#{reser_no};
+	</select>
+	<!-- 캠핑 취소 요청 -->
+	<update id="campCancelRequest">
+		update tbl_camp_reserve set reser_status='0' where reser_no=#{reser_no};
+	</update>
 </mapper>

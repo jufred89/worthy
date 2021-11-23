@@ -288,8 +288,9 @@ ul.tabs li.current {
 								</div>
 							</div>
 							<div id="campDetail">
-								<div id="reser_no" style="display: none">${crpvo.reser_no}</div>
-								<button class="mycampingButton">캠핑 일정 취소하기</button>
+								<div id="reser_no" style="display: none">${crvo.reser_no}</div>
+								<button id="campingCancelBtn" class="mycampingButton"
+								onClick="location.href='/mycampingCancel?reser_no=${crvo.reser_no}'">캠핑 일정 취소하기</button>
 								<button class="mycampingButton"
 									onClick="location.href='/camping/read?camp_id=${crvo.camp_id}'">워디 둘러보기</button>
 							</div>
@@ -365,7 +366,6 @@ ul.tabs li.current {
 				<c:when test="${crcvo.reser_checkin!=null}">
 					<div class="subcontent">
 						<div class="campReservImage">
-							a
 							<img src="/camping/display?file=${crcvo.camp_image}" />
 						</div>
 						<div class="campReservMain">
@@ -443,6 +443,13 @@ ul.tabs li.current {
 </script>
 <!-- 캠핑장 별점리뷰 스크립트 -->
 <script>
+	//캠핑 취소 버튼
+/* 	$("#campingCancelBtn").on("click",function(){
+		
+		if(!confirm("캠핑 예약을 취소하시겠습니까?")) return;
+		//location.href="/mycampingCancel";
+	});
+ */
 	//댓글 등록
 	$("#campReviewInsert").on("click", function() {
 		var camp_review = $("#camp_review").val();
