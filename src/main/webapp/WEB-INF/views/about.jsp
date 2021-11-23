@@ -15,7 +15,7 @@
 	height: 270px;
 	color: white;
 	margin-top: 20px;
-z-index: 99;
+	z-index: 99;
 }
 
 #pop:after {
@@ -59,28 +59,29 @@ z-index: 99;
 	background-image: url("../resources/back4.jpg");
 	/* background:black; */
 	background-size: cover;
-	 background-position: center center;
+	background-position: center center;
 	height: 1500px;
-	width:100%
-	background-repeat: no-repeat;
+	width: 100% background-repeat: no-repeat;
 }
 
 #search_box {
 	display: flex;
 	justify-content: center;
 	align-content: center;
-
 }
 
 #background_image h1 {
-	margin-bottom: 20px; color : white;
+	margin-bottom: 20px;
+	color: white;
 	font-weight: bold;
 	font-size: 270%;
 	color: white;
 }
-#where:focus{
-outline: none;
+
+#where:focus {
+	outline: none;
 }
+
 #search_box input[type='text'] {
 	width: 250px;
 	height: 50px;
@@ -99,7 +100,7 @@ outline: none;
 	height: 50px;
 	width: 70px;
 	border-radius: 10px;
-	border:none;
+	border: none;
 }
 
 #time input {
@@ -117,97 +118,113 @@ outline: none;
 }
 
 #slider {
- box-sizing:border-box;
+	box-sizing: border-box;
 	border: 5px solid silver;
 	border-radius: 7px;
 	box-shadow: 0 0 20px #ccc inset;
 	overflow: hidden;
-	width:1250px;
+	width: 1250px;
 	height: 250px;
-	position:relative; 
+	position: relative;
 }
 
 #items {
-
-position:absolute;
-left:0;
-	 display: flex;
+	position: absolute;
+	left: 0;
+	display: flex;
 	justify-content: center;
-	align-content: center; 
+	align-content: center;
 }
-#infoMain{
-position: absolute;
-opacity:0.9;
+
+#infoMain {
+	position: absolute;
+	opacity: 0.9;
 	bottom: 0px;
 	left: 0;
 	right: 0;
 	display: flex;
 	justify-content: center;
 	align-content: center;
-background:lightgray;
-text-align: left;
+	background: lightgray;
+	text-align: left;
+}
 
+#infoMain div {
+	margin: 20px 40px;
+	width: 300px;
 }
-#infoMain div{
-margin:20px 40px;
-width:300px;
+
+ul {
+	list-style: none;
+	padding: 0;
 }
-ul{
-list-style:none;
-padding:0;
-}
-ul li{
-width:100%;
-display: flex;
+
+ul li {
+	width: 100%;
+	display: flex;
 	justify-content: left;
 	align-items: center;
 	cursor: pointer;
 }
-ul li:hover{
-color:blue;
-}
-#pre-next-image{
-width:100%;
 
-z-index: 20;
-position:absolute;
-top:50%; 
-transform: translate(0%, -50%);
-display: flex;
+ul li:hover {
+	color: blue;
+}
+
+#pre-next-image {
+	width: 100%;
+	z-index: 10;
+	position: absolute;
+	top: 50%;
+	transform: translate(0%, -50%);
+	display: flex;
 	justify-content: space-between;
 	align-content: center;
 }
-#pre-next-image div{
 
-display: flex;
+#pre-next-image div {
+	display: flex;
 	justify-content: center;
 	align-content: center;
-
-width:50px;
-height:50px;
-
-border-radius:100%;
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
 }
-#prev{
-background-image: url("../resources/left.png");
-background-size:cover;
-background-repeat: no-repeat;
-background-position: center;
 
+#prev {
+	background-image: url("../resources/left.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
 }
-#next{
-background-image: url("../resources/right.png");
-background-size:cover;
-background-repeat: no-repeat;
-background-position: center;
 
+#next {
+	background-image: url("../resources/right.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
 }
+
 #footer {
 	position: static;
-	
 }
-.visible{
-display:block;
+
+.visible {
+	display: block;
+}
+
+.item {
+	width: 250px;
+	height: 250px;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.image-thumbnail {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	vertical-align: middle;
 }
 </style>
 <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
@@ -257,17 +274,21 @@ display:block;
 
 		</div>
 
-		<h1 style="position: absolute; top: 500px; left: 0; right: 0;">New
+		<h1 style="position: absolute; top: 500px; left: 0; right: 0;"><span style="color: #ff0000">New</span>
 			& Update</h1>
 		<div id="sub_back">
 			<div id="slider" >
 				<div id="items" ></div>
 				<script id="temp" type="text/x-handlebars-template">
             {{#each .}}
-               <div class="item" style="padding:0;">
-                <a href="/camping/read?camp_is={{camp_id}}">  <img src="/display?fileName={{camp_image}}" style="width:250px;height:250px;"/></a>
+               <div class="item" style="padding:0;" title="{{camp_name}}">
+				<div class="jb-wrap" onclick="location.href='/camping/read?camp_id={{camp_id}}'">
+					<img class="image-thumbnail" src="/camping/display?file={{camp_image}}"/>
+				</div>
+				<div class="jb-text">
+					<p>HELLO</p>	
+				</div>
                </div>
-
             {{/each}}
          </script>
          <div id="pre-next-image" style=""> 
@@ -335,14 +356,14 @@ display:block;
 
 <script>
 //슬라이드 반복 실행
- var repeat=setInterval( function(){ $('#next').click(); }, 2500);
+ var repeat=setInterval( function(){ $('#next').click(); }, 4500);
 
 $('#next').on('click', function(){
     clearInterval(repeat);  //슬라이드 반복 중지
     $('#items .item:first').animate({ marginLeft:-200 }, 300, function(){
         $(this).appendTo($('#items')).css({marginLeft:0});
     });
-    repeat=setInterval(function(){ $('#next').click(); }, 2500);  //슬라이드 반복 실행
+    repeat=setInterval(function(){ $('#next').click(); }, 4500);  //슬라이드 반복 실행
 });
 
 $('#prev').on('click', function(){
@@ -350,7 +371,7 @@ $('#prev').on('click', function(){
     $('#items .item:first').animate({ marginLeft: 200 }, 300, function(){
         $(this).before($('#items .item:last')).css({marginLeft:0});
     });
-    repeat=setInterval(function(){ $('#next').click(); }, 2500);  //슬라이드 반복 실행
+    repeat=setInterval(function(){ $('#next').click(); }, 4500);  //슬라이드 반복 실행
 }); 
 
 	

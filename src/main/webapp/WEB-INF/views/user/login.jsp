@@ -5,7 +5,20 @@
 <link rel="stylesheet" href="../resources/bootstrap-datepicker.css">
 
 <link rel="stylesheet" href="../resources/login.css" />
-<div>
+<style>
+ #login_back{
+
+position: relative;
+	background-image: url("../resources/nightcamp.jpg");
+	/* background:black; */
+	background-size: 100% 100%;
+	 background-position: center center;
+	height: 100%;
+	width:100%;
+	background-repeat: no-repeat;
+} 
+</style>
+<div id="login_back">
 <div class="wrapper fadeInDown">
 <div class="first" style="margin:50px;">
     <h1>Worthy로 들어오세요!</h1>
@@ -17,8 +30,8 @@
 
     <!-- Login Form -->
     <form action="post" id="login" name="frm">
-      <input type="text" id="uid" class="fadeIn second" name="login" placeholder="id">
-      <input type="text" id="upass" class="fadeIn third" name="login" placeholder="password">
+      <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="id">
+      <input type="password" id="upass" class="fadeIn third" name="upass" placeholder="password">
       <h5><label>로그인 상태유지</label><input type="checkbox" name="chkLogin"/></h5> 
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
@@ -32,7 +45,7 @@
   </div>
 </div>
 <script>
-	Bc();
+
 	$(frm).on("submit", function(e){
 		e.preventDefault();
 		var uid=$(frm.uid).val();
@@ -67,9 +80,5 @@
 		});
 	});
 	
-	function Bc(){
-		$(".fadeInDown").css({
-			"background":"black"
-		})
-	}
+
 </script>

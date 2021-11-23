@@ -39,6 +39,9 @@
 						<button class="whiteBtn">배송조회</button>
 					</div>
 					<div>
+						<button class="whiteBtn" id="orderCancel">주문취소</button>
+					</div>
+					<div>
 						<button class="blackBtn">리뷰작성</button>
 					</div>
 				</div>
@@ -46,3 +49,17 @@
 		</div>
 	</div>
 </div>
+<script>
+	$('#orderCancel').on('click',function(){
+		if(!confirm('주문을 취소하시겠습니까?')) return;
+		
+		$.ajax({
+			type:'post',
+			url: '/shop/orderCancel',
+			data:{"pay_no":115},
+			success:function(){
+				alert('주문이 취소되었습니다.');
+			}
+		})
+	});
+</script>

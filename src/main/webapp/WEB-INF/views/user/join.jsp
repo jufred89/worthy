@@ -4,17 +4,28 @@
     <script src="../resources/bootstrap-datepicker.js"></script>
 <link rel="stylesheet" href="../resources/bootstrap-datepicker.css">
 <link rel="stylesheet" href="../resources/join.css" />
+<style>
+.space{
+height:200px;
+}
+#join_back{
+background: lightgray;
+}
+</style>
+<div id="join_back">
 <div class="wrapper fadeInDown">
   <div id="formContent">
     <!-- Tabs Titles -->
-
+ <div class="space"></div>
     <!-- Icon -->
-    <div class="first" style="margin:50px;">
-    <h3><b>Worthy Family가 되어주세요!</b></h3>
+    <div class="first" style="margin-bottom:50px;height:200px; ">
+    <img alt="" src="../resources/worthycamping_logo_sample1.png" style="width:200; ">
+  
     </div>
 
     <!-- Login Form -->
     <form action="post" id="join" name="frm">
+      <h1 ><b>JOIN</b></h1>
       <div>
         <div class="title">아이디</div>
         <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="아이디" >
@@ -44,7 +55,9 @@
 
   
 
+  <div class="space"></div>
   </div>
+</div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
@@ -178,5 +191,6 @@ $(frm).on("submit", function(e){
     frm.action="/user/join";
     frm.method="post";
     frm.submit();
+    location.href='/user/login'
  });
 </script>
