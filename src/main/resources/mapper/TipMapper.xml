@@ -3,15 +3,16 @@
 <mapper namespace="com.example.mapper.TipMapper">
  	<select id="list" resultType="hashmap">
  		select * from tbl_information_tip
- 		<if test="keyword != null">
+ 		<if test="searchType == 'all'">
  			where tip_title like concat("%", #{keyword}, "%") || tip_content like concat("%", #{keyword}, "%")
  		</if>
- 		<if test="searchType == 'desc'">
- 			order by tip_no desc
+ 		<if test="searchType == 'title'">
+ 			where tip_title like concat("%", #{keyword}, "%")
  		</if>
- 		<if test="searchType == 'asc'">
- 			order by tip_no
+ 		<if test="searchType == 'content'">
+ 			where tip_content like concat("%", #{keyword}, "%")
  		</if>
+ 		order by tip_no desc
  		limit #{pageStart},#{perPageNum}
  	</select>
  	<select id="mainPage_tip_list" resultType="com.example.domain.TipVO">
