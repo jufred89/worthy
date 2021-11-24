@@ -12,10 +12,9 @@
 }
 .campingInfoBox{
 	float:left;
-	width:500px;
+	width:650px;
 	height:250px;
 	margin:30px 0 0 30px;
-	border: 1px solid black;
 	padding:20px;
 	text-align:left;
 	position: relative;
@@ -24,18 +23,24 @@
 	font-size:170%;
 	font-weight:bold;
 }
-.campingInfoBox .etc, .campingInfoBox .detail{margin-top:10px;}
+.campingInfoBox .etc, .campingInfoBox .detail{margin-top:20px;}
 .campingInfoBox .price{
 	font-size:120%;
 	margin:30px 0 0 300px;
 }
+.subheading{
+	text-align:left;
+	font-size:150%;
+	margin:20px 5px;
+	font-weight:bold;
+}
 </style>
 <div id="sub">
 	<div class="subheading">
-	<h1 style="font-weight: bold">관심 캠핑장</h1>
+		관심 캠핑장
 	</div>
 	<c:forEach items="${campLikeList}" var="cll">
-	<div style="overflow: hidden">
+	<div style="overflow: hidden; border:1px solid #e2e2e3; padding-bottom:30px; width:1070px;">
 		<div id="infoimg">
 			<img src='/camping/display?file=${cll.camp_image}' width=300 height=250 />
 		</div>

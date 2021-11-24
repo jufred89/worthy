@@ -179,6 +179,7 @@ ul.tabs li.current {
 
 .reservedBox {
 	background: white;
+	width:1100px;
 }
 
 .mycampingButton {
@@ -197,6 +198,7 @@ select[name=cancelReason] {
 	font-size: 20px;
 	float: left;
 }
+.subheading{margin:30px;}
 </style>
 <div class="container">
 	<h1 style="font-weight: bold;">캠핑 취소</h1>
@@ -219,20 +221,20 @@ select[name=cancelReason] {
 						<h3>${campData.camp_name}/${campData.camp_room_no}</h3>
 					</div>
 					<div>
-						<h4 style="font-weight: bold;">캠핑장 위치</h4>
-						<h4>${campData.camp_addr}</h4>
+						<h5 style="font-weight: bold;">캠핑장 위치</h5>
+						<h5>${campData.camp_addr}</h5>
 					</div>
 					<div>
-						<h4 style="font-weight: bold;">체크인</h4>
-						<h4>${campData.reser_checkin}오후2시</h4>
+						<h5 style="font-weight: bold;">체크인</h5>
+						<h5>${campData.reser_checkin}오후2시</h5>
 					</div>
 					<div>
-						<h4 style="font-weight: bold;">체크아웃</h4>
-						<h4>${campData.reser_checkout}오전11시</h4>
+						<h5 style="font-weight: bold;">체크아웃</h5>
+						<h5>${campData.reser_checkout}오전11시</h5>
 					</div>
 					<div class="price">
-						<h4 style="font-weight: bold;">결제금액</h4>
-						<h3>${campData.reser_price}원</h3>
+						<h5 style="font-weight: bold;">결제금액</h5>
+						<h4>${campData.reser_price}원</h4>
 					</div>
 				</div>
 				<div id="campDetail">
@@ -246,9 +248,9 @@ select[name=cancelReason] {
 		<div class="subheading">
 			<h3 style="font-weight: bold;">취소 사유를 작성해주세요.</h3>
 		</div>
-		<div class="subcontent">
+		<div class="subcontent" style="width:1100px; margin:0 auto; padding:30px 60px 30px 50px;">
 			<div class="campCancelMain">
-				<select name="cancelReason">
+				<select name="cancelReason" style="width:600px;">
 					<option value="noreason">숙소가 마음에 들지 않아요.</option>
 					<option value="another">다른 괜찮은 숙소를 찾았어요.</option>
 					<option value="">가격이 합리적이지 않아요.</option>
