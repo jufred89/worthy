@@ -311,12 +311,12 @@ align-items:center;
          
          <!-- 모달창2끝 -->
    <div id="center">
-    
+    <div id="content">
       
          
 
          <jsp:include page="${pageName}"></jsp:include>
-       
+       </div>
       
    </div>
    
