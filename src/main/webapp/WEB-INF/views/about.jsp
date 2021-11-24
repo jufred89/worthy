@@ -53,17 +53,24 @@
 	background: white;
 	color: black;
 }
+#center{
 
+}
+
+#center{
+padding:0;
+}
 #background_image {
 	position: relative;
 	background-image: url("../resources/back4.jpg");
 	/* background:black; */
 	background-size: cover;
-	background-position: center center;
-	height: 1500px;
-	width: 100% background-repeat: no-repeat;
+	 background-position: center center;
+	height: 1300px;
+	width:100%;
+	
+	background-repeat: no-repeat;
 }
-
 #search_box {
 	display: flex;
 	justify-content: center;
@@ -71,8 +78,7 @@
 }
 
 #background_image h1 {
-	margin-bottom: 20px;
-	color: white;
+margin-bottom: 20px; color : white;
 	font-weight: bold;
 	font-size: 270%;
 	color: white;
@@ -109,7 +115,7 @@
 
 #sub_back {
 	position: absolute;
-	top: 600px;
+	top: 450px;
 	left: 0;
 	right: 0;
 	display: flex;
@@ -136,17 +142,18 @@
 	align-content: center;
 }
 
-#infoMain {
-	position: absolute;
-	opacity: 0.9;
+#infoMain{
+position: absolute;
+opacity:0.9;
 	bottom: 0px;
 	left: 0;
 	right: 0;
 	display: flex;
 	justify-content: center;
 	align-content: center;
-	background: lightgray;
-	text-align: left;
+background:lightgray;
+text-align: left;
+
 }
 
 #infoMain div {
@@ -192,14 +199,14 @@ ul li:hover {
 }
 
 #prev {
-	background-image: url("../resources/left.png");
+	background-image: url("../resources/prev.png");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 }
 
 #next {
-	background-image: url("../resources/right.png");
+	background-image: url("../resources/next.png");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -213,11 +220,11 @@ ul li:hover {
 	display: block;
 }
 
-.item {
+ .item {
 	width: 250px;
 	height: 250px;
 	overflow: hidden;
-	margin: 0 auto;
+	
 }
 
 .image-thumbnail {
@@ -225,9 +232,66 @@ ul li:hover {
 	height: 100%;
 	object-fit: cover;
 	vertical-align: middle;
+} 
+#admin_intro{
+position: relative;
+text-align:center;
+	height: 50%;
+	width:50%;
+	
+
+}
+.button {
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  height: 50px; line-height: 54px;
+  width: 200px;
+  border: 1px solid #fff;
+  position: absolute;
+  left: 0; top: 200px; right: 0; bottom: 0;
+  margin: auto;
+}
+.button span, .button i {
+  display: inline-block;
+  z-index: 100;
+  font-style: normal;
+}
+.backgroundHover{
+  z-index: -1;
+  position: absolute; 
+  top: 0; left: 0; 
+  height: 100%; width: 100%;
+  background: lightblue;
 }
 </style>
-<c:if test="${uid.indexOf('admin')==-1 || uid==null}">
+<c:choose>
+
+
+<c:when test="${uid.indexOf('admin')!=-1 &&  uid!=null}"> 
+    
+	<h1 style="margin-top:300px;"><b>반갑습니다! 관리자님! 웹사이트 관리를 시작해 보세요!</b></h1>
+ <div class="btn-wrap">
+  <a href="/admin" class="button">
+   
+    <i>E</i><i>N</i><i>T</i><i>E</i><i>R</i>
+    <b class="backgroundHover"></b>
+  </a>
+</div>
+ <div id="admin_intro">
+    <!-- Tabs Titles -->
+
+     
+     
+   
+
+    <!-- Remind Passowrd -->
+    
+
+</div>
+</c:when>
+<c:otherwise>
 	<div id="background_image">
 		<div style="height: 70px;"></div>
 
@@ -274,7 +338,7 @@ ul li:hover {
 
 		</div>
 
-		<h1 style="position: absolute; top: 500px; left: 0; right: 0;"><span style="color: #ff0000">New</span>
+		<h1 style="position: absolute; top: 350px; left: 0; right: 0;"><span style="color: #ff0000">New</span>
 			& Update</h1>
 		<div id="sub_back">
 			<div id="slider" >
@@ -351,7 +415,8 @@ ul li:hover {
          </script>
 	</div>
 	</div>
-</c:if>
+	</c:otherwise>
+</c:choose>
 
 
 <script>

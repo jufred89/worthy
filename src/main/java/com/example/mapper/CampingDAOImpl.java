@@ -212,4 +212,19 @@ public class CampingDAOImpl implements CampingDAO {
 	public void campCancelRequest(int reser_no) {
 		session.update(namespace+".campCancelRequest",reser_no);
 	}
+
+	@Override
+	public List<HashMap<String, Object>> campReservListforAdmin(Criteria cri) {
+		return session.selectList(namespace+".campReservListforAdmin", cri);
+	}
+
+	@Override
+	public int campResevTotcount(Criteria cri) {
+		return session.selectOne(namespace+".campResevTotcount",cri);
+	}
+
+	@Override
+	public HashMap<String, Object> campReservReadforAdmin(int reser_no) {
+		return session.selectOne(namespace+".campReservReadforAdmin", reser_no);
+	}
 }

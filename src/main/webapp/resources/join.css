@@ -8,32 +8,35 @@
 /* STRUCTURE */
 
 .wrapper {
-	position:fixed;
-	margin-top:100px;
   display: flex;
   align-items: center;
   flex-direction: column; 
-  justify-content: center;
-  width: 100%;
- height: 90%;
-  padding: 20px;
-  overflow-y: scroll;
+  justify-content: flex-start;
+
+height:1700px;
+
+
 }
 
 #formContent {
+	
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   background: #fff;
   padding: 30px;
   width: 90%;
-  max-width: 450px;
+  max-width: 550px;
   position: relative;
   padding: 0px;
  box-shadow: none;
-  text-align: center;
-  top:300px;
+display:flex;
+justify-content:left;
+align-content:space-around;
+  top:50px;
 }
-
+#formContent input{
+	
+}
 #formFooter {
   background-color: #f6f6f6;
   border-top: 1px solid #dce8f1;
@@ -87,7 +90,7 @@ input[type=button], input[type=submit],input[type=reset]  {
 	font-size:110%;
 	font-weight:bold;
 	text-align:left;
-	margin:30px 0 7px 15px;
+	margin:30px 0 7px 70px;
 }
 
 #join #uid{
@@ -97,7 +100,7 @@ input[type=button], input[type=submit],input[type=reset]  {
 #chkid, #join #addr input[type=button]{
 	 padding: 12px 30px;
 }
-#join #addr{text-align:left;}
+
 #join input[type=submit]{
 	width:100%;
 	padding:20px;

@@ -1,4 +1,10 @@
 @CHARSET "UTF-8";
+body{
+	position:relative;
+	overflow: scroll;
+	 -ms-overflow-style: none;
+}
+::-webkit-scrollbar { display: none; }
 
 
 @font-face {
@@ -21,12 +27,29 @@
 	
 	min-height:100%;
    position:relative;
-   padding-bottom:100px;/* footer height */
+  
+}
+.container-fluid{
+
+display:flex;
+			justify-content:center;
+			align-content:center;	
+}
+.navbar{
+	background:white;
+	margin:0;
+	
 }
 
+.navbar-header #logo{
+	font-family: 'HSGaeulSenggak20';
+	margin-top:12px;
+	font-size:30px;
+	letter-spacing:1.1px;
+	
+}
 #header {
-
-	z-index:11;
+z-index:11;
 	height:150px;
 	position:sticky;
 	background:white;
@@ -34,7 +57,7 @@
 	display:flex;
 			justify-content:center;
 			align-items:center;
-			  box-shadow : 0 0px 5px gray;
+			  box-shadow : 2px 2px 5px black;
 }
 .container-fluid{
 	
@@ -55,19 +78,16 @@ display:flex;
 	
 }
 #center{
-position:scroll;
-overflow: hidden;
-
-
-
-}
-#content {
-	
-z-index:-1;
-	margin:0 auto;
-text-align:center;
+padding:100px;
+overflow-y: scroll;
+text-align: center;
+-ms-overflow-style: none;
 
 }
+#center::-webkit-scrollbar{ display:none; }
+
+
+
 #header div {
 	margin-top:20px;
 	font-size:20px;
@@ -215,14 +235,14 @@ hr{
 }
 #footer2{
 	width:100%;
-	height:40px;
+	height:50px;
 		 display: flex;
-    align-content: center;
+    align-items: center;
     justify-content:space-between;
 	position:fixed;
-bottom:0;
-	background:black;
-	padding:20px;
+	bottom:0px;
+	overflow:hidden;
+	background: black;
 }
 #footer2 p{
    color:white;

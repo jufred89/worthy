@@ -45,7 +45,8 @@
 	        WHERE
 	            style_no = #{style_no})
 	</if>
-	ORDER BY camp_id desc;
+	ORDER BY camp_id desc
+	limit 0,200
 	</select>
 	<!-- 특정 날짜에 특정 캠핑장에 예약가능한 캠핑장 스타일 목록 -->
 	<select id="campAvailableReser" resultType="hashmap">
@@ -156,7 +157,7 @@ order by camp_id desc limit 0,10
 	</delete>
 	<!-- 특정 유저가 예약한 캠핑장 목록 확인 및 예정된 예약 -->
 	<select id="campReservationUserNext" resultType="com.example.domain.CampingReserVO">
-		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id and reser_checkin<![CDATA[>=]]>curdate() order by reser_no desc;
+		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and reser_status=1 and tcm.camp_id=tcl.camp_id and reser_checkin<![CDATA[>=]]>curdate() order by reser_no desc;
 	</select>
 	<!-- 특정 유저가 예약한 캠핑장 목록 확인 -->
 	<select id="campReservationUserPrev" resultType="com.example.domain.CampingReserVO">
@@ -218,4 +219,47 @@ order by camp_id desc limit 0,10
 	<update id="campCancelRequest">
 		update tbl_camp_reserve set reser_status='0' where reser_no=#{reser_no};
 	</update>
+	<!-- 캠핑장 예약관리 -->
+	<select id="campReservListforAdmin" resultType="hashmap">
+		select tcr.*,tcl.camp_name,tcl.camp_tel 
+		from tbl_camp_reserve as tcr, tbl_camp_list as tcl 
+		 <if test="searchType=='camp_id'">
+			where tcr.camp_id=tcl.camp_id and
+			tcr.camp_id like concat('%',#{keyword},'%')
+			order by reser_no desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+		<if test="searchType=='uid'">
+			where tcr.camp_id=tcl.camp_id and
+			tcr.uid like concat('%',#{keyword},'%')
+			order by reser_no desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+		<if test="searchType=='reser_no'">
+			where tcr.camp_id=tcl.camp_id and
+			tcr.reser_no like concat('%',#{keyword},'%')
+			order by reser_no desc
+			limit #{pageStart},#{perPageNum}
+		</if>
+	</select>
+	<!-- 캠핑장 예약건 읽기 -->
+	<select id="campReservReadforAdmin" resultType="hashmap">
+		select tcr.*,tcl.camp_name,tcl.camp_tel 
+		from tbl_camp_reserve as tcr, tbl_camp_list as tcl 
+		where tcr.camp_id=tcl.camp_id and tcr.reser_no=#{reser_no} 
+		order by reser_no desc;
+	</select>
+	 <!-- 총 캠핑 예약 건수 -->
+ 	<select id="campResevTotcount" resultType="int">
+		select count(*) from tbl_camp_reserve
+		<if test="searchType=='camp_id'">
+			where camp_id like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType=='uid'">
+			where uid like concat('%',#{keyword},'%')
+		</if>
+		<if test="searchType=='reser_no'">
+			where reser_no like concat('%',#{keyword},'%')
+		</if>
+	</select>
 </mapper>
