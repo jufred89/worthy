@@ -381,7 +381,7 @@ text-align:center;
 		<div id="tip_title"></div>
 				<script id="temp1" type="text/x-handlebars-template">
 <img src="../resources/light.png" width=50 height=50/><a href="/tip/list"><span class="glyphicon glyphicon-plus more" style="float:right;" title="더보기"></span></a>
-<h2>캡핑 팁</h2>
+<h2>캠핑 팁</h2>
  <ul class="item">
             {{#each .}}
               
@@ -393,7 +393,7 @@ text-align:center;
          <div id="food_title"></div>
 				<script id="temp2" type="text/x-handlebars-template">
 <img src="../resources/food.png" width=50 height=50/><a href="/recipe/list"><span class="glyphicon glyphicon-plus more" style="float:right;" title="더보기"></span></a>
-<h2 >캡핑음식</h2>
+<h2 >캠핑음식</h2>
                <ul class="item">
             {{#each .}}
             <li onClick="location.href='/recipe/read?fi_no={{fi_no}}'">{{fi_title}}</li>

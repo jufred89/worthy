@@ -2,6 +2,31 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<style>
+#pagination .active{
+   font-weight: bold;
+   background: #f2f2f3;
+}
+
+#pagination a{
+   text-decoration:none;
+   font-weight: normal;
+   color:black;
+   padding:6px 12px;
+   border:1px solid black;
+}
+
+#pagination{
+   width:500px;
+   margin:0 auto;
+}
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
+</style>
 <div id="sub">
 	<div class="subheading">상품 목록</div>
 <div id="condition">

@@ -4,6 +4,31 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <link rel="stylesheet" href="../resources/admin.css" />
+<style>
+#pagination .active{
+   font-weight: bold;
+   background: #f2f2f3;
+}
+
+#pagination a{
+   text-decoration:none;
+   font-weight: normal;
+   color:black;
+   padding:6px 12px;
+   border:1px solid black;
+}
+
+#pagination{
+   width:500px;
+   margin:0 auto;
+}
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
+</style>
 <div id="sub">
 	<div class="subheading">캠핑장 목록</div>
 	<div>
