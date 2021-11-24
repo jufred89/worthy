@@ -7,6 +7,7 @@
 />
 <style>
 	body{padding-left:18px;}
+	#fb_info{height:500px;}
 </style>
 <div id="subject">FREE BOARD</div>
 <h5>자유게시판</h5>
@@ -25,7 +26,7 @@
 			<div id="condition">
 					<input type="hidden" name="fb_no" value="${vo.fb_no }"/><br>
 					<div id="fb_title">
-						<input type="text" name="fb_title" value="${vo.fb_title }"/>
+						<input type="text" name="fb_title" size="40" value="${vo.fb_title }"/>
 					</div>
 					
 					<div class="title">카테고리</div>
@@ -60,7 +61,7 @@
 				<div id="fb_info">
 					
 					<div id="fb_content">
-						<textarea rows="14" cols="59" name="fb_content">${vo.fb_content }</textarea>
+						<textarea rows="20" cols="59" name="fb_content">${vo.fb_content }</textarea>
 					</div>
 				</div>
 			</div>
