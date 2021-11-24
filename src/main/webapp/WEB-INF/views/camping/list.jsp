@@ -8,6 +8,7 @@
 <script src="../resources/bootstrap-datepicker.js"></script>
 <script src="../resources/home.css"></script>
 <link rel="stylesheet" href="../resources/camping.css" />
+
 <div style="width:400px;
 	margin:0 auto; text-align:center;">
 	<div id="subject">Find CAMPSITE</div>

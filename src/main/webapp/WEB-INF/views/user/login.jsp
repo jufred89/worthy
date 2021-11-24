@@ -6,32 +6,43 @@
 
 <link rel="stylesheet" href="../resources/login.css" />
 <style>
+#center{
+padding:0;
+}
  #login_back{
 
-position: relative;
+ position: relative;
 	background-image: url("../resources/nightcamp.jpg");
 	/* background:black; */
 	background-size: 100% 100%;
 	 background-position: center center;
 	height: 100%;
-	width:100%;
+	
 	background-repeat: no-repeat;
+
+	
 } 
+.space{
+height:200px;
+}
 </style>
 <div id="login_back">
 <div class="wrapper fadeInDown">
-<div class="first" style="margin:50px;">
-    <h1>Worthy로 들어오세요!</h1>
-</div>
+<div class="first" style="margin:30px;position: relative;top:50px; ">
+    <img alt="" src="../resources/logowhite2.png" style="width:100; ">
+   
+  
+    </div>
+
   <div id="formContent">
     <!-- Tabs Titles -->
-	<h2>로그인</h2>
+	<h2>LOGIN</h2>
     <!-- Icon -->
 
     <!-- Login Form -->
     <form action="post" id="login" name="frm">
-      <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="id">
-      <input type="password" id="upass" class="fadeIn third" name="upass" placeholder="password">
+      <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="ID">
+      <input type="password" id="upass" class="fadeIn third" name="upass" placeholder="Password">
       <h5><label>로그인 상태유지</label><input type="checkbox" name="chkLogin"/></h5> 
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
@@ -40,9 +51,9 @@ position: relative;
     <div id="formFooter">
       <a class="btn btn-default" href="/join">회원가입</a>
     </div>
+  </div>
+  </div>
 
-  </div>
-  </div>
 </div>
 <script>
 
