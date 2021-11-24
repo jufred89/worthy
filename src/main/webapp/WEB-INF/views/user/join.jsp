@@ -5,58 +5,84 @@
 <link rel="stylesheet" href="../resources/bootstrap-datepicker.css">
 <link rel="stylesheet" href="../resources/join.css" />
 <style>
+
 .space{
 height:200px;
 }
+
 #join_back{
-background: lightgray;
+position: relative;
+margin:0;
+padding:0;
+	background-image: url("../resources/lightcamp.jpg");
+	/* background:black; */
+	background-size: cover;
+	 background-position: center center;
+	height: 100%;
+
+	background-repeat: no-repeat;
+ overflow-y: scroll;
+  -ms-overflow-style: none;
+  
+}
+#join_back::-webkit-scrollbar{ display:none; }
+
+#center{
+padding:0;
 }
 </style>
 <div id="join_back">
+
 <div class="wrapper fadeInDown">
-  <div id="formContent">
-    <!-- Tabs Titles -->
- <div class="space"></div>
-    <!-- Icon -->
-    <div class="first" style="margin-bottom:50px;height:200px; ">
-    <img alt="" src="../resources/worthycamping_logo_sample1.png" style="width:200; ">
+<div class="first" style="margin:30px;position: relative;top:50px; ">
+    <img alt="" src="../resources/worthycamping_logo_sample1.png" style="width:100; ">
   
     </div>
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    
 
     <!-- Login Form -->
     <form action="post" id="join" name="frm">
-      <h1 ><b>JOIN</b></h1>
+      <h1 style="margin-top:30px;"><b>JOIN</b></h1>
+      <div>
       <div>
         <div class="title">아이디</div>
-        <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="아이디" >
-        <input type="button" value="중복체크" id="chkid"/>
+     
+        <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="아이디" style="width:250px;">
+        <input type="button" value="중복체크" id="chkid" style="margin-left:5px;"/>
+        
       </div>
 	      
 	    <div class="title">비밀번호</div>
-      	<input type="password" id="upass" class="fadeIn third" name="upass" placeholder="비밀번호">
-      	<input type="password" id="passcheck" class="fadeIn third" name="passcheck" placeholder="비밀번호확인">
-      
+	   
+      	<input type="password" id="upass" class="fadeIn third" name="upass" placeholder="비밀번호" style="width:400px;">
+      	<input type="password" id="passcheck" class="fadeIn third" name="passcheck" placeholder="비밀번호확인" style="width:400px;" >
+    
       <div class="title">이메일</div>
-      <input type="email" id="umail" class="fadeIn second" name="umail" placeholder="이메일" >
+      <input type="email" id="umail" class="fadeIn second" name="umail" placeholder="이메일" style="width:400px;">
       <div class="title">이름</div>
-      <input type="text" id="uname" class="fadeIn second" name="uname" placeholder="성함" >
+      <input type="text" id="uname" class="fadeIn second" name="uname" placeholder="성함" style="width:400px;">
       <div class="title">전화번호</div>
-      <input type="text" id="tel" class="fadeIn second" name="tel" placeholder="연락처" >
+      <input type="text" id="tel" class="fadeIn second" name="tel" placeholder="연락처"style="width:400px; ">
      
      <div id="addr">
-     	<div class="title">주소</div>
-     	<input type="button" onclick="search()" value="주소검색"><br>
-     	<input type="text" id="road" name="address" placeholder="도로명주소">
+     	<div class="title" style="margin-right:0;">주소</div>
+     	<div style="text-align:left;margin-left:60px;"><input type="button" onclick="search()" value="주소검색"><br></div>
+     	<input type="text" id="road" name="address" placeholder="도로명주소" style="width:400px;">
      	<span id="guide" style="color:#999;display:none"></span>
-    	<input type="text" id="detail" name="detail" placeholder="상세주소">
+    	<input type="text" id="detail" name="detail" placeholder="상세주소" style="width:400px;">
      </div>
-      <input type="submit" class="fadeIn fourth" value="Join Us">
+     </div>
+      <input type="submit" class="fadeIn fourth" value="Join Us" style="width:300px;">
     </form>
 
   
 
-  <div class="space"></div>
   </div>
+  <div class="space"></div>
 </div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

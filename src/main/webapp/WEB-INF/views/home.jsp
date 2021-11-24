@@ -120,9 +120,9 @@ align-items:center;
  
     <div class="nav navbar-nav navbar-right col-sm-6" id="menus">
   
-    <div>
-            <a data-toggle="modal" href="#myModal3">테마검색 </a>
-         </div>
+<div>
+            <a href='/camping/list?camp_addr=&reser_checkin=&reser_checkout=' >테마검색 </a>
+         </div> 
          <div>
             <a href="/notice/list">캠핑정보 </a>
          </div>
@@ -138,15 +138,33 @@ align-items:center;
          
             <c:if test="${uid!=null}">
                <div style="float:right;">
-                  <a style="" href="/mypage?uid=${uid}">${uid}</a><span style="display:inline-block;margin-right:10px;">님 환영합니다! </span>
-                    
+                 <c:choose>
+               <c:when test="${uid eq 'admin'}">
+                  <a style="" href="/admin">${uid}</a><span style="display:inline-block;margin-right:10px;">님 환영합니다! </span>
+                    </c:when>
+                    <c:otherwise>
+                    <a style="" href="/mypage?uid=${uid}">${uid}</a><span style="display:inline-block;margin-right:10px;">님 환영합니다! </span>
+                    </c:otherwise>
+                  </c:choose>
+                  <c:choose>
+                  <c:when test="${uid eq 'admin'}">
+                   
                   <a href="/user/logout" id="logout"><span class='glyphicon glyphicon-share-alt'></span>LOGOUT</a>
+                  </c:when>
+                  <c:otherwise>
+                  <img src="../resources/shop.png" width=40 height=40 style="margin:0 5px;"/>
+                   
+                  <a href="/user/logout" id="logout"><span class='glyphicon glyphicon-share-alt'></span>LOGOUT</a>
+                  </c:otherwise>
+                  </c:choose>
                </div>
+               
                 <!-- <div><a href="/mypage">Mypage</a></div> -->
          </c:if>
          <c:if test="${uid==null}">
             <div style="margin-right:10px;">|</div>
             <div id="login_join_imoticon" >
+             <img src="../resources/shop.png" width=40 height=40 style="margin:0 5px;"/>
                <a href="/user/login" ><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
                <a href="/user/join"><span class="glyphicon glyphicon-user"></span>SIGN UP</a>
             </div>
@@ -290,251 +308,25 @@ align-items:center;
          
          <!-- 모달창2끝 -->
    <div id="center">
-      <div id="content">
+    
       
-         <!-- 모달창1시작 -->
-         <div class="modal" id="myModal">
-            <div class="modal-dialog">
-               <div class="modal-content" style="height: 650px;">
-
-                  <!-- Modal Header -->
-                  <div class="modal-header" style="height: 55px;">
-                     <div class="row" style="height: 200px; margin: 0;">
-                        <div class="col-sm-11" style="background: rgba(0, 0, 0, 0);">
-                           <p style="font-weight: bold;">어디로 떠날까요?</p>
-                        </div>
-                        <div class="col-sm-1" style="padding: 0;">
-                           <button type="button" class="close" data-dismiss="modal"
-                              style="  padding: 0;">&times;</button>
-                        </div>
-                     </div>
-                  </div>
-
-                  <!-- Modal body -->
-                  <div class="modal-body" style="height: 400px;">
-                  <div id="search_local">
-                     <input type="text" id="local" style="border: 1px solid gray;"
-                        placeholder="원하는 지역을 검색해보세요!">
-                        
-                        
-                     <hr>
-                     <h3>지역</h3>
-                     <ul id="district">
-                     <li>국내전체</li>
-                     <li>제주</li>
-                     <li>강원</li>
-                     <li>부산</li>
-                     <li>경기</li>
-                     <li>충청</li>
-                     <li>경상</li>
-                     <li>전라</li>
-                     <li>인천</li>
-                     <li>대전</li>
-                     <li>대구</li>
-                     <li>울산</li>
-                     </ul>
-                        </div>
-                  </div>
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-               
-               <button type="button" id="d_start" class="btn-search btn--primary">검색할까요?</button>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- 모달창1끝 -->
-
-         <!-- 모달창2시작 -->
-         <div class="modal" id="myModal2">
-            <div class="modal-dialog">
-               <div class="modal-content" style="height: 650px;">
-
-                  <!-- Modal Header -->
-                  <div class="modal-header" style="height: 55px;">
-                     <div class="row" style="height: 200px; margin: 0;">
-                        <div class="col-md-11" style="background: rgba(0, 0, 0, 0);">
-                           <p style="font-weight: bold;">언제 떠날까요?</p>
-                        </div>
-                        <div class="col-md-1" style="padding: 0;">
-                           <button type="button" class="close" data-dismiss="modal"
-                              style="width: 20px; height: 20px; margin-bottom: 50px; padding: 0;">&times;</button>
-                        </div>
-                     </div>
-                  </div>
-
-                  <!-- Modal body -->
-                  <div class="modal-body" style="height: 450px;magin-bottom:30px;">
-<div class="input-group input-daterange">
-    <input type="text" id="start" class="form-control" >
-    <div class="input-group-addon">부터</div>
-    <input type="text" id="end" class="form-control" >
-     <div class="input-group-addon">까지</div>
-</div>
-
-  <div class="cal_top">
-        <a href="#" id="movePrevMonth"><span id="prevMonth" class="cal_tit">&lt;</span></a>
-        <span id="cal_top_year"></span>
-        <span id="cal_top_month"></span>
-        <a href="#" id="moveNextMonth"><span id="nextMonth" class="cal_tit">&gt;</span></a>
-    </div>
-    <div id="cal_tab" class="cal">
-    </div>
-    <script type="text/javascript">
-    
-    var today = null;
-    var year = null;
-    var month = null;
-    var firstDay = null;
-    var lastDay = null;
-    var $tdDay = null;
-    var $tdSche = null;
-   
-   var startValue=$('#start').val()
-    
-    $(document).ready(function() {
-        drawCalendar();
-        initDate();
-        drawDays();
-        $("#movePrevMonth").on("click", function(){movePrevMonth();});
-        $("#moveNextMonth").on("click", function(){moveNextMonth();});
-        ClickDay();
-        //start value값이 change
-        $('#start').on('change',function(){
-             
-              var startValue=$('#start').val()
-          var arr=startValue.split("-");
-              var startMonth=$('#cal_top_month').text()
-              var date=$('.day2').text()
-               if(startMonth==arr[1]&&arr[2]==date){
-                  $(this)
-               }
-       })
-    });
-  
-   //color
-   function dateColor(){
-       var startValue=$('#start').val()
-       
-    }
-   
-    //calendar 그리기
-    function drawCalendar(){
-        var setTableHTML = "";
-        setTableHTML+='<table class="calendar">';
-        setTableHTML+='<tr><th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr>';
-        for(var i=0;i<5;i++){
-            setTableHTML+='<tr height="50">';
-            for(var j=0;j<7;j++){
-                setTableHTML+='<td class="day2" style="text-overflow:ellipsis;overflow:hidden;white-space:nowrap" >';
-                setTableHTML+='    <div class="cal-day" ></div>';
-                setTableHTML+='    <div class="cal-schedule"></div>';
-                setTableHTML+='</td>';
-            }
-            setTableHTML+='</tr>';
-        }
-        setTableHTML+='</table>';
-        $("#cal_tab").html(setTableHTML);
-    }
- 
-    //날짜 초기화
-    function initDate(){
-        $tdDay = $("td div.cal-day")
-        $tdSche = $("td div.cal-schedule")
-        dayCount = 0;
-        today = new Date();
-        year = today.getFullYear();
-        month = today.getMonth()+1;
-        firstDay = new Date(year,month-1,1);
-        lastDay = new Date(year,month,0);
-    }
-    
-    //calendar 날짜표시
-    function drawDays(){
-       
-        $("#cal_top_year").text(year);
-        $("#cal_top_month").text(month);
-        for(var i=firstDay.getDay();i<firstDay.getDay()+lastDay.getDate();i++){
-            $tdDay.eq(i).text(++dayCount);
-        }
-        for(var i=0;i<42;i+=7){
-            $tdDay.eq(i).css("color","red");
-        }
-        for(var i=6;i<42;i+=7){
-            $tdDay.eq(i).css("color","blue");
-        }
-    }
- 
-    //calendar 월 이동
-    function movePrevMonth(){
-        month--;
-        if(month<=0){
-            month=12;
-            year--;
-        }
-        if(month<10){
-            month=String("0"+month);
-        }
-        getNewInfo();
-        }
-    
-    function moveNextMonth(){
-        month++;
-        if(month>12){
-            month=1;
-            year++;
-        }
-        if(month<10){
-            month=String("0"+month);
-        }
-        getNewInfo();
-    }
-
-    
-    function getNewInfo(){
-        for(var i=0;i<42;i++){
-            $tdDay.eq(i).text("");
-        }
-        dayCount=0;
-        firstDay = new Date(year,month-1,1);
-        lastDay = new Date(year,month,0);
-        drawDays();
-    }
-    function ClickDay(){
-       $('.day2').on('click',function(){
-          var date=$(this).text();
-          alert(typeof(date))
-       })
-    }
-</script>
-                  </div>
-                  <!-- Modal footer -->
-                  <div class="modal-footer">
-                  
-                  <button type="button" id="d_start" class="btn-search btn--primary">검색할까요?</button>
-                  
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- 모달창2끝 -->
-
          
 
          <jsp:include page="${pageName}"></jsp:include>
-      </div>
+       
+      
    </div>
    
-      <c:if test="${pageName == 'about.jsp'}">
+    <c:if test="${pageName == 'about.jsp'}">
             <div id="footer">
-   <img src="/resources/worthycamping_logo_sample3.png" width=100/>
-   <p>Created by worthy. © 2021</p>
+   <img src="/resources/worthycamping_logo_sample3.png" width=100 style="margin-left:20px;"/>
+   <p style="margin-right:20px;">Created by worthy. © 2021</p>
    </div>
       </c:if>
       <c:if test="${pageName != 'about.jsp'}">
           <div id="footer2">
-    <img src="/resources/logowhite.png" width=100/>
-   <p>Created by worthy. © 2021</p>
+    <img src="/resources/logowhite.png" width=100 style="margin-left:20px;"/>
+   <p style="margin-right:20px;">Created by worthy. © 2021</p>
    </div>
    </c:if>
 </body>
