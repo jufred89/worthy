@@ -99,7 +99,7 @@ h5{font-size:15px;}
 	border: 1px solid rgb(230, 230, 230);
 	float: right;
 	width: 25%;
-	height: 53%;
+	height: 60%;
 	padding: 50px;
 	border-radius: 30px;
 	background: rgb(242, 242, 242);
@@ -466,9 +466,10 @@ h5{font-size:15px;}
 		var style_price = $("input[name='camp_style_list']:checked").attr(
 				"price");
 		if (style_no == null) {
-			alert("스타일을 선택해주세요.")
+			alert("객실을 선택해주세요.")
 			return;
 		}
+		if(!confirm("예약페이지로 이동합니다.")) return;
 		location.href = "/camping/checkout?camp_id=" + camp_id + "&style_no="
 				+ style_no + "&style_price=" + style_price + "&reser_checkin="
 				+ reser_checkin + "&reser_checkout=" + reser_checkout

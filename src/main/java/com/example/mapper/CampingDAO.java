@@ -48,4 +48,8 @@ public interface CampingDAO {
 	public HashMap<String, Object> campCancelData(int reser_no);
 	// 캠핑 예약 취소
 	public void campCancelRequest(int reser_no);
+	// 캠핑장 예약현황 for admin
+	public List<HashMap<String, Object>> campReservListforAdmin(Criteria cri);
+	public int campResevTotcount(Criteria cri);
+	public HashMap<String, Object> campReservReadforAdmin(int reser_no);
 }

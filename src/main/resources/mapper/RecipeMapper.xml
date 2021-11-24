@@ -3,15 +3,16 @@
 <mapper namespace="com.example.mapper.RecipeMapper">
  	<select id="list" resultType="hashmap">
 		select * from tbl_information_food
-		<if test="keyword != null">
+		<if test="searchType == 'all'">
  			where fi_title like concat("%", #{keyword}, "%") || fi_content like concat("%", #{keyword}, "%")
  		</if>
- 		<if test="searchType == 'desc'">
- 			order by fi_no desc
+ 		<if test="searchType == 'title'">
+ 			where fi_title like concat("%", #{keyword}, "%")
  		</if>
- 		<if test="searchType == 'asc'">
- 			order by fi_no
+ 		<if test="searchType == 'content'">
+ 			where fi_content like concat("%", #{keyword}, "%")
  		</if>
+ 		order by fi_no desc
 		limit #{pageStart},#{perPageNum}
  	</select>
  	<select id="mainPage_food_list" resultType="hashmap">
