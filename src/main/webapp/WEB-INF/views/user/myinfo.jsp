@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <style>
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
+</style>
 <div id="sub">
 	<div class="subheading">회원 정보 수정</div>
 	<div>

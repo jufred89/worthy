@@ -10,7 +10,6 @@
 	   font-weight:bold;
 	}
 </style>
-
 <div id="sub">
 	<div class="subheading">장바구니</div>
 	<div class="mycart">

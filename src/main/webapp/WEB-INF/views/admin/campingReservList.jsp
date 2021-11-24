@@ -30,36 +30,36 @@
 }
 </style>
 <div id="sub">
-	<div class="subheading">캠핑장 목록</div>
+	<div class="subheading">캠핑장 예약 목록</div>
 	<div>
 		<select id="searchType">
 			<option value="camp_id">업체번호</option>
-			<option value="camp_name">업체명</option>
-			<option value="camp_addr">업체주소</option>
+			<option value="uid">회원ID</option>
+			<option value="reser_no">예약번호</option>
 		</select> <input type="text" id="keyword" placeholder="검색어" /> 
 		검색수 : <span id="totCount"></span>
 	</div>
-	<div id="newInsert">
+	<!-- <div id="newInsert">
 	<a href="/admin/camping/insert">캠핑장등록</a>
 	</div>
-
+ -->
 	<table id="campList">
 	</table>
 	<div id="pagination" class="pagination"></div>
 	<script src="/resources/pagination.js"></script>
 	<script id="temp" type="text/x-handlebars-template">
   		<tr>
-    		<th width="50">번호</th>
-    		<th width="200">업체명</th>
-    		<th width="400">업체주소</th>
-    		<th width="200">전화번호</th>
+    		<th width="50">예약번호</th>
+    		<th width="400">업체명</th>
+    		<th width="250">업체번호</th>
+    		<th width="100">회원ID</th>
   		</tr>
-		{{#each list}}
-  		<tr onclick="location.href='/admin/camping/update?camp_id={{camp_id}}'">
-    		<td>{{camp_id}}</td>
+		{{#each reservlist}}
+  		<tr onclick="location.href='/admin/camping/reserveread?reser_no={{reser_no}}'">
+    		<td>{{reser_no}}</td>
     		<td>{{camp_name}}</td>
-    		<td>{{camp_addr}}</td>
     		<td>{{camp_tel}}</td>
+    		<td>{{uid}}</td>
   		</tr>
 		{{/each}}
 	</script>
@@ -80,7 +80,7 @@
 		var searchType = $('#searchType').val();
 		$.ajax({
 			type : 'get',
-			url : '/admin/camping/list.json',
+			url : '/admin/camping/Resevlist.json',
 			dataType : 'json',
 			data : {
 				page : page,

@@ -48,7 +48,8 @@
 	width: 30%;
 	text-align: left;
 	background: rgb(245, 245, 245);
-	padding: 10px;
+	padding: 20px;
+	border-radius:20px;
 }
 
 #camp_reservation_info div {
@@ -72,6 +73,11 @@
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
+}
+.reservbtn{
+	background: black;
+	color: white;
+	border-radius:10px;
 }
 </style>
 <h1 style="color: #ff0000; font-weight: bold;">예약하기</h1>
@@ -143,10 +149,10 @@
 			<h4></h4>
 		</div>
 		<c:if test="${uid!=null}">
-			<button onclick="goReservation()">결제하기</button>
+			<button class="reservbtn" onclick="goReservation()">결제하기</button>
 		</c:if>
 		<c:if test="${uid==null}">
-			<button onclick="pleaseLogin()">결제하기</button>
+			<button class="reservbtn" onclick="pleaseLogin()">결제하기</button>
 		</c:if>
 	</div>
 </div>

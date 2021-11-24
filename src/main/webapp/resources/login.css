@@ -1,4 +1,7 @@
 @CHARSET "UTF-8";
+.first{
+	top:30px;
+}
 
 .first h1{
 	color:white;
@@ -14,8 +17,7 @@
   justify-content: flex-start;
   width: 100%;
   min-height: 90%;
-  padding: 20px;
-  padding-top:50px;
+
 }
 
 .first h1{
@@ -31,7 +33,7 @@
   position: relative;
   box-shadow: none;
   text-align: center;
-   top:100px;
+   top:50px;
 }
 
 

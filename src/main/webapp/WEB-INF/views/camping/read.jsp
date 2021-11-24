@@ -6,22 +6,27 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <style>
 #campBody {
-	width: 1500px;
-	margin: 0px auto;
+   width: 1500px;
+   margin: 0px auto;
+   padding:0 30px 30px 30px;
 }
 
 #campingReadBox1 {
-	width: 1500px;
-	margin: 10px auto;
-	padding: 10px;
-	overflow: hidden;
+   width: 1500px;
+   margin: 0px auto;
+   padding: 10px;
+   overflow: hidden;
 }
 
 #campingReadBox1 h1 {
 	font-weight: bold;
 	text-align: left;
 }
-
+h1{font-size:30px;}
+h2{font-size:20px;}
+h3{font-size:18px;}
+h4{font-size:17px;}
+h5{font-size:15px;}
 #campMainImage {
 	width: 700px;
 	height: 570px;
@@ -91,41 +96,43 @@
 }
 
 #reserve_box {
-	border: 1px solid rgb(230, 230, 230);
-	float: right;
-	width: 30%;
-	height: 80%;
-	padding: 20px;
-	border-radius: 30px;
-	background: rgb(242, 242, 242);
+   border: 1px solid rgb(230, 230, 230);
+   float: right;
+   width: 25%;
+   height: 65%;
+   padding: 50px;
+   border-radius: 30px;
+   background: rgb(242, 242, 242);
+   margin:30px;
 }
 
 #reserve_box span {
-	font-size: 30px;
+	font-size: 20px;
 	font-weight: bold;
 	text-align: left;
 	display: block;
 }
-#reserve_box h4 {
-	font-size: 30px;
-	font-weight: none;
+#reserve_box h4, #reserve_box input[type=radio] {
+	font-size: 18px;
+	font-weight: normal;
 	text-align: left;
 	margin-bottom: 40px;
+	margin-left:10px;
 }
 
 #reserve_box button {
-	width: 300px;
+	width: 210px;
 	background: black;
 	color: white;
-	font-size: 25px;
-	margin-top: 30px;
+	font-size: 18px;
+	margin-top: 50px;
 	padding: 10px;
 	border-radius: 20px;
 	box-shadow: 5px 5px 5px gray;
 }
 
 #available_reser {
-	font-size: 25px;
+	font-size: 18px;
 	text-align: left;
 }
 
@@ -149,6 +156,7 @@
 #pageLike{
 	text-align: right;
 	margin-right: 30px;
+	margin-bottom:10px;
 	cursor: pointer;
 }
 #campingReviews{
@@ -209,8 +217,8 @@
 	width: 1000px;
 }
 </style>
-<h1 style="color: #ff0000; font-weight: bold;">캠핑장 정보</h1>
-<hr />
+
+
 <!-- 캠핑장 정보 부분 -->
 <div id="campBody">
 	<div id="campingReadBox1">
@@ -219,10 +227,10 @@
 			<h3 id="from_addr">${cvo.camp_addr}</h3>
 			<div id="pageLike">
 				<c:if test="${likeCheck==0 }">
-					<img src="/resources/heart.png" title="좋아요" width=45 id="bntLike" />
+					<img src="/resources/heart.png" title="좋아요" width=40 id="bntLike" />
 				</c:if>
 				<c:if test="${likeCheck!=0 }">
-					<img src="/resources/heart_colored.png" title="좋아요취소" width=45
+					<img src="/resources/heart_colored.png" title="좋아요취소" width=40
 						id="bntLike" />
 				</c:if>
 			</div>
@@ -458,9 +466,10 @@
 		var style_price = $("input[name='camp_style_list']:checked").attr(
 				"price");
 		if (style_no == null) {
-			alert("스타일을 선택해주세요.")
+			alert("객실을 선택해주세요.")
 			return;
 		}
+		if(!confirm("예약페이지로 이동합니다.")) return;
 		location.href = "/camping/checkout?camp_id=" + camp_id + "&style_no="
 				+ style_no + "&style_price=" + style_price + "&reser_checkin="
 				+ reser_checkin + "&reser_checkout=" + reser_checkout
@@ -471,11 +480,6 @@
 //좋아요 버튼 클릭한 경우
 $('#pageLike').on('click',function(){
 	var likeCheck = "${likeCheck}";
-	alert(uid)
-	alert(camp_id)
-	alert(reser_checkin)
-	alert(reser_checkout)
-	alert(likeCheck)
 	$.ajax({
 		type:'post',
 		url:'/camping/like',

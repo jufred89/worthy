@@ -1,0 +1,114 @@
+/* @CHARSET "UTF-8"; */
+
+#subject{
+	font-size:150%; 
+	font-weight:bold;
+	letter-spacing:15px;
+	word-spacing:5px;
+	margin-left:50px;
+}
+h5{margin-left:30px;}
+	#divRead{
+		width:960px;
+		margin:0 auto;
+		margin-bottom:150px;
+		border-bottom:1px solid gray;
+		overflow:hidden;
+		margin-top:10px;
+	}
+	#update, #btnDelete{
+		float:right;
+		margin:15px;
+		border:none;
+		width:120px;
+		padding:10px 15px;
+		background-color:black;
+		font-size:100%;
+		color:white;
+	}
+	#list{
+		float:right;
+		margin:15px;
+		width:120px;
+		height:40px;
+		padding:10px 15px;
+		background-color:white;
+		font-size:100%;
+ 		color:black; 
+		border:1px solid black;
+	}
+	#btnLike{
+		float:right;
+		border-radius:10px;
+		padding:10px;
+		margin-top:15px;
+	}
+	#mainImg{max-width:95%;height:auto;}
+	#att {
+		padding:10px;
+		margin:0 auto; 
+		overflow:hidden;
+	}
+	#att img{
+		margin:5px;
+		width:150px;
+		height:100px;
+		border:1px solid gray;
+	}
+	#readHeader{
+		border-bottom:1px solid gray;
+		padding-bottom:12px;
+		overflow:hidden;
+		margin-bottom:20px;
+	}
+	#readInfo{
+		float:right;
+		color:gray;
+		margin-right:10px;
+	}
+	#notice_logo{
+		width:97px;
+		height:30px;
+		float:left;
+		color:gray;
+		letter-spacing:5px;
+		border-bottom:1px solid black;
+	} 
+	#tip_logo{
+		width:60px;
+		height:30px;
+		float:left;
+		color:gray;
+		letter-spacing:5px;
+		border-bottom:1px solid black;
+	} 
+	#title{
+		margin-left:10px;
+		font-size:180%; 
+	}
+	#infoContent{
+		font-size:110%;
+		margin-top:15px;
+		margin-left:30px;
+		margin-bottom:20px;
+		text-align:left;
+	}
+	
+	
+	.whiteBtn{
+	font-size:85%;
+	padding:7px 25px;
+	background-color:white;
+	color:black;
+	border:1px solid black;
+
+}
+.blackBtn{
+	font-size:85%;
+	padding:8px 26px;
+	background-color:black;
+	color:white;
+	border:none;
+	margin-top:5px;
+}
+/* */

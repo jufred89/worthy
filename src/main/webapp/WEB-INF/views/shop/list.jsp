@@ -3,6 +3,7 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
    src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+
 <style>
 #subject{
 	font-size:150%; 
@@ -21,10 +22,11 @@ margin:0 auto;
 width:1600px;
 display: grid;
    grid-template-columns: repeat(4, 1fr);
+  
    
 }
 
-#item{
+.item{
 margin-top:50px;
 /* float:left;
    margin:5px;
@@ -36,14 +38,29 @@ margin-top:50px;
 	border-bottom:1px solid #dadada;
 }
 #total{display:inline-block; width:100px;}
-</style>
-<a href="/shop/insert">상품등록 버튼은 관리자페이지로 옮길 예정</a>
+.prod_info p{
+display:flex;
+justify-content:left;
 
-<div style="width:400px;
-	margin:0 auto; text-align:center;">
-	<div id="subject">CAMPING SHOP</div>
+margin:15px;
+}
+.prod_name{
+
+font-size: 20px;
+}
+.prod_detail{
+
+font-size: 16px;
+}
+.prod_normalprice_f{
+
+font-size: 20px;
+margin-top:0px;
+}
+</style>
+
+<div id="subject">CAMPING SHOP</div>
 	<h5>캠핑상점</h5>
-</div>
 	<div id="condition">
 		<div id="search">
 		<!-- <select id="searchType">
@@ -65,27 +82,40 @@ margin-top:50px;
 	
 
 <div id="shop"></div>
+<!-- <div style="height:400px;
+	margin:0 auto; text-align:center;">
+	
+</div> -->
 <script id="temp" type="text/x-handlebars-template">
 
    {{#each list}}
-      <div id="item" onClick="location.href='/shop/read?prod_id={{prod_id}}'">
+      <div class="item" onClick="location.href='/shop/read?prod_id={{prod_id}}'">
          <img src="/shop/display?file={{prod_image}}" width="350" height="350"/>
-         <div style="padding-left:25px">
-            <p>{{prod_name}}</p>
-			 <p>{{prod_detail}}</p>
-            <p>{{prod_normalprice_f}}</p>
+         <div class="prod_info" style="padding-left:25px">
+            <p class="prod_name">{{prod_name}}</p>
+       <p class="prod_detail"><i class="fa fa-hand-o-right" aria-hidden="true"></i>  {{prod_detail}}</p>
+           
+            <p class="prod_normalprice_f">{{prod_normalprice_f}}₩</p>
          </div>
       </div>
    {{/each}}
 
+
 </script>
+<div style="height:200px;
+	margin:0 auto; text-align:center;">
+	
 </div>
 <script>
+
    getList();
    
    //정렬 순서
    $("#searchType").on("change", function(e){
       e.preventDefault();
+      
+      
+      
       getList();
    });
 
@@ -107,8 +137,8 @@ margin-top:50px;
    function getList() {
       
       var keyword = $("#keyword").val();
-      var searchType = $("#searchType").val();
-      var orderby = $("#orderby").val();
+     
+      var searchType=$("#searchType").val();
    console.log(searchType)
 
       $.ajax({
@@ -116,7 +146,7 @@ margin-top:50px;
          url : "/shop/list.json",
          data : {
         	 
-            "orderby":orderby,
+          
             "keyword" : keyword,
             "searchType" : searchType,
             

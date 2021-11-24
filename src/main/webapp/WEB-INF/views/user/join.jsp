@@ -5,61 +5,151 @@
 <link rel="stylesheet" href="../resources/bootstrap-datepicker.css">
 <link rel="stylesheet" href="../resources/join.css" />
 <style>
+
 .space{
 height:200px;
 }
+
 #join_back{
-background: lightgray;
+position: relative;
+margin:0;
+padding:0;
+	background-image: url("../resources/lightcamp.jpg");
+	/* background:black; */
+	background-size: cover;
+	 background-position: center center;
+	height: 100%;
+
+	background-repeat: no-repeat;
+ overflow-y: scroll;
+  -ms-overflow-style: none;
+  
+}
+#join_back::-webkit-scrollbar{ display:none; }
+
+#center{
+padding:0;
 }
 </style>
 <div id="join_back">
+
 <div class="wrapper fadeInDown">
-  <div id="formContent">
-    <!-- Tabs Titles -->
- <div class="space"></div>
-    <!-- Icon -->
-    <div class="first" style="margin-bottom:50px;height:200px; ">
-    <img alt="" src="../resources/worthycamping_logo_sample1.png" style="width:200; ">
+<div class="first" style="margin:30px;position: relative;top:50px; ">
+    <img alt="" src="../resources/worthycamping_logo_sample1.png" style="width:100; ">
   
     </div>
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    
 
     <!-- Login Form -->
     <form action="post" id="join" name="frm">
-      <h1 ><b>JOIN</b></h1>
+      <h1 style="margin-top:30px;"><b>JOIN</b></h1>
+      <div>
       <div>
         <div class="title">아이디</div>
-        <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="아이디" >
-        <input type="button" value="중복체크" id="chkid"/>
+     
+        <input type="text" id="uid" class="fadeIn second" name="uid" placeholder="아이디" style="width:250px;">
+        <input type="button" value="중복체크" id="chkid" style="margin-left:5px;"/>
+        
       </div>
 	      
 	    <div class="title">비밀번호</div>
-      	<input type="password" id="upass" class="fadeIn third" name="upass" placeholder="비밀번호">
-      	<input type="password" id="passcheck" class="fadeIn third" name="passcheck" placeholder="비밀번호확인">
-      
+	   
+      	<input type="password" id="upass" class="fadeIn third" name="upass" placeholder="비밀번호" style="width:400px;">
+      	<input type="password" id="passcheck" class="fadeIn third" name="passcheck" placeholder="비밀번호확인" style="width:400px;" >
+    
       <div class="title">이메일</div>
-      <input type="email" id="umail" class="fadeIn second" name="umail" placeholder="이메일" >
+      <input type="email" id="umail" class="fadeIn second" name="umail" placeholder="이메일" style="width:400px;">
       <div class="title">이름</div>
-      <input type="text" id="uname" class="fadeIn second" name="uname" placeholder="성함" >
+      <input type="text" id="uname" class="fadeIn second" name="uname" placeholder="성함" style="width:400px;">
       <div class="title">전화번호</div>
-      <input type="text" id="tel" class="fadeIn second" name="tel" placeholder="연락처" >
+      <input type="text" id="tel" class="fadeIn second" name="tel" placeholder="연락처" style="width:400px;"
+      required pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13">
      
      <div id="addr">
-     	<div class="title">주소</div>
-     	<input type="button" onclick="search()" value="주소검색"><br>
-     	<input type="text" id="road" name="address" placeholder="도로명주소">
+     	<div class="title" style="margin-right:0;">주소</div>
+     	<div style="text-align:left;margin-left:60px;"><input type="button" onclick="search()" value="주소검색"><br></div>
+     	<input type="text" id="road" name="address" placeholder="도로명주소" style="width:400px;">
      	<span id="guide" style="color:#999;display:none"></span>
-    	<input type="text" id="detail" name="detail" placeholder="상세주소">
+    	<input type="text" id="detail" name="detail" placeholder="상세주소" style="width:400px;">
      </div>
-      <input type="submit" class="fadeIn fourth" value="Join Us">
+     </div>
+      <input type="submit" class="fadeIn fourth" value="Join Us" style="width:300px;">
     </form>
 
   
 
-  <div class="space"></div>
   </div>
+  <div class="space"></div>
 </div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+// 전화번호 하이픈 처리
+$('#tel').keyup(function(event) {
+	event = event || window.event;
+	var val = this.value.trim();
+	this.value = autoHypenTel(val);
+});
+//전화번호  하이픈 자동입력
+	function autoHypenTel(str) {
+		str = str.replace(/[^0-9]/g, '');
+		var tmp = '';
+
+		if (str.substring(0, 2) == 02) {
+			// 서울 전화번호일 경우 10자리까지만 나타나고 그 이상의 자리수는 자동삭제
+			if (str.length < 3) {
+				return str;
+			} else if (str.length < 6) {
+				tmp += str.substr(0, 2);
+				tmp += '-';
+				tmp += str.substr(2);
+				return tmp;
+			} else if (str.length < 10) {
+				tmp += str.substr(0, 2);
+				tmp += '-';
+				tmp += str.substr(2, 3);
+				tmp += '-';
+				tmp += str.substr(5);
+				return tmp;
+			} else {
+				tmp += str.substr(0, 2);
+				tmp += '-';
+				tmp += str.substr(2, 4);
+				tmp += '-';
+				tmp += str.substr(6, 4);
+				return tmp;
+			}
+		} else {
+			// 핸드폰 및 다른 지역 전화번호 일 경우
+			if (str.length < 4) {
+				return str;
+			} else if (str.length < 7) {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3);
+				return tmp;
+			} else if (str.length < 11) {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3, 3);
+				tmp += '-';
+				tmp += str.substr(6);
+				return tmp;
+			} else {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3, 4);
+				tmp += '-';
+				tmp += str.substr(7);
+				return tmp;
+			}
+		}
+	}
+</script>
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function search() {
@@ -187,10 +277,10 @@ $(frm).on("submit", function(e){
        return;
     }if(!confirm("회원 등록을 하시겠습니까?")) return;
       
-    alert(address);
     frm.action="/user/join";
     frm.method="post";
     frm.submit();
-    location.href='/user/login'
+    
+    //location.href='/user/login'
  });
 </script>

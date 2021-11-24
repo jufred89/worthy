@@ -106,6 +106,6 @@ public class UserController {
 		vo.setAddress(vo.getAddress()+" "+vo.getDetail());
 		System.out.println(vo.toString());
 		udao.insert(vo);
-		return "/user/login";
+		return "redirect:/user/login";
 	}
 }

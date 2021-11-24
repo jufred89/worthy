@@ -21,7 +21,7 @@ body{height:580px;}
 	border-bottom:1px solid #dadada;
 }
 #container{
-	width:900px;
+	width:1200px;
 	height:500px;
 	margin:0 auto;
 	
@@ -46,7 +46,7 @@ body{height:580px;}
 #desc ul li{display: inline-block; }
 #desc a,#desc a:visited{color:black; text-decoration: none;margin-left:10px;}
 
-#tbl_board{width:850px; margin:20px auto;}
+#tbl_board{width:1150px; margin:20px auto;}
 #tbl_board th,td{
 	text-align:center;
 	border-bottom:1px solid gray;

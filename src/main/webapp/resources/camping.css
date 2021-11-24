@@ -1,0 +1,202 @@
+@CHARSET "UTF-8";
+
+#subject{
+	font-size:150%; 
+	font-weight:bold;
+	letter-spacing:15px;
+	word-spacing:5px;
+	margin-left:50px;
+}
+h5{margin-left:30px;}
+
+#campListBackGround{
+/*   background-image: url("../resources/back5.jpg");
+   background-size: cover;
+   background-position: center center;
+   */
+   padding-top: 30px;
+}
+
+#campList {
+   width: 1600px;
+   margin: 0px auto;
+   overflow: hidden;
+   position: absolute;
+   left: 50%;
+   transform: translate(-50%);
+   padding-bottom: 30px;
+}
+
+.camp_box {
+   height: 450px;
+   width: 400px;
+   float: left;
+   margin-bottom: 30px;
+}
+
+.camp_box:hover {
+   cursor: pointer;
+}
+
+.image-box {
+   width: 350px;
+   height: 350px;
+   overflow: hidden;
+   margin: 0 auto;
+   border-radius: 25px;
+}
+
+.image-thumbnail {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+
+.cname-box {
+   font-size: 20px;
+   font-weight: bold;
+}
+
+.caddr-box {
+   font-size: 15px;
+}
+
+.cprice-box {
+   font-size: 15px;
+}
+
+#campListHead {
+	margin: 10px 0 30px 0;
+	padding:30px;
+}
+#campListHead h3{font-size:145%;}
+
+#campListHead h3 {
+   text-align: center;
+}
+
+/* 캠핑 스타일, 시설  시작*/
+#campStyleFacilityparent {
+   position: relative;
+}
+
+#campStyleList {
+   margin: 0px auto;
+   padding: 10px;
+   font-weight: normal;
+}
+
+#campFacilityList {
+   margin: 0px auto;
+   padding: 20px;
+   font-weight: bold;
+}
+
+#campFacilityList input[type=checkbox] {
+   margin: 5px 5px 5px 5px;
+   width: 15px;
+   height: 15px;
+}
+
+#search_box {
+   width: 1000px;
+   margin: 0px auto;
+   padding: 10px;
+   display: flex;
+   justify-content: center;
+   align-content: center;
+   border-bottom:2px solid #e4e4e6;
+}
+
+#search_box .title{font-weight:bold; 
+font-size:120%; margin-right:20px; 
+float:left; margin-top:13px;}
+#search_box input[type='text'] {
+   width: 200px;
+   height: 50px;
+   box-sizing: border-box;
+   border-radius: 10px;
+   padding: 20px;
+   font-weight: bold;
+   border: 1px solid #c2c2c3;
+}
+#campStyleList{text-align:left;width: 1000px; border-bottom:2px solid #e4e4e6;}
+#campFacilityList{text-align:left; width: 1000px; border-bottom:2px solid #e4e4e6;}
+#campStyleList .title{font-weight:bold; font-size:120%; margin:10px 20px 20px 40px;  }
+#campStyleList input[type=radio]{margin:0 5px 0 15px ;}
+#campFacilityList .title{font-weight:bold; font-size:120%; margin:0px 20px 5px 30px;  }
+#campFacilityList input[type=checkbox]{margin:10px 5px 0 15px ;}
+#facilities {display:inline-block; width:750px; margin-left:150px;}
+#search_box #time{margin-left:100px;}
+.blackBtn{
+	font-size:105%;
+	padding:10px 30px;
+	background-color:black;
+	color:white;
+	border:none;
+	margin-top:25px;
+}
+
+/* 캠핑 스타일, 시설  끝*/
+
+.divider{ width:1800px; border-bottom:1px solid #e2e2e3; margin:0 auto; padding:30px;}
+
+/* 지역 선택 CSS 시작 */
+#pop {
+   display: none;
+   position: absolute;
+   background: black;
+   border-radius: .4em;
+   width: 250px;
+   height: 270px;
+   color: white;
+   margin-top: 20px;
+   z-index: 120;
+}
+
+#pop:after {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 50%;
+   width: 0;
+   height: 0;
+   border: 20px solid transparent;
+   border-bottom-color: black;
+   border-top: 0;
+   margin-left: -20px;
+   margin-top: -20px;
+}
+
+#pop ul {
+   flex-flow: wrap;
+   list-style: none;
+   display: flex;
+   justify-content: center;
+   align-content: center;
+   padding: 10px;
+}
+
+#pop ul li {
+   width: 50px;
+   height: 50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+#pop ul li:hover {
+   background: white;
+   color: black;
+}
+/* 지역 선택 CSS 끝*/
+#center {
+    padding: 80;
+    top: -50;
+    position: relative;
+}
+#campListBackGround {
+    padding-top: 20px;
+}
+
+

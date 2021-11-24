@@ -4,56 +4,16 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
-<h3>캠핑장 정보</h3>
+
 <style>
-	.tbl_body1{
-	margin: 0px auto;
-	margin-bottom: 20px;
-	}
-	.tbl_head{
-	width: 200px;
-	padding: 5px;
-	}
-	.tbl_data{
-	width: 400px;
-	}
-	.tbl_data input{
-	width: 100%;
-	border:none;
-	}
-	.tbl_body2{
-	width:600px;
-	margin: 0px auto;
-	margin-bottom: 20px;
-	}
-	.tbl_head2{
-	padding: 5px;
-	}
-	.tbl_data2{
-	padding: 5px;
-	}
-	.tbl_body3{
-	width:600px;
-	margin: 0px auto;
-	margin-bottom: 20px;
-	}
-	.tbl_head3{
-	padding: 5px;
-	}
-	.tbl_data3{
-	padding: 5px;
-	}
-	.tbl_data3 input{
-	width: 100%;
-	border:none;
-	}
+
+
 	input[name=style_no]{
 	width:20px;
 	}
 	#files{
 		overflow: hidden;
 		margin: 20px;
-		box-shadow:1px 1px 1px 1px #f2f2f2;
 	}
 	#files .attachBox{
 		float: left;
@@ -63,8 +23,7 @@
 	}
 	#image{
 		box-shadow:2px 2px 2px 2px #f2f2f2;
-		padding: 10px;
-		margin: 10px;
+
 	}
 	input[type=radio]{
 		margin: 5px 10px 5px 10px;
@@ -77,14 +36,14 @@
 		height:13px;
 	}
 </style>
-<hr />
+<div id="sub">
+	<div class="subheading">캠핑장 정보</div>
 	<form name="frm" enctype="multipart/form-data">
 		<h4>대표이미지</h4>
-		<img src="/camping/display?file=${cvo.camp_image}" id="image" width=500>
+		<img src="/camping/display?file=${cvo.camp_image}" id="image" width=300>
 		<!-- 기존 이미지 -->
 		<input type="hidden" name="camp_image" value="${cvo.camp_image}" style="display:none"/> 
 		<input type="file" name="file" style="display:none;"/>
-		<hr />
 		<div>
 		<h4>첨부이미지</h4>
 		<input type="file" name="files"  acceept="image/*" multiple/>
@@ -92,13 +51,13 @@
 		<div id="files">
 			<c:forEach items="${attList}" var="camp_image">
 			<div class="attachBox">
-				<img src="/camping/display?file=${camp_image}" width=250 />
+				<img src="/camping/display?file=${camp_image}" width=150 height=150 />
 				<a href="${camp_image}">삭제</a>
 			</div>
 			</c:forEach>
 		</div>
-	<hr />
-	<table class="tbl_body1" border="1">
+	<div class="divider"></div>
+	<table class="tbl_body1">
 		<tr>
 			<th class="tbl_head">캠핑장 번호</th>
 			<td class="tbl_data"><input type="text" name="camp_id" value="${cvo.camp_id}" readonly/></td>
@@ -121,7 +80,7 @@
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 설명</th>
-			<td class="tbl_data"><input type="text" name="camp_detail" value="${cvo.camp_detail}"/></td>
+			<td class="tbl_data"><textarea name="camp_detail" cols="80" rows="8">${cvo.camp_detail}</textarea></td>
 		</tr>
 		<tr>
 			<th class="tbl_head">캠핑장 기타 편의사항</th>
@@ -143,14 +102,14 @@
 			</td>
 		</tr>
 	</table>
-	<table class="tbl_body2" border="1">
+	<table class="tbl_body2">
 		<tr>
 			<th class="tbl_head2">캠프 시설</th>
 		</tr>
 		<tr>
 			<td class="tbl_data2">
 			<c:forEach items="${facilityList}" var="facilityItem" >
-				<span>${facilityItem.facility_name}</span>
+				<button class="facilities">${facilityItem.facility_name}</button>
 			</c:forEach>
 			</td>
 		</tr>
@@ -167,7 +126,7 @@
 			</td>
 		</tr>
 	</table>
-	<table class="tbl_body3" border="1" id="campStyleList">
+	<table class="tbl_body3" id="campStyleList">
 		<tr>
 			<th class="tbl_head3" colspan="4">캠프 스타일</th>
 		</tr>
@@ -188,9 +147,10 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<input type="submit" value="캠핑장 수정"/>
-	<input type="reset" value="등록 취소"/>
+	<input type="submit" class="blackBtn" value="캠핑장 수정"/>
+	<input type="reset" class="whiteBtn" value="등록 취소"/>
 </form>
+</div>
 <script>
 	// 주소 검색 버튼을 눌렀을때
 	function search(){

@@ -4,6 +4,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link rel="stylesheet" href="/resources/home.css" />
 <link rel="stylesheet" href="/resources/admin.css" />
+<style>
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
+</style>
 <div id="subject">Administrator PAGE</div>
 <h5>관리자 페이지</h5>
 
@@ -30,7 +38,7 @@
 		</ul>
 		<ul>
 			<li class="menuTitle">캠핑장예약관리</li>
-			<li><a href='#'>캠핑장예약현황</a></li>
+			<li><a href='/admin/camping/Reservelist'>캠핑장예약현황</a></li>
 		</ul>
 		<ul>
 			<li class="menuTitle">상품구매관리</li>

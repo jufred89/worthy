@@ -17,11 +17,11 @@
 }
 
 #subject{
-	font-size:150%; 
-	font-weight:bold;
-	letter-spacing:15px;
-	word-spacing:5px;
-	margin: 30px 0 5px 10px;
+   font-size:150%; 
+   font-weight:bold;
+   letter-spacing:15px;
+   word-spacing:5px;
+   margin: 0px 0 5px 10px;
 }
 #intro{
 	font-size:200%;
@@ -42,11 +42,11 @@
 .divider{border-bottom:1px solid #c2c2c3;	margin:20px;}
 
 #menu{
-	float:left; 
-	width:200px;
-	margin-left:150px;
-	margin-top:40px;
-	text-align:left;
+   float:left; 
+   width:200px;
+   margin-left:50px;
+   margin-top:40px;
+   text-align:left;
 }
 #menu ul{
 	all: unset; 
@@ -77,11 +77,148 @@
 #sub{
 	padding:30px;
 }
+#sub table{margin:30px 50px;} 
 .subheading{
-	text-align:left;
-	font-size:130%;
-	margin:40px;
+   text-align:left;
+   font-size:130%;
+   margin: 0 40px 40px 40px;
 }
+
+#condition{margin-top:30px;}
+#searchType{
+	padding: 7px 12px;
+	border: 1px solid #dadada;
+	border-radius:20px;
+}
+#keyword{
+	width:400px; padding:7px 10px; margin-left:5px;
+	border:none;
+	border-bottom:1px solid #dadada;
+}
+
+
+#tbl_user, #campList, #tblShop{width:900px; margin:20px auto;}
+#tbl_user th,td, #campList th, td, #tblShop th{
+	text-align:center;
+	border-bottom:1px solid gray;
+	font-size:90%;
+}
+#tbl_user th,#campList th,#tblShop th{border-top:2px solid black; padding:6px;}
+#tbl_user td,#campList td,#tblShop td{padding:20px;}
+
+#newInsert{
+   border:none;
+   float:left;
+   width:120px;
+   padding:10px 15px;
+   background-color:black;
+   font-size:100%;
+   color:white;
+   margin:30px 0 10px 50px;
+   }
+#newInsert a, #newInsert a:visited{color:white;}
+
+/* shopList.jsp */
+#tblShop button{border:none; font-weight:bold;}
+#tblShop .minus{padding:3px 10px;}
+#tblShop .plus{padding:3px 8px;}
+#tblShop .prod_qty{display:inline-block;text-align:center; width:25px;}
+#tblShop .change{width:60px;padding:3px; margin-left:10px;
+	background-color:white;
+	font-size:100%;
+	color:black;
+	border:1px solid black;
+}
+#tblShop .prod_hide{width:60px; padding:3px;}
+#shopInsert{
+   border:none;
+   float:left;
+   width:90px;
+   padding:10px 15px;
+   background-color:black;
+   font-size:100%;
+   color:white;
+   margin:20px 0 10px 50px;
+   }
+#shopInsert a, #shopInsert a:visited{color:white;}
+
+/* userRead.jsp */
+#tbl_body1{width:800px; margin:5px auto;}
+#tbl_body1 input{border:none;}
+#tbl_body1 .tbl_head{padding-right:30px;}
+#tbl_body1 td{border:none;padding:20px 0;border-bottom:1px solid #c2c2c3;}
+
+.whiteBtn{
+	font-size:85%;
+	padding:7px 25px;
+	background-color:white;
+	color:black;
+	border:1px solid black;
+
+}
+.blackBtn{
+	font-size:85%;
+	padding:8px 26px;
+	background-color:black;
+	color:white;
+	border:none;
+	margin-top:5px;
+}
+
+
+/* campingUpdate.jsp */
+.divider{ width:800px; border-bottom:1px solid #c2c2c3; margin:30px;}
+.tbl_body1{width:830px; margin: 0px auto;
+	margin-bottom: 20px;}
+.tbl_body1 .tbl_head{width:170px; padding:10px;}
+.tbl_body1 td{padding:10px; border-bottom:1px solid #c2c2c3;}
+.tbl_data input{
+	width: 100%;
+	border:none;
+	}
+.tbl_body1 textarea{border:none; padding:30px 0; }
+
+.tbl_body2{width:820px; margin: 0px auto; border:3px solid #c2c2c3; margin-top:50px;}
+.tbl_body2 .tbl_head2{width:150px; padding:10px;}
+.tbl_body2 td{padding:10px; border-bottom:1px solid #c2c2c3;}
+.tbl_body2 .tbl_data2{padding:30px;}
+.tbl_body2 .facilities{padding:5px 10px; background-color:black; color:white; border:none; border-radius:7px;}
+
+
+.tbl_body3{width:820px; margin: 0px auto; border:3px solid #c2c2c3; margin-top:30px;margin-bottom:40px; padding:20px;}
+.tbl_head3{	padding: 10px;}
+.tbl_body3 td{border:1px solid #c2c2c3;}
+.tbl_data3{	padding: 10px;	border:1px solid #c2c2c3;}
+.tbl_data3 input{	width: 100%;border:none;	}
+
+
+/* /shop/update.jsp */
+#productUpdate{text-align:center; width:900px; margin:0 auto; }
+#productUpdate .title{text-align:left;display:inline-block; width:100px; font-weight:bold;}
+#productUpdate input[type=text]{border:none; width:300px; border-bottom:1px solid #c2c2c3; padding:20px 10px;}
+#productUpdate #detail input{padding:10px; margin-left:100px;}
+#productUpdate input[type=submit]{width:360px; padding:20px 20px; margin-top:30px;font-size:110%;}
+
+
+/* /shop/insert.jsp */
+#productInsert{text-align:center; width:1000px; margin:0 auto; }
+#productInsert .title{text-align:left;display:inline-block; width:100px; font-weight:bold;}
+#productInsert input[type=text]{border:none; width:300px; border-bottom:1px solid #c2c2c3; padding:20px 10px; margin:10px;}
+#productInsert #detail{width:900px;height:200px; padding:10px; margin:20px;}
+#productInsert #photo, #image{padding:10px; margin:20px;}
+#productInsert input[type=submit]{width:360px; padding:20px 20px; margin-top:30px;font-size:110%;}
+
+/* adminChat.jsp*/
+
+#chatBox{width:900px; margin:20px auto;border:1px solid gray;}
+#chatBox th, #chatBox td{
+	text-align:center;
+	border-bottom:1px solid gray;
+	font-size:90%;
+}
+#chatBox th{border-top:2px solid black; padding:6px;}
+#chatBox td{padding:20px;}
+
 #mycamping .subcontent{
 	margin-left:200px;
 }

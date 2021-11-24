@@ -2,25 +2,52 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<style>
+#pagination .active{
+   font-weight: bold;
+   background: #f2f2f3;
+}
 
-<h3>상품 목록</h3>
-<div>
+#pagination a{
+   text-decoration:none;
+   font-weight: normal;
+   color:black;
+   padding:6px 12px;
+   border:1px solid black;
+}
+
+#pagination{
+   width:500px;
+   margin:0 auto;
+}
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
+</style>
+<div id="sub">
+	<div class="subheading">상품 목록</div>
+<div id="condition">
 	<select id="searchType">
 		<option value="prod_id">상품번호</option>
 		<option value="prod_name">상품명</option>
 	</select>
 	<input type="text" id="keyword" placeholder="검색어 입력"> 
 	<span id="total"></span>
+
+</div>
+<div id="shopInsert">
 	<a href="/shop/insert">상품 등록</a>
 </div>
-<hr/>
 <table id="tblShop"></table>
 <script id="temp" type="text/x-handlebars-template">
 	<tr>
-		<td width="150">상품 번호</td>
-		<td width="600">상품명</td>
-		<td width="200">보유 수량</td>
-		<td width="200">상품 관리</td>
+		<th width="50">상품 번호</th>
+		<th width="400">상품명</th>
+		<th width="300">보유 수량</th>
+		<th width="100">상품 관리</th>
 	</tr>
 	{{#each list}}
 		<tr class="item">
@@ -28,7 +55,7 @@
 			<td class="prod_name" onClick="location.href='/shop/update?prod_id={{prod_id}}'">{{prod_name}}</td>
 			<td>
 				<button class="minus">-</button>
-				<span class="prod_qty">{{prod_stack_qty}}</span>
+				<div class="prod_qty">{{prod_stack_qty}}</div>
 				<button class="plus">+</button>
 				<button class="change">변경</button>
 			</td>
@@ -41,7 +68,7 @@
 </script>
 <div id="pagination" class="pagination"></div>
 <script src="/resources/pagination.js"></script>
-
+</div>
 <script>
 	var page=1;
 	getList();
@@ -89,10 +116,6 @@
 	//-버튼
 	$("#tblShop").on("click", ".minus", function(){
 		var qty = $(this).parent().find(".prod_qty").html();
-		if(qty == 0){
-			alert("0 이하로 내릴 수 없습니다");
-			return;
-		}
 		qty--;
 		$(this).parent().find(".prod_qty").html(qty);
 	});

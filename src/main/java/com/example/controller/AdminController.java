@@ -55,6 +55,23 @@ public class AdminController {
 		return "home";
 	}
 	
+	// 관리자 페이지 캠핑장 리스트 연결
+	@RequestMapping(value = "/admin/camping/Reservelist", method = RequestMethod.GET)
+	public String adminCampReservelist(Model model) {
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "campingReservList.jsp");
+		return "home";
+	}
+	
+	// 관리자 페이지 캠핑장 리스트 연결
+	@RequestMapping(value = "/admin/camping/reserveread", method = RequestMethod.GET)
+	public String adminCampReserveRead(Model model, int reser_no) {
+		model.addAttribute("crr", cdao.campReservReadforAdmin(reser_no));
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "campingReservRead.jsp");
+		return "home";
+	}
+	
 	@RequestMapping(value = "/admin/camping/insert", method = RequestMethod.GET)
 	public String adminCampInsert(Model model) {
 		String maxCode = cdao.maxCode();
@@ -76,6 +93,22 @@ public class AdminController {
 		PageMaker pm = new PageMaker();
 		pm.setCri(cri);
 		pm.setTotalCount(cdao.campTotcount(cri));
+		map.put("cri", cri);
+		map.put("pm", pm);
+		return map;
+	}
+	
+	// 관리자 페이지 캠핑장 예약 목록 json데이터
+	@ResponseBody
+	@RequestMapping("/admin/camping/Resevlist.json")
+	public HashMap<String, Object> adminCampResevListJSON(Criteria cri) {
+		HashMap<String, Object> map = new HashMap<>();
+		cri.setPerPageNum(10);
+		map.put("reservlist", cdao.campReservListforAdmin(cri));
+		
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(cdao.campResevTotcount(cri));
 		map.put("cri", cri);
 		map.put("pm", pm);
 		return map;

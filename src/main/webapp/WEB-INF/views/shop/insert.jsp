@@ -3,11 +3,16 @@
 <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<link rel="stylesheet" href="../resources/admin.css" />
 <style>
 	input[type=file]{
 		display: none;
 	}
+	body{padding-bottom:50px;}
 </style>
+<div style="width:1000px; margin:0 auto;">
+<div class="subHeading">상품 정보 수정</div>
+	<div id="productInsert">
 
 <h1>상품 등록 페이지</h1>
 
@@ -32,8 +37,7 @@
 		<input type="file" name="att_file" />
 		<input type="hidden" name="shop_pid" value="${prod_id}" />
 	</div>
-	<input type="submit" value="등록" />
-</form>
+</div>
 <script>
 	//이미지 박스 클릭
 	$("#image").on("click", function() {

@@ -35,7 +35,6 @@ import com.example.domain.CampingReviewVO;
 import com.example.domain.CampingStyleVO;
 import com.example.domain.CampingVO;
 import com.example.domain.Criteria;
-import com.example.domain.Shop_payVO;
 import com.example.mapper.CampingAttachDAO;
 import com.example.mapper.CampingDAO;
 import com.example.service.CampingService;

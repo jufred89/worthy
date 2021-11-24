@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
+
+
 <!-- 별점 출력 -->
 <style>
 	.star-rating{
@@ -41,6 +45,106 @@
 	line-height: normal;
 	width:100px;
 	}
+
+	.re_btn{
+	display: flex;
+	justify-content:end;
+	}
+	.re_btn button{
+	margin:5px;
+	background:black;
+	color:white;
+	width:50px;
+	height:25px;
+	}
+</style>
+
+<!-- 별점 리뷰 등록 / 이동예정 -->
+<style>
+#prod_header{
+margin-bottom:20px;
+display:flex;
+justify-content:center;
+align-content:center;
+}
+#prod_info{
+margin-left:60px;
+display:flex;
+
+flex-flow:row wrap;
+}
+#prod_info p,#prod_info div{
+width:100%;
+font-size:25px;
+
+}
+#howmany{
+text-align:left;
+margin-bottom: 10px;
+}
+#prod_btn{
+text-align:left;
+margin-bottom: 10px;
+
+}
+#howmany button{
+width:20px;
+}
+#howmany button:hover{
+
+color:white;
+background: black;
+}
+	#prod_rstar{
+	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	    border: 0; /* 필드셋 테두리 제거 */
+	}
+	#prod_rstar input[type=radio]{
+	    display: none; /* 라디오박스 감춤 */
+	}
+	#prod_rstar label{
+	    font-size: 3em; /* 이모지 크기 */
+	    color: transparent; /* 기존 이모지 컬러 제거 */
+	    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+	}
+	#prod_rstar label:hover{
+  	  text-shadow: 0 0 0 DeepPink; /* 마우스 호버 */
+	}
+	#prod_rstar label:hover ~ label{
+ 	   text-shadow: 0 0 0 DeepPink; /* 마우스 호버 뒤에오는 이모지들 */
+	}
+	#prod_rstar{
+	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	    direction: rtl; /* 이모지 순서 반전 */
+	    border: 0; /* 필드셋 테두리 제거 */
+	}
+	#prod_rstar{
+    	text-align: left;
+	}
+	#prod_rstar input[type=radio]:checked ~ label{
+    	text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
+	}
+	#dis_table{
+	display:flex;
+justify-content:center;
+align-content:center;
+margin:10px;
+	}
+		.prod_rstar{
+	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	    border: 0; /* 필드셋 테두리 제거 */
+	}
+	.prod_rstar input[type=radio]{
+	    display: none; /* 라디오박스 감춤 */
+	}
+	.prod_rstar label{
+	   
+	    color: transparent; /* 기존 이모지 컬러 제거 */
+	    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+	}
+	.prod_rstar input[type=radio]:checked ~ label{
+    	text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
+	}
 </style>
  <style>
  	.slide{
@@ -61,19 +165,19 @@
     }
   </style>
 
-<a href="/shop/update?prod_id=${vo.prod_id}">수정 버튼은 관리자페이지로 옮길 예정</a>
-<div id="prod_read" style="margin:0 auto;width:1400px;">
+
+<div id="prod_read" style="margin:0 auto;width:1000px;">
 
 <!-- 상단 썸네일 / 설명 -->
-<h1 style="margin-bottom:50px;">상품 정보 페이지</h1>
+
 <div id="prod_header">
-	<img src="/shop/display?file=${vo.prod_image}" width=450 height=450/>
+	<img src="/shop/display?file=${vo.prod_image}" width=500 height=500/>
 	<div id="prod_info">
-		<h3>${vo.prod_name }</h3>
+		<h2 style="font-size: 25px;font-weight:100px;"><b>${vo.prod_name}</b></h2>
 		<p>${vo.prod_normalprice }￦</p>
 		<p>무료배송</p>
 		<p>판매자: </p>
-		<p style=""><i class="fa fa-star" aria-hidden="true"></i>판매자가 현금거래를 요구하면 거부하시고 즉시 사기 거래 신고센터에 신고하시기 바랍니다.</p>
+		<p style="font-size: 12px;"><i class="fa fa-star" aria-hidden="true"></i>판매자가 현금거래를 요구하면 거부하시고 즉시 사기 거래 신고센터에 신고하시기 바랍니다.</p>
 		
 		<c:if test="${vo.prod_stack_qty == 0 }">
 			<div>품절</div>
@@ -86,7 +190,7 @@
 			</div>
 			<div id="prod_btn">
 				<button id="cart">장바구니</button>
-				<button>구매하기</button>
+			
 			</div>
 		</c:if>
 	</div>
@@ -106,8 +210,8 @@
 					<div style="width:230">
 					<img src="/shop/display?file={{prod_image}}" width="230" onClick="location.href='/shop/read?prod_id={{prod_id}}'" />
 					</div>
-					<div>{{prod_name}}</div>
-					<div>{{prod_normalprice}}</div>
+					<div class="prod_name">{{prod_name}}</div>
+					<div class="prod_nomalprice">{{prod_normalprice}}</div>
 				</li>
 		{{/each}}
 	</script>
@@ -146,9 +250,9 @@
 </div> --%>
 
 <!-- 상품 상세 이미지 -->
-<%-- <div id="scroll_info">
-	<img src="/shop/display?file=${avo.shop_ano}" />
-</div> --%>
+<div id="scroll_info">
+	<img src="/shop/display?file=${avo.shop_ano}" width=1000/>
+</div> 
 <hr>
 <div id="prod_dis" >
 <h2>상품상세설명</h2>
@@ -208,25 +312,59 @@
 </div>
 <hr>
 <!-- 리뷰 등록 이동 예정 -->
-<h2>상품 리뷰</h2>
-<div id="prod_review" style="height:300px;"></div>
+<h1>Review</h1>
+<hr>
+
+<div id="prod_review"></div>
 <script id="temp_review" type="text/x-handlebars-template">
-		{{#each list}}
-				<div class="item">
-					<div>{{prod_ruid}}</div>
-					<div>
-						<span class="star-rating">
-							<span style="width: {{prod_rstar}}%; float: left;"></span>
-						</span>
-						<input type="hidden" class="hidden_star" value="{{prod_rstar}}" />
-					</div>
-					<div class="del">삭제</div>
-					<div>{{prod_r_regdate_f}}</div>
-					<div>{{prod_review}}</div>
-					<input type="hidden" class="prod_rno" value="{{prod_rno}}" />
-				</div>
-		{{/each}}
+{{#each list}}
+<div class="re_box">
+<input class="rno" type="hidden" value="{{prod_rno}}"/>
+<input class="ruid" type="hidden" value="{{prod_ruid}}"/>
+<div class="rno" style="display:flex; width:100%;"><span class="prod_rno"  style="font-size:18px;">{{prod_rno}}:</span>
+ <div class="prev_ruid" style="font-size:18px;">{{prod_ruid}}<span>님</span></div>
+ <div class="prod_rstar1">{{prod_rstar}}점</div>
+
+  <div>{{rstar_checked prod_rstar}}</div>
+</div>
+<div class="prod_review" style="text-align:left;margin-top:20px;font-size:16px;">{{prod_review}}</div>
+
+
+<p class="prod_review" style="text-align:left;margin-top:20px;font-size:16px;">{{prod_r_regdate_f}}</p>
+
+
+<div class="re_btn btnDelete"  prod_rno={{prod_rno}} style="text-align:right;" onClick="del2()"><button>삭제</button></div>
+</div>
+
+<hr style="border:0.5px dotted gray;">
+
+{{/each}}
 </script>
+ <script>
+        
+         Handlebars.registerHelper("rstar_checked", function(prod_rstar) {
+        	if(prod_rstar==0){
+        		return ""
+        	}else if(prod_rstar==20){
+        		return "★"
+        	}
+        	else if(prod_rstar==40){
+        		return "★★"
+        	}
+        	else if(prod_rstar==60){
+        		return "★★★"
+        	}
+        	else if(prod_rstar==80){
+        		return "★★★★"
+        	}
+        	else {
+        		return "★★★★★"
+        	}
+         });
+        
+      </script> 
+<div id="pagination"></div>
+<script src="/resources/pagination.js"></script>
 <div>
 	<button id="upBtn">위로</button>
 </div>
@@ -241,21 +379,52 @@
 	var count = 1;
 	var prod_rid = "${vo.prod_id}";
 	var page = 1;
+	  var uid = "${uid}";
+	
 	getPreview();
 	getSlide();
+
+	pre_list()
+	
+	$('#prod_review').on('click','.re_box .btnDelete',function(){
+		var prod_rno=$(this).parent().find('.rno').val()
+		var prod_ruid=$(this).parent().find('.ruid').val()
+		var re_box=$(this).parent().parent().find('re_box')
+			  var uid = "${uid}";
+		
+		if(prod_ruid!=uid){
+			alert('댓글을 삭제할 수 없습니다!')
+			return;
+		}
+		if(!confirm('댓글을 삭제하실래요?'))return;
+		$.ajax({
+			type : "post",
+			url : "/shop/pre_delete",
+			data:{"prod_rno":prod_rno},
+		
+			success : function() {
+			 
+				alert('삭제완료되었습니다!')
+				pre_list()
+			}
+		});
+	})
+
 	
 	//리뷰리스트
 	function pre_list(){
+var perPageNum=10;
 		$.ajax({
 			type : "get",
-			url : "/pre_list.json",
+			url : "/shop/pre_list.json",
 			dataType : "json",
-			data:{"page":page,"prod_rid":prod_rid, "perPageNum":perPageNum},
+			data:{"page":page,"prod_rid":prod_rid, "perPageNum":10},
 			success : function(data) {
 				$("#pagination").html(getPagination(data));
-				$("#total").html("<h5>검색건: " + data.pm.totalCount + "건</h5>");
-				var temp = Handlebars.compile($("#temp").html());
-				$("#tbl").html(temp(data));
+			
+				var temp = Handlebars.compile($("#temp_review").html());
+				$("#prod_review").html(temp(data));
+			
 			}
 		});
 	}
@@ -285,7 +454,7 @@
 		var cart_pimage = "${vo.prod_image}";
 		var cart_pname = "${vo.prod_name}";
 		
-		//alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
+		alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
 		
 		$.ajax({
 			type: "post",
@@ -361,6 +530,49 @@
 			}
 		});
 	}
+	
+
+	//댓글 등록
+	$("#pre_insert").on("click", function(){
+		
+		var prod_review = $("#pre_review").val();
+		var prod_rstar = $(".rating:checked").val() * 20;
+		var prod_ruid = "${uid}";
+		
+		//alert(prod_review);
+		//alert(prod_rstar);
+
+		if(prod_review == ""){
+			alert("내용을 입력해주세요");
+			$("#pre_review").focus();
+			return;
+		}
+		
+		if(prod_rstar == NaN){
+			alert("별점을 선택해주세요");
+			return;
+		}
+		
+		if(!confirm("댓글을 등록하시겠습니까")) return;
+		
+		$.ajax({
+			type: "post",
+			url: "/shop/pre_insert",
+			data: {"prod_ruid" : prod_ruid, "prod_rstar" : prod_rstar, "prod_review" : prod_review, "prod_rid" : prod_rid},
+			success: function(){
+				alert("등록되었습니다");
+				$("#pre_review").val("");
+				getPreview();
+			}
+		});
+		
+	});
+	//특정 페이지 번호를 클릭한 경우
+	$("#pagination").on("click", "a", function(e){
+		e.preventDefault();
+		page = $(this).attr("href");
+		pre_list()
+	});
 	
 	//댓글 목록
 	function getPreview(){
