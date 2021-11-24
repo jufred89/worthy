@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<link rel="stylesheet" href="../resources/info_read.css" />
 <style>
-	frm{width:960px;margin:0 auto; padding:15px;}
+	frm{width:960px;margin:0 auto;}
+	h5{float:left;}
+	#title{font-weight:bold; border:none;text-align:center;}
 	#file{
 		border:1px dashed gray; 
 		padding:8px;
@@ -29,7 +32,7 @@
 		width:150px;
 		height:100px;
 	}
-	textarea{margin:15px;}
+	textarea{margin:15px; border:1px solid #c2c2c3;padding:30px;}
 	#imageBox{
 		margin:0 auto;
 		margin-bottom:15px;
@@ -45,33 +48,50 @@
 	  width:10px;
 	  height:10px;
 	}
+	form{border:1px solid #e2e2e3; padding:30px;}
+	h5{ margin:3px 10px 20px 10px;}
+	#divRead{border:none;}
+	#readHeader{border:none;}
+	
 </style>
-<h1>팁 수정</h1>
-<form name="frm" action="/tip/update" method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="tip_no" value="${vo.tip_no}"/>
-	<input type="text" name="tip_title" style="margin-bottom:15px; width:730px;" value="${vo.tip_title}" placeholder="제목을 입력하세요"/><br/>
-		<div id="imageBox">
-			<img name="image" src="/tip/display?file=${vo.tip_image}" style=" width:400px; height:300px;"/>
-			<input type="hidden" name="oldImage" value="${vo.tip_image}"/>
-			<input type="file" name="file" style="display:none;"/>
-			<div id="file"><input type="file" name="files" accept="image/*" multiple/></div>
+<div style="width:960px;margin:0 auto; text-align:center;">
+		<div style="overflow:hidden; margin-bottom:10px;">
+			<div id="tip_logo">TIP</div>
 		</div>
-	    <div id="oldFiles">
-			<c:if test="${att!=null}">
-				<c:forEach items="${att}" var="list">
-					<span class="att">
-						<img src="/tip/display?file=/${vo.tip_no}/${list}" width=150 height=100 class="attImg"/>
-						<input type="hidden" value="${list}" class="attVal">
-					</span>
-				</c:forEach>		
-			</c:if>
-			<span id="files"></span>
+</div>
+<div id="divRead">
+	<div id="readHeader">
+		<div style="overflow:hidden;">
+			<h5>팁 수정</h5>
 		</div>
-	<textarea rows="10" cols="100" name="tip_content" placeholder="내용을 입력하세요">${vo.tip_content}</textarea>
-	<hr/>
-	<input type="submit" value="수정"/>
-	<input type="reset" value="수정취소" onClick="location.href='/tip/list'"/>
-</form>
+		<form name="frm" action="/tip/update" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="tip_no" value="${vo.tip_no}"/>
+			<input type="text" name="tip_title" id="title" style="margin:30px; width:730px;" value="${vo.tip_title}" placeholder="제목을 입력하세요"/><br/>
+				<div id="imageBox">
+					<img name="image" src="/tip/display?file=${vo.tip_image}" style=" width:400px; height:300px;"/>
+					<input type="hidden" name="oldImage" value="${vo.tip_image}"/>
+					<input type="file" name="file" style="display:none;"/>
+					<div id="file"><input type="file" name="files" accept="image/*" multiple/></div>
+				</div>
+			    <div id="oldFiles">
+					<c:if test="${att!=null}">
+						<c:forEach items="${att}" var="list">
+							<span class="att">
+								<img src="/tip/display?file=/${vo.tip_no}/${list}" width=150 height=100 class="attImg"/>
+								<input type="hidden" value="${list}" class="attVal">
+							</span>
+						</c:forEach>		
+					</c:if>
+					<span id="files"></span>
+				</div>
+			<textarea rows="10" cols="100" name="tip_content" placeholder="내용을 입력하세요">${vo.tip_content}</textarea>
+			<div>	
+			<input type="submit" class="blackBtn" value="수정"/>
+			<input type="reset" class="whiteBtn" value="수정취소" onClick="location.href='/tip/list'"/>
+			</div>
+		</form>
+	</div>
+</div>
 <script>
 	//수정 클릭시
 	$(frm).on("submit",function(e){
