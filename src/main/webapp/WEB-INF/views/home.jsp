@@ -95,7 +95,7 @@ align-items:center;
        <div class="navbar-header col-sm-2">
          
         
-          <img src="/resources/worthycamping_logo_sample2.png" id="logo" onClick="location.href='/'" width=150 style="margin-top:0;"></img>
+          <img src="/resources/worthycamping_logo_sample3.png" id="logo" onClick="location.href='/'" width=150 style="margin-top:0;"></img>
       
     </div>
    <%--  <c:if test="${uid.indexOf('admin')==-1 || uid==null}">
@@ -121,7 +121,7 @@ align-items:center;
     <div class="nav navbar-nav navbar-right col-sm-6" id="menus">
   
 <div>
-            <a href='/camping/list?camp_addr=&reser_checkin=&reser_checkout=' >테마검색 </a>
+            <a href='/camping/list?camp_addr=&reser_checkin=&reser_checkout=' >캠핑검색 </a>
          </div> 
          <div>
             <a href="/notice/list">캠핑정보 </a>

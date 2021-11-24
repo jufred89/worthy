@@ -9,6 +9,12 @@
 		display: none;
 	}
 	body{padding-bottom:50px;}
+	.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
 </style>
 <div style="width:1000px; margin:0 auto;">
 	<div class="subHeading">상품 정보 수정</div>
