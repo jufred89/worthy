@@ -77,11 +77,7 @@
 			$(frm.fb_content).focus();
 			return;
 		}
-		if(file==""){
-			alert("첨부파일을 등록하세요");
-			return;
-		}
-		
+
 		if(!confirm('글을 등록하실래요?')) return;
 
 		frm.action="insert";
