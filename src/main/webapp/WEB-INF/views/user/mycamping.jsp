@@ -247,9 +247,15 @@ ul.tabs li.current {
 	font-weight: bold;
 	text-align: center;
 }
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
 </style>
 <div class="container">
-	<h1 style="font-weight: bold;">여행</h1>
+	 <div class="subheading">여행</div>
 	<ul class="tabs">
 		<li class="tab-link current" data-tab="tab-1">예정된 예약</li>
 		<li class="tab-link" data-tab="tab-2">이전 예약</li>

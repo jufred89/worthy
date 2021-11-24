@@ -152,8 +152,9 @@ align-items:center;
                   <a href="/user/logout" id="logout"><span class='glyphicon glyphicon-share-alt'></span>LOGOUT</a>
                   </c:when>
                   <c:otherwise>
+                  <a href="/mycart">
                   <img src="../resources/shop.png" width=40 height=40 style="margin:0 5px;"/>
-                   
+                  </a>
                   <a href="/user/logout" id="logout"><span class='glyphicon glyphicon-share-alt'></span>LOGOUT</a>
                   </c:otherwise>
                   </c:choose>
@@ -164,7 +165,9 @@ align-items:center;
          <c:if test="${uid==null}">
             <div style="margin-right:10px;">|</div>
             <div id="login_join_imoticon" >
+                  <a href="/mycart">
              <img src="../resources/shop.png" width=40 height=40 style="margin:0 5px;"/>
+                  </a>
                <a href="/user/login" ><span class="glyphicon glyphicon-log-in"></span> LOGIN</a>
                <a href="/user/join"><span class="glyphicon glyphicon-user"></span>SIGN UP</a>
             </div>

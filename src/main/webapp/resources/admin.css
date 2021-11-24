@@ -17,11 +17,11 @@
 }
 
 #subject{
-	font-size:150%; 
-	font-weight:bold;
-	letter-spacing:15px;
-	word-spacing:5px;
-	margin: 30px 0 5px 10px;
+   font-size:150%; 
+   font-weight:bold;
+   letter-spacing:15px;
+   word-spacing:5px;
+   margin: 0px 0 5px 10px;
 }
 #intro{
 	font-size:200%;
@@ -42,11 +42,11 @@
 .divider{border-bottom:1px solid #c2c2c3;	margin:20px;}
 
 #menu{
-	float:left; 
-	width:200px;
-	margin-left:150px;
-	margin-top:40px;
-	text-align:left;
+   float:left; 
+   width:200px;
+   margin-left:50px;
+   margin-top:40px;
+   text-align:left;
 }
 #menu ul{
 	all: unset; 
@@ -77,10 +77,11 @@
 #sub{
 	padding:30px;
 }
+#sub table{margin:30px 50px;} 
 .subheading{
-	text-align:left;
-	font-size:130%;
-	margin:40px;
+   text-align:left;
+   font-size:130%;
+   margin: 0 40px 40px 40px;
 }
 
 #condition{margin-top:30px;}
@@ -106,15 +107,15 @@
 #tbl_user td,#campList td,#tblShop td{padding:20px;}
 
 #newInsert{
-	border:none;
-	float:left;
-	width:120px;
-	padding:10px 15px;
-	background-color:black;
-	font-size:100%;
-	color:white;
-	margin:30px 0 10px 10px;
-	}
+   border:none;
+   float:left;
+   width:120px;
+   padding:10px 15px;
+   background-color:black;
+   font-size:100%;
+   color:white;
+   margin:30px 0 10px 50px;
+   }
 #newInsert a, #newInsert a:visited{color:white;}
 
 /* shopList.jsp */
@@ -130,15 +131,15 @@
 }
 #tblShop .prod_hide{width:60px; padding:3px;}
 #shopInsert{
-	border:none;
-	float:left;
-	width:90px;
-	padding:10px 15px;
-	background-color:black;
-	font-size:100%;
-	color:white;
-	margin:20px 0 10px 0;
-	}
+   border:none;
+   float:left;
+   width:90px;
+   padding:10px 15px;
+   background-color:black;
+   font-size:100%;
+   color:white;
+   margin:20px 0 10px 50px;
+   }
 #shopInsert a, #shopInsert a:visited{color:white;}
 
 /* userRead.jsp */

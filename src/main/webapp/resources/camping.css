@@ -190,6 +190,13 @@ float:left; margin-top:13px;}
    color: black;
 }
 /* 지역 선택 CSS 끝*/
-
+#center {
+    padding: 80;
+    top: -50;
+    position: relative;
+}
+#campListBackGround {
+    padding-top: 20px;
+}
 
 

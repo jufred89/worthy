@@ -6,16 +6,16 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <style>
 #campBody {
-	width: 1500px;
-	margin: 0px auto;
-	padding:30px;
+   width: 1500px;
+   margin: 0px auto;
+   padding:0 30px 30px 30px;
 }
 
 #campingReadBox1 {
-	width: 1500px;
-	margin: 10px auto;
-	padding: 10px;
-	overflow: hidden;
+   width: 1500px;
+   margin: 0px auto;
+   padding: 10px;
+   overflow: hidden;
 }
 
 #campingReadBox1 h1 {
@@ -96,14 +96,14 @@ h5{font-size:15px;}
 }
 
 #reserve_box {
-	border: 1px solid rgb(230, 230, 230);
-	float: right;
-	width: 25%;
-	height: 60%;
-	padding: 50px;
-	border-radius: 30px;
-	background: rgb(242, 242, 242);
-	margin:30px;
+   border: 1px solid rgb(230, 230, 230);
+   float: right;
+   width: 25%;
+   height: 65%;
+   padding: 50px;
+   border-radius: 30px;
+   background: rgb(242, 242, 242);
+   margin:30px;
 }
 
 #reserve_box span {
@@ -480,11 +480,6 @@ h5{font-size:15px;}
 //좋아요 버튼 클릭한 경우
 $('#pageLike').on('click',function(){
 	var likeCheck = "${likeCheck}";
-	alert(uid)
-	alert(camp_id)
-	alert(reser_checkin)
-	alert(reser_checkout)
-	alert(likeCheck)
 	$.ajax({
 		type:'post',
 		url:'/camping/like',

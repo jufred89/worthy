@@ -190,10 +190,12 @@
 				var reser_checkout = $('input[name="reser_checkout"]').val();
 				if(reser_checkin==""){
 					alert("체크인 날짜를 선택해주세요.")
+					$('input[name="reser_checkin"]').focus();
 					return;
 				}
 				if(reser_checkout==""){
 					alert("체크아웃 날짜를 선택해주세요.")
+					$('input[name="reser_checkout"]').focus();
 					return;
 				}
 				location.href = "/camping/read?camp_id=" + camp_id

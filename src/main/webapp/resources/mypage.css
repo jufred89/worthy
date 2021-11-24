@@ -200,10 +200,23 @@ body{
 .quantityBox .plus{padding:3px 8px;}
 .quantityBox .quantity{display:inline-block;text-align:center; width:25px;}
 
-
-
-
-
+/* 20211124 */
+#btnDel{   
+   font-size:85%;
+   padding:8px 26px;
+   background-color:white;
+   color:black;
+   border:1px solid black;
+   margin-top:5px;
+}
+#payment{
+   font-size:85%;
+   padding:8px 26px;
+   background-color:black;
+   color:white;
+   border:none;
+   margin-top:5px;
+}
 
 /* 결제 성공 페이지 */
 #orderSuccess{
