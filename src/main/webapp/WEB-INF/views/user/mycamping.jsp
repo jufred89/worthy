@@ -448,7 +448,7 @@ ul.tabs li.current {
 			<input type="button" id="campReviewInsert" value="리뷰 등록" />
 		</div>
 	</div>
-	<a id="modal_close_btn" class="modal_close_btn">닫기</a>
+	<a id="modal_close_btn" class="modal_close_btn" onclick="modal()">닫기</a>
 </div>
 <!-- 캠핑장 모달창 부분 끝 -->
 <script>
