@@ -121,7 +121,7 @@ align-items:center;
     <div class="nav navbar-nav navbar-right col-sm-6" id="menus">
   
 <div>
-            <a href='/camping/list?camp_addr=&reser_checkin=&reser_checkout=' >테마검색 </a>
+            <a href='/camping/list?camp_addr=&reser_checkin=&reser_checkout=' >캠핑검색 </a>
          </div> 
          <div>
             <a href="/notice/list">캠핑정보 </a>
@@ -308,12 +308,12 @@ align-items:center;
          
          <!-- 모달창2끝 -->
    <div id="center">
-    
+    <div id="content">
       
          
 
          <jsp:include page="${pageName}"></jsp:include>
-       
+       </div>
       
    </div>
    
