@@ -6,8 +6,9 @@
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
 />
 <style>
-	body{padding-left:18px;}
-	#fb_info{height:500px;}
+	#subject,h5,#readPage{padding-left:18px;}
+	textarea{width:505px;}
+	#fb_content{height:500px;}
 </style>
 <div id="subject">FREE BOARD</div>
 <h5>자유게시판</h5>
@@ -26,7 +27,7 @@
 			<div id="condition">
 					<input type="hidden" name="fb_no" value="${vo.fb_no }"/><br>
 					<div id="fb_title">
-						<input type="text" name="fb_title" size="40" value="${vo.fb_title }"/>
+						<input type="text" name="fb_title" size=40 value="${vo.fb_title }"/>
 					</div>
 					
 					<div class="title">카테고리</div>
@@ -48,35 +49,39 @@
 				<!-- 대표사진 -->
 				<div id="form-image">
 						
-						<c:if test="${vo.fb_image == null }">
-							<img src="http://placehold.it/200x150"/>
-						</c:if>
-						<c:if test="${vo.fb_image != null }">
-							<img src="/board/display?file=${vo.fb_image }" name="fb_image" id="fb_image" width=350 height=300/>
+					
+						<c:if test="${vo.fb_image != null && vo.fb_image!='' }">
+							<img src="/board/display?file=${vo.fb_image }" name="fb_image" id="fb_image" width=300 height=300/>
 						</c:if>
 						<input type="file" name="file" style="display:none;"/>
 						<!-- 이미지를 변경하지 않았을 때 기존 이미지 사용 -->
 						<input type="hidden" name="oldImage" value="${vo.fb_image }"/>	
 				</div>
 				<div id="fb_info">
-					
-					<div id="fb_content">
-						<textarea rows="20" cols="59" name="fb_content">${vo.fb_content }</textarea>
-					</div>
+					<c:if test="${vo.fb_writer != uid}">
+						<div id="fb_content">
+							<textarea rows="25" cols="55" name="fb_content" readonly>${vo.fb_content }</textarea>
+						</div>
+					</c:if>
+					<c:if test="${vo.fb_writer == uid}">
+						<div id="fb_content">
+							<textarea rows="25" cols="55" name="fb_content">${vo.fb_content }</textarea>
+						</div>
+					</c:if>
 				</div>
 			</div>
 			<div id="form-images">
 
 								
 				<!-- 첨부파일 -->
-				<c:if test="${attList!=null}">
-					<div id="form-attach">
-						<div class="title">첨부이미지</div>
-						<c:if test="${vo.fb_writer == uid}">
-							<input type="file" name="attFile" accept="image/*"/>
-						</c:if>
-						<div id="attachments">
-						
+
+				<div id="form-attach">
+					<div class="title">첨부이미지</div>
+					<c:if test="${vo.fb_writer == uid}">
+						<input type="file" name="attFile" accept="image/*"/>
+					</c:if>
+					<div id="attachments">
+						<c:if test="${attList!=null}">
 							<!-- 첨부파일 리스트 출력 -->
 							<c:forEach items="${attList }" var="attach">
 								<div class="attachBox">
@@ -88,10 +93,9 @@
 									</div>
 								</div>
 							</c:forEach>		
-						
-						</div>
+						</c:if>	
 					</div>
-				</c:if>	
+				</div>
 			</div>
 			<!---------------------- 수정, 삭제, 취소 버튼 ------------------->
 				<div id="readBtns">
