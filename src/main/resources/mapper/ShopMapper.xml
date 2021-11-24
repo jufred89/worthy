@@ -31,15 +31,15 @@
     </select>
     
     <insert id="prod_insert">
-       insert into tbl_shop_product(prod_id, prod_name, prod_comp, prod_normalprice, prod_detail, prod_image, 
+       insert into tbl_shop_product(prod_id, prod_name, prod_comp, prod_normalprice, prod_detail, prod_image, prod_status
        prod_cap, prod_mfd, prod_exp)
-      values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image},
+      values(#{prod_id}, #{prod_name}, #{prod_comp}, #{prod_normalprice}, #{prod_detail}, #{prod_image},'0',
       #{prod_cap}, #{prod_mfd}, #{prod_exp})
     </insert>
     
     <update id="prod_update">
        update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, 
-       prod_saleprice=#{prod_saleprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}, prod_cap=#{prod_cap},
+       prod_detail=#{prod_detail}, prod_image=#{prod_image}, prod_cap=#{prod_cap},
        prod_mfd=#{prod_mfd}, prod_exp=#{prod_exp}
        where prod_id=#{prod_id}
     </update>

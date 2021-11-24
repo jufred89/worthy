@@ -250,6 +250,7 @@ ul.tabs li.current {
 	text-align: center;
 	margin-top:10px;
 }
+
 .mycampingButtonWhite{
 	background: white;
 	color: black;

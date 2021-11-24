@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<style>
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
+</style>
 <div id="sub">
 	<div class="subheading">장바구니</div>
 	<div class="mycart">
@@ -50,9 +57,7 @@
 			<tr>
 				<td><button id="btnDel">삭제</button></td>
 				<td><button id="payment">구매하기</button></td>
-				<td><img src="/resources/kakao_payment.png" width=80 onClick="kakaoPay()"/></td>
 			</tr>
-
 		</script>
 	</div>
 </div>

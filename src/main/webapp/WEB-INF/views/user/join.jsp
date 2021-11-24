@@ -66,7 +66,8 @@ padding:0;
       <div class="title">이름</div>
       <input type="text" id="uname" class="fadeIn second" name="uname" placeholder="성함" style="width:400px;">
       <div class="title">전화번호</div>
-      <input type="text" id="tel" class="fadeIn second" name="tel" placeholder="연락처"style="width:400px; ">
+      <input type="text" id="tel" class="fadeIn second" name="tel" placeholder="연락처" style="width:400px;"
+      required pattern="[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}" maxlength="13">
      
      <div id="addr">
      	<div class="title" style="margin-right:0;">주소</div>
@@ -86,6 +87,69 @@ padding:0;
 </div>
 </div>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+// 전화번호 하이픈 처리
+$('#tel').keyup(function(event) {
+	event = event || window.event;
+	var val = this.value.trim();
+	this.value = autoHypenTel(val);
+});
+//전화번호  하이픈 자동입력
+	function autoHypenTel(str) {
+		str = str.replace(/[^0-9]/g, '');
+		var tmp = '';
+
+		if (str.substring(0, 2) == 02) {
+			// 서울 전화번호일 경우 10자리까지만 나타나고 그 이상의 자리수는 자동삭제
+			if (str.length < 3) {
+				return str;
+			} else if (str.length < 6) {
+				tmp += str.substr(0, 2);
+				tmp += '-';
+				tmp += str.substr(2);
+				return tmp;
+			} else if (str.length < 10) {
+				tmp += str.substr(0, 2);
+				tmp += '-';
+				tmp += str.substr(2, 3);
+				tmp += '-';
+				tmp += str.substr(5);
+				return tmp;
+			} else {
+				tmp += str.substr(0, 2);
+				tmp += '-';
+				tmp += str.substr(2, 4);
+				tmp += '-';
+				tmp += str.substr(6, 4);
+				return tmp;
+			}
+		} else {
+			// 핸드폰 및 다른 지역 전화번호 일 경우
+			if (str.length < 4) {
+				return str;
+			} else if (str.length < 7) {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3);
+				return tmp;
+			} else if (str.length < 11) {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3, 3);
+				tmp += '-';
+				tmp += str.substr(6);
+				return tmp;
+			} else {
+				tmp += str.substr(0, 3);
+				tmp += '-';
+				tmp += str.substr(3, 4);
+				tmp += '-';
+				tmp += str.substr(7);
+				return tmp;
+			}
+		}
+	}
+</script>
 <script>
     //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
     function search() {
@@ -213,10 +277,10 @@ $(frm).on("submit", function(e){
        return;
     }if(!confirm("회원 등록을 하시겠습니까?")) return;
       
-    alert(address);
     frm.action="/user/join";
     frm.method="post";
     frm.submit();
-    location.href='/user/login'
+    
+    //location.href='/user/login'
  });
 </script>
