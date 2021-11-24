@@ -42,7 +42,7 @@
 		</ul>
 		<ul>
 			<li class="menuTitle">상품구매관리</li>
-			<li><a href='#'>상품주문현황</a></li>
+			<li><a href='/admin/order'>상품주문현황</a></li>
 		</ul>
 	</div>
 		<div id="adminpage">

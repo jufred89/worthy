@@ -365,7 +365,6 @@ margin:10px;
       </script> 
 <div id="pagination"></div>
 <script src="/resources/pagination.js"></script>
-
 <div>
 	<button id="upBtn">위로</button>
 </div>
@@ -384,8 +383,8 @@ margin:10px;
 	
 	getPreview();
 	getSlide();
+
 	pre_list()
-	
 	
 	$('#prod_review').on('click','.re_box .btnDelete',function(){
 		var prod_rno=$(this).parent().find('.rno').val()
@@ -410,6 +409,7 @@ margin:10px;
 			}
 		});
 	})
+
 	
 	//리뷰리스트
 	function pre_list(){
@@ -471,14 +471,12 @@ var perPageNum=10;
 	});
 	
 	//댓글 삭제
-	function del(){
-		//alert("확인");
-		
-		var prod_rno = $(".prod_rno").val();
+	
+	
+	$("#prod_review").on("click", ".item .del", function(){
+		var prod_rno = $(this).parent().find(".prod_rno").val();
 		//alert(prod_rno);
-		
-		if(!confirm("정말로 삭제하시겠습니까")) return;
-		
+
 		$.ajax({
 			type: "post",
 			url: "/shop/pre_delete",
@@ -488,7 +486,7 @@ var perPageNum=10;
 				getPreview();
 			}
 		});
-	};
+	});
 	
 	//-버튼
 	$("#minus").on("click", function(){
@@ -584,8 +582,8 @@ var perPageNum=10;
 			data: {"page" : page, "prod_rid" : prod_rid},
 			dataType: "json",
 			success: function(data){
-				var temp = Handlebars.compile($("#temp").html());
-				$("#preview").html(temp(data));
+				var temp = Handlebars.compile($("#temp_review").html());
+				$("#prod_review").html(temp(data));
 				$("#pagination").html(getPagination(data));
 				
 				$("#total").html(data.pm.totalCount);

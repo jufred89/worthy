@@ -480,6 +480,7 @@ ul.tabs li.current {
 		var camp_ruid = "${uid}";
 		var reser_no = $("#reser_no").html();
 		var camp_id = $("#camp_id").html();
+
 		if (camp_review == "") {
 			alert("내용을 입력해주세요");
 			$("#camp_review").focus();
@@ -561,9 +562,7 @@ ul.tabs li.current {
 		return this;
 	};
 
-	document.getElementById('popup_open_btn').addEventListener('click',
-			function() {
-				// 모달창 띄우기
-				modal('my_modal');
-			});
+	$("#tab-2 .mycampingButton").on("click", function(){
+		modal('my_modal');
+	});
 </script>

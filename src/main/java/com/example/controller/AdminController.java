@@ -176,7 +176,7 @@ public class AdminController {
 	//----------------------------------------회원 관련 끝-----------------------------------------------------------
 	
 	//----------------------------------------상품 관련 시작-----------------------------------------------------------
-	@RequestMapping("/admin/shop/list")
+	@RequestMapping(value="/admin/shop/list", method = RequestMethod.GET)
 	public String adminList(Model model){
 		model.addAttribute("pageName", "admin/admin.jsp");
 		model.addAttribute("adminPageName", "shopList.jsp");
@@ -210,6 +210,40 @@ public class AdminController {
 	public void adminHideupdate(ShopVO vo){
 		System.out.println(vo.toString());
 		sdao.adminHideUpdate(vo);
+	}
+	
+	@RequestMapping(value="/admin/order", method = RequestMethod.GET)
+	public String adminShopOrder(Model model){
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "shopOrder.jsp");
+		return "home";
+	}
+	
+	//admin 상품 주문 현황
+	@RequestMapping("/admin/order.json")
+	@ResponseBody
+	public HashMap<String, Object> adminShopJSON(Criteria cri){
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("list", sdao.adminShopJSON(cri));
+		map.put("cri", cri);
+		
+		PageMaker pm = new PageMaker();
+		pm.setCri(cri);
+		pm.setTotalCount(sdao.adminOrderCount(cri));
+		
+		map.put("pm", pm);
+		
+		return map;
+	}
+	
+	@RequestMapping(value="/admin/orderInfo", method = RequestMethod.GET)
+	public String adminOrderInfo(Model model, int pay_no, int cart_no){
+		System.out.println(sdao.orderInfo(pay_no, cart_no));
+		model.addAttribute("orderInfo", sdao.orderInfo(pay_no, cart_no));
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "shopOrderInfo.jsp");
+		return "home";
 	}
 	//----------------------------------------상품 관련 끝-----------------------------------------------------------
 	

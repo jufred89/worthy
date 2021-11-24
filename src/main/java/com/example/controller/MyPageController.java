@@ -161,11 +161,13 @@ public class MyPageController {
 	}
 	*/
 	// ä���� �� ���� ��������
+	/*
 	@RequestMapping(value = "/chatList.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ChatVO> chatList() {
 		return cdao.chatList();
 	}
+	*/
 
 	@RequestMapping(value = "/myshop", method = RequestMethod.GET)
 	public String myshop(Model model, HttpSession session) {
@@ -173,14 +175,20 @@ public class MyPageController {
 		String uname = udao.login(uid).getUname();
 		
 		model.addAttribute("uname", uname);
-		model.addAttribute("shop_list", sdao.myshopList(uid));
+		model.addAttribute("order_list2", sdao.myshopList2(uid));
+		model.addAttribute("order_list3", sdao.myshopList3(uid));
+		model.addAttribute("order_list4", sdao.myshopList4(uid));
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName", "myshop.jsp");
 		return "home";
 	}
 
 	@RequestMapping(value = "/mycart", method = RequestMethod.GET)
-	public String mycart(Model model) {
+	public String mycart(Model model, HttpSession session) {
+		String uid = (String) session.getAttribute("uid");
+		String uname = udao.login(uid).getUname();
+		
+		model.addAttribute("cart_list", sdao.cart_list(uid));
 		model.addAttribute("pageName", "user/mypage.jsp");
 		model.addAttribute("myPageName", "mycart.jsp");
 		return "home";

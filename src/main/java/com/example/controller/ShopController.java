@@ -11,12 +11,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -25,10 +21,8 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -120,7 +114,7 @@ public class ShopController {
 		//이미지 저장
 		if (!file.isEmpty()) {
 			String prod_image = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-			file.transferTo(new File(path + File.separator + prod_image));
+			file.transferTo(new File(path + "/shop/" + prod_image));
 			vo.setProd_image(prod_image);
 //			System.out.println(vo.toString());
 			dao.prod_insert(vo);
@@ -128,7 +122,7 @@ public class ShopController {
 		
 		if (!att_file.isEmpty()) {
 			String shop_ano = System.currentTimeMillis() + "_" + att_file.getOriginalFilename();
-			att_file.transferTo(new File(path + File.separator + shop_ano));
+			att_file.transferTo(new File(path + "/shop/" + shop_ano));
 			avo.setShop_ano(shop_ano);
 			dao.att_insert(avo);
 		}
@@ -155,31 +149,31 @@ public class ShopController {
 		
 		if(!file.isEmpty()){
 			//이미지를 변경할 경우
-			new File(path + File.separator + oldImage).delete();
+			new File(path + "/shop/" + oldImage).delete();
 			
 			String prod_image = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-			file.transferTo(new File(path + File.separator + prod_image));
+			file.transferTo(new File(path + "/shop/" + prod_image));
 			vo.setProd_image(prod_image);
 			dao.prod_update(vo);
 		}else{
 			//이미지를 변경하지 않은 경우
-			new File(path + File.separator + oldImage);
+			new File(path + "/shop/" + oldImage);
 			vo.setProd_image(oldImage);
 			dao.prod_update(vo);
 		}
 		
 		if(!att_file.isEmpty()){
 			//이미지를 변경할 경우
-			new File(path + File.separator + att_oldImage).delete();
+			new File(path + "/shop/" + att_oldImage).delete();
 			
 			String shop_ano = System.currentTimeMillis() + "_" + att_file.getOriginalFilename();
-			att_file.transferTo(new File(path + File.separator + shop_ano));
+			att_file.transferTo(new File(path + "/shop/" + shop_ano));
 			avo.setShop_ano(shop_ano);
 			//System.out.println(avo);
 			dao.att_update(avo);
 		}else{
 			//이미지를 변경하지 않은 경우
-			new File(path + File.separator + att_oldImage);
+			new File(path + "/shop/" + att_oldImage);
 			avo.setShop_ano(att_oldImage);
 			//System.out.println(avo);
 			dao.att_update(avo);
@@ -307,12 +301,6 @@ public class ShopController {
 	@ResponseBody
 	public void pay_update(Shop_payVO pvo){
 		dao.payUpdate(pvo);
-	}
-	
-	@RequestMapping("/status_update")
-	@ResponseBody
-	public void myshopUpdate(Shop_orderVO ovo){
-		dao.myshopUpdate(ovo);
 	}
 	
 	//카카오페이
