@@ -39,7 +39,7 @@
     
     <update id="prod_update">
        update tbl_shop_product set prod_name=#{prod_name}, prod_comp=#{prod_comp}, prod_normalprice=#{prod_normalprice}, 
-       prod_saleprice=#{prod_saleprice}, prod_detail=#{prod_detail}, prod_image=#{prod_image}, prod_cap=#{prod_cap},
+		prod_detail=#{prod_detail}, prod_image=#{prod_image}, prod_cap=#{prod_cap},
        prod_mfd=#{prod_mfd}, prod_exp=#{prod_exp}
        where prod_id=#{prod_id}
     </update>
@@ -208,17 +208,59 @@
        select * from tbl_shop_payment
        where pay_no = #{pay_no}
      </select>
-     
-     
+
      <!-- 주문 목록 -->
-     <select id="myshop_list" resultType="HashMap">
+     <select id="myshop_list2" resultType="HashMap">
      	select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
-		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid}
+		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 2
      </select>
      
-     <update id="myshop_update">
-     	update view_pay_order set pay_status = 5
-		where order_id = #{order_id} and cart_no = #{cart_no}
+     <select id="myshop_list3" resultType="HashMap">
+     	select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
+		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 3
+     </select>
+     
+     <select id="myshop_list4" resultType="HashMap">
+     	select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
+		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 4
+     </select>
+  
+     <update id="order_cancel">
+     	update tbl_shop_payment set pay_status = 0
+     	where pay_no = #{pay_no}
      </update>
      
+     <select id="admin_shop" resultType="HashMap">
+     	select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
+		<if test="searchType == 'order_id'">
+			where c.cart_no = o.cart_no and o.order_id = p.pay_no and order_id like concat("%", #{keyword}, "%")
+		</if>
+		<if test="searchType == 'cart_uid'">
+			where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid like concat("%", #{keyword}, "%")
+		</if>
+		<if test="searchType == 'cart_pname'">
+			where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_pname like concat("%", #{keyword}, "%")
+		</if>
+		order by order_id desc
+		limit #{pageStart}, 10
+     </select>
+     
+     <select id="admin_order_count" resultType="int">
+     	select count(*), date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
+		<if test="searchType == 'order_id'">
+			where c.cart_no = o.cart_no and o.order_id = p.pay_no and order_id like concat("%", #{keyword}, "%")
+		</if>
+		<if test="searchType == 'cart_uid'">
+			where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid like concat("%", #{keyword}, "%")
+		</if>
+		<if test="searchType == 'cart_pname'">
+			where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_pname like concat("%", #{keyword}, "%")
+		</if>
+     </select>
+     
+     <select id="admin_order_info" resultType="HashMap">
+		select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
+		where c.cart_no = o.cart_no and o.order_id = p.pay_no and pay_no = #{pay_no} and c.cart_no = #{cart_no}
+     </select>
+
 </mapper>

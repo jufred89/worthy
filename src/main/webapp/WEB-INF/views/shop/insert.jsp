@@ -20,7 +20,6 @@
 		<input type="text" name="prod_name" placeholder="상품명" /> 
 		<input type="text" name="prod_comp" placeholder="판매사" />
 		<input type="text" name="prod_normalprice" placeholder="상품 가격" />
-		<input type="text" name="prod_saleprice" placeholder="세일 가격" />
 		<input type="text" name="prod_detail" placeholder="간단한 소개 " />
 	</div>
 	<div>

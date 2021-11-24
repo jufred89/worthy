@@ -139,7 +139,7 @@
 	</insert>
 	<select id="campSlide" resultType="hashmap">
 select * from tbl_camp_list
-order by camp_id desc
+order by camp_id desc limit 0,10
 </select>
 	<!-- 캠핑장 정보 수정 -->
 	<update id="campUpdate">
@@ -154,16 +154,24 @@ order by camp_id desc
 	<delete id="campFacilityDelete">
 		delete from tbl_camp_facility where camp_id=#{camp_id}
 	</delete>
+	<!-- 특정 유저가 예약한 캠핑장 목록 확인 및 예정된 예약 -->
+	<select id="campReservationUserNext" resultType="com.example.domain.CampingReserVO">
+		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id and reser_checkin<![CDATA[>=]]>now() order by reser_no desc;
+	</select>
 	<!-- 특정 유저가 예약한 캠핑장 목록 확인 -->
-	<select id="campReservationUser" resultType="com.example.domain.CampingReserVO">
-		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id
+	<select id="campReservationUserPrev" resultType="com.example.domain.CampingReserVO">
+		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id and reser_checkin<![CDATA[<]]>now() order by reser_no desc;
+	</select>
+	<!-- 특정 유저가 예약한 캠핑장 목록 확인 -->
+	<select id="campReservationUserCancel" resultType="com.example.domain.CampingReserVO">
+		select tcm.*,tcl.camp_name,tcl.camp_addr,tcl.camp_image,tcl.camp_tel from tbl_camp_reserve as tcm, tbl_camp_list as tcl where uid=#{uid} and tcm.camp_id=tcl.camp_id and reser_status=#{reser_status} order by reser_no desc;
 	</select>
 	<!-- 캠핑장 리뷰 -->
 	 <select id="campReviewList" resultType="HashMap">
  		select *, date_format(camp_reviewdate, '%Y-%m-%d') camp_reviewdate_f from tbl_camp_review
  		where camp_id = #{camp_id}
  		order by camp_rno desc
- 		limit #{cri.pageStart}, #{cri.perPageNum}
+		limit 0,10
  	</select>
  	<insert id="campReviewInsert">
  		insert into tbl_camp_review(camp_ruid, camp_rstar, camp_review, camp_id)
@@ -173,4 +181,31 @@ order by camp_id desc
  		select count(*) from tbl_camp_review
  		where camp_id = #{camp_id}
  	</select>
+ 	<!-- 캠핑 졸아요 관련 sql -->
+ 	<select id="campLikeIt" resultType="int">
+		select count(*) from tbl_camp_like 
+		where camp_lk_uid=#{uid} and camp_lk_cid=#{camp_id};
+	</select>
+ 	<insert id="campLikeTableInsert">
+		insert into tbl_camp_like(camp_lk_uid,camp_lk_cid)
+		values(#{uid},#{camp_id})
+	</insert>
+	<select id="campLikeTableCheck" resultType="int">
+		select camp_lk_check from tbl_camp_like
+		where camp_lk_uid=#{uid} and camp_lk_cid=#{camp_id}
+	</select>
+	<update id="campLikeTableUpdate">
+		update tbl_camp_like set 
+		<if test="likeCheck==0">
+			camp_lk_check = 1
+		</if>
+		<if test="likeCheck==1">
+			camp_lk_check = 0
+		</if>
+		where camp_lk_uid=#{uid} and camp_lk_cid=#{camp_id}
+	</update>
+	<!-- 유저가 좋아요 누른 캠핑장 목록 -->
+	<select id="campLikeUserCheck" resultType="hashmap">
+		select * from tbl_camp_like as cLike, tbl_camp_list as cList where cLike.camp_lk_cid=cList.camp_id and camp_lk_uid=#{uid} and camp_lk_check=1 order by camp_lk_no desc;
+	</select>
 </mapper>

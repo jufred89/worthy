@@ -44,6 +44,8 @@ public interface ShopDAO {
 	public void adminQtyUpdate(ShopVO vo);
 	public void adminHideUpdate(ShopVO vo);
 	public int adminTotalCount(Criteria cri);
+	public List<HashMap<String, Object>> adminShopJSON(Criteria cri);
+	public int adminOrderCount(Criteria cri);
 	
 	//payment
 	public void pay_insert(Shop_payVO pvo);
@@ -57,7 +59,9 @@ public interface ShopDAO {
 	public int user_maxNo(String pay_uid);
 	
 	//myshop
-	public List<HashMap<String, Object>> myshopList(String cart_uid);
-	public void myshopUpdate(Shop_orderVO ovo);
+	public List<HashMap<String, Object>> myshopList2(String cart_uid);
+	public List<HashMap<String, Object>> myshopList3(String cart_uid);
+	public List<HashMap<String, Object>> myshopList4(String cart_uid);
 	public void order_cancel(int pay_no);
+	public List<HashMap<String, Object>> orderInfo(int pay_no, int cart_no);
 }

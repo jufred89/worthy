@@ -186,9 +186,20 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 	@Override
-	public List<HashMap<String, Object>> myshopList(String cart_uid) {
-		return session.selectList(namespace + ".myshop_list", cart_uid);
+	public List<HashMap<String, Object>> myshopList2(String cart_uid) {
+		return session.selectList(namespace + ".myshop_list2", cart_uid);
 	}
+	
+	@Override
+	public List<HashMap<String, Object>> myshopList3(String cart_uid) {
+		return session.selectList(namespace + ".myshop_list3", cart_uid);
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> myshopList4(String cart_uid) {
+		return session.selectList(namespace + ".myshop_list4", cart_uid);
+	}
+
 
 	@Override
 	public int prodQty(String prod_id) {
@@ -196,14 +207,25 @@ public class ShopDAOImpl implements ShopDAO{
 	}
 
 	@Override
-	public void myshopUpdate(Shop_orderVO ovo) {
-		session.update(namespace + ".myshop_update", ovo);
-
-  @Override
 	public void order_cancel(int pay_no) {
 		session.update(namespace+".order_cancel",pay_no);
-
 	}
 
-	
+	@Override
+	public List<HashMap<String, Object>> adminShopJSON(Criteria cri) {
+		return session.selectList(namespace + ".admin_shop", cri);
+	}
+
+	@Override
+	public int adminOrderCount(Criteria cri) {
+		return session.selectOne(namespace + ".admin_order_count", cri);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> orderInfo(int pay_no, int cart_no) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("pay_no", pay_no);
+		map.put("cart_no", cart_no);
+		return session.selectList(namespace + ".admin_order_info", map);
+	}	
 }

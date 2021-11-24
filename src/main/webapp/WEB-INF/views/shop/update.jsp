@@ -21,7 +21,6 @@
 		<input type="text" name="prod_name" value="${vo.prod_name}" /> 
 		<input type="text" name="prod_comp" value="${vo.prod_comp}" />
 		<input type="text" name="prod_normalprice" value="${vo.prod_normalprice}" />
-		<input type="text" name="prod_saleprice" value="${vo.prod_saleprice}" />
 		<input type="text" name="prod_detail" value="${vo.prod_detail}" />
 	</div>
 	<div>

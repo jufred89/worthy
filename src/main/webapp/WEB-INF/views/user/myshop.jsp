@@ -21,7 +21,7 @@
 
 <!-- 별점 리뷰 등록 / 이동예정 -->
 <style>
-	#prod_rstar{
+	#prod_rstar fieldset{
 	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
 	    border: 0; /* 필드셋 테두리 제거 */
 	}
@@ -53,6 +53,13 @@
 </style>
 
 <style>
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
+
 #condition {
 	position: relative;
 	height: 50px;
@@ -115,63 +122,66 @@ ul.tabs li.current{
 		<li class="tab-link current" data-tab="tab-1">상품준비중</li>
 		<li class="tab-link" data-tab="tab-2">배송중</li>
 		<li class="tab-link" data-tab="tab-3">배송완료</li>
-		<li class="tab-link" data-tab="tab-4">구매확정</li>
 	</ul>
 	<div id="tab-1" class="tab-content current">
-		<c:forEach items="${shop_list }" var="shop">
+		<c:forEach items="${order_list2}" var="status2">
 			<c:choose>
-			<c:when test="${shop.pay_status == 2}">
-				<h3>${shop.f_pay_date}</h3>
+			<c:when test="${status2.pay_status == 2}">
+				<h3>${status2.f_pay_date}</h3>
 				<div class="orderbox">
 					<span class="status">상품준비중</span> 
 					<input type="hidden" class="hidden_status" value="" />
 					<div style="overflow: hidden; margin-top: 10px;">
 						<div class="image">
-							<img src="/shop/display?file=${shop.cart_pimage}" width="130" height="130" />
+							<img src="/shop/display?file=${status2.cart_pimage}" width="130" height="130" />
 						</div>
 						<div class="orderinfo">
-							<div class="pname">${shop.cart_pname}</div>
+							<div class="pname">${status2.cart_pname}</div>
 							<div class="title">
-								<span class="cart_price"></span>|<span class="quantity">${shop.cart_pqty}</span>
+								<span class="cart_price"></span>|<span class="quantity">${status2.cart_pqty}</span>
 							</div>
 							<div class="orderId">
-								<span>${shop.order_id}</span>
+								<span>${status2.order_id}</span>
 							</div>
 							<div class="price">
-								<span>${shop.cart_price}</span>
+								<span>${status2.cart_price}</span>
 							</div>
 						</div>
 						<div class="orderBtn">
-              <button class="whiteBtn" id="orderCancel">주문취소</button>
+              				<button class="whiteBtn" id="orderCancel">주문취소</button>
 						</div>
 					</div>
 				</div>
 			</c:when>
 			</c:choose>
 		</c:forEach>
+		<c:if test="${order_list2.size() == 0 }">
+			<h3>준비중인 상품이 없습니다.</h3>	
+			<img src="/resources/cart_image.png" width="850" height="700" />
+		</c:if>
 	</div>
 	<div id="tab-2" class="tab-content">
-		<c:forEach items="${shop_list }" var="shop">
+		<c:forEach items="${order_list3 }" var="status3">
 			<c:choose>
-			<c:when test="${shop.pay_status == 3}">
-				<h3>${shop.f_pay_date}</h3>
+			<c:when test="${status3.pay_status == 3}">
+				<h3>${status3.f_pay_date}</h3>
 				<div class="orderbox">
 					<span class="status">배송중</span> 
 					<input type="hidden" class="hidden_status" value="" />
 					<div style="overflow: hidden; margin-top: 10px;">
 						<div class="image">
-							<img src="/shop/display?file=${shop.cart_pimage}" width="130" height="130" />
+							<img src="/shop/display?file=${status3.cart_pimage}" width="130" height="130" />
 						</div>
 						<div class="orderinfo">
-							<div class="pname">${shop.cart_pname}</div>
+							<div class="pname">${status3.cart_pname}</div>
 							<div class="title">
-								<span class="cart_price"></span>|<span class="quantity">${shop.cart_pqty}</span>
+								<span class="cart_price"></span>|<span class="quantity">${status3.cart_pqty}</span>
 							</div>
 							<div class="orderId">
-								<span>${shop.order_id}</span>
+								<span>${status3.order_id}</span>
 							</div>
 							<div class="price">
-								<span>${shop.cart_price}</span>
+								<span>${status3.cart_price}</span>
 							</div>
 						</div>
 						<div class="orderBtn">
@@ -181,35 +191,39 @@ ul.tabs li.current{
 			</c:when>
 			</c:choose>
 		</c:forEach>
+		<c:if test="${order_list3.size() == 0 }">
+			<h3>배송중인 상품이 없습니다.</h3>	
+			<img src="/resources/cart_image.png" width="850" height="700" />
+		</c:if>
 	</div>
 	<div  id="tab-3" class="tab-content">
-		<c:forEach items="${shop_list }" var="shop">
+		<c:forEach items="${order_list4 }" var="status4">
 			<c:choose>
-			<c:when test="${shop.pay_status == 4}">
-				<h3>${shop.f_pay_date}</h3>
+			<c:when test="${status4.pay_status == 4}">
+				<h3>${status4.f_pay_date}</h3>
 				<div class="orderbox">
 					<span class="status">배송완료</span> 
 					<input type="hidden" class="hidden_status" value="" />
 					<div style="overflow: hidden; margin-top: 10px;">
 						<div class="image">
-							<img src="/shop/display?file=${shop.cart_pimage}" width="130" height="130" />
+							<img src="/shop/display?file=${status4.cart_pimage}" width="130" height="130" />
 						</div>
 						<div class="orderinfo">
-							<div class="pname">${shop.cart_pname}</div>
+							<div class="pname">${status4.cart_pname}</div>
 							<div class="title">
-								<span class="cart_price"></span>|<span class="quantity">${shop.cart_pqty}</span>
+								<span class="cart_price"></span>|<span class="quantity">${status4.cart_pqty}</span>
 							</div>
 							<div class="orderId">
-								<span>${shop.order_id}</span>
+								<span>${status4.order_id}</span>
 							</div>
 							<div class="price">
-								<span>${shop.cart_price}</span>
+								<span>${status4.cart_price}</span>
 							</div>
 						</div>
 						<div class="orderBtn">
 							<div>
-								<button class="whiteBtn">구매확정</button>
-								<input type="hidden" value="${shop.cart_no}" class="cart_no" />
+								<button class="blackBtn">리뷰작성</button>
+								<input type="hidden" class="hidden_rid" value="${status4.cart_pid }" />
 							</div>
 						</div>
 					</div>
@@ -217,41 +231,10 @@ ul.tabs li.current{
 			</c:when>
 			</c:choose>
 		</c:forEach>
-	</div>
-	<div id="tab-4" class="tab-content">
-		<c:forEach items="${shop_list }" var="shop">
-			<c:choose>
-			<c:when test="${shop.pay_status == 5}">
-				<h3>${shop.f_pay_date}</h3>
-				<div class="orderbox">
-					<span class="status">구매확정</span> 
-					<input type="hidden" class="hidden_status" value="" />
-					<div style="overflow: hidden; margin-top: 10px;">
-						<div class="image">
-							<img src="/shop/display?file=${shop.cart_pimage}" width="130" height="130" />
-						</div>
-						<div class="orderinfo">
-							<div class="pname">${shop.cart_pname}</div>
-							<div class="title">
-								<span class="cart_price"></span>|<span class="quantity">${shop.cart_pqty}</span>
-							</div>
-							<div class="orderId">
-								<span>${shop.order_id}</span>
-							</div>
-							<div class="price">
-								<span>${shop.cart_price}</span>
-							</div>
-						</div>
-						<div class="orderBtn">
-							<div>
-								<button class="blackBtn">리뷰작성</button>
-								<input type="hidden" class="hidden_rid" value="${shop.cart_pid }" />
-							</div>
-						</div>
-				</div>
-			</c:when>
-			</c:choose>
-		</c:forEach>
+		<c:if test="${order_list4.size() == 0 }">
+			<h3>배송완료된 상품이 없습니다.</h3>
+			<img src="/resources/cart_image.png" width="850" height="700" />	
+		</c:if>
 	</div>
 </div>
 <!-- 모달창 부분 시작 -->
@@ -280,39 +263,12 @@ ul.tabs li.current{
 <script>
 price_multiply();
 
-$("#myshop").on("click", ".orderBtn .blackBtn", function(){
-	var prod_rid = $(this).parent().find(".pid").val();
-	//alert(prod_rid);
-	$("#hidden_rid").val(prod_rid);
-});
-
-//구매 확정
-$("#tab-3").on("click", ".whiteBtn", function(){
-	var par = $(this).parent().parent().parent();
-	var cart_no = $(this).parent().find(".cart_no").val();
-	var order_id = par.find(".orderId span").html();
-	
-	//alert(cart_no + " / " + order_id);
-	
-	if(!confirm("구매를 확정하시겠습니까")) return;
-	
-	$.ajax({
-		type: "get",
-		url: "/shop/status_update",
-		data: {"cart_no" : cart_no, "order_id" : order_id},
-		success: function(){
-			alert("확인");
-		}
-	});
-});
-
-//rid
-$("#tab-4").on("click", ".blackBtn", function(){
+//리뷰버튼 클릭시 rid값 모달창에 전송
+$("#tab-3").on("click", ".orderBtn .blackBtn", function(){
 	var prod_rid = $(this).parent().find(".hidden_rid").val();
-	//alert(prod_rid);
 	$("#hidden_rid").val(prod_rid);
 });
-	
+
 //댓글 등록
 $("#pre_insert").on("click", function(){
 	var prod_review = $(this).parent().find("#pre_review").val();
@@ -343,8 +299,13 @@ $("#pre_insert").on("click", function(){
 		success: function(){
 			alert("등록되었습니다");
 			$("#pre_review").val("");
-			$(".rating").attr("checked", false);
-			$("#my_modal").modal("hide");
+			
+			$("input:radio[name='rating']").prop("checked", false);		
+			
+			$(".modal_close_btn").get(0).click();
+			$(this).prop("readOnly");
+			
+			
 		}
 	});
 });
@@ -426,7 +387,7 @@ Element.prototype.setStyle = function(styles) {
 
 
 
-$('#tab-4').on('click', ".blackBtn", function() {
+$('#tab-3').on('click', ".blackBtn", function() {
     // 모달창 띄우기
     modal('my_modal');
 });

@@ -211,17 +211,22 @@
 <h2>상품 리뷰</h2>
 <div id="prod_review" style="height:300px;"></div>
 <script id="temp_review" type="text/x-handlebars-template">
-
-		{{#each slide}}
-				<li>
-					<div style="width:230">
-					<img src="/shop/display?file={{prod_image}}" width="230" onClick="location.href='/shop/read?prod_id={{prod_id}}'" />
+		{{#each list}}
+				<div class="item">
+					<div>{{prod_ruid}}</div>
+					<div>
+						<span class="star-rating">
+							<span style="width: {{prod_rstar}}%; float: left;"></span>
+						</span>
+						<input type="hidden" class="hidden_star" value="{{prod_rstar}}" />
 					</div>
-					<div>{{prod_name}}</div>
-					<div>{{prod_normalprice}}</div>
-				</li>
+					<div class="del">삭제</div>
+					<div>{{prod_r_regdate_f}}</div>
+					<div>{{prod_review}}</div>
+					<input type="hidden" class="prod_rno" value="{{prod_rno}}" />
+				</div>
 		{{/each}}
-	</script>
+</script>
 <div>
 	<button id="upBtn">위로</button>
 </div>
@@ -238,6 +243,7 @@
 	var page = 1;
 	getPreview();
 	getSlide();
+	
 	//리뷰리스트
 	function pre_list(){
 		$.ajax({
@@ -296,14 +302,12 @@
 	});
 	
 	//댓글 삭제
-	function del(){
-		//alert("확인");
-		
-		var prod_rno = $(".prod_rno").val();
+	
+	
+	$("#prod_review").on("click", ".item .del", function(){
+		var prod_rno = $(this).parent().find(".prod_rno").val();
 		//alert(prod_rno);
-		
-		if(!confirm("정말로 삭제하시겠습니까")) return;
-		
+
 		$.ajax({
 			type: "post",
 			url: "/shop/pre_delete",
@@ -313,7 +317,7 @@
 				getPreview();
 			}
 		});
-	};
+	});
 	
 	//-버튼
 	$("#minus").on("click", function(){
@@ -366,8 +370,8 @@
 			data: {"page" : page, "prod_rid" : prod_rid},
 			dataType: "json",
 			success: function(data){
-				var temp = Handlebars.compile($("#temp").html());
-				$("#preview").html(temp(data));
+				var temp = Handlebars.compile($("#temp_review").html());
+				$("#prod_review").html(temp(data));
 				$("#pagination").html(getPagination(data));
 				
 				$("#total").html(data.pm.totalCount);

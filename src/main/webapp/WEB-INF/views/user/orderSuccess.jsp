@@ -56,7 +56,9 @@ var pay_no = parseInt("${pay_no}");
 		$("#pay_no").html(data.pay_no);
 		$("#pay_date").html(data.pay_date);
 		$("#pay_price").html(data.pay_price);
-		$("#pay_type").html(data.pay_type);
+		if(data.pay_type == '1'){
+			$("#pay_type").html("KAKAOPAY");
+		}
 		$("#deli_address1").html(data.deli_address1);
 		$("#deli_address2").html(data.deli_address2);
 		$("#deli_tel").html(data.deli_tel);

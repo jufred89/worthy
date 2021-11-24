@@ -1,36 +1,57 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<style>
+	.subheading{
+	   text-align:left;
+	   font-size:150%;
+	   margin:20px;
+	   font-weight:bold;
+	}
+</style>
 
 <div id="sub">
 	<div class="subheading">장바구니</div>
 	<div class="mycart">
-		<table id="tblCart"></table>
-		<script id="temp" type="text/x-handlebars-template">
+		<table id="tblCart">
 			<tr>
 				<th width=200 colspan=2><input type="checkbox" id="chkAll" /> 전체선택</th>
 				<th width=400>상품정보</th>
 				<th width=100>수량</th>
 				<th width=150>상품금액</th>
 			</tr>
-			{{#each cart_list}}
-				<tr class="item">
-					<td>
-						<input type="checkbox" class="chk" />
-						<input type="hidden" class="cart_no" value="{{cart_no}}" />
-						<input type="hidden" class="cart_pid" value="{{cart_pid}}" />
-					</td>
-					<td><img src='/shop/display?file={{cart_pimage}}'width="100" height="100"/></td>
-					<td class="title">{{cart_pname}}</td>
-					<td>
-						<div class="quantityBox">
-							<button class="minus">-</button>
-							<div class="quantity">{{cart_pqty}}</div>
-							<button class="plus">+</button>
-						</div>
-					</td>
-					<td class="price">{{cart_price}}</td>
-				</tr>
-			{{/each}}
+				<c:forEach items="${cart_list}" var="cart">
+					<c:choose>
+						<c:when test="${cart.cart_status == 1}">
+							<tr class="item">
+								<td>
+									<input type="checkbox" class="chk" />
+									<input type="hidden" class="cart_no" value="${cart.cart_no}" />
+									<input type="hidden" class="cart_pid" value="${cart.cart_pid}" />
+								</td>
+								<td><img src='/shop/display?file=${cart.cart_pimage}'width="100" height="100"/></td>
+								<td class="title">${cart.cart_pname}</td>
+								<td>
+									<div class="quantityBox">
+										<button class="minus">-</button>
+										<div class="quantity">${cart.cart_pqty}</div>
+										<button class="plus">+</button>
+									</div>
+								</td>
+								<td class="price">${cart.cart_price}</td>
+							</tr>
+						</c:when>
+					</c:choose>
+				</c:forEach>
+				<c:if test="${cart_list.size() == 0 }">
+					<tr>
+						<td colspan="4"><h3>장바구니에 저장된 상품이 없습니다.</h3></td>
+					</tr>
+					<tr>
+						<td colspan="4"><img src="/resources/cart_image.png" width="850" height="700" /></td>
+					</tr>
+				</c:if>
 			<tr>
 				<td>
 					<span>상품금액</span>
@@ -50,14 +71,13 @@
 			<tr>
 				<td><button id="btnDel">삭제</button></td>
 				<td><button id="payment">구매하기</button></td>
-				<td><img src="/resources/kakao_payment.png" width=80 onClick="kakaoPay()"/></td>
 			</tr>
-
-		</script>
+		</table>
 	</div>
 </div>
 <script>
-	getCart();
+	getSum();
+	startChk();
 
 	//카카오페이
 	function kakaoPay(){
@@ -76,6 +96,13 @@
 				window.open(box,'kakaoPay','width=500,height=600,top=80,left=1100');
 				
 			}
+		});
+	}
+	
+	function startChk(){
+		$("#tblCart #chkAll").prop("checked", true);
+		$("#tblCart .item .chk").each(function() {
+			$(this).prop("checked", true);
 		});
 	}
 
@@ -200,7 +227,6 @@
 
 	//상품 가격 합계
 	function getSum() {
-
 		var cart_uid = "${uid}";
 
 		$.ajax({
@@ -290,8 +316,8 @@
 					"cart_no" : cart_no
 				},
 				success : function() {
-					getCart();
-					getSum();
+					//$("body").load(window.location.href + "body");
+					window.location.reload();
 				}
 			});
 		});
@@ -364,27 +390,5 @@
 		}
 	});
 
-	//장바구니 목록
-	function getCart() {
-		var cart_uid = "${uid}";
-		$.ajax({
-			type : "get",
-			url : "/shop/cart_list.json",
-			data : {
-				"cart_uid" : cart_uid
-			},
-			dataType : "json",
-			success : function(data) {
-				var temp = Handlebars.compile($("#temp").html());
-				$("#tblCart").html(temp(data));
-				
-				getSum();
-
-				$("#tblCart #chkAll").prop("checked", true);
-				$("#tblCart .item .chk").each(function() {
-					$(this).prop("checked", true);
-				});
-			}
-		});
-	}
+	
 </script>

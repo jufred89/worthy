@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <h3>상품 목록</h3>
-<div id="condition">
+<div>
 	<select id="searchType">
 		<option value="prod_id">상품번호</option>
 		<option value="prod_name">상품명</option>

@@ -74,7 +74,7 @@
 	appearance: none;
 }
 </style>
-<h1>예약하기</h1>
+<h1>구매하기</h1>
 <hr />
 <div id="reservation_box">
 	<h3>주문 상품</h3>
@@ -140,16 +140,9 @@
 		<div>
 			<h4>${pvo.pay_price}</h4>
 		</div>
-		<h5>쿠폰</h5>
-		<div>
-		</div>
-		<h5>포인트</h5>
-		<div>
-			<h4></h4>
-		</div>
 		<h5>배송비</h5>
 		<div>
-			<h4></h4>
+			<h4>무료</h4>
 		</div>
 		<hr />
 		<h4>총 결제가격</h4>
