@@ -323,56 +323,31 @@ margin:10px;
 <hr>
 <!-- 리뷰 등록 이동 예정 -->
 <h1>Review</h1>
+<div><span id="total"></span></div>
 <hr>
 
 <div id="prod_review"></div>
 <script id="temp_review" type="text/x-handlebars-template">
-{{#each list}}
-<div class="re_box">
-<input class="rno" type="hidden" value="{{prod_rno}}"/>
-<input class="ruid" type="hidden" value="{{prod_ruid}}"/>
-<div class="rno" style="display:flex; width:100%;"><span class="prod_rno"  style="font-size:18px;">{{prod_rno}}:</span>
- <div class="prev_ruid" style="font-size:18px;">{{prod_ruid}}<span>님</span></div>
- <div class="prod_rstar1">{{prod_rstar}}점</div>
-
-  <div>{{rstar_checked prod_rstar}}</div>
-</div>
-<div class="prod_review" style="text-align:left;margin-top:20px;font-size:16px;">{{prod_review}}</div>
-
-
-<p class="prod_review" style="text-align:left;margin-top:20px;font-size:16px;">{{prod_r_regdate_f}}</p>
-
-
-<div class="re_btn btnDelete"  prod_rno={{prod_rno}} style="text-align:right;" onClick="del2()"><button>삭제</button></div>
-</div>
-
-<hr style="border:0.5px dotted gray;">
-
-{{/each}}
+	{{#each list}}
+		<div class="re_box">
+			<input class="rno" type="hidden" value="{{prod_rno}}"/>
+			<input class="ruid" type="hidden" value="{{prod_ruid}}"/>
+			<div class="rno" style="display:flex; width:100%;">
+				<div class="prev_ruid" style="font-size:18px;">{{prod_ruid}}</div>
+			</div>
+ 			<div style="text-align:left;margin-top:5px;">
+				<span class="star-rating">
+					<span style="width: {{prod_rstar}}%; float: left;"></span>
+				</span>
+			</div>
+			<div class="prod_review" style="text-align:left;margin-top:20px;font-size:16px;">{{prod_review}}</div>
+			<p class="prod_review" style="text-align:left;margin-top:20px;font-size:16px;">{{prod_r_regdate_f}}</p>
+			<div class="re_btn btnDelete"  prod_rno={{prod_rno}} style="text-align:right;" onClick="del2()"><button>삭제</button></div>
+		</div>
+		<hr style="border:0.5px dotted gray;">
+	{{/each}}
 </script>
- <script>
-        
-         Handlebars.registerHelper("rstar_checked", function(prod_rstar) {
-        	if(prod_rstar==0){
-        		return ""
-        	}else if(prod_rstar==20){
-        		return "★"
-        	}
-        	else if(prod_rstar==40){
-        		return "★★"
-        	}
-        	else if(prod_rstar==60){
-        		return "★★★"
-        	}
-        	else if(prod_rstar==80){
-        		return "★★★★"
-        	}
-        	else {
-        		return "★★★★★"
-        	}
-         });
-        
-      </script> 
+
 <div id="pagination"></div>
 <script src="/resources/pagination.js"></script>
 <div>
@@ -390,8 +365,7 @@ margin:10px;
 	var prod_rid = "${vo.prod_id}";
 	var page = 1;
 	  var uid = "${uid}";
-	
-	getPreview();
+
 	getSlide();
 
 	pre_list()
@@ -423,7 +397,7 @@ margin:10px;
 	
 	//리뷰리스트
 	function pre_list(){
-var perPageNum=10;
+		var perPageNum=10;
 		$.ajax({
 			type : "get",
 			url : "/shop/pre_list.json",
@@ -431,27 +405,15 @@ var perPageNum=10;
 			data:{"page":page,"prod_rid":prod_rid, "perPageNum":10},
 			success : function(data) {
 				$("#pagination").html(getPagination(data));
-			
+				
 				var temp = Handlebars.compile($("#temp_review").html());
 				$("#prod_review").html(temp(data));
-			
+				
+				$("#total").html("(" + data.pm.totalCount + ")");
+				
+				average();
 			}
 		});
-	}
-	//별점 평균
-	function average(){
-		var star_sum = 0;
-		var total = $("#total").html();
-		//alert(total);
-		$("#preview .item .hidden_star").each(function(){
-			var star = $(this).val();
-			
-			star_sum += Number(star);
-		});
-		var avg_sum = star_sum/total;
-		//alert(avg_sum);
-		$("#avg_star").css("width", avg_sum + "%");
-		$("#avg_num").html((avg_sum/20).toFixed(1) + "점");
 	}
 	
 	//장바구니 담기
@@ -463,8 +425,6 @@ var perPageNum=10;
 		var cart_price = normalprice * cart_pqty;
 		var cart_pimage = "${vo.prod_image}";
 		var cart_pname = "${vo.prod_name}";
-		
-		alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
 		
 		$.ajax({
 			type: "post",
@@ -481,8 +441,6 @@ var perPageNum=10;
 	});
 	
 	//댓글 삭제
-	
-	
 	$("#prod_review").on("click", ".item .del", function(){
 		var prod_rno = $(this).parent().find(".prod_rno").val();
 		//alert(prod_rno);
@@ -583,24 +541,7 @@ var perPageNum=10;
 		page = $(this).attr("href");
 		pre_list()
 	});
-	
-	//댓글 목록
-	function getPreview(){
-		$.ajax({
-			type: "get",
-			url: "/shop/pre_list.json",
-			data: {"page" : page, "prod_rid" : prod_rid},
-			dataType: "json",
-			success: function(data){
-				var temp = Handlebars.compile($("#temp_review").html());
-				$("#prod_review").html(temp(data));
-				$("#pagination").html(getPagination(data));
-				
-				$("#total").html(data.pm.totalCount);
-				average();
-			}
-		});
-	}
+
 	
 	$("#pagination").on("click", "a", function(e) {
 		e.preventDefault();

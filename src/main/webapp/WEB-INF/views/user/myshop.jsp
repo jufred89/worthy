@@ -149,6 +149,7 @@ ul.tabs li.current{
 						</div>
 						<div class="orderBtn">
               				<button class="whiteBtn" id="orderCancel">주문취소</button>
+              				<input type="hidden" value="${status2.pay_no}" class="pay_no" />
 						</div>
 					</div>
 				</div>
@@ -157,7 +158,7 @@ ul.tabs li.current{
 		</c:forEach>
 		<c:if test="${order_list2.size() == 0 }">
 			<h3>준비중인 상품이 없습니다.</h3>	
-			<img src="/resources/cart_image.png" width="850" />
+			<img src="/resources/cart_image.png" width="850" height="700" />
 		</c:if>
 	</div>
 	<div id="tab-2" class="tab-content">
@@ -193,7 +194,7 @@ ul.tabs li.current{
 		</c:forEach>
 		<c:if test="${order_list3.size() == 0 }">
 			<h3>배송중인 상품이 없습니다.</h3>	
-			<img src="/resources/cart_image.png" width="850"/>
+			<img src="/resources/cart_image.png" width="850" height="700" />
 		</c:if>
 	</div>
 	<div  id="tab-3" class="tab-content">
@@ -233,7 +234,7 @@ ul.tabs li.current{
 		</c:forEach>
 		<c:if test="${order_list4.size() == 0 }">
 			<h3>배송완료된 상품이 없습니다.</h3>
-			<img src="/resources/cart_image.png" width="850"/>	
+			<img src="/resources/cart_image.png" width="850" height="700" />	
 		</c:if>
 	</div>
 </div>
@@ -303,7 +304,7 @@ $("#pre_insert").on("click", function(){
 			$("input:radio[name='rating']").prop("checked", false);		
 			
 			$(".modal_close_btn").get(0).click();
-			$(this).prop("readOnly");
+			
 			
 			
 		}
@@ -393,16 +394,19 @@ $('#tab-3').on('click', ".blackBtn", function() {
 });
 </script>
 <script>
-	$('#orderCancel').on('click',function(){
+	$('#tab-1 .orderBtn .whiteBtn').on('click',function(){
+		var pay_no = $(this).parent().find(".pay_no").val();
+		
 		if(!confirm('주문을 취소하시겠습니까?')) return;
 		
 		$.ajax({
 			type:'post',
 			url: '/shop/orderCancel',
-			data:{"pay_no":115},
+			data:{"pay_no":pay_no},
 			success:function(){
 				alert('주문이 취소되었습니다.');
+				window.location.reload();
 			}
-		})
+		});
 	});
 </script>

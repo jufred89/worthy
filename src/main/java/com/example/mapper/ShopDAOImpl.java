@@ -211,14 +211,11 @@ public class ShopDAOImpl implements ShopDAO {
 	public void order_cancel(int pay_no) {
 		session.update(namespace+".order_cancel",pay_no);
 	}
-	
   /*
-	@Override
 	public void myshopUpdate(Shop_orderVO ovo) {
 		session.update(namespace + ".myshop_update", ovo);
 	}
   */
-
 	@Override
 	public List<HashMap<String, Object>> adminShopJSON(Criteria cri) {
 		return session.selectList(namespace + ".admin_shop", cri);
@@ -235,5 +232,10 @@ public class ShopDAOImpl implements ShopDAO {
 		map.put("pay_no", pay_no);
 		map.put("cart_no", cart_no);
 		return session.selectList(namespace + ".admin_order_info", map);
+	}
+
+	@Override
+	public void adminStatusUpdate(int pay_no) {
+		session.update(namespace + ".admin_status_update", pay_no);
 	}	
 }

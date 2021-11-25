@@ -73,20 +73,25 @@
 	-moz-appearance: none;
 	appearance: none;
 }
+#radio{
+	padding-left: 20px;
+	text-align: left;
+}
 </style>
 <h1>구매하기</h1>
 <hr />
 <div id="reservation_box">
 	<h3>주문 상품</h3>
-	<div style="text-align:left; margin:20px 0 50px 35px;">
+	<div style="text-align:left; margin:20px 0 50px 20px;">
 		<span id="item_name">${item_name}</span><span id="quantity"> 포함 총 ${quantity}개의 상품</span>
 	</div>
 	<h3>배송지 정보</h3>
-	<input type="radio" id="user_deli" name="shipping" onClick="deli_input()"/>
-	<label for="user_deli" ><span>기본 배송지</span></label>
-	<input type="radio" id="user_deli2" name="shipping" onClick="deli_input2()" checked/>
-	<label for="new_deli2" ><span>신규입력</span></label>
-	
+	<div id="radio">
+		<input type="radio" id="user_deli" name="shipping" onClick="deli_input()"/>
+		<label for="user_deli" ><span>기존 배송지</span></label>
+		<input type="radio" id="user_deli2" name="shipping" onClick="deli_input2()" checked/>
+		<label for="new_deli2" ><span>신규입력</span></label>
+	</div>
 	<hr />
 	<div id="user_reservation_info">
 		<div>

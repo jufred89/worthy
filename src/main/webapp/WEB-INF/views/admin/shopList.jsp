@@ -55,7 +55,7 @@
 			<td class="prod_name" onClick="location.href='/shop/update?prod_id={{prod_id}}'">{{prod_name}}</td>
 			<td>
 				<button class="minus">-</button>
-				<div class="prod_qty">{{prod_stack_qty}}</div>
+				<input type="text" class="prod_qty" value="{{prod_stack_qty}}" />
 				<button class="plus">+</button>
 				<button class="change">변경</button>
 			</td>
@@ -115,22 +115,22 @@
 	
 	//-버튼
 	$("#tblShop").on("click", ".minus", function(){
-		var qty = $(this).parent().find(".prod_qty").html();
+		var qty = $(this).parent().find(".prod_qty").val();
 		qty--;
-		$(this).parent().find(".prod_qty").html(qty);
+		$(this).parent().find(".prod_qty").val(qty);
 	});
 	
 	//+버튼
 	$("#tblShop").on("click", ".plus", function(){
-		var qty = $(this).parent().find(".prod_qty").html();
+		var qty = $(this).parent().find(".prod_qty").val();
 		qty ++;
-		$(this).parent().find(".prod_qty").html(qty);
+		$(this).parent().find(".prod_qty").val(qty);
 	});
 	
 	//상품 개수 변경
 	$("#tblShop").on("click", ".change", function(){
 		var prod_id = $(this).parent().parent().find(".prod_id").html();
-		var qty = $(this).parent().find(".prod_qty").html();	
+		var qty = $(this).parent().find(".prod_qty").val();	
 		
 		if(!confirm("상품 보유 개수를 변경하시겠습니까")) return;
 		

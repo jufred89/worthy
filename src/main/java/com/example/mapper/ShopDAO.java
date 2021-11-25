@@ -46,6 +46,7 @@ public interface ShopDAO {
 	public int adminTotalCount(Criteria cri);
 	public List<HashMap<String, Object>> adminShopJSON(Criteria cri);
 	public int adminOrderCount(Criteria cri);
+	public void adminStatusUpdate(int pay_no);
 	
 	//payment
 	public void pay_insert(Shop_payVO pvo);
