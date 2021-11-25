@@ -1,7 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="../resources/board.css" />
+<style>
+#pagination .active{
+   font-weight: bold;
+   background: #f2f2f3;
+}
 
+#pagination a{
+   text-decoration:none;
+   font-weight: normal;
+   color:black;
+   padding:6px 12px;
+   border:1px solid black;
+}
+
+#pagination{
+   width:500px;
+   margin:10 auto;
+}
+</style>
 <div id="subject">FREE BOARD</div>
 <h5>자유게시판</h5>
 

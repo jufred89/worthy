@@ -55,7 +55,7 @@
             <span class="camp_memo">${cll.camp_memo}</span>
          </div>
          <div style="position:absolute; clear:left; float:left; width:300px; height:50px; left:20px; bottom:0px;">
-            <button class="goBook">예약하기</button>
+            <button class="goBook" onclick="location.href='/camping/read?camp_id=${cll.camp_id}'">예약하기</button>
          </div>
       </div>
    </div>

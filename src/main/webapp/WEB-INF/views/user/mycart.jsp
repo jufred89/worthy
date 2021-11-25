@@ -48,7 +48,7 @@
 						<td colspan="4"><h3>장바구니에 저장된 상품이 없습니다.</h3></td>
 					</tr>
 					<tr>
-						<td colspan="4"><img src="/resources/cart_image.png" width="850" height="700" /></td>
+						<td colspan="4"><img src="/resources/cart_image.png" width="850"/></td>
 					</tr>
 				</c:if>
 			<tr>

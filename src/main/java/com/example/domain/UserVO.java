@@ -7,8 +7,17 @@ public class UserVO {
 	private String umail;
 	private String tel;
 	private String address;
+	private String postno;
 	private String detail;
 	
+
+	public String getPostno() {
+		return postno;
+	}
+
+	public void setPostno(String postno) {
+		this.postno = postno;
+	}
 
 	public String getDetail() {
 		return detail;
@@ -69,7 +78,7 @@ public class UserVO {
 	@Override
 	public String toString() {
 		return "UserVO [uid=" + uid + ", upass=" + upass + ", uname=" + uname + ", umail=" + umail + ", tel=" + tel
-				+ ", address=" + address + ", detail=" + detail + "]";
+				+ ", address=" + address + ", postno=" + postno + ", detail=" + detail + "]";
 	}
 
 }
