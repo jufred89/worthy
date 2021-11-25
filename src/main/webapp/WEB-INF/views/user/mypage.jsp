@@ -11,7 +11,7 @@
 	<div id="modifyInfo">${uid} | <a href='/beforeMyinfo'>회원 정보 수정</a></div>
 </div>
 <div class="line"></div>
-<div style="overflow:hidden; width:90%; margin:0 auto;">
+<div  id="wholePage" style="overflow:hidden; width:90%; margin:0 auto;">
 	<div id="menu">
 		<ul>
 			<li class="menuTitle">My Camping</li>

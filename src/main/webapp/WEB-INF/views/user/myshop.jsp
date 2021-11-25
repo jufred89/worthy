@@ -157,7 +157,7 @@ ul.tabs li.current{
 		</c:forEach>
 		<c:if test="${order_list2.size() == 0 }">
 			<h3>준비중인 상품이 없습니다.</h3>	
-			<img src="/resources/cart_image.png" width="850" height="700" />
+			<img src="/resources/cart_image.png" width="850" />
 		</c:if>
 	</div>
 	<div id="tab-2" class="tab-content">
@@ -193,7 +193,7 @@ ul.tabs li.current{
 		</c:forEach>
 		<c:if test="${order_list3.size() == 0 }">
 			<h3>배송중인 상품이 없습니다.</h3>	
-			<img src="/resources/cart_image.png" width="850" height="700" />
+			<img src="/resources/cart_image.png" width="850"/>
 		</c:if>
 	</div>
 	<div  id="tab-3" class="tab-content">
@@ -233,7 +233,7 @@ ul.tabs li.current{
 		</c:forEach>
 		<c:if test="${order_list4.size() == 0 }">
 			<h3>배송완료된 상품이 없습니다.</h3>
-			<img src="/resources/cart_image.png" width="850" height="700" />	
+			<img src="/resources/cart_image.png" width="850"/>	
 		</c:if>
 	</div>
 </div>

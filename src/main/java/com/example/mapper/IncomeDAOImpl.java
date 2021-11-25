@@ -1,0 +1,32 @@
+package com.example.mapper;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+@Repository
+public class IncomeDAOImpl implements IncomeDAO {
+
+	@Autowired
+	SqlSession session;
+	
+	String namespace="com.example.mapper.IncomeMapper";
+	
+	@Override
+	public List<HashMap<String, Object>> getDayIncome() {
+		return session.selectList(namespace+".getDayIncome");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getDayProductIncome() {
+		return session.selectList(namespace+".getDayProductIncome");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getBestProduct() {
+		return session.selectList(namespace+".getBestProduct");
+	}
+
+}

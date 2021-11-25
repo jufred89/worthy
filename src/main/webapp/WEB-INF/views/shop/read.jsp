@@ -7,56 +7,56 @@
 
 <!-- 별점 출력 -->
 <style>
-	.star-rating{
-		width: 51px;
-	}
-	.star-rating, .star-rating span{
-		display: inline-block;
-		height: 10px;
-		overflow: hidden;
-		background: url(/resources/star.png)no-repeat;
-	}
-	.star-rating span{
-		background-position: left bottom;
-		line-height: 0;
-		vertical-align: top;
-	}
-	.star_color{
-		color: red;
-	}
-	#prod_dis{
-	flex-flow:row wrap;
-	display:flex;
-	justify-content:center;
-	align-content:center;
-	}
-	#prod_dis table tr td:nth-child(1){
-	border:1px solid gray;
-	padding:10px;
-	width:400px;
-	}
-	#prod_dis table tr td:nth-child(2){
-	border:1px solid gray;
-	padding:10px;
-	width:700px;
-	}
-	#prod_count{
-	text-align:center;
-	line-height: normal;
-	width:100px;
-	}
+   .star-rating{
+      width: 51px;
+   }
+   .star-rating, .star-rating span{
+      display: inline-block;
+      height: 10px;
+      overflow: hidden;
+      background: url(/resources/star.png)no-repeat;
+   }
+   .star-rating span{
+      background-position: left bottom;
+      line-height: 0;
+      vertical-align: top;
+   }
+   .star_color{
+      color: red;
+   }
+   #prod_dis{
+   flex-flow:row wrap;
+   display:flex;
+   justify-content:center;
+   align-content:center;
+   }
+   #prod_dis table tr td:nth-child(1){
+   border:1px solid gray;
+   padding:10px;
+   width:400px;
+   }
+   #prod_dis table tr td:nth-child(2){
+   border:1px solid gray;
+   padding:10px;
+   width:700px;
+   }
+   #prod_count{
+   text-align:center;
+   line-height: normal;
+   width:100px;
+   }
 
-	.re_btn{
-	display: flex;
-	justify-content:end;
-	}
-	.re_btn button{
-	margin:5px;
-	background:black;
-	color:white;
-	width:50px;
-	height:25px;
-	}
+   .re_btn{
+   display: flex;
+   justify-content:end;
+   }
+   .re_btn button{
+   margin:5px;
+   background:black;
+   color:white;
+   width:50px;
+   height:25px;
+   }
 </style>
 
 <!-- 별점 리뷰 등록 / 이동예정 -->
@@ -76,8 +76,11 @@ flex-flow:row wrap;
 #prod_info p,#prod_info div{
 width:100%;
 font-size:25px;
-
 }
+#prod_info p{
+font-size:20px;
+}
+#prod_info span{font-weight:bold; font-size:17px;}
 #howmany{
 text-align:left;
 margin-bottom: 10px;
@@ -95,62 +98,62 @@ width:20px;
 color:white;
 background: black;
 }
-	#prod_rstar{
-	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
-	    border: 0; /* 필드셋 테두리 제거 */
-	}
-	#prod_rstar input[type=radio]{
-	    display: none; /* 라디오박스 감춤 */
-	}
-	#prod_rstar label{
-	    font-size: 3em; /* 이모지 크기 */
-	    color: transparent; /* 기존 이모지 컬러 제거 */
-	    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
-	}
-	#prod_rstar label:hover{
-  	  text-shadow: 0 0 0 DeepPink; /* 마우스 호버 */
-	}
-	#prod_rstar label:hover ~ label{
- 	   text-shadow: 0 0 0 DeepPink; /* 마우스 호버 뒤에오는 이모지들 */
-	}
-	#prod_rstar{
-	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
-	    direction: rtl; /* 이모지 순서 반전 */
-	    border: 0; /* 필드셋 테두리 제거 */
-	}
-	#prod_rstar{
-    	text-align: left;
-	}
-	#prod_rstar input[type=radio]:checked ~ label{
-    	text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
-	}
-	#dis_table{
-	display:flex;
+   #prod_rstar{
+       display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+       border: 0; /* 필드셋 테두리 제거 */
+   }
+   #prod_rstar input[type=radio]{
+       display: none; /* 라디오박스 감춤 */
+   }
+   #prod_rstar label{
+       font-size: 3em; /* 이모지 크기 */
+       color: transparent; /* 기존 이모지 컬러 제거 */
+       text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+   }
+   #prod_rstar label:hover{
+       text-shadow: 0 0 0 DeepPink; /* 마우스 호버 */
+   }
+   #prod_rstar label:hover ~ label{
+       text-shadow: 0 0 0 DeepPink; /* 마우스 호버 뒤에오는 이모지들 */
+   }
+   #prod_rstar{
+       display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+       direction: rtl; /* 이모지 순서 반전 */
+       border: 0; /* 필드셋 테두리 제거 */
+   }
+   #prod_rstar{
+       text-align: left;
+   }
+   #prod_rstar input[type=radio]:checked ~ label{
+       text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
+   }
+   #dis_table{
+   display:flex;
 justify-content:center;
 align-content:center;
 margin:10px;
-	}
-		.prod_rstar{
-	    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
-	    border: 0; /* 필드셋 테두리 제거 */
-	}
-	.prod_rstar input[type=radio]{
-	    display: none; /* 라디오박스 감춤 */
-	}
-	.prod_rstar label{
-	   
-	    color: transparent; /* 기존 이모지 컬러 제거 */
-	    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
-	}
-	.prod_rstar input[type=radio]:checked ~ label{
-    	text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
-	}
+   }
+      .prod_rstar{
+       display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+       border: 0; /* 필드셋 테두리 제거 */
+   }
+   .prod_rstar input[type=radio]{
+       display: none; /* 라디오박스 감춤 */
+   }
+   .prod_rstar label{
+      
+       color: transparent; /* 기존 이모지 컬러 제거 */
+       text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+   }
+   .prod_rstar input[type=radio]:checked ~ label{
+       text-shadow: 0 0 0 DeepPink; /* 마우스 클릭 체크 */
+   }
 </style>
  <style>
- 	.slide{
- 		width: 1000px;
- 		margin:0 auto;
- 	}
+    .slide{
+       width: 1000px;
+       margin:0 auto;
+    }
     *{margin:0;padding:0;}
     ul,li{list-style:none;}
     .slide{height:300px;overflow:hidden;} 
@@ -163,6 +166,13 @@ margin:10px;
       70% {margin-left:-100%;} /* 35 ~ 50 : 변이 */
       100% {margin-left:0%;}
     }
+    
+    #howmany button{border:none; font-weight:bold; width:40px; height:40px;}
+   #howmany .minus{padding:3px 10px;}
+   #howmany .plus{padding:3px 8px;}
+   #howmany #prod_count{display:inline-block;text-align:center;width:40px; height:40px; border:1px solid #c2c2c3;}
+    #cart{padding:15px 30px; border-radius:10px; font-size:18px; border:none; background:rgb(15, 76, 130); color:white;}
+    #upBtn{border:1px solid black; font-weight:bold;padding:5px 15px; font-size:15px;background:white; color:black;}
   </style>
 
 
@@ -171,29 +181,29 @@ margin:10px;
 <!-- 상단 썸네일 / 설명 -->
 
 <div id="prod_header">
-	<img src="/shop/display?file=${vo.prod_image}" width=500 height=500/>
-	<div id="prod_info">
-		<h2 style="font-size: 25px;font-weight:100px;"><b>${vo.prod_name}</b></h2>
-		<p>${vo.prod_normalprice }￦</p>
-		<p>무료배송</p>
-		<p>판매자: </p>
-		<p style="font-size: 12px;"><i class="fa fa-star" aria-hidden="true"></i>판매자가 현금거래를 요구하면 거부하시고 즉시 사기 거래 신고센터에 신고하시기 바랍니다.</p>
-		
-		<c:if test="${vo.prod_stack_qty == 0 }">
-			<div>품절</div>
-		</c:if>
-		<c:if test="${vo.prod_stack_qty >= 1 }">
-			<div id="howmany">
-				<button id="minus">-</button>
-				<input type="text" id="prod_count" value="1" />
-				<button id="plus">+</button>
-			</div>
-			<div id="prod_btn">
-				<button id="cart">장바구니</button>
-			
-			</div>
-		</c:if>
-	</div>
+   <img src="/shop/display?file=${vo.prod_image}" width=500 height=500/>
+   <div id="prod_info">
+      <h2 style="font-size: 25px;font-weight:100px; width:500px; text-align:left;"><b>${vo.prod_name}</b></h2>
+      <p style="color:tomato">${vo.prod_normalprice }￦</p>
+      <p>무료배송</p>
+      <span>판매자: </span><span>${vo.prod_comp }</span>
+      <p style="font-size: 12px;"><i class="fa fa-star" aria-hidden="true"></i>판매자가 현금거래를 요구하면 거부하시고 즉시 사기 거래 신고센터에 신고하시기 바랍니다.</p>
+      
+      <c:if test="${vo.prod_stack_qty == 0 }">
+         <div>품절</div>
+      </c:if>
+      <c:if test="${vo.prod_stack_qty >= 1 }">
+         <div id="howmany">
+            <button id="minus">-</button>
+            <input type="text" id="prod_count" value="1" />
+            <button id="plus">+</button>
+         </div>
+         <div id="prod_btn">
+            <button id="cart">장바구니</button>
+         
+         </div>
+      </c:if>
+   </div>
 </div>
 
 <!-- 슬라이드 -->

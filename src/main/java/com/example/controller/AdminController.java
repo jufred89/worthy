@@ -20,6 +20,7 @@ import com.example.domain.UserVO;
 import com.example.domain.ShopVO;
 import com.example.mapper.CampingAttachDAO;
 import com.example.mapper.CampingDAO;
+import com.example.mapper.IncomeDAO;
 import com.example.mapper.ShopDAO;
 import com.example.mapper.UserDAO;
 
@@ -37,6 +38,9 @@ public class AdminController {
 	
 	@Autowired
 	ShopDAO sdao;
+	
+	@Autowired
+	IncomeDAO idao;
 
 	@RequestMapping("/admin")
 	public String home(HttpSession session, Model model) {
@@ -44,8 +48,35 @@ public class AdminController {
 		String uname = udao.login(uid).getUname();
 		session.setAttribute("uname", uname);
 		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "income.jsp");
 		return "home";
 	}
+	
+	@RequestMapping("/admin/incomeProduct")
+	public String incomeProduct(Model model) {
+		model.addAttribute("pageName", "admin/admin.jsp");
+		model.addAttribute("adminPageName", "incomeProduct.jsp");
+		return "home";
+	}
+	
+	@RequestMapping("/admin/dayIncome.json")
+	@ResponseBody
+	public List<HashMap<String, Object>> getDayIncome(){
+		return idao.getDayIncome();
+	}
+	
+	@RequestMapping("/admin/dayProductIncome.json")
+	@ResponseBody
+	public List<HashMap<String, Object>> getDayProductIncome(){
+		return idao.getDayProductIncome();
+	}
+	
+	@RequestMapping("/admin/bestProductCount.json")
+	@ResponseBody
+	public List<HashMap<String, Object>> getBestProduct(){
+		return idao.getBestProduct();
+	}
+	
 	//----------------------------------------캠핑장 관련 시작-----------------------------------------------------------
 	// 관리자 페이지 캠핑장 리스트 연결
 	@RequestMapping(value = "/admin/camping/list", method = RequestMethod.GET)

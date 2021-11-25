@@ -1,15 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+    pageEncoding="UTF-8"%>
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
-<style>
-#chart_div{
+<div id="sub">
+	<div class="subheading">캠핑매출현황</div>
+	<hr />
+	<div id="chart_div" style="width: 1000px; height: 500px;"></div>
+</div>
+</body>
+<script>
+getList();
+var chartData = new Array();
 
+function getList() {
+	$.ajax({
+		type : 'get',
+		url : '/admin/dayIncome.json',
+		dataType : 'json',
+		success : function(data) {
+			// 차트 데이터를 가지고 와서 배열에 넣는 작업을 each로 돌림
+			var arr = new Array();
+			arr.push("금액");
+			arr.push("일일");
+			chartData.push(arr);
+			$(data).each(function(){
+				var arr = new Array();
+				arr.push(this.day);
+				arr.push(this.income);
+				chartData.push(arr);
+			})
+		}
+	})
 }
-</style>
+</script>
 <script type="text/javascript">
 	google.charts.load('current', {
 		'packages' : [ 'corechart' ]
@@ -36,8 +59,3 @@
 		chart.draw(data, options);
 	}
 </script>
-</head>
-<body>
-	<div id="chart_div" style="width: 1000px; height: 500px;"></div>
-</body>
-</html>

@@ -1,7 +1,21 @@
 @CHARSET "UTF-8";
 
 body{
-	overflow-y:auto;
+   overflow-y:auto;
+   overflow-x:hidden;
+}
+
+#wholePage{
+   overflow:hidden; width:1700px; margin:0 auto;
+   
+}
+#mypage{
+   float:left;
+   width:1120px;
+   margin:0 auto;
+   margin-left:10px;
+   padding:20px;
+   overflow-y:auto;
 }
 #subject{
 	font-size:150%; 
@@ -53,7 +67,7 @@ body{
 	
 }
 
-#mypage{
+/* #mypage{
 	float:left;
 	width:73%;
 	height:600px;
@@ -61,7 +75,7 @@ body{
 	margin-left:60px;
 	padding:20px;
 	overflow-y:auto;
-}
+} */
 
 
 #sub{

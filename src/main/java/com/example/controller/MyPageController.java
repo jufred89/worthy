@@ -150,24 +150,12 @@ public class MyPageController {
 	public void delete(int chat_no) {
 		cdao.delete(chat_no);
 	}
-	/*
-	// ------------------------������ ä��-----------------------------
-	// ������ ä�ø�� ������ �̵�
-	@RequestMapping(value = "/adminChat", method = RequestMethod.GET)
-	public String adminChat(Model model) {
-		model.addAttribute("pageName", "user/mypage.jsp");
-		model.addAttribute("myPageName", "adminChat.jsp");
-		return "home";
-	}
-	*/
-	// ä���� �� ���� ��������
-	/*
+
 	@RequestMapping(value = "/chatList.json", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ChatVO> chatList() {
 		return cdao.chatList();
 	}
-	*/
 
 	@RequestMapping(value = "/myshop", method = RequestMethod.GET)
 	public String myshop(Model model, HttpSession session) {
