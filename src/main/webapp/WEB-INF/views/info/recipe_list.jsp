@@ -2,6 +2,25 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <link rel="stylesheet" href="../resources/info.css" />
+<style>
+#pagination .active{
+   font-weight: bold;
+   background: #f2f2f3;
+}
+
+#pagination a{
+   text-decoration:none;
+   font-weight: normal;
+   color:black;
+   padding:6px 12px;
+   border:1px solid black;
+}
+
+#pagination{
+   width:500px;
+   margin:10 auto;
+}
+</style>
 <div style="width:400px;
 	margin:0 auto; text-align:center;">
 	<div id="subject">INFORMATION</div>

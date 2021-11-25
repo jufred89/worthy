@@ -212,17 +212,17 @@
      <!-- 주문 목록 -->
      <select id="myshop_list2" resultType="HashMap">
      	select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
-		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 2
+		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 2 order by pay_no desc
      </select>
      
      <select id="myshop_list3" resultType="HashMap">
      	select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
-		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 3
+		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 3 order by pay_no desc
      </select>
      
      <select id="myshop_list4" resultType="HashMap">
      	select *, date_format(pay_date, '%Y.%m.%d') f_pay_date from tbl_shop_cart c, tbl_shop_order o, tbl_shop_payment p
-		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 4
+		where c.cart_no = o.cart_no and o.order_id = p.pay_no and cart_uid = #{cart_uid} and p.pay_status = 4 order by pay_no desc
      </select>
   
      <update id="order_cancel">

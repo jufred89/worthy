@@ -537,8 +537,6 @@ $('.more').tooltip()
                         '#search_box input[name=reser_checkin]').val()
                   var reser_checkout = $(
                         '#search_box input[name=reser_checkout]').val()
-                  alert(camp_addr + "/" + reser_checkin + "/"
-                        + reser_checkout)
                   location.href = "/camping/list?camp_addr=" + camp_addr
                         + "&reser_checkin=" + reser_checkin
                         + "&reser_checkout=" + reser_checkout

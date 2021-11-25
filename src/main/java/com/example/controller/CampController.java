@@ -114,13 +114,17 @@ public class CampController {
 		return "home";
 	}
 
-	// 캠핑장 insert 작업
+		// 캠핑장 insert 작업
 		@RequestMapping(value = "/camping/insert", method = RequestMethod.POST)
 		public String campInsert(CampingVO vo, MultipartHttpServletRequest multi,
 				@RequestParam(value = "facility_no") List<String> facility_no,
 				@RequestParam(value = "style_no") List<String> style_no,
 				@RequestParam(value = "style_qty") List<Integer> style_qty,
 				@RequestParam(value = "style_price") List<Integer> style_price) throws Exception {
+			System.out.println(facility_no);
+			System.out.println(style_no);
+			System.out.println(style_qty);
+			System.out.println(style_price);
 			// 이미지 복사
 			MultipartFile file = multi.getFile("file"); // 업로드한 파일 지정
 			// 파일 이름 유니크하게

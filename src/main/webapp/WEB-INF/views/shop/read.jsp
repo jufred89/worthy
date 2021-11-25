@@ -464,8 +464,6 @@ var perPageNum=10;
 		var cart_pimage = "${vo.prod_image}";
 		var cart_pname = "${vo.prod_name}";
 		
-		alert(cart_pid +" / "+ cart_uid +" / "+ cart_pqty  +" / "+ cart_price);
-		
 		$.ajax({
 			type: "post",
 			url: "/shop/cart_insert",
