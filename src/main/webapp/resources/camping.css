@@ -1,11 +1,11 @@
 @CHARSET "UTF-8";
 
 #subject{
-	font-size:150%; 
-	font-weight:bold;
-	letter-spacing:15px;
-	word-spacing:5px;
-	margin-left:50px;
+   font-size:150%; 
+   font-weight:bold;
+   letter-spacing:15px;
+   word-spacing:5px;
+   margin-left:50px;
 }
 h5{margin-left:30px;}
 
@@ -14,7 +14,7 @@ h5{margin-left:30px;}
    background-size: cover;
    background-position: center center;
    */
-   padding-top: 30px;
+   padding-top: 10px;
 }
 
 #campList {
@@ -66,8 +66,8 @@ h5{margin-left:30px;}
 }
 
 #campListHead {
-	margin: 10px 0 30px 0;
-	padding:30px;
+   margin: 10px 0 30px 0;
+   padding:30px;
 }
 #campListHead h3{font-size:145%;}
 
@@ -129,12 +129,12 @@ float:left; margin-top:13px;}
 #facilities {display:inline-block; width:750px; margin-left:150px;}
 #search_box #time{margin-left:100px;}
 .blackBtn{
-	font-size:105%;
-	padding:10px 30px;
-	background-color:black;
-	color:white;
-	border:none;
-	margin-top:25px;
+   font-size:105%;
+   padding:10px 30px;
+   background-color:black;
+   color:white;
+   border:none;
+   margin-top:25px;
 }
 
 /* 캠핑 스타일, 시설  끝*/
@@ -190,13 +190,5 @@ float:left; margin-top:13px;}
    color: black;
 }
 /* 지역 선택 CSS 끝*/
-#center {
-    padding: 80;
-    top: -50;
-    position: relative;
-}
-#campListBackGround {
-    padding-top: 20px;
-}
 
 

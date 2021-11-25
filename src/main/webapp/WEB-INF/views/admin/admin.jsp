@@ -24,6 +24,11 @@
 <div style="overflow:hidden; width:80%; margin:0 auto;">
 	<div id="menu">
 		<ul>
+			<li class="menuTitle">매출관리</li>
+			<li><a href='/admin'>캠핑매출현황</a></li>
+			<li><a href='/admin/incomeProduct'>상품매출현황</a></li>
+		</ul>
+		<ul>
 			<li class="menuTitle">회원관리</li>
 			<li><a href='/admin/user/list'>회원목록</a></li>
 			<li><a href='/adminChat'>1:1채팅목록</a></li>

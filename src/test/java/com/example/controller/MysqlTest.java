@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.example.mapper.IncomeDAO;
 import com.example.mapper.MysqlMapper;
 
 @RunWith(SpringJUnit4ClassRunner.class) //���� SpringJUnit4ClassRunner.class import�Ѵ�. 
@@ -13,11 +14,11 @@ import com.example.mapper.MysqlMapper;
 public class MysqlTest {
 
 	@Autowired
-	private MysqlMapper mapper;
+	private IncomeDAO mapper;
 
 
 	@Test
-	public void getTime() { 
-		mapper.getTime(); 
+	public void getDayIncome() { 
+		mapper.getDayIncome(); 
 	}
 }

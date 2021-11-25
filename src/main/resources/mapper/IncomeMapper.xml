@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.IncomeMapper">
+ 	<select id="getDayIncome" resultType="hashmap">
+    	SELECT    concat(month(reser_checkin),"월 ", day(reser_checkin),"일") as day, sum(reser_price) as income 
+		FROM tbl_camp_reserve 
+		group by (reser_checkin) having reser_checkin between date_add(now(),interval -30 day) and now();
+ 	</select>
+ 	<select id="getDayProductIncome" resultType="hashmap">
+    	SELECT concat(month(STR_TO_DATE(left(pay_date,10),"%Y-%m-%d")),"월",day(STR_TO_DATE(left(pay_date,10),"%Y-%m-%d")),"일") as day, sum(pay_price) as income 
+		FROM tbl_shop_payment
+   		where (STR_TO_DATE(left(pay_date,10),"%Y-%m-%d"))
+   		between date_add(now(),interval -30 day) and now()
+		GROUP BY STR_TO_DATE(left(pay_date,10),"%Y-%m-%d");
+ 	</select>
+ 	<select id="getBestProduct" resultType="hashmap">
+		select c.prod_name, sum(b.cart_pqty) as total
+		from tbl_shop_order a left join tbl_shop_cart b
+		on a.cart_no = b.cart_no
+		left join tbl_shop_product c
+		on b.cart_pid = c.prod_id
+		group by b.cart_pid 
+		order by sum(b.cart_pqty) desc
+		limit 5
+ 	</select>
+</mapper>
