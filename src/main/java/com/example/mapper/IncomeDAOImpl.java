@@ -29,4 +29,24 @@ public class IncomeDAOImpl implements IncomeDAO {
 		return session.selectList(namespace+".getBestProduct");
 	}
 
+	@Override
+	public List<HashMap<String, Object>> getWorstProduct() {
+		return session.selectList(namespace+".getWorstProduct");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getMonthIncome() {
+		return session.selectList(namespace+".getMonthIncome");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getBestCamping() {
+		return session.selectList(namespace+".getBestCamping");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> getWorstCamping() {
+		return session.selectList(namespace+".getWorstCamping");
+	}
+
 }

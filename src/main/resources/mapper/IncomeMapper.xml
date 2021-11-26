@@ -23,4 +23,31 @@
 		order by sum(b.cart_pqty) desc
 		limit 5
  	</select>
+ 	 	<select id="getWorstProduct" resultType="hashmap">
+		select c.prod_name, sum(b.cart_pqty) as total
+		from tbl_shop_order a left join tbl_shop_cart b
+		on a.cart_no = b.cart_no
+		left join tbl_shop_product c
+		on b.cart_pid = c.prod_id
+		group by b.cart_pid 
+		order by sum(b.cart_pqty) asc
+		limit 5
+ 	</select>
+ 	<select id="getMonthIncome" resultType="hashmap">
+		SELECT  concat(month(reser_checkin),'월') as months, sum(reser_price) as income 
+		FROM tbl_camp_reserve 
+		group by left(reser_checkin, 7);
+ 	</select>
+ 	<select id="getBestCamping" resultType="hashmap">
+		SELECT  tcl.camp_name, sum(tcr.reser_price) as sumIncome
+		FROM tbl_camp_reserve as tcr, tbl_camp_list as tcl
+	    where tcr.camp_id=tcl.camp_id
+		group by tcr.camp_id order by sumIncome desc limit 5;
+ 	</select>
+ 	<select id="getWorstCamping" resultType="hashmap">
+		SELECT  tcl.camp_name, sum(tcr.reser_price) as sumIncome
+		FROM tbl_camp_reserve as tcr, tbl_camp_list as tcl
+	    where tcr.camp_id=tcl.camp_id
+		group by tcr.camp_id order by sumIncome asc limit 5;
+ 	</select>
 </mapper>

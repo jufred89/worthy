@@ -1,10 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<style>
+#pagination .active{
+   font-weight: bold;
+   background: #f2f2f3;
+}
 
+#pagination a{
+   text-decoration:none;
+   font-weight: normal;
+   color:black;
+   padding:6px 12px;
+   border:1px solid black;
+}
 
-
-
+#pagination{
+   width:500px;
+   margin:0 auto;
+}
+.subheading{
+   text-align:left;
+   font-size:150%;
+   margin:20px;
+   font-weight:bold;
+}
+</style>
 <!-- 별점 출력 -->
 <style>
    .star-rating{
@@ -172,8 +193,8 @@ margin:10px;
    #howmany .plus{padding:3px 8px;}
    #howmany #prod_count{display:inline-block;text-align:center;width:40px; height:40px; border:1px solid #c2c2c3;}
     #cart{padding:15px 30px; border-radius:10px; font-size:18px; border:none; background:rgb(15, 76, 130); color:white;}
-    #upBtn{border:1px solid black; font-weight:bold;padding:5px 15px; font-size:15px;background:white; color:black;}
-  </style>
+    #upBtn{border:1px solid black; font-weight:bold;padding:5px 15px; font-size:15px;background:white; color:black; margin-top:20px;}
+  </style>s
 
 
 <div id="prod_read" style="margin:0 auto;width:1000px;">
