@@ -108,6 +108,7 @@
 			data: {"prod_id" : prod_id, "prod_status" : prod_status},
 			success: function(){	
 				alert("숨기기/해제 되었습니다");
+				window.location.reload();
 			}
 		});	
 		$(this).parent().find(".status").val(prod_status);

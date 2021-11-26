@@ -77,6 +77,29 @@ public class AdminController {
 		return idao.getBestProduct();
 	}
 	
+	@RequestMapping("/admin/worstProductCount.json")
+	@ResponseBody
+	public List<HashMap<String, Object>> getWorstProduct(){
+		return idao.getWorstProduct();
+	}
+	
+	@RequestMapping("/admin/monthIncome.json")
+	@ResponseBody
+	public List<HashMap<String, Object>> getMonthIncome(){
+		return idao.getMonthIncome();
+	}
+	
+	@RequestMapping("/admin/bestCamping.json")
+	@ResponseBody
+	public List<HashMap<String, Object>> getBestCamping(){
+		return idao.getBestCamping();
+	}
+	@RequestMapping("/admin/worstCamping.json")
+	@ResponseBody
+	public List<HashMap<String, Object>> getWorstCamping(){
+		return idao.getWorstCamping();
+	}
+	
 	//----------------------------------------캠핑장 관련 시작-----------------------------------------------------------
 	// 관리자 페이지 캠핑장 리스트 연결
 	@RequestMapping(value = "/admin/camping/list", method = RequestMethod.GET)

@@ -186,20 +186,19 @@
       }
    });
    // 캠핑 아이디 및 원하는 예약 날짜 가지고 리드 페이지로 가지고 가기
-   $("#campList").on(
-         "click",
-         ".camp_box",
-         function() {
+   $("#campList").on("click",".camp_box",function() {
             var camp_id = $(this).attr("camp_id");
             var camp_addr = $('input[name="camp_addr"]').val();
             var reser_checkin = $('input[name="reser_checkin"]').val();
             var reser_checkout = $('input[name="reser_checkout"]').val();
             if(reser_checkin==""){
                alert("체크인 날짜를 선택해주세요.")
+               $('input[name="reser_checkin"]').focus();
                return;
             }
             if(reser_checkout==""){
                alert("체크아웃 날짜를 선택해주세요.")
+               $('input[name="reser_checkout"]').focus();
                return;
             }
             location.href = "/camping/read?camp_id=" + camp_id

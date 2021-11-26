@@ -505,6 +505,7 @@ ul.tabs li.current {
          success : function() {
             alert("등록되었습니다");
             $("#modal_close_btn").get(0).click();
+            location.reload();
          }
       });
    });
